@@ -29,13 +29,28 @@ collections:
     fields:
       - {label: "Template Key", name: "templateKey", widget: "hidden", default: "city"}
       - {label: "Title", name: "title", widget: "string"}
-      - {label: "Publish Date", name: "date", widget: "datetime"}
       - {label: "Description", name: "description", widget: "text"}
-      - {label: "Featured Post", name: "featuredpost", widget: "boolean"}
-      - {label: "Featured Image", name: "featuredimage", widget: image}
+      - {label: "Background", name: "featuredimage", widget: image}
       - {label: "Body", name: "body", widget: "markdown"}
-      - {label: "Tags", name: "tags", widget: "list"}
-
+      - {label: "Home Section",
+        name: "sections",
+        widget: "list",
+        widgets: [{
+            label: "Carousel",
+            name: "carousel",
+            widget: object,
+            fields: [
+              {label: Header, name: header, widget: string, default: "Image Gallery"},
+              {label: Images, name: images, widget: list, field: {label: Image, name: image, widget: image}}]
+              },{
+            label: "Spotlight",
+            name: "spotlight",
+            widget: object,
+            fields: [
+              {label: Header, name: header, widget: string, default: "Spotlight"}, 
+              {label: Text, name: text, widget: text, default: "Hello World"}]
+            }]
+        }
 
   - name: "pages"
     label: "Pages"
