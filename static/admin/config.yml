@@ -31,26 +31,28 @@ collections:
       - {label: "Title", name: "title", widget: "string"}
       - {label: "Description", name: "description", widget: "text"}
       - {label: "Background", name: "featuredimage", widget: image}
-      - {label: "Body", name: "body", widget: "markdown"}
-      - {label: "Home Section",
-        name: "sections",
-        widget: "list",
-        widgets: [{
-            label: "Carousel",
-            name: "carousel",
-            widget: object,
+      - label: "Sections"
+        name: "sections"
+        widget: "list"
+        types: 
+          - label: "Slideshow"
+            name: "slideshow"
+            widget: object
             fields: [
-              {label: Header, name: header, widget: string, default: "Image Gallery"},
-              {label: Images, name: images, widget: list, field: {label: Image, name: image, widget: image}}]
-              },{
-            label: "Spotlight",
-            name: "spotlight",
-            widget: object,
+              {label: "Element", name: "element", widget: "hidden", default: "slideshow"},
+              {label: "Version", name: "version", widget: "select", options: ["1", "2", "3"], default: "1"},
+              {label: Images, name: images, widget: list, field: {label: Image, name: image, widget: image}}
+            ]
+              
+          - label: "Video"
+            name: "video"
+            widget: object
             fields: [
-              {label: Header, name: header, widget: string, default: "Spotlight"}, 
-              {label: Text, name: text, widget: text, default: "Hello World"}]
-            }]
-        }
+              {label: "Element", name: "element", widget: "hidden", default: "video"},
+              {label: "Youtube ID", name: youtubeID, widget: string, default: "Spotlight"}, 
+              {label: "Version", name: "version", widget: "select", options: ["1", "2", "3"], default: "1"},
+            ]
+            
 
   - name: "pages"
     label: "Pages"
