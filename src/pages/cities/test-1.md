@@ -4,10 +4,10 @@ title: Paris
 description: This is a history of Cabaret in the city of Paris
 background: /img/blog-index.jpg
 sections:
-  - element: slideshow
+  - component: Slideshow
     type: slideshow
     version: '1'
-  - element: video
+  - component: Video
     type: video
     version: '1'
     youtubeID: Spotlight
