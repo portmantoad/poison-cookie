@@ -11,5 +11,13 @@ sections:
     type: video
     version: '1'
     youtubeID: Spotlight
+  - component: Video
+    type: video
+    version: '1'
+    youtubeID: Spotlight
+  - component: Video
+    type: video
+    version: '1'
+    youtubeID: Spotlight
 ---
 
