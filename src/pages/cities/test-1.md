@@ -2,7 +2,7 @@
 templateKey: city
 title: Paris
 description: This is a history of Cabaret in the city of Paris
-featuredimage: /img/blog-index.jpg
+background: /img/blog-index.jpg
 sections:
   - element: slideshow
     type: slideshow
