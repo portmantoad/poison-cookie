@@ -1,7 +1,15 @@
 ---
 templateKey: city
-title: test
-description: ljhbjbh
+title: Paris
+description: This is a history of Cabaret in the city of Paris
 featuredimage: /img/blog-index.jpg
+sections:
+  - element: slideshow
+    type: slideshow
+    version: '1'
+  - element: video
+    type: video
+    version: '1'
+    youtubeID: Spotlight
 ---
-edcefc
+
