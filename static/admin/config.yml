@@ -30,7 +30,7 @@ collections:
       - {label: "Template Key", name: "templateKey", widget: "hidden", default: "city"}
       - {label: "Title", name: "title", widget: "string"}
       - {label: "Description", name: "description", widget: "text"}
-      - {label: "Background", name: "featuredimage", widget: image}
+      - {label: "Background", name: "background", widget: image}
       - label: "Sections"
         name: "sections"
         widget: "list"
@@ -39,7 +39,7 @@ collections:
             name: "slideshow"
             widget: object
             fields: [
-              {label: "Element", name: "element", widget: "hidden", default: "slideshow"},
+              {label: "Component", name: "component", widget: "hidden", default: "Slideshow"},
               {label: "Version", name: "version", widget: "select", options: ["1", "2", "3"], default: "1"},
               {label: Images, name: images, widget: list, field: {label: Image, name: image, widget: image}}
             ]
@@ -48,9 +48,9 @@ collections:
             name: "video"
             widget: object
             fields: [
-              {label: "Element", name: "element", widget: "hidden", default: "video"},
-              {label: "Youtube ID", name: youtubeID, widget: string, default: "Spotlight"}, 
+              {label: "Component", name: "component", widget: "hidden", default: "Video"},
               {label: "Version", name: "version", widget: "select", options: ["1", "2", "3"], default: "1"},
+              {label: "Youtube ID", name: youtubeID, widget: string, default: "Spotlight"}
             ]
             
 

@@ -1,0 +1,10 @@
+*{
+  border: 1px solid #f00;
+}
+
+.ScrollSections{
+  &__section{
+    min-height: 100vh; 
+    position: relative;
+  }
+}
