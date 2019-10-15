@@ -34,7 +34,12 @@ class ScrollSections extends React.PureComponent {
     return (
       <div className={"ScrollSections" + (className ? ` ${className}` : "")}>
         <style dangerouslySetInnerHTML={{__html: `
-          .ScrollSections {position: absolute; top: 0; left: 0; width: 100%;}
+          .ScrollSections {
+            position: absolute; 
+            top: 0; left: 0; 
+            width: 100%; 
+            padding: 50vh 0;
+          }
           .ScrollSections__visibleHeightDetector{
             height: 100vh;
             position: absolute;
@@ -49,21 +54,18 @@ class ScrollSections extends React.PureComponent {
             opacity:0.1;
           }
           .ScrollSections__section {
-            opacity: 0; 
-            transition: opacity 250ms; 
+            opacity: 1;
+            transition: opacity 250ms;
             display: flex; 
             align-items: center; 
             justify-content:center;
-            position: relative;
             min-height: 100vh;
+            position: relative;
+            top:0;
+            left:0;
+            width:100%;
           }
           .ScrollSections__section.isActive { opacity: 1;}
-          .Slideshow{
-            position: fixed;
-            top:50%;
-            left:50%;
-            transform: translate(-50%, -50%);
-          }
         `}} />
 
         <ResizeDetector handleHeight onResize={(width, height) => {
@@ -87,7 +89,7 @@ class ScrollSections extends React.PureComponent {
           }} /> 
         </div>
 
-        <Controller>
+        <Controller refreshInterval="10">
           <Scene duration={this.state.totalHeight - this.state.visibleHeight || "100%"} triggerHook="onLeave">
             <Timeline>
               <Tween
@@ -97,6 +99,7 @@ class ScrollSections extends React.PureComponent {
                 }}
                 to={{
                   y: '-' + (5 / (105/100)) + '%',
+                  scale: 1.01
                 }}
               >
                 <div className="ScrollSections__background" style={{background: "url(" + background + ")"}}>
@@ -118,15 +121,17 @@ class ScrollSections extends React.PureComponent {
                   } 
                   classToggle="isActive"
                 >
-                    <section className={"ScrollSections__section ScrollSections__section--" + index} style={{minHeight: "100vh"}}>
-                      <SectionComponent {...section} />
-                      <ResizeDetector handleHeight onResize={(width, height) => {
-                        if (this.state["sectionHeight" + index] !== height) {
-                          this.setState({ ["sectionHeight" + index]: height })
-                          console.log("sectionRender" + index);
-                        }
-                      }} />
-                    </section>
+                  {(progress) => (
+                      <section className={"ScrollSections__section ScrollSections__section--" + index}>
+                        <SectionComponent {...section} progress={progress} />
+                        <ResizeDetector handleHeight onResize={(width, height) => {
+                          if (this.state["sectionHeight" + index] !== height) {
+                            this.setState({ ["sectionHeight" + index]: height })
+                            console.log("sectionRender" + index);
+                          }
+                        }} />
+                      </section>
+                  )}
                 </Scene>
                       
                     
