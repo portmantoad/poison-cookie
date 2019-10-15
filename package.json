@@ -27,6 +27,7 @@
     "prop-types": "^15.6.0",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
+    "react-gsap": "^1.2.0",
     "react-helmet": "^5.2.0",
     "react-resize-detector": "^4.2.1",
     "react-scrollmagic": "^2.1.1",
