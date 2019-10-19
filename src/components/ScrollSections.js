@@ -1,10 +1,12 @@
 import React from 'react'
+import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import Slideshow from './Slideshow'
 import Video from './Slideshow'
 import { Controller, Scene } from 'react-scrollmagic'
 import ResizeDetector from 'react-resize-detector'
-import { Tween, Timeline } from 'react-gsap';
+import { Tween, Timeline } from 'react-gsap'
+import Vimeo from '@u-wave/react-vimeo';
 
 const Components = {
   Slideshow,
@@ -16,15 +18,61 @@ const SectionComponent = (props) => {
   return (<Component { ...props } />);
 };
 
+class FixedPortal extends React.PureComponent {
+  render() {
+    return ReactDOM.createPortal(
+      this.props.children,
+      this.props.target || document.querySelector("body")
+    );
+  }
+}
+
+class VideoPlayer extends React.PureComponent {
+  constructor(props, context) {
+    super(props, context);
+ 
+    this.vidRef = React.createRef();
+  }
+
+  render() {
+    const {
+      className,
+      fullscreen,
+      video,
+      active
+    } = this.props;
+
+    return <Vimeo 
+      ref={this.vidRef}
+      video={video}
+      className={"Video" + (fullscreen ? " Video--fullscreen" : "") + (className ? ` ${className}` : "")}
+      controls
+      playsinline
+      responsive
+      showTitle={false}
+      showPortrait={false}
+      showByline={false}
+      paused={!active}
+      onPlay={(...something) => {
+        if(!active) {
+          this.vidRef.current.player.pause();
+        }
+      }}
+    />
+  }
+}
+
 class ScrollSections extends React.PureComponent {
   constructor(props, context) {
     super(props, context);
  
+    this.backgroundPortalRef = React.createRef();
+    this.foregroundPortalRef = React.createRef();
+
     this.state = {};
   }
 
   render() {
-    console.log(this.state);
     const {
       className,
       sections,
@@ -38,18 +86,20 @@ class ScrollSections extends React.PureComponent {
             position: absolute; 
             top: 0; left: 0; 
             width: 100%; 
-            padding: 50vh 0;
+            padding: 50vh 0 calc(50vh - 1px);
           }
-          .ScrollSections__visibleHeightDetector{
+          .ScrollSections__fixedRoot{
+            position: fixed; 
+            top: 0; left: 0; 
+            width: 100%; 
             height: 100vh;
-            position: absolute;
           }
           .ScrollSections__background {
-            position: fixed;
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
-            height: 105%;
+            height: 110%;
             background-size: cover;
             opacity:0.1;
           }
@@ -66,13 +116,61 @@ class ScrollSections extends React.PureComponent {
             width:100%;
           }
           .ScrollSections__section.isActive { opacity: 1;}
+
+          .ScrollSections__timeIndicator{
+             position: absolute;
+             top:0;
+             left:0;
+             bottom: 0;
+           }
+           .ScrollSections__timeIndicator:after{
+                content:'';
+                display:block;
+                width:8px;
+                height:10%;
+                position:absolute;
+                top:45%;
+                left:2px;
+                border-radius: 5px;
+                background-color: rgba(0,0,0,0.6);
+                background-clip: padding-box;
+                border:1px solid rgba(255,255,255,0.3);
+           }
+
+           .slowfade{
+            transition: opacity 1000ms;
+           }
+           .slowfade:not(.isActive){ 
+            opacity: 0;
+            pointer-events: none;
+           }
+
+           .Video{
+            background-color: #000;
+           }
+
+           .Video > div{
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 100%;
+            transform: translate(-50%,-50%);
+           }
+
+           .Video--fullscreen{
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100% !important;
+            height: 100% !important;
+           }
         `}} />
 
         <ResizeDetector handleHeight onResize={(width, height) => {
           this.setState({ totalHeight: height })
         }} />
 
-        <div className="ScrollSections__visibleHeightDetector">
+        <div className="ScrollSections__fixedRoot ScrollSections__fixedRoot--background" ref={this.backgroundPortalRef}>
           <ResizeDetector handleHeight onResize={(width, height) => {
             const newState = {visibleHeight: height};
             if (sections) {
@@ -85,28 +183,36 @@ class ScrollSections extends React.PureComponent {
               }
             }
             this.setState(newState);
-            console.log(newState);
           }} /> 
         </div>
 
-        <Controller refreshInterval="10">
-          <Scene duration={this.state.totalHeight - this.state.visibleHeight || "100%"} triggerHook="onLeave">
-            <Timeline>
-              <Tween
-              position="0"
-                from={{
-                  y: '0%',
-                }}
-                to={{
-                  y: '-' + (5 / (105/100)) + '%',
-                  scale: 1.01
-                }}
-              >
-                <div className="ScrollSections__background" style={{background: "url(" + background + ")"}}>
-                
-                </div>
-              </Tween>
-            </Timeline>
+        <Controller refreshInterval="5">
+          <Scene duration={this.state.totalHeight || "100%"} triggerHook="onLeave">
+            {(progress, event) => {
+              const active = event.state === "DURING";
+              const extraScroll = 50;
+              return (
+                <FixedPortal target={this.backgroundPortalRef.current}>
+                  <Timeline totalProgress={progress} paused={true}>
+                    <Tween
+                      ease="linear"
+                      position="0"
+                      from={{y: '0%'}}
+                      to={{y: '-' + (extraScroll / ((extraScroll + 100)/100)) + '%'}}
+                    >
+                        <div 
+                          className={
+                            "ScrollSections__background slowfade" 
+                            + (active ? " isActive" : "")
+                          } 
+                          style={{
+                            background: "url(" + background + ")",
+                            height: (extraScroll + 100) + "%"
+                          }}></div>
+                    </Tween>
+                  </Timeline>
+                </FixedPortal>
+            )}}
           </Scene>
 
           {sections &&
@@ -121,17 +227,33 @@ class ScrollSections extends React.PureComponent {
                   } 
                   classToggle="isActive"
                 >
-                  {(progress) => (
+                  {(progress, event) => {
+                    const active = event.state === "DURING";
+                    const scene = event.currentTarget;
+                    // console.log(event);
+                    return (
                       <section className={"ScrollSections__section ScrollSections__section--" + index}>
-                        <SectionComponent {...section} progress={progress} />
+                        <SectionComponent {...section} progress={progress} active={active} />
+                        <FixedPortal target={this.foregroundPortalRef.current}>
+                          <VideoPlayer
+                            video="362160902"
+                            fullscreen
+                            className={"slowfade" + (active ? " isActive" : "")}
+                            active={active}
+                          />
+                          <Timeline totalProgress={progress} paused={true}>
+                            <Tween ease="linear" position="0" from={{y: '50%'}} to={{y: '-50%'}}>
+                              <div className={"ScrollSections__timeIndicator slowfade" + (active ? " isActive" : "")}></div>
+                            </Tween>
+                          </Timeline>
+                        </FixedPortal>
                         <ResizeDetector handleHeight onResize={(width, height) => {
                           if (this.state["sectionHeight" + index] !== height) {
                             this.setState({ ["sectionHeight" + index]: height })
-                            console.log("sectionRender" + index);
                           }
                         }} />
                       </section>
-                  )}
+                  )}}
                 </Scene>
                       
                     
@@ -139,6 +261,8 @@ class ScrollSections extends React.PureComponent {
             })
           }
           </Controller>
+
+          <div className="ScrollSections__fixedRoot ScrollSections__fixedRoot--foreground" ref={this.foregroundPortalRef} />
       </div>
     );
   }

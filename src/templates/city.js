@@ -9,14 +9,12 @@ import ScrollSections from '../components/ScrollSections'
 export const CityTemplate = ({
   description,
   title,
-  helmet,
-  background,
-  sections
+  helmet
 }) => {
   return (
     <div className={"City City--" + title.replace(/\s/g, '')}>
       {helmet || ''}
-      {sections ? <ScrollSections sections={sections} /> : null}
+      <ScrollSections sections={[{component: "Slideshow"},{component: "Slideshow"},{component: "Slideshow"}]} />
     </div>
   )
 }

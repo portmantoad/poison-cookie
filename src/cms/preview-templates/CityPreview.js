@@ -10,8 +10,6 @@ const CityPreview = ({ entry, widgetFor }) => {
       <CityTemplate
         description={data.description}
         title={data.title}
-        background={data.background}
-        sections={data.sections}
       />
     )
   }
