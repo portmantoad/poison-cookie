@@ -32,6 +32,34 @@ class VideoPlayer extends React.PureComponent {
     super(props, context);
  
     this.vidRef = React.createRef();
+    this.state = {volume: 1};
+  }
+
+  clearAudioFadeInterval = () => {
+    clearInterval(this.audioFadeInterval);
+  }
+
+  play = () => {
+    const vid = this.vidRef.current.player;
+    this.clearAudioFadeInterval();
+    vid.volume = 1;
+    vid.play();
+  }
+
+  pause = () => {
+    const vid = this.vidRef.current.player;
+    this.vol = this.state.volume;
+    this.clearAudioFadeInterval();
+    this.audioFadeInterval = setInterval(() => {
+        if (this.vol < 0.1) {
+            this.setState({volume: 0});
+            vid.pause();
+            this.clearAudioFadeInterval();
+        } else {
+            this.vol -= 0.1
+            this.setState({volume: this.vol});
+        }
+    }, 100);
   }
 
   render() {
@@ -42,11 +70,17 @@ class VideoPlayer extends React.PureComponent {
       active
     } = this.props;
 
-    return <Vimeo 
+    return <div 
+      className={"Video" + (fullscreen ? " Video--fullscreen" : "") + (className ? ` ${className}` : "")}
+      onClick={() => {
+        this.pause();
+        console.log(this.pause)
+      }}> 
+    <Vimeo 
       ref={this.vidRef}
       video={video}
-      className={"Video" + (fullscreen ? " Video--fullscreen" : "") + (className ? ` ${className}` : "")}
-      controls
+      volume={this.state.volume}
+      controls={false}
       playsinline
       responsive
       showTitle={false}
@@ -58,7 +92,9 @@ class VideoPlayer extends React.PureComponent {
           this.vidRef.current.player.pause();
         }
       }}
+      
     />
+    </div>
   }
 }
 
@@ -155,6 +191,7 @@ class ScrollSections extends React.PureComponent {
             left: 50%;
             width: 100%;
             transform: translate(-50%,-50%);
+            pointer-events: none;
            }
 
            .Video--fullscreen{
