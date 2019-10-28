@@ -1500,22 +1500,6 @@
     lodash.unescape "4.0.1"
     semver "5.5.0"
 
-"@u-wave/react-vimeo@^0.8.1":
-  version "0.8.1"
-  resolved "https://registry.yarnpkg.com/@u-wave/react-vimeo/-/react-vimeo-0.8.1.tgz#064c862f211a2d2eb8573e538ee4633338051302"
-  integrity sha512-A6e0lBP/H04h7hhBjARj8u7Tl1HNE1eNb1tn0YMGQCRZK2AP1HiU/EGCUJSDYkXzWeMUqAdU6hPbEjro4KywWg==
-  dependencies:
-    "@vimeo/player" "^2.9.1"
-    prop-types "^15.6.1"
-
-"@vimeo/player@^2.9.1":
-  version "2.10.0"
-  resolved "https://registry.yarnpkg.com/@vimeo/player/-/player-2.10.0.tgz#1b3cb590a633b8b565b61b850c44a4fb9632b97a"
-  integrity sha512-tG2M+9D92P4uJAmIwJmYHxZXtUKofT12Zu1iG7m03Q/GFt41kwJRMkfO2ZDU8BLrsG3AIt2hKkw776tDIR1Iuw==
-  dependencies:
-    native-promise-only "0.8.1"
-    weakmap-polyfill "2.0.0"
-
 "@webassemblyjs/ast@1.8.5":
   version "1.8.5"
   resolved "https://registry.yarnpkg.com/@webassemblyjs/ast/-/ast-1.8.5.tgz#51b1c5fe6576a34953bf4b253df9f0d490d9e359"
@@ -2099,6 +2083,11 @@ auto-bind@^2.0.0:
   integrity sha512-NUwV1i9D3vxxY1KnfZgSZ716d6ovY7o8LfOwLhGIPFBowIb6Ln6DBW64+jCqPzUznel2hRSkQnYQqvh7/ldw8A==
   dependencies:
     "@types/react" "^16.8.12"
+
+autobind-decorator@^2.4.0:
+  version "2.4.0"
+  resolved "https://registry.yarnpkg.com/autobind-decorator/-/autobind-decorator-2.4.0.tgz#ea9e1c98708cf3b5b356f7cf9f10f265ff18239c"
+  integrity sha512-OGYhWUO72V6DafbF8PM8rm3EPbfuyMZcJhtm5/n26IDwO18pohE4eNazLoCGhPiXOCD0gEGmrbU3849QvM8bbw==
 
 autoprefixer@^9.6.1:
   version "9.6.4"
@@ -8537,6 +8526,11 @@ load-json-file@^2.0.0:
     pify "^2.0.0"
     strip-bom "^3.0.0"
 
+load-script@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/load-script/-/load-script-1.0.0.tgz#0491939e0bee5643ee494a7e3da3d2bac70c6ca4"
+  integrity sha1-BJGTngvuVkPuSUp+PaPSuscMbKQ=
+
 loader-fs-cache@^1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/loader-fs-cache/-/loader-fs-cache-1.0.2.tgz#54cedf6b727e1779fd8f01205f05f6e88706f086"
@@ -9387,11 +9381,6 @@ napi-build-utils@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/napi-build-utils/-/napi-build-utils-1.0.1.tgz#1381a0f92c39d66bf19852e7873432fc2123e508"
   integrity sha512-boQj1WFgQH3v4clhu3mTNfP+vOBxorDlE8EKiMjUlLG3C4qAESnn9AxIOkFgTR2c9LtzNjPrjS60cT27ZKBhaA==
-
-native-promise-only@0.8.1:
-  version "0.8.1"
-  resolved "https://registry.yarnpkg.com/native-promise-only/-/native-promise-only-0.8.1.tgz#20a318c30cb45f71fe7adfbf7b21c99c1472ef11"
-  integrity sha1-IKMYwwy0X3H+et+/eyHJnBRy7xE=
 
 natural-compare@^1.4.0:
   version "1.4.0"
@@ -11890,6 +11879,23 @@ react-onclickoutside@^6.5.0:
   version "6.9.0"
   resolved "https://registry.yarnpkg.com/react-onclickoutside/-/react-onclickoutside-6.9.0.tgz#a54bc317ae8cf6131a5d78acea55a11067f37a1f"
   integrity sha512-8ltIY3bC7oGhj2nPAvWOGi+xGFybPNhJM0V1H8hY/whNcXgmDeaeoCMPPd8VatrpTsUWjb/vGzrmu6SrXVty3A==
+
+react-player-controls@^1.1.0:
+  version "1.1.0"
+  resolved "https://registry.yarnpkg.com/react-player-controls/-/react-player-controls-1.1.0.tgz#7e2eb3319db2567994a56c0e4b6d51fccfb4b5f4"
+  integrity sha512-qEsKtljmaQD7satvlG6maTOMVw/ekP4F+Obe8ahTkwJEfO+NdollbFlFFsIFro+btMawfydpgneXW0aKEXFy9A==
+  dependencies:
+    autobind-decorator "^2.4.0"
+    prop-types "^15.6.2"
+
+react-player@^1.13.0:
+  version "1.13.0"
+  resolved "https://registry.yarnpkg.com/react-player/-/react-player-1.13.0.tgz#074c19195aadd413eb1243e953f6562c7e04b911"
+  integrity sha512-3Ti5ncYCPZ/Xqtm2KH+FadQtTZXwOguKypjYxYvu2EmYRECCoXutbC/He2Z7uBrb/7tzNEvqoHfZLj/1RPNTKg==
+  dependencies:
+    deepmerge "^4.0.0"
+    load-script "^1.0.0"
+    prop-types "^15.7.2"
 
 react-polyglot@^0.4.0:
   version "0.4.2"
@@ -15043,11 +15049,6 @@ wcwidth@^1.0.1:
   integrity sha1-8LDc+RW8X/FSivrbLA4XtTLaL+g=
   dependencies:
     defaults "^1.0.3"
-
-weakmap-polyfill@2.0.0:
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/weakmap-polyfill/-/weakmap-polyfill-2.0.0.tgz#8f28f935e3853896ad40747e5258db578d9dc8de"
-  integrity sha1-jyj5NeOFOJatQHR+UljbV42dyN4=
 
 web-namespaces@^1.0.0, web-namespaces@^1.1.2:
   version "1.1.3"
