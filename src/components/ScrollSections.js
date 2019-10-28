@@ -5,6 +5,7 @@ import { Controller, Scene } from 'react-scrollmagic'
 import ResizeDetector from 'react-resize-detector'
 import { Tween, Timeline } from 'react-gsap'
 import FixedPortal from './FixedPortal'
+import ParisBG from '../img/paris.jpg'
 
 class ScrollSections extends React.PureComponent {
   constructor(props, context) {
@@ -20,7 +21,7 @@ class ScrollSections extends React.PureComponent {
     const {
       className,
       sections,
-      background = 'https://picsum.photos/id/434/3000/2500'
+      background = ParisBG
     } = this.props;
 
     return (
@@ -50,7 +51,7 @@ class ScrollSections extends React.PureComponent {
           <Scene duration={this.state.totalHeight || "100%"} triggerHook="onLeave">
             {(progress, event) => {
               const active = event.state === "DURING";
-              const extraScroll = 50;
+              const extraScroll = 20;
               return (
                 <FixedPortal target={this.backgroundPortalRef.current}>
                   <Timeline totalProgress={progress} paused={true}>
@@ -61,10 +62,7 @@ class ScrollSections extends React.PureComponent {
                       to={{y: '-' + (extraScroll / ((extraScroll + 100)/100)) + '%'}}
                     >
                         <div 
-                          className={
-                            "ScrollSections__background slowfade" 
-                            + (active ? " isActive" : "")
-                          } 
+                          className="ScrollSections__background"
                           style={{
                             background: "url(" + background + ")",
                             height: (extraScroll + 100) + "%"

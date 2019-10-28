@@ -6,7 +6,15 @@ import { Tween, Timeline } from 'react-gsap'
 
 export default [
 ({progress, active, foregroundPortal, backgroundPortal}) => (
-        <div style={{position: 'fixed', top: '45%', left: 0, width: '100%', textAlign: 'center'}}>
+        <FixedPortal target={backgroundPortal}>
+          <div style={{
+            position: "absolute", 
+            top:0, left:0, bottom:0, right:0, 
+            display: "flex", 
+            alignItems: "center", 
+            justifyContent: "center", 
+            textAlign: "center"
+          }} >
           <Timeline totalProgress={progress} paused={true}>
             <Tween
             position="0"
@@ -18,19 +26,13 @@ export default [
                 scale: 1.2
               }}
             >
-              <div className={"slowfade" + (active ? " isActive" : "") }>
+              <div className={"Transition--slow-fade" + (active ? " isActive" : "") }>
                 Eat my shorts <br />{progress}
               </div>
             </Tween>
           </Timeline>
-          <FixedPortal target={backgroundPortal}>
-            <VideoPlayer
-              videoId="3u3E4bXL6Jc"
-              fullscreen
-              active={active}
-            />
-          </FixedPortal>
-        </div>
+          </div>
+        </FixedPortal>
 ), ({progress, active, foregroundPortal, backgroundPortal}) => (
         <FixedPortal target={backgroundPortal}>
             <VideoPlayer
@@ -56,7 +58,7 @@ export default [
             />
         </FixedPortal>
 ), ({progress, active, foregroundPortal, backgroundPortal}) => (
-        <div style={{position: 'fixed', top: '45%', left: 0, width: '100%', textAlign: 'center'}}>
+        <FixedPortal target={backgroundPortal}>
           <Timeline totalProgress={progress} paused={true}>
             <Tween
             position="0"
@@ -68,11 +70,11 @@ export default [
                 scale: 1.2
               }}
             >
-              <div className={"slowfade" + (active ? " isActive" : "") }>
+              <div className={"Transition--slow-fade" + (active ? " isActive" : "") }>
                 Eat my shorts <br />{progress}
               </div>
             </Tween>
           </Timeline>
-        </div>
+        </FixedPortal>
 )
 ]

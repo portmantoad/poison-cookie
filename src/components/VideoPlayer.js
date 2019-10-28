@@ -30,10 +30,11 @@ class VideoPlayer extends React.PureComponent {
    const { active } = this.props
    if (nextProps.active !== active) {
     if (active) {
-      this.play()
+      setTimeout(this.play, 5000);
+      // this.play()
     } else {
       this.pause()
-      setTimeout(this.pause, 1000);
+      // setTimeout(this.pause, 1000);
     }
    }
   }
@@ -52,12 +53,12 @@ class VideoPlayer extends React.PureComponent {
   }
 
   play = () => {
-    this.clearAudioFadeInterval();
+    // this.clearAudioFadeInterval();
     this.props.active && this.setState({volume: 1, playing: true});
   }
 
   pause = () => {
-    this.clearAudioFadeInterval();
+    // this.clearAudioFadeInterval();
     this.setState({volume: 0, playing: false});
   }
 
@@ -124,7 +125,7 @@ class VideoPlayer extends React.PureComponent {
             controls={false}
             className="Video__wrapper__ytEmbed"
             width="100%"
-            height="200%"
+            height="150%"
             playsinline
             playing={this.state.playing}
             onProgress={({played, loaded}) => {this.setState({played: played, loaded: loaded})}}
@@ -145,42 +146,42 @@ class VideoPlayer extends React.PureComponent {
             progressInterval={100}
           />
           <div className={"Video__wrapper__playButton" + (!this.state.playing ? " isActive" : "")}><PlayerIcon.Play /></div>
-        </div>
-        <div 
-          className={"Video__controls" + (this.state.duration && (this.state.controlsHovered || this.state.onPlayInitialTimeout || !this.state.playing) ? " isActive" : "")} 
-          onMouseOver={() => this.setState({controlsHovered: true})} 
-          onMouseLeave={() => this.setState({controlsHovered: false})}
-        >
-          <div className="Video__controls__playToggle" onClick={this.playToggle}>
-            {this.state.playing ? <PlayerIcon.Pause /> : <PlayerIcon.Play />}
-          </div>
-          <div className="Video__controls__time">
-            <FormattedTime numSeconds={this.state.duration * this.state.played} />/<FormattedTime numSeconds={this.state.duration} />
-          </div>
-          <div className="Video__controls__slider" onClick={event => event.stopPropagation()}>
-            <Slider
-              isEnabled
-              className="Video__controls__slider__wrapper"
-              onIntent={intent => this.setState({intent: intent})}
-              onIntentStart={intent => this.setState({intentActive: true})}
-              onIntentEnd={() => this.setState({intentActive: false})}
-              onChange={newValue => this.setState({intent: newValue})}
-              onChangeStart={startValue => this.setState({intent: startValue})}
-              onChangeEnd={endValue => {
-                this.player && this.player.seekTo(endValue)
-                this.setState({played: endValue})
-              }}
-            >
-              <div className="Video__controls__slider__bar">
-                <div className="Video__controls__slider__bar__loaded" style={{width: (100 * this.state.loaded) + "%"}}></div>
-                <div className="Video__controls__slider__bar__progress" style={{width: (100 * this.state.played) + "%"}}></div>
-              </div>
-              <div className="Video__controls__slider__handle" style={{left: (100 * this.state.played) + "%"}}></div>
-              <div className={"Video__controls__slider__intentHandle" + (this.state.intentActive ? " isActive" : "")}
-                style={{left: (100 * this.state.intent) + "%"}}>
-                <FormattedTime numSeconds={this.state.duration * this.state.intent} />
-              </div>
-            </Slider>
+          <div 
+            className={"Video__controls" + (this.state.duration && (this.state.controlsHovered || this.state.onPlayInitialTimeout || !this.state.playing) ? " isActive" : "")} 
+            onMouseOver={() => this.setState({controlsHovered: true}, () => console.log(this.state.controlsHovered))} 
+            onMouseLeave={() => this.setState({controlsHovered: false})}
+          >
+            <div className="Video__controls__playToggle" onClick={this.playToggle}>
+              {this.state.playing ? <PlayerIcon.Pause /> : <PlayerIcon.Play />}
+            </div>
+            <div className="Video__controls__time">
+              <FormattedTime numSeconds={this.state.duration * this.state.played} />/<FormattedTime numSeconds={this.state.duration} />
+            </div>
+            <div className="Video__controls__slider" onClick={event => event.stopPropagation()}>
+              <Slider
+                isEnabled
+                className="Video__controls__slider__wrapper"
+                onIntent={intent => this.setState({intent: intent})}
+                onIntentStart={intent => this.setState({intentActive: true})}
+                onIntentEnd={() => this.setState({intentActive: false})}
+                onChange={newValue => this.setState({intent: newValue})}
+                onChangeStart={startValue => this.setState({intent: startValue})}
+                onChangeEnd={endValue => {
+                  this.player && this.player.seekTo(endValue)
+                  this.setState({played: endValue})
+                }}
+              >
+                <div className="Video__controls__slider__bar">
+                  <div className="Video__controls__slider__bar__loaded" style={{width: (100 * this.state.loaded) + "%"}}></div>
+                  <div className="Video__controls__slider__bar__progress" style={{width: (100 * this.state.played) + "%"}}></div>
+                </div>
+                <div className="Video__controls__slider__handle" style={{left: (100 * this.state.played) + "%"}}></div>
+                <div className={"Video__controls__slider__intentHandle" + (this.state.intentActive ? " isActive" : "")}
+                  style={{left: (100 * this.state.intent) + "%"}}>
+                  <FormattedTime numSeconds={this.state.duration * this.state.intent} />
+                </div>
+              </Slider>
+            </div>
           </div>
         </div>
       </div>
