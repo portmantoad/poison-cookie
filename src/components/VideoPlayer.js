@@ -30,8 +30,8 @@ class VideoPlayer extends React.PureComponent {
    const { active } = this.props
    if (nextProps.active !== active) {
     if (active) {
-      setTimeout(this.play, 5000);
-      // this.play()
+      // setTimeout(this.play, 5000);
+      this.play()
     } else {
       this.pause()
       // setTimeout(this.pause, 1000);
