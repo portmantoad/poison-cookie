@@ -40,6 +40,7 @@ class ScrollSections extends React.PureComponent {
     const sectionProgress = (scrollTop - prevSectionHeight) / this.state["sectionHeight" + activeSection];
     const totalProgress = scrollTop / this.state.totalHeight;
     this.setState({activeSection, ['sectionProgress' + activeSection]: sectionProgress, totalProgress});
+    // if (this.state.activeSection !== activeSection) this.setState({activeSection});
   }, 5, {
     'leading': true,
     'trailing': true

@@ -22,7 +22,7 @@ class section1 extends React.PureComponent {
               }}
               to={{
                 y: '-120%',
-                scale: 1.2
+                scale: 1.3
               }}
             >
               <div className={"Transition--slow-fade" + (active ? " isActive" : "") }>
