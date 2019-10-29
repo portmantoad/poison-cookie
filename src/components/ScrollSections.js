@@ -1,11 +1,11 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import VideoPlayer from './VideoPlayer'
-import { Controller, Scene } from 'react-scrollmagic'
 import ResizeDetector from 'react-resize-detector'
 import { Tween, Timeline } from 'react-gsap'
 import FixedPortal from './FixedPortal'
 import ParisBG from '../img/paris.jpg'
+import _ from 'lodash'
 
 class ScrollSections extends React.PureComponent {
   constructor(props, context) {
@@ -14,7 +14,37 @@ class ScrollSections extends React.PureComponent {
     this.backgroundPortalRef = React.createRef();
     this.foregroundPortalRef = React.createRef();
 
-    this.state = {};
+    this.state = {
+      // scrollTop: 0
+    };
+  }
+
+  componentWillMount() {
+    window.addEventListener('scroll', this.handleScroll , false);
+  }
+
+  handleScroll = _.throttle(() => {
+    const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    let activeSection = 0;
+    let prevSectionHeight = 0;
+
+    for (let i = 0; i < this.props.sections.length; i++) {
+      if (scrollTop > (prevSectionHeight + this.state["sectionHeight" + i])) {
+        prevSectionHeight += this.state["sectionHeight" + i];
+        activeSection++;
+      }
+    }
+
+    const sectionProgress = (scrollTop - prevSectionHeight) / this.state["sectionHeight" + activeSection];
+    const totalProgress = scrollTop / this.state.totalHeight;
+    this.setState({activeSection, ['sectionProgress' + activeSection]: sectionProgress, totalProgress});
+  }, 5, {
+    'leading': true,
+    'trailing': true
+  })
+
+  componentWillUnmount(){
+    window.removeEventListener('scroll', this.handleScroll , false);
   }
 
   render() {
@@ -32,6 +62,32 @@ class ScrollSections extends React.PureComponent {
         }} />
 
         <div className="ScrollSections__fixedRoot ScrollSections__fixedRoot--background" ref={this.backgroundPortalRef}>
+          
+        <Tween totalProgress={this.state.totalProgress} paused={true}
+            ease="linear"
+            position="0"
+            from={{y: '0%'}}
+            to={{y: '-' + (20 / ((20 + 100)/100)) + '%'}}
+          >
+              <div 
+                className="ScrollSections__background"
+                style={{
+                  background: "url(" + background + ")",
+                  height: (20 + 100) + "%"
+                }}></div>
+          </Tween>
+
+          {/*<div 
+                className="ScrollSections__background"
+                style={{
+                  left: 'unset',
+                  right: 0,
+                  width: "50%",
+                  background: "url(" + background + ")",
+                  height: (20 + 100) + "%",
+                  transform: "translateY( -" + (20 / ((20 + 100)/100) * this.state.totalProgress) + '%)'
+                }}></div>*/}
+
           <ResizeDetector handleHeight onResize={(width, height) => {
             const newState = {visibleHeight: height};
             if (sections) {
@@ -47,76 +103,32 @@ class ScrollSections extends React.PureComponent {
           }} /> 
         </div>
 
-        <Controller refreshInterval="5">
-          <Scene duration={this.state.totalHeight || "100%"} triggerHook="onLeave">
-            {(progress, event) => {
-              const active = event.state === "DURING";
-              const extraScroll = 20;
-              return (
-                <FixedPortal target={this.backgroundPortalRef.current}>
-                  <Timeline totalProgress={progress} paused={true}>
-                    <Tween
-                      ease="linear"
-                      position="0"
-                      from={{y: '0%'}}
-                      to={{y: '-' + (extraScroll / ((extraScroll + 100)/100)) + '%'}}
-                    >
-                        <div 
-                          className="ScrollSections__background"
-                          style={{
-                            background: "url(" + background + ")",
-                            height: (extraScroll + 100) + "%"
-                          }}></div>
-                    </Tween>
-                  </Timeline>
-                </FixedPortal>
-            )}}
-          </Scene>
-
+        
           {sections &&
             sections.map((Sect, index) => {
-              return(
-                <Scene 
-                  key={"ScrollSections__section--" + index} 
-                  duration={
-                    this.state["sectionHeight" + index] 
-                    || this.state.visibleHeight 
-                    || "100%"
-                  } 
-                  classToggle="isActive"
-                >
-                  {(progress, event) => {
-                    const active = event.state === "DURING";
+                    const active = this.state.activeSection === index;
                     const heightDiff = this.state["sectionHeight" + index] && this.state.visibleHeight 
                       ? (this.state["sectionHeight" + index] - this.state.visibleHeight) / 2
                       : 0;
                     return (
-                      <section className={"ScrollSection ScrollSection--" + index}>
+                      <section className={"ScrollSection ScrollSection--" + index + (active ? " isActive" : "")}>
                         <Sect 
-                          progress={progress} 
+                          progress={this.state["sectionProgress" + index]} 
                           active={active} 
                           foregroundPortal={this.foregroundPortalRef.current} 
                           backgroundPortal={this.backgroundPortalRef.current} 
                         />
-                        {heightDiff ? (<Timeline totalProgress={progress} paused={true}>
-                          <Tween ease="linear" position="0" from={{y: -heightDiff}} to={{y: heightDiff}}>
+                        {heightDiff ? (<Tween totalProgress={this.state["sectionProgress" + index]} paused={true} ease="linear" position="0" from={{y: -heightDiff}} to={{y: heightDiff}}>
                             <div className="ScrollSection__timeIndicator"></div>
-                          </Tween>
-                        </Timeline>) : <div className="ScrollSection__timeIndicator"></div>}
+                          </Tween>) : <div className="ScrollSection__timeIndicator"></div>}
                         <ResizeDetector handleHeight onResize={(width, height) => {
                           if (this.state["sectionHeight" + index] !== height) {
                             this.setState({ ["sectionHeight" + index]: height })
                           }
                         }} />
                       </section>
-                  )}}
-                </Scene>
-                      
-                    
-              )
-            })
+                  )})
           }
-          </Controller>
 
           <div className="ScrollSections__fixedRoot ScrollSections__fixedRoot--foreground" ref={this.foregroundPortalRef} />
       </div>

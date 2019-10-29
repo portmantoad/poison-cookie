@@ -22,7 +22,9 @@ const Navbar = class extends React.Component {
   render() {
     return (
       <Headroom>
-        <Link to="/">Home</Link>
+        <div className="Navbar">
+          <Link to="/">Home</Link>
+        </div>
       </Headroom>
     )
   }

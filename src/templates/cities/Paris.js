@@ -1,11 +1,12 @@
 import React from 'react'
 import VideoPlayer from '../../components/VideoPlayer'
 import FixedPortal from '../../components/FixedPortal'
-import { Controller, Scene } from 'react-scrollmagic'
-import { Tween, Timeline } from 'react-gsap'
+import { Tween } from 'react-gsap'
 
-export default [
-({progress, active, foregroundPortal, backgroundPortal}) => (
+class section1 extends React.PureComponent {
+  render(){
+    const {progress, active, foregroundPortal, backgroundPortal} = this.props;
+    return(
         <FixedPortal target={backgroundPortal}>
           <div style={{
             position: "absolute", 
@@ -15,9 +16,7 @@ export default [
             justifyContent: "center", 
             textAlign: "center"
           }} >
-          <Timeline totalProgress={progress} paused={true}>
-            <Tween
-            position="0"
+            <Tween totalProgress={progress} paused={true}
               from={{
                 y: '120%',
               }}
@@ -27,54 +26,136 @@ export default [
               }}
             >
               <div className={"Transition--slow-fade" + (active ? " isActive" : "") }>
-                Eat my shorts <br />{progress}
+                Eat my shorts
               </div>
             </Tween>
-          </Timeline>
           </div>
         </FixedPortal>
-), ({progress, active, foregroundPortal, backgroundPortal}) => (
-        <FixedPortal target={backgroundPortal}>
-            <VideoPlayer
-              videoId="VahZrbh8UZU"
-              fullscreen
-              active={active}
-            />
+    )
+  }
+}
+
+class section2 extends React.PureComponent {
+  render(){
+    const {progress, active, foregroundPortal, backgroundPortal} = this.props;
+    return(
+        <FixedPortal target={backgroundPortal}>   
+              <VideoPlayer
+                videoId="VahZrbh8UZU"
+                fullscreen
+                active={active}
+                scrollProgress={progress}
+              />
         </FixedPortal>
-), ({progress, active, foregroundPortal, backgroundPortal}) => (
+    )
+  }
+}
+
+class section3 extends React.PureComponent {
+  render(){
+    const {progress, active, foregroundPortal, backgroundPortal} = this.props;
+    return(
         <FixedPortal target={backgroundPortal}>
             <VideoPlayer
               videoId="CJHK5SWJu0k"
               fullscreen
               active={active}
+              scrollProgress={progress}
             />
         </FixedPortal>
-), ({progress, active, foregroundPortal, backgroundPortal}) => (
+    )
+  }
+}
+
+class section4 extends React.PureComponent {
+  render(){
+    const {progress, active, foregroundPortal, backgroundPortal} = this.props;
+    return(
         <FixedPortal target={backgroundPortal}>
             <VideoPlayer
               videoId="iOL8w2ZNOJY"
               fullscreen
               active={active}
+              scrollProgress={progress}
             />
         </FixedPortal>
-), ({progress, active, foregroundPortal, backgroundPortal}) => (
-        <FixedPortal target={backgroundPortal}>
-          <Timeline totalProgress={progress} paused={true}>
-            <Tween
-            position="0"
-              from={{
-                y: '120%',
-              }}
-              to={{
-                y: '-120%',
-                scale: 1.2
-              }}
-            >
-              <div className={"Transition--slow-fade" + (active ? " isActive" : "") }>
-                Eat my shorts <br />{progress}
-              </div>
-            </Tween>
-          </Timeline>
-        </FixedPortal>
-)
-]
+    )
+  }
+}
+
+export default [section1, section2, section3, section4]
+
+
+
+
+// export default [
+// ({progress, active, foregroundPortal, backgroundPortal}) => (
+//         <FixedPortal target={backgroundPortal}>
+//           <div style={{
+//             position: "absolute", 
+//             top:0, left:0, bottom:0, right:0, 
+//             display: "flex", 
+//             alignItems: "center", 
+//             justifyContent: "center", 
+//             textAlign: "center"
+//           }} >
+//             <Tween totalProgress={progress} paused={true}
+//               from={{
+//                 y: '120%',
+//               }}
+//               to={{
+//                 y: '-120%',
+//                 scale: 1.2
+//               }}
+//             >
+//               <div className={"Transition--slow-fade" + (active ? " isActive" : "") }>
+//                 Eat my shorts
+//               </div>
+//             </Tween>
+//           </div>
+//         </FixedPortal>
+// ), ({progress, active, foregroundPortal, backgroundPortal}) => (
+//         <FixedPortal target={backgroundPortal}>   
+//               <VideoPlayer
+//                 videoId="VahZrbh8UZU"
+//                 fullscreen
+//                 active={active}
+//                 scrollProgress={progress}
+//               />
+//         </FixedPortal>
+// ), ({progress, active, foregroundPortal, backgroundPortal}) => (
+//         <FixedPortal target={backgroundPortal}>
+//             <VideoPlayer
+//               videoId="CJHK5SWJu0k"
+//               fullscreen
+//               active={active}
+//               scrollProgress={progress}
+//             />
+//         </FixedPortal>
+// ), ({progress, active, foregroundPortal, backgroundPortal}) => (
+//         <FixedPortal target={backgroundPortal}>
+//             <VideoPlayer
+//               videoId="iOL8w2ZNOJY"
+//               fullscreen
+//               active={active}
+//               scrollProgress={progress}
+//             />
+//         </FixedPortal>
+// ), ({progress, active, foregroundPortal, backgroundPortal}) => (
+//         <FixedPortal target={backgroundPortal}>
+//           <Tween totalProgress={progress} paused={true} 
+//               from={{
+//                 y: '120%',
+//               }}
+//               to={{
+//                 y: '-120%',
+//                 scale: 1.2
+//               }}
+//             >
+//               <div className={"Transition--slow-fade" + (active ? " isActive" : "") }>
+//                 Eat my shorts <br />{progress}
+//               </div>
+//           </Tween>
+//         </FixedPortal>
+// )
+// ]

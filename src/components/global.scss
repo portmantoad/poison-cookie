@@ -1,3 +1,7 @@
+@import "~normalize.css/normalize.css";
+
+$headerheight: 48px;
+
 @mixin transition--none(){
   &:not(.isActive) { 
     opacity: 0; 
@@ -26,7 +30,16 @@
   @include transition--fade(1000ms);
 }
 
+.Navbar{
+  height: $headerheight;
+  background-color: #be553d;
+  line-height: $headerheight;
+}
+
 .ScrollSections {
+  position: absolute;
+  top:0;
+  left:0;
   padding: 50vh 0 calc(50vh - 1px);
   pointer-events: none;
 
@@ -45,6 +58,7 @@
     width: 100%;
     height: 110%;
     background-size: cover;
+    // transition: transform 50ms;
   }
 }
 .ScrollSection {
@@ -84,25 +98,33 @@
 }
 
 .Video{
-  @include transition--fade(500ms);
-  will-change: opacity;
+  @include transition--fade(100ms);
+  // @include transition--none;
   pointer-events: auto;
   // background-color: #000;
   display: flex;
   align-items: center;
   justify-content: center;
   position:relative;
+  
+
+  &:not(.isActive){ 
+    transition: opacity 500ms;
+    iframe{
+      display: none;
+    }
+  }
 
 
    &__wrapper{
     position:relative;
-    padding-top: calc(100% / (1280 / 720));
+    padding-top: calc(100% / (1280 / (720 - 2)));
     width: 100%;
     overflow: hidden;
-    mask-image: url('../img/postcard_mask.png');
-    mask-size: 100% 100%;
+    // mask-image: url('../img/postcard_mask.png');
+    // mask-size: 100% 100%;
+    background: #000;
     
-
     &__playButton{
       @include transition--none;
       position: absolute;
@@ -123,18 +145,17 @@
 
     &__ytEmbed{
     position: absolute;
-    top: -25%;
+    top: -50%;
     left: 0;
     width: 100%;
-    height: 150%;
+    height: 200%;
     pointer-events: none;
-
    }
   }
 
   &__controls{
     @include transition--fade;
-    &:not(.isActive) { pointer-events: auto;}
+    &:not(.isActive) { pointer-events: inherit;}
     position: absolute;
     bottom: 0;
     left: 32px;

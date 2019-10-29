@@ -2,9 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import YouTubePlayer from 'react-player/lib/players/YouTube'
 import { Slider, FormattedTime, PlayerIcon } from 'react-player-controls'
+import { Tween } from 'react-gsap'
 
 
-class VideoPlayer extends React.PureComponent {
+class VideoPlayer extends React.Component {
   constructor(props, context) {
     super(props, context);
 
@@ -20,23 +21,34 @@ class VideoPlayer extends React.PureComponent {
       intentActive: false
     };
 
-    if (this.props.playing) {
+    if (this.props.active) {
       this.play();
     }
 
   }
 
+  handleInitialScrollEnd = event => {
+    window.clearTimeout(this.isScrolling);
+    this.isScrolling = setTimeout(() => {
+      this.play()
+    }, 200);
+  };
+
   componentDidUpdate(nextProps) {
    const { active } = this.props
    if (nextProps.active !== active) {
     if (active) {
-      // setTimeout(this.play, 5000);
-      this.play()
+      this.handleInitialScrollEnd();
+      window.addEventListener('scroll', this.handleInitialScrollEnd , false);
     } else {
-      this.pause()
-      // setTimeout(this.pause, 1000);
+      this.pauseFade()
+      setTimeout(this.pause, 1000);
     }
    }
+  }
+
+  componentWillUnmount(){
+    window.removeEventListener('scroll', this.handleInitialScrollEnd , false);
   }
 
 
@@ -53,12 +65,13 @@ class VideoPlayer extends React.PureComponent {
   }
 
   play = () => {
-    // this.clearAudioFadeInterval();
+    this.clearAudioFadeInterval();
     this.props.active && this.setState({volume: 1, playing: true});
+    window.removeEventListener('scroll', this.handleInitialScrollEnd , false);
   }
 
   pause = () => {
-    // this.clearAudioFadeInterval();
+    this.clearAudioFadeInterval();
     this.setState({volume: 0, playing: false});
   }
 
@@ -105,7 +118,9 @@ class VideoPlayer extends React.PureComponent {
       className,
       fullscreen,
       active,
-      videoId
+      videoId,
+      scrollProgress,
+      ...rest
     } = this.props;
 
     return (
@@ -116,7 +131,10 @@ class VideoPlayer extends React.PureComponent {
           + (active ? " isActive" : "") 
           + (className ? ` ${className}` : "")
         }
-        onClick={this.playToggle}> 
+        onClick={this.playToggle}
+        {...rest}
+        > 
+        
         <div className="Video__wrapper">
           <YouTubePlayer
             ref={this.ref}
@@ -125,7 +143,7 @@ class VideoPlayer extends React.PureComponent {
             controls={false}
             className="Video__wrapper__ytEmbed"
             width="100%"
-            height="150%"
+            height="200%"
             playsinline
             playing={this.state.playing}
             onProgress={({played, loaded}) => {this.setState({played: played, loaded: loaded})}}
