@@ -39,7 +39,11 @@ class VideoPlayer extends React.Component {
    if (nextProps.active !== active) {
     if (active) {
       this.handleInitialScrollEnd();
-      window.addEventListener('scroll', this.handleInitialScrollEnd , false);
+      if (typeof window !== `undefined`) {
+        window.addEventListener('scroll', this.handleInitialScrollEnd , false);
+      } else {
+        this.play()
+      }
     } else {
       this.pauseFade()
       setTimeout(this.pause, 1000);
@@ -48,7 +52,9 @@ class VideoPlayer extends React.Component {
   }
 
   componentWillUnmount(){
-    window.removeEventListener('scroll', this.handleInitialScrollEnd , false);
+    if (typeof window !== `undefined`) {
+      window.removeEventListener('scroll', this.handleInitialScrollEnd , false);
+    }
   }
 
 

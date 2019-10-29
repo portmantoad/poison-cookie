@@ -6,13 +6,13 @@ import { graphql, Link } from 'gatsby'
 import Layout from '../components/Layout'
 import ScrollSections from '../components/ScrollSections'
 
-import Paris from './cities/paris.js'
-import Berlin from './cities/paris.js'
+import Paris from '../templates/cities/paris.js'
+// import Berlin from '../templates/cities/paris.js'
 
-const cities = {
-  Paris,
-  Berlin
-}
+// const cities = {
+//   Paris,
+//   Berlin
+// }
 
 export const CityTemplate = ({
   description,
@@ -22,7 +22,8 @@ export const CityTemplate = ({
   return (
     <div className={"City City--" + title.replace(/\s/g, '')}>
       {helmet || ''}
-      <ScrollSections sections={cities[title.replace(/\s/g, '')]} />
+      {/*<ScrollSections sections={cities[title.replace(/\s/g, '')]} />*/}
+      <ScrollSections sections={Paris} />
     </div>
   )
 }

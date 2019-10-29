@@ -20,7 +20,9 @@ class ScrollSections extends React.PureComponent {
   }
 
   componentWillMount() {
-    window.addEventListener('scroll', this.handleScroll , false);
+    if (typeof window !== `undefined`) {
+      window.addEventListener('scroll', this.handleScroll , false);
+    }
   }
 
   handleScroll = _.throttle(() => {
@@ -44,7 +46,9 @@ class ScrollSections extends React.PureComponent {
   })
 
   componentWillUnmount(){
-    window.removeEventListener('scroll', this.handleScroll , false);
+    if (typeof window !== `undefined`) {
+      window.removeEventListener('scroll', this.handleScroll , false);
+    }
   }
 
   render() {

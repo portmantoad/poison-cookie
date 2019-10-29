@@ -121,8 +121,8 @@ $headerheight: 48px;
     padding-top: calc(100% / (1280 / (720 - 2)));
     width: 100%;
     overflow: hidden;
-    // mask-image: url('../img/postcard_mask.png');
-    // mask-size: 100% 100%;
+    mask-image: url('../img/postcard_mask.png');
+    mask-size: 100% 100%;
     background: #000;
     
     &__playButton{

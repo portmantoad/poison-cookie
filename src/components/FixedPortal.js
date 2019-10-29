@@ -3,10 +3,14 @@ import ReactDOM from 'react-dom'
 
 class FixedPortal extends React.PureComponent {
   render() {
+    if (this.props.target) {
     return ReactDOM.createPortal(
       this.props.children,
-      this.props.target || document && document.querySelector("body")
+      this.props.target
     );
+    } else {
+      return(null)
+    }
   }
 }
 

@@ -37,14 +37,13 @@ class section1 extends React.PureComponent {
 
 class section2 extends React.PureComponent {
   render(){
-    const {progress, active, foregroundPortal, backgroundPortal} = this.props;
+    const {active, foregroundPortal, backgroundPortal} = this.props;
     return(
         <FixedPortal target={backgroundPortal}>   
               <VideoPlayer
                 videoId="VahZrbh8UZU"
                 fullscreen
                 active={active}
-                scrollProgress={progress}
               />
         </FixedPortal>
     )
@@ -53,14 +52,13 @@ class section2 extends React.PureComponent {
 
 class section3 extends React.PureComponent {
   render(){
-    const {progress, active, foregroundPortal, backgroundPortal} = this.props;
+    const {active, foregroundPortal, backgroundPortal} = this.props;
     return(
         <FixedPortal target={backgroundPortal}>
             <VideoPlayer
               videoId="CJHK5SWJu0k"
               fullscreen
               active={active}
-              scrollProgress={progress}
             />
         </FixedPortal>
     )
@@ -69,21 +67,20 @@ class section3 extends React.PureComponent {
 
 class section4 extends React.PureComponent {
   render(){
-    const {progress, active, foregroundPortal, backgroundPortal} = this.props;
+    const {active, foregroundPortal, backgroundPortal} = this.props;
     return(
         <FixedPortal target={backgroundPortal}>
             <VideoPlayer
               videoId="iOL8w2ZNOJY"
               fullscreen
               active={active}
-              scrollProgress={progress}
             />
         </FixedPortal>
     )
   }
 }
 
-export default [section1, section2, section3, section4]
+export default [section1, section2, section3, section1, section4, section1]
 
 
 
