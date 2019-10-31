@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import YouTubePlayer from 'react-player/lib/players/YouTube'
 import { Slider, FormattedTime, PlayerIcon } from 'react-player-controls'
-import { Tween } from 'react-gsap'
+import { debounce } from 'lodash'
 
 
 class VideoPlayer extends React.Component {
@@ -27,12 +27,7 @@ class VideoPlayer extends React.Component {
 
   }
 
-  handleInitialScrollEnd = event => {
-    window.clearTimeout(this.isScrolling);
-    this.isScrolling = setTimeout(() => {
-      this.play()
-    }, 200);
-  };
+  handleInitialScrollEnd = debounce(() => {this.play()}, 200);
 
   componentDidUpdate(nextProps) {
    const { active } = this.props
@@ -44,6 +39,7 @@ class VideoPlayer extends React.Component {
       } else {
         this.play()
       }
+      this.play();
     } else {
       this.pauseFade()
       setTimeout(this.pause, 1000);
@@ -82,7 +78,6 @@ class VideoPlayer extends React.Component {
   }
 
   pauseFade = () => {
-    const vid = this.player;
     this.vol = this.state.volume;
     this.clearAudioFadeInterval();
     this.audioFadeInterval = setInterval(() => {
@@ -100,7 +95,6 @@ class VideoPlayer extends React.Component {
   }
 
   playFade = () => {
-    const vid = this.player;
     this.vol = 0;
     this.setState({volume: this.vol, playing: true});
     this.clearAudioFadeInterval();
@@ -169,9 +163,9 @@ class VideoPlayer extends React.Component {
             }}
             progressInterval={100}
           />
-          <div className={"Video__wrapper__playButton" + (!this.state.playing ? " isActive" : "")}><PlayerIcon.Play /></div>
+          <div className={"Video__wrapper__playButton" + ((!this.state.playing && active) ? " isActive" : "")}><PlayerIcon.Play /></div>
           <div 
-            className={"Video__controls" + (this.state.duration && (this.state.controlsHovered || this.state.onPlayInitialTimeout || !this.state.playing) ? " isActive" : "")} 
+            className={"Video__controls" + (active && this.state.duration && (this.state.controlsHovered || this.state.onPlayInitialTimeout || !this.state.playing) ? " isActive" : "")} 
             onMouseOver={() => this.setState({controlsHovered: true}, () => console.log(this.state.controlsHovered))} 
             onMouseLeave={() => this.setState({controlsHovered: false})}
           >

@@ -21,11 +21,11 @@ class ScrollSections extends React.PureComponent {
 
   componentWillMount() {
     if (typeof window !== `undefined`) {
-      window.addEventListener('scroll', this.handleScroll , false);
+      window.addEventListener('scroll', this.handleScrollThrottled , {passive: true});
     }
   }
 
-  handleScroll = _.throttle(() => {
+  handleScroll = () => {
     const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
     let activeSection = 0;
     let prevSectionHeight = 0;
@@ -41,14 +41,18 @@ class ScrollSections extends React.PureComponent {
     const totalProgress = scrollTop / this.state.totalHeight;
     this.setState({activeSection, ['sectionProgress' + activeSection]: sectionProgress, totalProgress});
     // if (this.state.activeSection !== activeSection) this.setState({activeSection});
-  }, 5, {
-    'leading': true,
-    'trailing': true
-  })
+  }
+
+  handleScrollThrottled = () => {
+    if (this.scrollTimeout) {
+      window.cancelAnimationFrame(this.scrollTimeout);
+    }
+    this.scrollTimeout = window.requestAnimationFrame(this.handleScroll);
+  }
 
   componentWillUnmount(){
     if (typeof window !== `undefined`) {
-      window.removeEventListener('scroll', this.handleScroll , false);
+      window.removeEventListener('scroll', this.handleScrollThrottled , {passive: true});
     }
   }
 
@@ -116,7 +120,8 @@ class ScrollSections extends React.PureComponent {
                       ? (this.state["sectionHeight" + index] - this.state.visibleHeight) / 2
                       : 0;
                     return (
-                      <section className={"ScrollSection ScrollSection--" + index + (active ? " isActive" : "")}>
+                      <section className={
+                        "ScrollSection ScrollSection--" + index + (active ? " isActive" : "")}>
                         <Sect 
                           progress={this.state["sectionProgress" + index]} 
                           active={active} 

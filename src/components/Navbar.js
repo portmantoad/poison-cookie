@@ -1,6 +1,6 @@
 import React from 'react'
 import { Link } from 'gatsby'
-import Headroom from 'react-headroom'
+// import Headroom from 'react-headroom'
 
 const Navbar = class extends React.Component {
   constructor(props) {
@@ -21,11 +21,9 @@ const Navbar = class extends React.Component {
 
   render() {
     return (
-      <Headroom>
-        <div className="Navbar">
-          <Link to="/">Home</Link>
-        </div>
-      </Headroom>
+      <div className="Navbar">
+        <Link to="/">Home</Link>
+      </div>
     )
   }
 }
