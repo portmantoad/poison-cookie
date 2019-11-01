@@ -150,11 +150,12 @@ body{
       border-radius: 50%;
       padding: 25px;
 
-      width: 50px;
-      height: 50px;
+      width: 100px;
+      height: 100px;
 
-      svg *{
-        fill: #be553d;
+      svg {
+        width:50px;
+        *{fill: #be553d;}
       }
     }
 
@@ -247,6 +248,7 @@ body{
       }
       &__intentHandle{
         opacity: 0;
+        pointer-events: none;
         transition: opacity 250ms;
         position: absolute; 
         bottom: calc(50% + 2px + 9px);
