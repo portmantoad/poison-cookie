@@ -1,3 +1,11 @@
+.Asset--fade-in{
+  transition: opacity 250ms ease-in-out;
+
+  &:not(.isLoaded) { 
+    opacity: 0; 
+  }
+}
+
 @mixin transition--none(){
   &:not(.isActive) { 
     opacity: 0; 
@@ -14,14 +22,6 @@
   }
 }
 
-@mixin transition--slide($transition-time: 250ms){
-  transition: transform $transition-time ease-in-out;
-
-  &:not(.isActive) { 
-    transform: translate(0, -100vh); 
-    pointer-events: none;
-  }
-}
 
 .Transition{
   @include transition--none();
@@ -35,9 +35,19 @@
   @include transition--fade(1000ms);
 }
 
+.visuallyhidden { 
+  position: absolute; 
+  overflow: hidden; 
+  clip: rect(0 0 0 0); 
+  height: 1px; width: 1px; 
+  margin: -1px; padding: 0; border: 0; 
+}
+
 body{
   padding: 48px 0 0;
 }
+
+
 
 .Navbar{
   height: 48px;
@@ -48,6 +58,14 @@ body{
   left: 0;
   right: 0;
   z-index: 1000;
+}
+
+.Panel{
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
 }
 
 .ScrollSections {
@@ -72,6 +90,24 @@ body{
     width: 100%;
     height: 110%;
     background-size: cover;
+
+    // &:before, 
+    &:after{
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right:0;
+      bottom:0;
+      background-size: 85px auto;
+      background-image: url('../img/noise_white.png');
+      opacity: 0.4;
+    }
+    // &:before{
+    //   background-image: url('../img/noise_white.png');
+    //   background-size: 150px auto;
+    // }
     // transition: transform 50ms;
   }
 }
@@ -110,10 +146,9 @@ body{
 }
 
 .Video{
-  @include transition--fade(250ms);
   // @include transition--none;
   // @include transition--slide(1s);
-  pointer-events: auto;
+  
   // background-color: #000;
   display: flex;
   align-items: center;
@@ -121,11 +156,15 @@ body{
   position: relative;
   will-change: opacity;
 
+  &.isActive{
+    pointer-events: auto;
+  }
+
 
   &:not(.isActive){ 
     // transition: opacity 2500ms;
     iframe{
-      // display: none;
+      display: none;
     }
   }
   iframe{
@@ -139,22 +178,24 @@ body{
     width: 100%;
     overflow: hidden;
     background: #000;
+    mask-image: url('../img/postcard_mask.png');
+    mask-size: 100% 100%;
     
     &__playButton{
-      @include transition--none;
+      @include transition--fade(200ms);
       position: absolute;
-      top: calc(50% - 50px);
-      left: calc(50% - 50px);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       background: #000;
       border: 1px solid #be553d;
       border-radius: 50%;
-      padding: 25px;
-
-      width: 100px;
-      height: 100px;
+      width: calc(8% + 35px);
 
       svg {
-        width:50px;
+        width: 100%;
+        padding: 20%;
+        display: block;
         *{fill: #be553d;}
       }
     }
@@ -170,7 +211,7 @@ body{
   }
 
   &__controls{
-    @include transition--fade(100ms);
+    @include transition--fade(200ms);
     // @include transition--none;
     &:not(.isActive) { pointer-events: inherit;}
     position: absolute;
@@ -282,9 +323,8 @@ body{
     right: 0;
     bottom:0;
     margin: auto;
-    width: 90% !important;
-    // height: 90% !important;
-    max-width: calc(90vh / (720 / 1280));
+    width: calc(100% - 22px);
+    max-width: calc((100vh - 48px - 4px) / (720 / 1280));
   }
 }
 

@@ -12,15 +12,18 @@ class ScrollSections extends React.PureComponent {
     super(props, context);
  
     this.backgroundPortalRef = React.createRef();
+    this.midgroundPortalRef = React.createRef();
     this.foregroundPortalRef = React.createRef();
 
     this.state = {
+      activeSection: 0,
       // scrollTop: 0
     };
   }
 
   componentWillMount() {
     if (typeof window !== `undefined`) {
+      this.handleScrollThrottled();
       window.addEventListener('scroll', this.handleScrollThrottled , {passive: true});
     }
   }
@@ -86,17 +89,6 @@ class ScrollSections extends React.PureComponent {
                 }}></div>
           </Tween>
 
-          {/*<div 
-                className="ScrollSections__background"
-                style={{
-                  left: 'unset',
-                  right: 0,
-                  width: "50%",
-                  background: "url(" + background + ")",
-                  height: (20 + 100) + "%",
-                  transform: "translateY( -" + (20 / ((20 + 100)/100) * this.state.totalProgress) + '%)'
-                }}></div>*/}
-
           <ResizeDetector handleHeight onResize={(width, height) => {
             const newState = {visibleHeight: height};
             if (sections) {
@@ -111,6 +103,8 @@ class ScrollSections extends React.PureComponent {
             this.setState(newState);
           }} /> 
         </div>
+
+        <div className="ScrollSections__fixedRoot ScrollSections__fixedRoot--midground" ref={this.midgroundPortalRef} />
 
         
           {sections &&
@@ -127,6 +121,7 @@ class ScrollSections extends React.PureComponent {
                           active={active} 
                           foregroundPortal={this.foregroundPortalRef.current} 
                           backgroundPortal={this.backgroundPortalRef.current} 
+                          midgroundPortal={this.midgroundPortalRef.current} 
                         />
                         {heightDiff ? (<Tween totalProgress={this.state["sectionProgress" + index]} paused={true} ease="linear" position="0" from={{y: -heightDiff}} to={{y: heightDiff}}>
                             <div className="ScrollSection__timeIndicator"></div>

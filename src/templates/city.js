@@ -5,12 +5,13 @@ import { graphql } from 'gatsby'
 import Layout from '../components/Layout'
 import ScrollSections from '../components/ScrollSections'
 
+import Intro from '../templates/cities/intro.js'
 import Paris from '../templates/cities/paris.js'
-import Berlin from '../templates/cities/paris.js'
+
 
 const cities = {
-  Paris,
-  Berlin
+  Intro,
+  Paris
 }
 
 export const CityTemplate = ({
