@@ -166,7 +166,10 @@ class VideoPlayer extends React.Component {
             url={'https://www.youtube.com/watch?v=' + videoId + '&start=' + startTime + (endTime ? '&end' + endTime : '')}
             volume={this.state.volume}
             controls={false}
-            className="Video__wrapper__ytEmbed"
+            className={
+              "Video__wrapper__ytEmbed" 
+              // + (this.state.playing ? " isPlaying" : "")
+            }
             width="100%"
             height="200%"
             playsinline
