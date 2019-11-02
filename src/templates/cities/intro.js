@@ -2,7 +2,9 @@ import React from 'react'
 import VideoPlayer from '../../components/VideoPlayer'
 import FixedPortal from '../../components/FixedPortal'
 import CanvasBlend from '../../components/CanvasBlend'
+import { Power2 } from 'gsap'
 import { Tween } from 'react-gsap'
+import { clamp } from 'lodash'
 
 import { withPrefix } from 'gatsby'
 
@@ -13,18 +15,7 @@ export default [
   <React.Fragment>
           <FixedPortal target={midgroundPortal}>
           <div className={"Panel Transition--slow-fade" + (active ? " isActive" : "")}>
-            <CanvasBlend 
-              use="screen" 
-              style={{
-                position: "absolute", 
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                minWidth: "100%", 
-                minHeight: "100%"
-              }}>
-                <video src={`${withPrefix('/')}img/cover.mp4`} muted autoPlay loop></video>  
-            </CanvasBlend>
+
             <Tween totalProgress={progress} paused={true}
                 to={{ 
                   y: '-' + (20 / ((20 + 100)/100)) + '%', 
@@ -32,14 +23,14 @@ export default [
                 }}
               >
               <div className="Panel" style={{
-                background: "url(" + `${withPrefix('/')}img/cover.webp` + ")",
+                background: "url(" + `${withPrefix('/')}img/cover.png` + ")",
                 backgroundSize: "cover",
                 backgroundPosition: "right top",
                 right: "calc(15% - 30px)",
                 bottom: "-20%"
               }}/>
             </Tween>
-            <img src={`${withPrefix('/')}img/cookietitle.webp`} alt="The Poison Cookie Jar" style={{
+            <img src={`${withPrefix('/')}img/cookietitle.png`} alt="The Poison Cookie Jar" style={{
               position: "absolute", 
               right:"5%", bottom: "5%", 
               width: "300px",
@@ -52,24 +43,63 @@ export default [
   </React.Fragment>
 ), ({progress, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
         <FixedPortal target={midgroundPortal}> 
-            <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>  
+            <div 
+              className={"Panel Transition--slow-fade" + (active ? " isActive" : "")}
+              style={{background: "rgba(0,0,0,0.9)"}}
+            >
+
               <VideoPlayer
                 videoId="ofAfzauCdAU"
                 fullscreen
-                active={active}
+                active={(progress > 0.3) && active}
               />
+              <Tween totalProgress={progress / 0.3} paused={true} to={{x: '67.5%'}} ease={Power2.easeInOut}>
+                <div className="Panel" style={{
+                  background: "url(" + `${withPrefix('/')}img/curtain.png` + ")",
+                  backgroundSize: "cover",
+                  backgroundPosition: "right top",
+                  transform: "scaleX(-1)",
+                  left: "40%"
+                }}/>
+              </Tween> 
+              <Tween totalProgress={progress / 0.3} paused={true} to={{x: '-73%'}} ease={Power2.easeInOut}>
+                <div className="Panel" style={{
+                  background: "url(" + `${withPrefix('/')}img/curtain.png` + ")",
+                  backgroundSize: "cover",
+                  backgroundPosition: "right top",
+                  right: "30%"
+                }}/>
+              </Tween> 
             </div>
         </FixedPortal>
 ), ({progress, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
         <FixedPortal target={midgroundPortal}>
-          <div className={"Panel Transition--fade" + (active ? " isActive" : "")}> 
+          <div className={"Panel Transition--slow-fade" + (active ? " isActive" : "")}
+            style={{background: "rgba(0,0,0,0.9)"}}> 
             <VideoPlayer
               videoId="GQPcG4D3Zno"
               startTime={18}
               endTime={61}
               fullscreen
-              active={active}
+              active={(progress < 0.7) && active}
             />
+              <Tween totalProgress={clamp((progress - 0.7) / 0.3, 0, 1)} paused={true} from={{x: '67.5%'}} ease={Power2.easeInOut}>
+                <div className="Panel" style={{
+                  background: "url(" + `${withPrefix('/')}img/curtain.png` + ")",
+                  backgroundSize: "cover",
+                  backgroundPosition: "right top",
+                  transform: "scaleX(-1)",
+                  left: "40%"
+                }}/>
+              </Tween> 
+              <Tween totalProgress={clamp((progress - 0.7) / 0.3, 0, 1)} paused={true} from={{x: '-73%'}} ease={Power2.easeInOut}>
+                <div className="Panel" style={{
+                  background: "url(" + `${withPrefix('/')}img/curtain.png` + ")",
+                  backgroundSize: "cover",
+                  backgroundPosition: "right top",
+                  right: "30%"
+                }}/>
+              </Tween> 
           </div>
         </FixedPortal>
 ), ({progress, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
@@ -101,6 +131,7 @@ export default [
         <FixedPortal target={midgroundPortal}>
             <CanvasBlend 
               use="multiply" 
+              active={active}
               className={"Transition--slow-fade" + (active ? " isActive" : "")}
               style={{
                 position: "absolute", 
@@ -110,7 +141,7 @@ export default [
                 maxWidth: "100%", 
                 maxHeight: "100%"
               }}>
-              <img src={`${withPrefix('/')}img/parisCanal.webp`} alt="" />
+              <img src={`${withPrefix('/')}img/parisCanal.jpg`} alt="" />
             </CanvasBlend>
         </FixedPortal>
 ), ({progress, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (

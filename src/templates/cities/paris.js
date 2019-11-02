@@ -3,8 +3,6 @@ import VideoPlayer from '../../components/VideoPlayer'
 import FixedPortal from '../../components/FixedPortal'
 import { Tween } from 'react-gsap'
 
-
-
 export default [
 ({progress, active, foregroundPortal, backgroundPortal}) => (
         <FixedPortal target={backgroundPortal}>

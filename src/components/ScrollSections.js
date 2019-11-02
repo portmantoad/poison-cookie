@@ -5,7 +5,7 @@ import ResizeDetector from 'react-resize-detector'
 import { Tween, Timeline } from 'react-gsap'
 import FixedPortal from './FixedPortal'
 import ParisBG from '../img/paris.jpg'
-import _ from 'lodash'
+import { clamp } from 'lodash'
 
 class ScrollSections extends React.PureComponent {
   constructor(props, context) {
@@ -29,7 +29,8 @@ class ScrollSections extends React.PureComponent {
   }
 
   handleScroll = () => {
-    const scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
+    const scrollTop = clamp((document.documentElement.scrollTop || document.body.scrollTop), 0, this.state.totalHeight);
+    console.log(scrollTop);
     let activeSection = 0;
     let prevSectionHeight = 0;
 
@@ -73,8 +74,7 @@ class ScrollSections extends React.PureComponent {
           this.setState({ totalHeight: height })
         }} />
 
-        <div className="ScrollSections__fixedRoot ScrollSections__fixedRoot--background" ref={this.backgroundPortalRef}>
-          
+       <div className="ScrollSections__fixedRoot ScrollSections__fixedRoot--background" ref={this.backgroundPortalRef}>
         <Tween totalProgress={this.state.totalProgress} paused={true}
             ease="linear"
             position="0"
@@ -84,7 +84,7 @@ class ScrollSections extends React.PureComponent {
               <div 
                 className="ScrollSections__background"
                 style={{
-                  background: "url(" + background + ")",
+                  backgroundImage: "url(" + background + ")",
                   height: (20 + 100) + "%"
                 }}></div>
           </Tween>
