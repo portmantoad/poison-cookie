@@ -30,7 +30,6 @@ class ScrollSections extends React.PureComponent {
 
   handleScroll = () => {
     const scrollTop = clamp((document.documentElement.scrollTop || document.body.scrollTop), 0, this.state.totalHeight);
-    console.log(scrollTop);
     let activeSection = 0;
     let prevSectionHeight = 0;
 

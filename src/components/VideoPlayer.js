@@ -183,10 +183,13 @@ class VideoPlayer extends React.Component {
               }
             }}
             onPlay={()=>{
-              this.setState({onPlayInitialTimeout:
-                setTimeout( () => {
-                  this.setState({onPlayInitialTimeout: false})
-                }, 3000)})
+              this.setState({
+                onPlayInitialTimeout:
+                  setTimeout( () => {
+                    this.setState({onPlayInitialTimeout: false})
+                  }, 3000),
+                volume: 1
+              })
             }}
             onPause={this.pause}
             onEnded={this.handleEnd}

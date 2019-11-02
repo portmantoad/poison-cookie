@@ -14,9 +14,10 @@
 }
 
 @mixin transition--fade($transition-time: 250ms){
-  transition: opacity $transition-time ease-in-out;
+  transition: opacity $transition-time cubic-bezier(0, 0.75, 1, 1);
 
   &:not(.isActive) { 
+    transition: opacity $transition-time cubic-bezier(0, 0, 1, 0.425);
     opacity: 0; 
     pointer-events: none;
   }
@@ -180,6 +181,7 @@ html,body{
     mask-size: 100% 100%;
     
     &__playButton{
+      display: none;
       @include transition--fade(200ms);
       position: absolute;
       top: 50%;
@@ -200,11 +202,11 @@ html,body{
 
     &__ytEmbed{
     position: absolute;
-    top: -50%;
+    top: -0%;
     left: 0;
-    width: 100%;
-    height: 200%;
-    pointer-events: none;
+    width: 100% !important;
+    height: 100% !important;
+    // pointer-events: none;
    }
   }
 
@@ -214,8 +216,8 @@ html,body{
     &:not(.isActive) { pointer-events: inherit;}
     position: absolute;
     bottom: 0;
-    left: 32px;
-    right: 32px;
+    left: 0;
+    right: 0;
     min-height: 40%;
 
     &:before{
@@ -223,14 +225,14 @@ html,body{
       display: block;
       position: absolute;
       top: 0;
-      left: -32px;
+      left: 0;
       bottom: 0;
-      right: -32px;
+      right: 0;
       background: linear-gradient(0deg, rgba(0,0,0,0.2) 0%, rgba(0,0,0,0) 100%);
     }
 
     &__playToggle{
-      position: absolute; left:-6px; bottom: 45px; width: 25px;
+      position: absolute; left:calc(1% + 10px); bottom: calc(100% / (720 * .4) * 30 + 18px); width: 20px;
 
       svg{
         display: block;
@@ -241,15 +243,16 @@ html,body{
       }
     }
     &__time{
-      position: absolute; right:0; bottom: 45px; color: #fff;
+      position: absolute; right:calc(1% + 16px); bottom: calc(100% / (720 * .4) * 30 + 18px); color: #fff;
       line-height: 30px;
     }
     &__slider{
-      position: absolute; bottom:0; width: 100%;
+      position: absolute; bottom:0; left: calc(1% + 16px); right: calc(1% + 16px);
 
       &__wrapper{
         position: relative;
-        height: 45px;
+        // height: calc(20% * (720 / 1280));
+        padding-top: calc(100% / (1280 / 60));
         width: 100%;
       }
 
@@ -286,11 +289,14 @@ html,body{
         }
       }
       &__intentHandle{
+        @media (hover: none) {
+          display: none;
+        }
         opacity: 0;
         pointer-events: none;
         transition: opacity 250ms;
         position: absolute; 
-        bottom: calc(50% + 2px + 9px);
+        bottom: calc(50% + 2px + 5px);
         transform: translateX(-50%);
         width: 101px;
         text-align: center;
