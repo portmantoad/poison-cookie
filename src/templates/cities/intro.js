@@ -90,7 +90,8 @@ React.memo(({progress, active, foregroundPortal, backgroundPortal, midgroundPort
           <div className={"Panel Transition--slow-fade" + (active ? " isActive" : "")}
             style={{background: "rgba(0,0,0,0.9)"}}> 
             <VideoPlayer
-              videoId="GQPcG4D3Zno"
+              // videoId="GQPcG4D3Zno"
+              videoId="TwXilp2mUtE"
               startTime={18}
               endTime={61}
               fullscreen
