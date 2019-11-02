@@ -42,9 +42,10 @@ React.memo(({progress, active, foregroundPortal, backgroundPortal, midgroundPort
   </React.Fragment>
 )), React.memo(({progress, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
         <FixedPortal target={midgroundPortal}> 
+          <Tween totalProgress={active ? clamp(progress / 0.15, 0, 1) : 0} paused={true} from={{opacity: 0}} ease='Quint.easeIn'>
             <div 
-              className={"Panel Transition--slow-fade" + (active ? " isActive" : "")}
-              style={{background: "rgba(0,0,0,0.9)"}}
+              className={"Panel Transition--none" + (active ? " isActive" : "")}
+              style={{background: "rgb(72, 46, 40)"}}
             >
 
               <VideoPlayer
@@ -84,11 +85,15 @@ React.memo(({progress, active, foregroundPortal, backgroundPortal, midgroundPort
                 </div>
               </Tween> 
             </div>
+          </Tween>
         </FixedPortal>
 )), React.memo(({progress, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
         <FixedPortal target={midgroundPortal}>
-          <div className={"Panel Transition--slow-fade" + (active ? " isActive" : "")}
-            style={{background: "rgba(0,0,0,0.9)"}}> 
+          <Tween totalProgress={active ? clamp((progress - 0.85) / 0.15, 0, 1) : 1} paused={true} to={{opacity: 0}} ease='Quint.easeIn'>
+            <div 
+              className={"Panel Transition--none" + (active ? " isActive" : "")}
+              style={{background: "rgb(72, 46, 40)"}}
+            >
             <VideoPlayer
               // videoId="GQPcG4D3Zno"
               videoId="TwXilp2mUtE"
@@ -129,7 +134,8 @@ React.memo(({progress, active, foregroundPortal, backgroundPortal, midgroundPort
                 </div>
               </Tween> 
           </div>
-        </FixedPortal>
+        </Tween>
+      </FixedPortal>
 )), React.memo(({progress, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
         <FixedPortal target={midgroundPortal}>
           <div style={{
@@ -238,7 +244,7 @@ React.memo(({progress, active, foregroundPortal, backgroundPortal, midgroundPort
 //         <FixedPortal target={midgroundPortal}> 
 //             <div 
 //               className={"Panel Transition--slow-fade" + (active ? " isActive" : "")}
-//               style={{background: "rgba(0,0,0,0.9)"}}
+//               style={{background: "rgb(72, 46, 40)"}}
 //             >
 
 //               <VideoPlayer
@@ -280,7 +286,7 @@ React.memo(({progress, active, foregroundPortal, backgroundPortal, midgroundPort
 // ), ({progress, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
 //         <FixedPortal target={midgroundPortal}>
 //           <div className={"Panel Transition--slow-fade" + (active ? " isActive" : "")}
-//             style={{background: "rgba(0,0,0,0.9)"}}> 
+//             style={{background: "rgb(72, 46, 40)"}}> 
 //             <VideoPlayer
 //               videoId="GQPcG4D3Zno"
 //               startTime={18}

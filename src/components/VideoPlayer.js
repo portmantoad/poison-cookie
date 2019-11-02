@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import YouTubePlayer from 'react-player/lib/players/YouTube'
 import { Slider, FormattedTime, PlayerIcon } from 'react-player-controls'
 import { debounce, clamp } from 'lodash'
+import ResizeDetector from 'react-resize-detector'
 
 
 class VideoPlayer extends React.Component {
@@ -18,7 +19,8 @@ class VideoPlayer extends React.Component {
       intent: 0,
       controlsHovered: false,
       onPlayInitialTimeout: false,
-      intentActive: false
+      intentActive: false,
+      controlsBottomPad: 0
     };
 
     if (this.props.active) {
@@ -136,6 +138,17 @@ class VideoPlayer extends React.Component {
     return ((played * visibleDuration) + start) / totalDuration;
   }
 
+  handleResize = (width, height) => {
+    const vh = (height + 48)/100;
+    const playerWidth = Math.min(width, (height - (7 * vh)) / (720 / 1280));
+    const playerHeight = playerWidth / 1280 * 720;
+    const playerBottomPad = (height - playerHeight)/2;
+    const controlsHeight = 75;
+    const controlsAreAttached = playerBottomPad < controlsHeight;
+
+    this.setState({controlsBottomPad: controlsAreAttached ? playerBottomPad : 0})
+  }
+
   render() {
     const {
       className,
@@ -148,6 +161,10 @@ class VideoPlayer extends React.Component {
       ...rest
     } = this.props;
 
+    const controlsAreDetached = fullscreen && !this.state.controlsBottomPad;
+    const controlsVisible = controlsAreDetached || (active && this.state.duration && (this.state.controlsHovered || this.state.onPlayInitialTimeout || !this.state.playing));
+    const controlsScrimVisible = !controlsAreDetached && controlsVisible;
+
     return (
       <div 
         className={
@@ -159,6 +176,10 @@ class VideoPlayer extends React.Component {
         onClick={this.playToggle}
         {...rest}
         > 
+
+        {fullscreen && (
+          <ResizeDetector handleWidth handleHeight onResize={this.handleResize} />  
+        )}
         
         <div className="Video__wrapper">
           <YouTubePlayer
@@ -191,7 +212,8 @@ class VideoPlayer extends React.Component {
                   setTimeout( () => {
                     this.setState({onPlayInitialTimeout: false})
                   }, 3000),
-                volume: 1
+                volume: 1,
+                playing: true
               })
             }}
             onPause={this.pause}
@@ -205,10 +227,16 @@ class VideoPlayer extends React.Component {
             progressInterval={100}
           />
           <div className={"Video__wrapper__playButton" + ((!this.state.playing && active) ? " isActive" : "")}><PlayerIcon.Play /></div>
-          <div 
-            className={"Video__controls" + (active && this.state.duration && (this.state.controlsHovered || this.state.onPlayInitialTimeout || !this.state.playing) ? " isActive" : "")} 
+          <div className={"Video__wrapper__controlsScrim" + (controlsScrimVisible ? " isActive" : "")}></div>
+        </div>
+        <div 
+            className={"Video__controls"
+               + (controlsVisible ? " isActive" : "")
+               // + (this.state.playing ? " isPlaying" : "")
+            } 
             onMouseOver={() => this.setState({controlsHovered: true})} 
             onMouseLeave={() => this.setState({controlsHovered: false})}
+            style={{bottom: this.state.controlsBottomPad + "px"}}
           >
             <div className="Video__controls__playToggle" onClick={this.playToggle}>
               {this.state.playing ? <PlayerIcon.Pause /> : <PlayerIcon.Play />}
@@ -242,7 +270,6 @@ class VideoPlayer extends React.Component {
               </Slider>
             </div>
           </div>
-        </div>
       </div>
   )}
 }

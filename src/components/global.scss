@@ -8,17 +8,18 @@
 
 @mixin transition--none(){
   &:not(.isActive) { 
-    opacity: 0; 
+    opacity: 0 !important; 
     pointer-events: none;
   }
 }
 
 @mixin transition--fade($transition-time: 250ms){
-  transition: opacity $transition-time cubic-bezier(0, 0.75, 1, 1);
+  // transition: opacity $transition-time cubic-bezier(0, 0.75, 1, 1);
+  transition: opacity $transition-time ease-in-out;
 
   &:not(.isActive) { 
-    transition: opacity $transition-time cubic-bezier(0, 0, 1, 0.425);
-    opacity: 0; 
+    // transition: opacity $transition-time cubic-bezier(0, 0, 1, 0.425);
+    opacity: 0 !important; 
     pointer-events: none;
   }
 }
@@ -208,6 +209,17 @@ html,body{
     height: 100% !important;
     // pointer-events: none;
    }
+
+   &__controlsScrim{
+      @include transition--fade(200ms);
+      position: absolute;
+      height: 40%;
+      pointer-events: none;
+      left: -1px;
+      bottom: -1px;
+      right: -1px;
+      background: linear-gradient(0deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0) 100%);
+    }
   }
 
   &__controls{
@@ -220,19 +232,12 @@ html,body{
     right: 0;
     min-height: 40%;
 
-    &:before{
-      content: "";
-      display: block;
-      position: absolute;
-      top: 0;
-      left: 0;
-      bottom: 0;
-      right: 0;
-      background: linear-gradient(0deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0) 100%);
-    }
+    // &.isPlaying{
+    //   cursor: none;
+    // }
 
     &__playToggle{
-      position: absolute; left:calc(1% + 10px); bottom: calc(100% / (720 * .4) * 30 + 18px); width: 20px;
+      position: absolute; left:calc(1% + 10px); bottom: 40px; width: 20px;
 
       svg{
         display: block;
@@ -243,7 +248,7 @@ html,body{
       }
     }
     &__time{
-      position: absolute; right:calc(1% + 16px); bottom: calc(100% / (720 * .4) * 30 + 18px); color: #fff;
+      position: absolute; right:calc(1% + 16px); bottom: 40px; color: #fff;
       line-height: 30px;
     }
     &__slider{
@@ -251,8 +256,7 @@ html,body{
 
       &__wrapper{
         position: relative;
-        // height: calc(20% * (720 / 1280));
-        padding-top: calc(100% / (1280 / 60));
+        height: 40px;
         width: 100%;
       }
 
@@ -321,13 +325,16 @@ html,body{
 
 
   &--fullscreen{
+    // .Video__wrapper{
+    //   mask-image: unset;
+    // }
     position: absolute;
     top: 0;
     left: 0;
     right: 0;
     bottom:0;
     margin: auto;
-    width: calc(100% - 22px);
+    width: calc(100% - 7vh);
     max-width: calc((100vh - 48px - 7vh) / (720 / 1280));
   }
 }
