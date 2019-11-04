@@ -39,11 +39,13 @@ class VideoPlayer extends React.Component {
       if (typeof window !== `undefined`) {
         window.addEventListener('scroll', this.handleInitialScrollEnd , false);
       } else {
-        this.play()
+        this.playFade()
+        // this.play()
       }
     } else {
       this.pauseFade()
       setTimeout(this.pause, 1000);
+      // this.pause()
     }
    }
   }
@@ -69,13 +71,13 @@ class VideoPlayer extends React.Component {
 
   play = () => {
     this.clearAudioFadeInterval();
-    this.props.active && this.setState({volume: 1, playing: true});
+    this.props.active && this.setState({playing: true});
     window.removeEventListener('scroll', this.handleInitialScrollEnd , false);
   }
 
   pause = () => {
     this.clearAudioFadeInterval();
-    this.setState({volume: 0, playing: false});
+    this.setState({playing: false});
   }
 
   pauseFade = () => {
@@ -84,7 +86,7 @@ class VideoPlayer extends React.Component {
     this.audioFadeInterval = setInterval(() => {
         if (this.vol < 0.1) {
             this.setState({
-              volume: 0,
+              volume: 1,
               playing: false
             });
             this.clearAudioFadeInterval();
@@ -178,7 +180,7 @@ class VideoPlayer extends React.Component {
         > 
 
         {fullscreen && (
-          <ResizeDetector handleWidth handleHeight onResize={this.handleResize} />  
+          <ResizeDetector refreshMode='throttle' handleWidth handleHeight onResize={this.handleResize} />  
         )}
         
         <div className="Video__wrapper">
@@ -195,6 +197,13 @@ class VideoPlayer extends React.Component {
             height="200%"
             playsinline
             playing={this.state.playing}
+            onBufferEnd={
+              ()=>{
+                if(!active){
+                  this.setState({playing: false})
+                }
+              }
+            }
             onProgress={({played, loaded}) => {
               const isEnded = endTime ? (played * this.state.trueDuration >= endTime) : false;
               const isBeforeStart = startTime ? played < (startTime / this.state.trueDuration) : false;

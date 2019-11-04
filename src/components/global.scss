@@ -24,6 +24,17 @@
   }
 }
 
+@mixin transition--crossfade($transition-time: 250ms){
+  transition: opacity $transition-time cubic-bezier(0, 0.75, 1, 1);
+  // transition: opacity $transition-time ease-in-out;
+
+  &:not(.isActive) { 
+    transition: opacity $transition-time cubic-bezier(0, 0, 1, 0.425);
+    opacity: 0 !important; 
+    pointer-events: none;
+  }
+}
+
 
 .Transition{
   @include transition--none();
@@ -37,6 +48,10 @@
   @include transition--fade(1000ms);
 }
 
+.Transition--crossfade{
+  @include transition--fade(250ms);
+}
+
 .visuallyhidden { 
   position: absolute; 
   overflow: hidden; 
@@ -47,7 +62,7 @@
 
 html,body{
   padding: 48px 0 0;
-  overscroll-behavior: none;
+  // overscroll-behavior: none;
 }
 
 
@@ -75,14 +90,14 @@ html,body{
   position: relative;
   // margin-top:48px;
   left:0;
-  padding: calc(50vh - 24px) 0 calc(50vh - 25px);
+  // padding: calc(50vh - 24px) 0 calc(50vh - 25px);
   pointer-events: none;
 
   &__fixedRoot{
     position: fixed; 
     top: 48px; left: 0; 
-    width: 100%; 
-    height: calc(100vh - 48px);
+    right: 0; 
+    bottom: 0;
 
   }
 

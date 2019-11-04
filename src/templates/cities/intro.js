@@ -41,17 +41,17 @@ React.memo(({progress, active, foregroundPortal, backgroundPortal, midgroundPort
         </FixedPortal>
   </React.Fragment>
 )), React.memo(({progress, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
+      <React.Fragment>
         <FixedPortal target={midgroundPortal}> 
-          <Tween totalProgress={active ? clamp(progress / 0.15, 0, 1) : 0} paused={true} from={{opacity: 0}} ease='Quint.easeIn'>
             <div 
-              className={"Panel Transition--none" + (active ? " isActive" : "")}
+              className={"Panel Transition--crossfade" + (active ? " isActive" : "")}
               style={{background: "rgb(72, 46, 40)"}}
             >
 
               <VideoPlayer
                 videoId="ofAfzauCdAU"
                 fullscreen
-                active={((progress < 0.9) && (progress > 0.3)) && active}
+                active={(progress > 0.3) && active}
               />
               <Tween totalProgress={clamp((progress - 0.1) / 0.3, 0, 1)} paused={true} to={{x: '100%'}} ease='Quint.easeInOut'>
                 <div className="Panel" style={{
@@ -85,13 +85,14 @@ React.memo(({progress, active, foregroundPortal, backgroundPortal, midgroundPort
                 </div>
               </Tween> 
             </div>
-          </Tween>
         </FixedPortal>
+        <div style={{height: "calc((100vh - 48px) * 1.42857142857)"}}></div>
+      </React.Fragment>
 )), React.memo(({progress, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
+      <React.Fragment>
         <FixedPortal target={midgroundPortal}>
-          <Tween totalProgress={active ? clamp((progress - 0.85) / 0.15, 0, 1) : 1} paused={true} to={{opacity: 0}} ease='Quint.easeIn'>
             <div 
-              className={"Panel Transition--none" + (active ? " isActive" : "")}
+              className={"Panel Transition--crossfade" + (active ? " isActive" : "")}
               style={{background: "rgb(72, 46, 40)"}}
             >
             <VideoPlayer
@@ -100,7 +101,7 @@ React.memo(({progress, active, foregroundPortal, backgroundPortal, midgroundPort
               startTime={18}
               endTime={61}
               fullscreen
-              active={((progress < 0.7) && (progress > 0.1)) && active}
+              active={(progress < 0.7) && active}
             />
               <Tween totalProgress={clamp((progress - 0.7) / 0.2, 0, 1)} paused={true} from={{x: '100%'}} ease='Quint.easeInOut'>
                 <div className="Panel" style={{
@@ -134,8 +135,9 @@ React.memo(({progress, active, foregroundPortal, backgroundPortal, midgroundPort
                 </div>
               </Tween> 
           </div>
-        </Tween>
       </FixedPortal>
+      <div style={{height: "calc((100vh - 48px) * 1.42857142857)"}}></div>
+      </React.Fragment>
 )), React.memo(({progress, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
         <FixedPortal target={midgroundPortal}>
           <div style={{

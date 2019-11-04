@@ -5,7 +5,7 @@ import ResizeDetector from 'react-resize-detector'
 import { Tween, Timeline } from 'react-gsap'
 import FixedPortal from './FixedPortal'
 import ParisBG from '../img/paris.jpg'
-import { clamp } from 'lodash'
+import { clamp, throttle } from 'lodash'
 
 class ScrollSections extends React.PureComponent {
   constructor(props, context) {
@@ -16,7 +16,6 @@ class ScrollSections extends React.PureComponent {
     this.foregroundPortalRef = React.createRef();
 
     this.state = {
-      activeSection: 0,
       // scrollTop: 0
     };
   }
@@ -28,22 +27,42 @@ class ScrollSections extends React.PureComponent {
     }
   }
 
+  getSectionOffset = (index) => {
+    let offset = 0;
+    for (let i = 0; i < index; i++) {
+      offset += this.state["sectionHeight" + i];
+    }
+    return offset;
+  }
+
   handleScroll = () => {
     const scrollTop = clamp((document.documentElement.scrollTop || document.body.scrollTop), 0, this.state.totalHeight);
-    let activeSection = 0;
-    let prevSectionHeight = 0;
+    const newState = {};
 
     for (let i = 0; i < this.props.sections.length; i++) {
-      if (scrollTop > (prevSectionHeight + this.state["sectionHeight" + i])) {
-        prevSectionHeight += this.state["sectionHeight" + i];
-        activeSection++;
+      const height = this.state["sectionHeight" + i];
+
+      if (isNaN(height)) {
+        this.handleScrollThrottled();
+        return false;
+      }
+
+      const offset = this.getSectionOffset(i);
+
+      if (scrollTop >= offset && (scrollTop - offset) <= height) {
+        newState['sectionProgress' + i] = (scrollTop - offset) / height;
+        if (!this.state['sectionActive' + i]) {
+          newState['sectionActive' + i] = true;
+        }
+      } else if (this.state['sectionActive' + i]) {
+        newState['sectionActive' + i] = false;
       }
     }
 
-    const sectionProgress = (scrollTop - prevSectionHeight) / this.state["sectionHeight" + activeSection];
-    const totalProgress = scrollTop / this.state.totalHeight;
-    this.setState({activeSection, ['sectionProgress' + activeSection]: sectionProgress, totalProgress});
-    // if (this.state.activeSection !== activeSection) this.setState({activeSection});
+    newState.totalProgress = scrollTop / this.state.totalHeight;
+
+    this.setState(newState);
+
   }
 
   handleScrollThrottled = () => {
@@ -51,11 +70,19 @@ class ScrollSections extends React.PureComponent {
       window.cancelAnimationFrame(this.scrollTimeout);
     }
     this.scrollTimeout = window.requestAnimationFrame(this.handleScroll);
-  }
+  };
+
+  // handleScrollThrottled = () => {
+  //   if (this.scrollTimeout) {
+  //     window.cancelAnimationFrame(this.scrollTimeout);
+  //   }
+  //   this.scrollTimeout = window.requestAnimationFrame(this.handleScroll);
+  // }
 
   componentWillUnmount(){
     if (typeof window !== `undefined`) {
       window.removeEventListener('scroll', this.handleScrollThrottled , {passive: true});
+      window.cancelAnimationFrame(this.scrollTimeout);
     }
   }
 
@@ -69,7 +96,7 @@ class ScrollSections extends React.PureComponent {
     return (
       <div className={"ScrollSections" + (className ? ` ${className}` : "")}>
 
-        <ResizeDetector handleHeight onResize={(width, height) => {
+        <ResizeDetector refreshMode='debounce' handleHeight onResize={(width, height) => {
           this.setState({ totalHeight: height })
         }} />
 
@@ -88,18 +115,8 @@ class ScrollSections extends React.PureComponent {
                 }}></div>
           </Tween>
 
-          <ResizeDetector handleHeight onResize={(width, height) => {
-            const newState = {visibleHeight: height};
-            if (sections) {
-              for (var i = sections.length - 1; i >= 0; i--) {
-                if (!this.state["sectionHeight" + i] 
-                  || this.state["sectionHeight" + i] == this.state.visibleHeight
-                ) {
-                  newState["sectionHeight" + i] = height;
-                }
-              }
-            }
-            this.setState(newState);
+          <ResizeDetector refreshMode='debounce' handleHeight onResize={(width, height) => {
+            this.setState({visibleHeight: height});
           }} /> 
         </div>
 
@@ -108,13 +125,17 @@ class ScrollSections extends React.PureComponent {
         
           {sections &&
             sections.map((Sect, index) => {
-                    const active = this.state.activeSection === index;
-                    const heightDiff = this.state["sectionHeight" + index] && this.state.visibleHeight 
+                    const active = this.state["sectionActive" + index];
+                    const heightDiff = this.state["sectionHeight" + index] && this.state.visibleHeight
                       ? (this.state["sectionHeight" + index] - this.state.visibleHeight) / 2
                       : 0;
                     return (
                       <section className={
-                        "ScrollSection ScrollSection--" + index + (active ? " isActive" : "")}>
+                          "ScrollSection ScrollSection--" + index + (active ? " isActive" : "")
+                        } style = {{
+                          ...(this.state.visibleHeight ? {minHeight: this.state.visibleHeight} : {})
+                        }}
+                      >
                         <Sect 
                           progress={this.state["sectionProgress" + index]} 
                           active={active} 
@@ -125,7 +146,7 @@ class ScrollSections extends React.PureComponent {
                         {heightDiff ? (<Tween totalProgress={this.state["sectionProgress" + index]} paused={true} ease="linear" position="0" from={{y: -heightDiff}} to={{y: heightDiff}}>
                             <div className="ScrollSection__timeIndicator"></div>
                           </Tween>) : <div className="ScrollSection__timeIndicator"></div>}
-                        <ResizeDetector handleHeight onResize={(width, height) => {
+                        <ResizeDetector refreshMode='debounce' handleHeight onResize={(width, height) => {
                           if (this.state["sectionHeight" + index] !== height) {
                             this.setState({ ["sectionHeight" + index]: height })
                           }
