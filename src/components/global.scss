@@ -60,9 +60,8 @@
   margin: -1px; padding: 0; border: 0; 
 }
 
-html,body{
+body {
   padding: 48px 0 0;
-  // overscroll-behavior: none;
 }
 
 
@@ -84,13 +83,19 @@ html,body{
   left: 0;
   bottom: 0;
   right: 0;
+
+  &--centered{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 }
 
 .ScrollSections {
   position: relative;
   // margin-top:48px;
   left:0;
-  // padding: calc(50vh - 24px) 0 calc(50vh - 25px);
+  padding: calc(50vh - 24px) 0 calc(50vh - 25px);
   pointer-events: none;
 
   &__fixedRoot{
@@ -354,3 +359,62 @@ html,body{
   }
 }
 
+.openingQuote{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #111;
+  margin: 2rem;
+}
+
+.openingQuote .quote q{
+  max-width: 22em;
+  display: block;
+  font-size: calc(14px + 1.25vw);
+  line-height: 1.65;
+  margin: 0 0 1em;
+  text-align: center;
+
+  font-family: 'IM Fell Double Pica',serif;
+  text-rendering: optimizeLegibility;
+}
+
+.quote figcaption{
+  text-align: center;
+  transform: rotate(-3deg);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.quote figcaption img{
+  border-radius: 50%;
+  width: 5rem;
+  margin: 0;
+}
+
+.bigborder{
+  position: absolute; top:30px; left:30px; bottom:30px; right:30px;
+  pointer-events: none;
+  border-image: url('../img/border1.svg');
+  border-style: solid;
+  border-image-width: 80px;
+  border-image-slice: 15% 15% fill;
+  border-image-repeat: stretch;
+}
+
+
+// .Animation--curtains{
+//   @include transition--fade();
+//   .Animation--curtain-left, .Animation--curtain-right{
+//     transition: transform 1000ms ease-in-out;
+//   }
+//   &.isActive{
+//     .Animation--curtain-left{
+//       transform: translateX(-100%);
+//     }
+//     .Animation--curtain-right{
+//       transform: translateX(100%);
+//     }
+//   }
+// }

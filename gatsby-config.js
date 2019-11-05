@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = {
   siteMetadata: {
     title: 'Gatsby + Netlify CMS Starter',
@@ -13,6 +15,27 @@ module.exports = {
       options: {
         path: `${__dirname}/static/img`,
         name: 'uploads',
+      },
+    },
+    {
+      resolve: `gatsby-plugin-alias-imports`,
+      options: {
+        alias: {
+          'TweenLite': path.resolve('node_modules', 'gsap/src/minified/TweenLite.min.js'),
+          'TweenMax': path.resolve('node_modules', 'gsap/src/minified/TweenMax.min.js'),
+          'TimelineLite': path.resolve('node_modules', 'gsap/src/minified/TimelineLite.min.js'),
+          'TimelineMax': path.resolve('node_modules', 'gsap/src/minified/TimelineMax.min.js'),
+          'ScrollMagic': path.resolve('node_modules', 'scrollmagic/scrollmagic/minified/ScrollMagic.min.js'),
+          'animation.gsap': path.resolve('node_modules', 'scrollmagic/scrollmagic/minified/plugins/animation.gsap.min.js'),
+          'debug.addIndicators': path.resolve('node_modules', 'scrollmagic/scrollmagic/minified/plugins/debug.addIndicators.min.js')
+        },
+        extensions: []
+      }
+    },
+    {
+      resolve: `gatsby-plugin-typography`,
+      options: {
+        pathToConfigModule: `${__dirname}/src/utils/typography`,
       },
     },
     {
@@ -60,18 +83,11 @@ module.exports = {
       },
     },
     {
-      resolve: `gatsby-plugin-typography`,
-      options: {
-        pathToConfigModule: `${__dirname}/src/utils/typography`,
-      },
-    },
-    {
       resolve: 'gatsby-plugin-netlify-cms',
       options: {
         modulePath: `${__dirname}/src/cms/cms.js`,
-        stylesPath: `${__dirname}/src/components/global.scss`
+      },
     },
-    }, // must be after other CSS plugins
     'gatsby-plugin-netlify', // make sure to keep it last in the array
   ],
 }

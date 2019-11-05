@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import YouTubePlayer from 'react-player/lib/players/YouTube'
 import { Slider, FormattedTime, PlayerIcon } from 'react-player-controls'
-import { debounce, clamp } from 'lodash'
+import { throttle, clamp } from 'lodash'
 import ResizeDetector from 'react-resize-detector'
 
 
@@ -29,7 +29,7 @@ class VideoPlayer extends React.Component {
 
   }
 
-  handleInitialScrollEnd = debounce(() => this.play(), 200)
+  handleInitialScrollEnd = throttle(() => this.play(), 200)
 
   componentDidUpdate(nextProps) {
    const { active } = this.props
