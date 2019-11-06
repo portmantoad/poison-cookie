@@ -26,7 +26,11 @@ class ScrollSections extends React.PureComponent {
     };
 
     this.registeredAnimations = [];
-    this.controller = new ScrollMagic.Controller();
+    if (typeof window !== `undefined`) {
+      this.controller = new ScrollMagic.Controller();
+    } else {
+      this.controller = {};
+    }
   }
 
   UNSAFE_componentWillMount() {
