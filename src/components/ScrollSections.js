@@ -112,37 +112,36 @@ class ScrollSections extends React.PureComponent {
   }
 
   mountAnimation = ({key, sectionIndex, tween, classToggle, persist, start, end}) => {
+    if (typeof window !== `undefined`) {
+      let animationSpan = persist && persist >= 1 
+      ? this.getAnimationSpan(sectionIndex, persist)
+      : this.sectionHeights[sectionIndex];
 
-    console.log('key: ' + key + ", mounted: " + this.mounted)
+      document.querySelector(key)
 
-    let animationSpan = persist && persist >= 1 
-    ? this.getAnimationSpan(sectionIndex, persist)
-    : this.sectionHeights[sectionIndex];
+      if (!animationSpan || !this.mounted || !document.querySelector(key)) {
+        setTimeout(() => this.updateAnimation(key),100);
+        return
+      }
 
-    document.querySelector(key)
+      const scene = new ScrollMagic.Scene({
+        triggerElement: ".ScrollSection--" + sectionIndex,
+        duration: animationSpan * (end - start),
+        offset: animationSpan * start,
+      })
 
-    if (!animationSpan || !this.mounted || !document.querySelector(key)) {
-      setTimeout(() => this.updateAnimation(key),100);
-      return
+      // console.log(key)
+
+      if (tween) {
+        scene.setTween(tween())
+      }
+
+      if (classToggle) {
+        scene.setClassToggle(classToggle[0], classToggle[1])
+      }
+      
+      return scene.addTo(this.controller);
     }
-
-    const scene = new ScrollMagic.Scene({
-      triggerElement: ".ScrollSection--" + sectionIndex,
-      duration: animationSpan * (end - start),
-      offset: animationSpan * start,
-    })
-
-    // console.log(key)
-
-    if (tween) {
-      scene.setTween(tween())
-    }
-
-    if (classToggle) {
-      scene.setClassToggle(classToggle[0], classToggle[1])
-    }
-    
-    return scene.addTo(this.controller);
   }
 
   updateAnimation = (key, newProps = {}) => {
