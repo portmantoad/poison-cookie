@@ -30,6 +30,7 @@ React.memo(
                 backgroundSize: "cover",
                 backgroundPosition: "right 25%",
                 right: "calc(15% - 50px)",
+                height: "auto",
                 bottom: "-20%"
               }}/>
               <img src={`${withPrefix('/')}img/cookietitle.png`} alt="The Poison Cookie Jar" style={{

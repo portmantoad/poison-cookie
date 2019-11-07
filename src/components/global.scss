@@ -35,6 +35,14 @@
   }
 }
 
+@mixin fixedToVisible(){
+  position: fixed;
+  top: 48px;
+  left:0;
+  right:0;
+  height: calc(100vh - 48px);
+}
+
 
 .Transition{
   @include transition--none();
@@ -78,11 +86,7 @@ body {
 }
 
 .Panel{
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
+  @include fixedToVisible();
 
   &--centered{
     display: flex;
@@ -99,19 +103,13 @@ body {
   pointer-events: none;
 
   &__fixedRoot{
-    position: fixed; 
-    top: 48px; left: 0; 
-    right: 0; 
-    bottom: 0;
+    @include fixedToVisible();
     // height: calc(100vh - 48px);
   }
 
   &__background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 110%;
+    @include fixedToVisible();
+    bottom: -10%;
     background-size: cover;
 
     // &:before, 
@@ -147,10 +145,7 @@ body {
 
   &__timeIndicator{
     @include transition--fade;
-    position: absolute;
-    top:0;
-    left:0;
-    bottom: 0;
+    @include fixedToVisible();
     // z-index: 100;
 
     &:after{
@@ -349,11 +344,7 @@ body {
     // .Video__wrapper{
     //   mask-image: unset;
     // }
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom:0;
+    @include fixedToVisible();
     margin: auto;
     width: calc(100% - 7vh);
     max-width: calc((100vh - 48px - 7vh) / (720 / 1280));
