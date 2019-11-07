@@ -109,7 +109,6 @@ body {
 
   &__background {
     @include fixedToVisible();
-    bottom: -10%;
     background-size: cover;
 
     // &:before, 
@@ -393,6 +392,10 @@ body {
   border-image-width: 80px;
   border-image-slice: 15% 15% fill;
   border-image-repeat: stretch;
+
+  @media screen and (max-width: 550px) {
+    display: none;
+  }
 }
 
 

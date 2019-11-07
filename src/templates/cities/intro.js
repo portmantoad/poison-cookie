@@ -15,6 +15,13 @@ React.memo(
 
     useEffect(() => {
       registerAnimation({
+        key: ".ScrollSections__background",
+        sectionIndex: 0, 
+        tween: () => TweenMax.to(".ScrollSections__background", 1, {y: '-' + (20 / ((20 + 100)/100)) + '%', ease: "Linear.easeNone"}),
+        persist: 'all', 
+      });
+
+      registerAnimation({
         key: ".Animation--titlescreen",
         sectionIndex: sectionIndex, 
         tween:() => TweenMax.to(".Animation--titlescreen", 1, {y: '-' + (20 / ((20 + 100)/100)) + '%', opacity: 0}), 
@@ -23,15 +30,24 @@ React.memo(
 
     return (
     <React.Fragment>
+            <FixedPortal target={backgroundPortal}>
+              <div 
+               className="ScrollSections__background"
+               style={{
+                 backgroundImage: "url(" + `${withPrefix('/')}img/paris.jpg` + ")",
+                 // height: (20 + 100) + "%"
+                 height: "120%"
+               }}></div>
+            </FixedPortal>
             <FixedPortal target={midgroundPortal}>
             <div className={"Panel Transition--slow-fade" + (active ? " isActive" : "")}>
-              <div className={"Panel Animation--titlescreen"} style={{
-                background: "url(" + `${withPrefix('/')}img/cover.png` + ")",
-                backgroundSize: "cover",
-                backgroundPosition: "right 25%",
-                right: "calc(15% - 50px)",
+            <img src={`${withPrefix('/')}img/cover.png`} alt="" className={"Animation--titlescreen"} style={{
+                objectFit: "cover",
+                objectPosition: "right 25%",
+                // right: "calc(15% - 50px)",
+                width: "calc(85% + 50px)",
                 height: "auto",
-                bottom: "-20%"
+                minHeight: "120%"
               }}/>
               <img src={`${withPrefix('/')}img/cookietitle.png`} alt="The Poison Cookie Jar" style={{
                 position: "absolute", 
@@ -181,22 +197,15 @@ React.memo(
           </div>
         </FixedPortal>
 )), React.memo(({registerAnimation, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal, progress}) => (
-        <FixedPortal target={midgroundPortal}>
             <CanvasBlend 
               use="multiply" 
               active={active}
               className={"Transition--slow-fade" + (active ? " isActive" : "")}
               style={{
-                position: "absolute", 
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%, -50%)",
-                maxWidth: "100%", 
-                maxHeight: "100%"
+                maxWidth: "100%"
               }}>
               <img src={`${withPrefix('/')}img/parisCanal.jpg`} alt="" />
             </CanvasBlend>
-        </FixedPortal>
 )), React.memo(({registerAnimation, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal, progress}) => (
         <FixedPortal target={midgroundPortal}>
           <div style={{

@@ -2,8 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import VideoPlayer from './VideoPlayer'
 import FixedPortal from './FixedPortal'
-import ParisBG from '../img/paris.jpg'
-import { clamp, throttle, isEqual } from 'lodash'
+import { throttle } from 'lodash'
 
 import TweenMax from 'TweenMax';
 import ScrollMagic from 'ScrollMagic';
@@ -66,13 +65,6 @@ class ScrollSections extends React.PureComponent {
 
     this.resizeObserver.observe(this.wrapperElement)
 
-    this.registerAnimation({
-      key: ".ScrollSections__background",
-      sectionIndex: 0, 
-      tween: () => TweenMax.to(".ScrollSections__background", 1, {y: '-' + (20 / ((20 + 100)/100)) + '%', ease: "Linear.easeNone"}),
-      persist: this.props.sections.length - 1, 
-    });
-
     for (let i = this.props.sections.length - 1; i >= 0; i--) {
       
       this.registerAnimation({
@@ -97,12 +89,12 @@ class ScrollSections extends React.PureComponent {
   registerAnimation = (props) => {
     const anim = this.registeredAnimations.find(anim => { return anim.key === props.key});
     if (anim) {
-      // console.log("reregister: " + props.key)
       this.updateAnimation(props.key, props);
       return
     }
 
     if (!props.persist) props.persist = 0;
+    if (props.persist === 'all') props.persist = this.props.sections.length - 1 - props.sectionIndex;
     if (!props.start) props.start = 0;
     if (!props.end) props.end = 1;
     this.registeredAnimations.push({
@@ -113,6 +105,7 @@ class ScrollSections extends React.PureComponent {
 
   mountAnimation = ({key, sectionIndex, tween, classToggle, persist, start, end}) => {
     if (typeof window !== `undefined`) {
+
       let animationSpan = persist && persist >= 1 
       ? this.getAnimationSpan(sectionIndex, persist)
       : this.sectionHeights[sectionIndex];
@@ -211,6 +204,7 @@ class ScrollSections extends React.PureComponent {
   handleResize = () => {
     this.updateSectionHeights();
     this.updateAllAnimations();
+    this.handleScroll();
   }
 
   handleResizeThrottled = throttle(() => {
@@ -280,8 +274,7 @@ class ScrollSections extends React.PureComponent {
   render() {
     const {
       className,
-      sections,
-      background = ParisBG
+      sections
     } = this.props;
 
     return (
@@ -291,26 +284,7 @@ class ScrollSections extends React.PureComponent {
         ref={el => this.wrapperElement = el}
       >
 
-        {/*<ResizeDetector refreshMode='debounce' handleHeight onResize={(width, height) => {
-          this.setState({ totalHeight: height })
-          this.handleResizeThrottled();
-        }} />*/}
-
-       <div className="ScrollSections__fixedRoot ScrollSections__fixedRoot--background" 
-        ref={this.backgroundPortalRef}
-        >
-         <div 
-           className="ScrollSections__background"
-           style={{
-             backgroundImage: "url(" + background + ")",
-             height: (20 + 100) + "%"
-           }}></div>
-
-          {/*<ResizeDetector refreshMode='debounce' handleHeight onResize={(width, height) => {
-            this.setState({visibleHeight: height});
-            this.handleResizeThrottled();
-          }} /> */}
-        </div>
+       <div className="ScrollSections__fixedRoot ScrollSections__fixedRoot--background" ref={this.backgroundPortalRef} />
 
         <div className="ScrollSections__fixedRoot ScrollSections__fixedRoot--midground" ref={this.midgroundPortalRef} />
 
@@ -335,31 +309,9 @@ class ScrollSections extends React.PureComponent {
                           backgroundPortal={this.backgroundPortalRef.current} 
                           midgroundPortal={this.midgroundPortalRef.current} 
                         />
-                        <FixedPortal target={this.foregroundPortalRef.current}><div className={"ScrollSection__timeIndicator ScrollSection__timeIndicator--" + index + (active ? " isActive" : "")}></div></FixedPortal>
-                        {/*<ResizeDetector refreshMode='debounce' handleHeight onResize={(width, height) => {
-                          if (this.state["sectionHeight" + index] !== height) {
-                            this.setState({ ["sectionHeight" + index]: height }, ()=>{
-
-                              const heightDiff = this.state.visibleHeight
-                              ? (height - this.state.visibleHeight) / 2
-                              : 0;
-
-                              if (heightDiff) {
-                                // console.log("registerAnimation")
-                                this.registerAnimation({
-                                  key: ".ScrollSection__timeIndicator--" + index,
-                                  sectionIndex: index, 
-                                  tween: () => TweenMax.fromTo(".ScrollSection--" + index + " .ScrollSection__timeIndicator", 1, {y: -heightDiff}, {y: heightDiff, ease: "Linear.easeNone"}), 
-                                  // classToggle, 
-                                  // persist: 0, 
-                                  // start = 0, 
-                                  // end = 1
-                                });
-                              }
-                            });
-                            this.handleResizeThrottled();
-                          }
-                        }} />*/}
+                        <FixedPortal target={this.foregroundPortalRef.current}>
+                          <div className={"ScrollSection__timeIndicator ScrollSection__timeIndicator--" + index + (active ? " isActive" : "")}></div>
+                        </FixedPortal>
                       </section>
                   )})
           }
