@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import VideoPlayer from './VideoPlayer'
-import ResizeDetector from 'react-resize-detector'
 import FixedPortal from './FixedPortal'
 import ParisBG from '../img/paris.jpg'
 import { clamp, throttle, isEqual } from 'lodash'
@@ -10,6 +9,8 @@ import TweenMax from 'TweenMax';
 import ScrollMagic from 'ScrollMagic';
 import 'animation.gsap';
 import 'debug.addIndicators';
+
+import ResizeObserver from 'resize-observer-polyfill';
 
 
 class ScrollSections extends React.PureComponent {
@@ -20,8 +21,15 @@ class ScrollSections extends React.PureComponent {
     this.midgroundPortalRef = React.createRef();
     this.foregroundPortalRef = React.createRef();
 
+    this.sectionRefs = [];
+    this.sectionHeights = [];
+    this.sectionOffsets = [];
+
+    this.resizeObserver = new ResizeObserver(() => {
+      this.handleResizeThrottled()
+    });
+
     this.state = {
-      // scrollTop: 0
       sectionActive0: true
     };
 
@@ -31,32 +39,54 @@ class ScrollSections extends React.PureComponent {
     } else {
       this.controller = {};
     }
+
+    this.mounted = false;
   }
 
-  UNSAFE_componentWillMount() {
+  updateSectionHeights = () => {
+    for (var i = 0; i <= this.sectionRefs.length - 1; i++) {
+      const rect = this.sectionRefs[i].getBoundingClientRect();
+      const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+      this.sectionHeights[i] = rect.height;
+      this.sectionOffsets[i] = rect.top + scrollTop;
+
+      this.visibleHeight = this.backgroundPortalRef.current.getBoundingClientRect().height;
+
+    }
+  }
+
+  componentDidMount() {
+    this.updateSectionHeights();
+    this.mounted = true; 
+
     if (typeof window !== `undefined`) {
-      this.handleScrollThrottled();
+      this.handleScroll();
       window.addEventListener('scroll', this.handleScrollThrottled , {passive: true});
     }
 
+    this.resizeObserver.observe(this.wrapperElement)
+
     this.registerAnimation({
-      key: "bgAnim",
-      // elementSelector: ".ScrollSections__background", 
+      key: ".ScrollSections__background",
       sectionIndex: 0, 
-      // fromState: {y: '0%'}, 
-      // toState: {y: '-' + (20 / ((20 + 100)/100)) + '%', ease: "Linear.easeNone"}, 
       tween: () => TweenMax.to(".ScrollSections__background", 1, {y: '-' + (20 / ((20 + 100)/100)) + '%', ease: "Linear.easeNone"}),
-      // classToggle, 
       persist: this.props.sections.length - 1, 
-      // start = 0, 
-      // end = 1
     });
+
+    for (let i = this.props.sections.length - 1; i >= 0; i--) {
+      
+      this.registerAnimation({
+        key: ".ScrollSection__timeIndicator--" + i,
+        sectionIndex: i, 
+        tween: () => TweenMax.fromTo(".ScrollSection__timeIndicator--" + i, 1, {y: '-50%'}, {y: '50%', ease: "Linear.easeNone"}),
+      });
+    }
   }
 
   getAnimationSpan = (sectionIndex, persist) => {
     let span = 0
     for (let i = sectionIndex; i <= (sectionIndex + persist); i++) {
-      span += this.state["sectionHeight" + i];
+      span += this.sectionHeights[i];
     }
     if (isNaN(span)) {
       return undefined
@@ -67,37 +97,42 @@ class ScrollSections extends React.PureComponent {
   registerAnimation = (props) => {
     const anim = this.registeredAnimations.find(anim => { return anim.key === props.key});
     if (anim) {
-      for (const prop of Object.keys(props)) {
-        if (!isEqual(prop.prop, anim.prop)) {
-          anim.prop = props.prop
-        }
-      }
-      this.updateAnimation(anim.key);
+      // console.log("reregister: " + props.key)
+      this.updateAnimation(props.key, props);
       return
     }
+
+    if (!props.persist) props.persist = 0;
+    if (!props.start) props.start = 0;
+    if (!props.end) props.end = 1;
     this.registeredAnimations.push({
       ...props,
       currentAnimation: this.mountAnimation(props)
     })
   }
 
-  mountAnimation = ({key, sectionIndex, tween, classToggle, persist = 0, start = 0, end = 1}) => {
+  mountAnimation = ({key, sectionIndex, tween, classToggle, persist, start, end}) => {
+
+    console.log('key: ' + key + ", mounted: " + this.mounted)
+
     let animationSpan = persist && persist >= 1 
     ? this.getAnimationSpan(sectionIndex, persist)
-    : this.state['sectionHeight' + sectionIndex];
+    : this.sectionHeights[sectionIndex];
 
-    if (!animationSpan) {
+    document.querySelector(key)
+
+    if (!animationSpan || !this.mounted || !document.querySelector(key)) {
       setTimeout(() => this.updateAnimation(key),100);
       return
     }
-
-    animationSpan = animationSpan;
 
     const scene = new ScrollMagic.Scene({
       triggerElement: ".ScrollSection--" + sectionIndex,
       duration: animationSpan * (end - start),
       offset: animationSpan * start,
     })
+
+    // console.log(key)
 
     if (tween) {
       scene.setTween(tween())
@@ -110,22 +145,34 @@ class ScrollSections extends React.PureComponent {
     return scene.addTo(this.controller);
   }
 
-  updateAnimation = (key) => {
-    if (key === 'bgAnim') console.log("updateAnimation: " + key);
+  updateAnimation = (key, newProps = {}) => {
     const anim = this.registeredAnimations.find(a => { return a.key === key});
 
     if (!anim) { return }
 
-    const {sectionIndex, tween, classToggle, persist, start, end, currentAnimation} = anim;
+    let {sectionIndex, tween, classToggle, persist, start, end} = newProps;
+    const currentAnimation = anim.currentAnimation;
+    const tweenHasChanged = !!tween;
+    const classToggleHasChanged = !!classToggle
 
+    anim.sectionIndex = sectionIndex = sectionIndex || anim.sectionIndex;
+    anim.tween = tween = tween || anim.tween;
+    anim.classToggle = classToggle = classToggle || anim.classToggle;
+    anim.persist = persist = persist || anim.persist;
+    anim.start = start = start || anim.start;
+    anim.end = end = end || anim.end;
+    
     if (!currentAnimation) {
       anim.currentAnimation = this.mountAnimation(anim);
       return
     }
 
+    // console.log('update:' + key)
+
     const animationSpan = persist && persist >= 1 
     ? this.getAnimationSpan(sectionIndex, persist)
-    : this.state['sectionHeight' + sectionIndex];
+    : this.sectionHeights[sectionIndex];
+
 
     const newTrigger = ".ScrollSection--" + sectionIndex;
     if (newTrigger !== currentAnimation.triggerElement()) {
@@ -143,24 +190,28 @@ class ScrollSections extends React.PureComponent {
       currentAnimation.offset(newOffset);
     }
 
-    // if (tween) {
-    //   currentAnimation.setTween(tween())
-    // }
+    if (tweenHasChanged) {
+      currentAnimation.setTween(tween())
+    }
 
-    // if (classToggle) {
-    //   currentAnimation.setClassToggle(classToggle[0], classToggle[1])
-    // }
+    if (classToggleHasChanged) {
+      currentAnimation.setClassToggle(classToggle[0], classToggle[1])
+    }
     
     return currentAnimation;
 
   }
 
-
-  handleResize = () => {
-    // console.log(this.registeredAnimations);
+  updateAllAnimations = () => {
     for (const anim of this.registeredAnimations) {
       this.updateAnimation(anim.key);
     }
+  }
+
+
+  handleResize = () => {
+    this.updateSectionHeights();
+    this.updateAllAnimations();
   }
 
   handleResizeThrottled = throttle(() => {
@@ -168,38 +219,34 @@ class ScrollSections extends React.PureComponent {
       window.cancelAnimationFrame(this.resizeTimeout);
     }
     this.resizeTimeout = window.requestAnimationFrame(this.handleResize);
-  }, 100).bind(this);
-
-  getSectionOffset = (index) => {
-    let offset = 0;
-    for (let i = 0; i < index; i++) {
-      offset += this.state["sectionHeight" + i];
-    }
-    return offset;
-  }
+  }, 100);
 
   handleScroll = () => {
-    if (isNaN(this.state.totalHeight) || isNaN(this.state.visibleHeight)) {
+    if (isNaN(this.visibleHeight)) {
       this.handleScrollThrottled();
       return false;
     }
 
-    const scrollTop = clamp((document.documentElement.scrollTop || document.body.scrollTop), 0, this.state.totalHeight);
+    const scrollTop = Math.max(window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0, 0);
     // const topPad = this.state.visibleHeight / 2;
     const newState = {};
 
     for (let i = 0; i < this.props.sections.length; i++) {
-      const height = this.state["sectionHeight" + i];
+      const height = this.sectionHeights[i];
 
       if (isNaN(height)) {
         this.handleScrollThrottled();
         return false;
       }
 
-      const offset = this.getSectionOffset(i);
+      const offset = this.sectionOffsets[i];
+      const topPad = this.visibleHeight/2 + 48;
 
-      if (scrollTop >= offset && (scrollTop - offset) <= height) {
-        newState['sectionProgress' + i] = (scrollTop - offset) / height;
+      if (
+        scrollTop >= offset - topPad
+        && ((scrollTop - (offset - topPad)) <= height || i === this.props.sections.length - 1)
+      ) {
+        newState['sectionProgress' + i] = (scrollTop - (offset - topPad)) / height;
         if (!this.state['sectionActive' + i]) {
           newState['sectionActive' + i] = true;
         }
@@ -219,13 +266,16 @@ class ScrollSections extends React.PureComponent {
       window.cancelAnimationFrame(this.scrollTimeout);
     }
     this.scrollTimeout = window.requestAnimationFrame(this.handleScroll);
-  }, 100);
+  }, 50);
 
   componentWillUnmount(){
+    this.mounted = false;
     if (typeof window !== `undefined`) {
       window.removeEventListener('scroll', this.handleScrollThrottled , {passive: true});
       window.cancelAnimationFrame(this.scrollTimeout);
+      window.cancelAnimationFrame(this.resizeTimeout);
     }
+    this.ResizeObserver.disconnect();
   }
 
   render() {
@@ -238,15 +288,18 @@ class ScrollSections extends React.PureComponent {
     return (
       <div 
         className={"ScrollSections" + (className ? ` ${className}` : "")}
-        style={{padding: (this.state.visibleHeight/2) + "px 0 " + (this.state.visibleHeight/2 - 1) + "px"}}
+        // style={{padding: (this.state.visibleHeight/2) + "px 0 " + (this.state.visibleHeight/2 - 1) + "px"}}
+        ref={el => this.wrapperElement = el}
       >
 
-        <ResizeDetector refreshMode='debounce' handleHeight onResize={(width, height) => {
+        {/*<ResizeDetector refreshMode='debounce' handleHeight onResize={(width, height) => {
           this.setState({ totalHeight: height })
           this.handleResizeThrottled();
-        }} />
+        }} />*/}
 
-       <div className="ScrollSections__fixedRoot ScrollSections__fixedRoot--background" ref={this.backgroundPortalRef}>
+       <div className="ScrollSections__fixedRoot ScrollSections__fixedRoot--background" 
+        ref={this.backgroundPortalRef}
+        >
          <div 
            className="ScrollSections__background"
            style={{
@@ -254,10 +307,10 @@ class ScrollSections extends React.PureComponent {
              height: (20 + 100) + "%"
            }}></div>
 
-          <ResizeDetector refreshMode='debounce' handleHeight onResize={(width, height) => {
+          {/*<ResizeDetector refreshMode='debounce' handleHeight onResize={(width, height) => {
             this.setState({visibleHeight: height});
             this.handleResizeThrottled();
-          }} /> 
+          }} /> */}
         </div>
 
         <div className="ScrollSections__fixedRoot ScrollSections__fixedRoot--midground" ref={this.midgroundPortalRef} />
@@ -268,11 +321,11 @@ class ScrollSections extends React.PureComponent {
                     return (
                       <section 
                         key={"ScrollSection--" + index}
+                        ref={el => this.sectionRefs[index] = el}
                         className={
                           "ScrollSection ScrollSection--" + index + (active ? " isActive" : "")
-                        } style = {{
-                          ...(this.state.visibleHeight ? {minHeight: this.state.visibleHeight} : {})
-                        }}
+                        } 
+                        // style = {{...(this.state.visibleHeight ? {minHeight: this.state.visibleHeight} : {})}}
                       >
                         <Sect 
                           progress={this.state["sectionProgress" + index]} 
@@ -283,9 +336,8 @@ class ScrollSections extends React.PureComponent {
                           backgroundPortal={this.backgroundPortalRef.current} 
                           midgroundPortal={this.midgroundPortalRef.current} 
                         />
-                        <div className="ScrollSection__timeIndicator"></div>
-
-                        <ResizeDetector refreshMode='debounce' handleHeight onResize={(width, height) => {
+                        <FixedPortal target={this.foregroundPortalRef.current}><div className={"ScrollSection__timeIndicator ScrollSection__timeIndicator--" + index + (active ? " isActive" : "")}></div></FixedPortal>
+                        {/*<ResizeDetector refreshMode='debounce' handleHeight onResize={(width, height) => {
                           if (this.state["sectionHeight" + index] !== height) {
                             this.setState({ ["sectionHeight" + index]: height }, ()=>{
 
@@ -308,7 +360,7 @@ class ScrollSections extends React.PureComponent {
                             });
                             this.handleResizeThrottled();
                           }
-                        }} />
+                        }} />*/}
                       </section>
                   )})
           }

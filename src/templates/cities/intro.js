@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import VideoPlayer from '../../components/VideoPlayer'
 import FixedPortal from '../../components/FixedPortal'
 import CanvasBlend from '../../components/CanvasBlend'
@@ -13,16 +13,13 @@ export default [
 React.memo(
   ({registerAnimation, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal, progress}) => {
 
-    // console.log(registerAnimation);
-    registerAnimation({
-      key: "Animation--titlescreen" + sectionIndex,
-      sectionIndex: sectionIndex, 
-      tween:() => TweenMax.to(".Animation--titlescreen", 1, {y: '-' + (20 / ((20 + 100)/100)) + '%', opacity: 0}), 
-      // classToggle, 
-      // persist: 0, 
-      // start = 0, 
-      // end = 1
-    });
+    useEffect(() => {
+      registerAnimation({
+        key: ".Animation--titlescreen",
+        sectionIndex: sectionIndex, 
+        tween:() => TweenMax.to(".Animation--titlescreen", 1, {y: '-' + (20 / ((20 + 100)/100)) + '%', opacity: 0}), 
+      });
+    }, []);
 
     return (
     <React.Fragment>
@@ -51,39 +48,46 @@ React.memo(
 
 React.memo(
   ({registerAnimation, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal, progress}) => {
-    registerAnimation({
-      key: "Animation--curtains-scrim" + sectionIndex,
-      sectionIndex: sectionIndex, 
-      classToggle: ['.Animation--curtains-scrim', 'isActive'], 
-      persist: 1, 
-    });
+      
+    useEffect(() => {
+      registerAnimation({
+        key: ".Animation--curtains-scrim",
+        sectionIndex: sectionIndex, 
+        classToggle: ['.Animation--curtains-scrim', 'isActive'], 
+        persist: 1, 
+      });
 
-    registerAnimation({
-      key: "Animation--curtains" + sectionIndex,
-      sectionIndex: sectionIndex, 
-      classToggle: ['.Animation--curtains', 'isActive'], 
-      persist: 1, 
-    });
+      registerAnimation({
+        key: ".Animation--curtains",
+        sectionIndex: sectionIndex, 
+        classToggle: ['.Animation--curtains', 'isActive'], 
+        persist: 1, 
+      });
 
-    registerAnimation({
-      key: "Animation--curtain-right" + sectionIndex,
-      sectionIndex: sectionIndex, 
-      tween: () => new TimelineMax()
-        .to(".Animation--curtain-right", 1, {x: '100%'})
-        .to(".Animation--curtain-right", 2, {x: '100%'})
-        .to(".Animation--curtain-right", 1, {x: '0%'}),
-      persist: 1
-    });
+      registerAnimation({
+        key: ".Animation--curtain-right",
+        sectionIndex: sectionIndex, 
+        tween: () => new TimelineMax()
+          .to(".Animation--curtain-right", .3, {x: '0%'})
+          .to(".Animation--curtain-right", .7, {x: '100%'})
+          .to(".Animation--curtain-right", 2, {x: '100%'})
+          .to(".Animation--curtain-right", .7, {x: '0%'})
+          .to(".Animation--curtain-right", .3, {x: '0%'}),
+        persist: 1
+      });
 
-    registerAnimation({
-      key: "Animation--curtain-left" + sectionIndex,
-      sectionIndex: sectionIndex, 
-      tween: () => new TimelineMax()
-        .to(".Animation--curtain-left", 1, {x: '-100%'})
-        .to(".Animation--curtain-left", 2, {x: '-100%'})
-        .to(".Animation--curtain-left", 1, {x: '0%'}), 
-      persist: 1
-    });
+      registerAnimation({
+        key: ".Animation--curtain-left",
+        sectionIndex: sectionIndex, 
+        tween: () => new TimelineMax()
+          .to(".Animation--curtain-left", .3, {x: '0%'})
+          .to(".Animation--curtain-left", .7, {x: '-100%'})
+          .to(".Animation--curtain-left", 2, {x: '-100%'})
+          .to(".Animation--curtain-left", .7, {x: '0%'})
+          .to(".Animation--curtain-left", .3, {x: '0%'}),
+        persist: 1
+      });
+    }, []);
 
     return(
       <React.Fragment>

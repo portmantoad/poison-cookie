@@ -146,6 +146,7 @@ body {
   pointer-events: none;
 
   &__timeIndicator{
+    @include transition--fade;
     position: absolute;
     top:0;
     left:0;
@@ -162,8 +163,8 @@ body {
       left:2px;
       border-radius: 5px;
       background-color: #be553d;
-      // background-clip: padding-box;
-      // border:1px solid rgba(0,0,0,0.3);
+      background-clip: content-box;
+      border:1px solid rgba(0,0,0,0.3);
     }
   }
 }
