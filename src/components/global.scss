@@ -37,10 +37,10 @@
 
 @mixin fixedToVisible(){
   position: fixed;
-  top: 48px;
+  top: 36px;
   left:0;
   right:0;
-  height: calc(100vh - 48px);
+  height: calc(100vh - 36px);
 }
 
 
@@ -69,15 +69,15 @@
 }
 
 body {
-  padding: 48px 0 0;
+  padding: 36px 0 0;
 }
 
 
 
 .Navbar{
-  height: 48px;
+  height: 36px;
   background-color: #be553d;
-  line-height: 48px;
+  line-height: 36px;
   position: fixed;
   top: 0;
   left: 0;
@@ -97,14 +97,14 @@ body {
 
 .ScrollSections {
   position: relative;
-  // margin-top:48px;
+  // margin-top:36px;
   left:0;
   padding: calc(50vh - 24px) 0 calc(50vh - 25px);
   pointer-events: none;
 
   &__fixedRoot{
     @include fixedToVisible();
-    // height: calc(100vh - 48px);
+    // height: calc(100vh - 36px);
   }
 
   &__background {
@@ -137,7 +137,7 @@ body {
   display: flex; 
   align-items: center; 
   justify-content:center;
-  min-height: calc(100vh - 48px);
+  min-height: calc(100vh - 36px);
   position: relative;
   width:100%;
   pointer-events: none;
@@ -346,7 +346,7 @@ body {
     @include fixedToVisible();
     margin: auto;
     width: calc(100% - 7vh);
-    max-width: calc((100vh - 48px - 7vh) / (720 / 1280));
+    max-width: calc((100vh - 36px - 7vh) / (720 / 1280));
   }
 }
 
