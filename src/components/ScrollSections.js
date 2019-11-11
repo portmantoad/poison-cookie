@@ -43,14 +43,16 @@ class ScrollSections extends React.PureComponent {
   }
 
   updateSectionHeights = () => {
-    for (var i = 0; i <= this.sectionRefs.length - 1; i++) {
-      const rect = this.sectionRefs[i].getBoundingClientRect();
-      const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
-      this.sectionHeights[i] = rect.height;
-      this.sectionOffsets[i] = rect.top + scrollTop;
+    if (this.sectionRefs[0]) {
+      for (var i = 0; i <= this.sectionRefs.length - 1; i++) {
+        const rect = this.sectionRefs[i].getBoundingClientRect();
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+        this.sectionHeights[i] = rect.height;
+        this.sectionOffsets[i] = rect.top + scrollTop;
 
-      this.visibleHeight = this.backgroundPortalRef.current.getBoundingClientRect().height;
+        this.visibleHeight = this.backgroundPortalRef.current.getBoundingClientRect().height;
 
+      }
     }
   }
 
@@ -268,7 +270,7 @@ class ScrollSections extends React.PureComponent {
       window.cancelAnimationFrame(this.scrollTimeout);
       window.cancelAnimationFrame(this.resizeTimeout);
     }
-    this.ResizeObserver.disconnect();
+    // this.ResizeObserver.disconnect();
   }
 
   render() {

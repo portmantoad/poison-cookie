@@ -37,10 +37,10 @@
 
 @mixin fixedToVisible(){
   position: fixed;
-  top: 36px;
+  top: 40px;
   left:0;
   right:0;
-  height: calc(100vh - 36px);
+  height: calc(100vh - 40px);
 }
 
 
@@ -69,20 +69,57 @@
 }
 
 body {
-  padding: 36px 0 0;
+  padding: 40px 0 0;
+  background: #f2cd94;
 }
 
 
 
 .Navbar{
-  height: 36px;
-  background-color: #be553d;
-  line-height: 36px;
+  height: 40px;
+  // background-color: #be553d;
+  line-height: 45px;
   position: fixed;
   top: 0;
   left: 0;
   right: 0;
   z-index: 1000;
+  display: flex;
+  align-items: left;
+  color: #fff;
+  
+  &__paper{
+    height: 44px;
+    position: absolute;
+    top:0;
+    left:0;
+    min-width: 100%;
+    z-index: -1;
+  }
+  &__logo{
+    img{
+      height: 40px;
+    }
+    margin-right: 30px;
+  }
+
+  a{
+    color: #fff;
+    text-transform: uppercase;
+    text-decoration: none;
+  }
+
+  svg{
+    margin-left: 5px;
+  }
+
+  &__endLinks{
+    display: flex;
+    align-items: center;
+    margin-top: 4px;
+    margin-left: auto;
+    margin-right: 12px;
+  }
 }
 
 .Panel{
@@ -97,14 +134,14 @@ body {
 
 .ScrollSections {
   position: relative;
-  // margin-top:36px;
+  // margin-top:40px;
   left:0;
-  padding: calc(50vh - 24px) 0 calc(50vh - 25px);
+  padding: calc(50vh - 20px) 0 calc(50vh - 21px);
   pointer-events: none;
 
   &__fixedRoot{
     @include fixedToVisible();
-    // height: calc(100vh - 36px);
+    // height: calc(100vh - 40px);
   }
 
   &__background {
@@ -137,7 +174,7 @@ body {
   display: flex; 
   align-items: center; 
   justify-content:center;
-  min-height: calc(100vh - 36px);
+  min-height: calc(100vh - 40px);
   position: relative;
   width:100%;
   pointer-events: none;
@@ -346,7 +383,7 @@ body {
     @include fixedToVisible();
     margin: auto;
     width: calc(100% - 7vh);
-    max-width: calc((100vh - 36px - 7vh) / (720 / 1280));
+    max-width: calc((100vh - 40px - 7vh) / (720 / 1280));
   }
 }
 
@@ -393,7 +430,7 @@ body {
   border-image-slice: 15% 15% fill;
   border-image-repeat: stretch;
 
-  @media screen and (max-width: 550px) {
+  @media screen and (max-width: 550px), screen and (max-height: 550px) {
     display: none;
   }
 }
