@@ -14,23 +14,19 @@
 }
 
 @mixin transition--fade($transition-time: 250ms){
-  // transition: opacity $transition-time cubic-bezier(0, 0.75, 1, 1);
   transition: opacity $transition-time ease-in-out;
 
   &:not(.isActive) { 
-    // transition: opacity $transition-time cubic-bezier(0, 0, 1, 0.425);
     opacity: 0 !important; 
     pointer-events: none;
   }
 }
 
-@mixin transition--crossfade($transition-time: 250ms){
-  transition: opacity $transition-time cubic-bezier(0, 0.75, 1, 1);
-  // transition: opacity $transition-time ease-in-out;
+@mixin transition--slide-left($transition-time: 250ms){
+  transition: transform $transition-time ease-in-out;
 
   &:not(.isActive) { 
-    transition: opacity $transition-time cubic-bezier(0, 0, 1, 0.425);
-    opacity: 0 !important; 
+    transform: translateX(100%) !important; 
     pointer-events: none;
   }
 }
@@ -41,6 +37,22 @@
   left:0;
   right:0;
   height: calc(100vh - 40px);
+}
+
+@mixin whiteNoise($opacity: 0.4){
+  &:after{
+      content: "";
+      display: block;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right:0;
+      bottom:0;
+      background-size: 85px auto;
+      background-image: url('../img/noise_white.png');
+      opacity: $opacity;
+      pointer-events: none;
+    }
 }
 
 
@@ -56,9 +68,6 @@
   @include transition--fade(1000ms);
 }
 
-.Transition--crossfade{
-  @include transition--fade(250ms);
-}
 
 .visuallyhidden { 
   position: absolute; 
@@ -120,6 +129,35 @@ body {
     margin-left: auto;
     margin-right: 12px;
   }
+
+  &__hamburger{
+    height: 40px;
+    width: 40px;
+  }
+
+  &__menuWrapper{
+    @include transition--fade();
+    position: fixed;
+    top:0;
+    right:0;
+    bottom:0;
+    left:0;
+    z-index: 1200;
+    background: rgba(0,0,0,0.85);
+  }
+  &__menu{
+    @include transition--slide-left();
+    @include whiteNoise(0.2);
+    position: absolute;
+    top:0;
+    right:0;
+    bottom:0;
+    max-width: calc(100% - 48px);
+    width: 350px;
+    display: flex;
+    flex-direction: column;
+    background: #be553d;
+  }
 }
 
 .Panel{
@@ -146,21 +184,11 @@ body {
 
   &__background {
     @include fixedToVisible();
+    @include whiteNoise(0.4);
     background-size: cover;
 
     // &:before, 
-    &:after{
-      content: "";
-      display: block;
-      position: absolute;
-      top: 0;
-      left: 0;
-      right:0;
-      bottom:0;
-      background-size: 85px auto;
-      background-image: url('../img/noise_white.png');
-      opacity: 0.4;
-    }
+    
     // &:before{
     //   background-image: url('../img/noise_white.png');
     //   background-size: 150px auto;

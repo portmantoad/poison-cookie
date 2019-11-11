@@ -12,17 +12,17 @@ import React from 'react'
 
       this.canvasRef = React.createRef();
       this.backCanvasRef = React.createRef();
-      this.inputRef = React.createRef();
-      this.input = React.cloneElement(this.props.children, {
-        ref: this.inputRef
-      });
-      
+      this.inputRef = React.createRef();      
 
       if (this.props.children.type === "img") {
         this.isVideo = false;
       } else {
         this.isVideo = true;
       }
+
+      this.input = React.cloneElement(this.props.children, {
+        ref: this.inputRef
+      });
     }
 
     handleLoaded = () => {
@@ -103,7 +103,7 @@ import React from 'react'
       // idata.data = data;
       context.putImageData(idata,0,0);
 
-      if (loop && !(input.paused || input.ended) && this.props.active) {
+      if (loop && !(input.paused || input.ended) && this.props.paused) {
         requestAnimationFrame(() => { 
           this.canvasBlend(input, type, context, backContext, cWidth, cHeight, loop); 
         })
@@ -120,11 +120,11 @@ import React from 'react'
     }
 
     render() {
-      const { use, className, active, ...rest } = this.props;
+      const { use, className, paused, children, ...rest } = this.props;
       return(
         <React.Fragment>
-          <canvas ref={this.canvasRef} className={"Asset--fade-in" + (this.state.loaded ? " isLoaded" : "") + (className ? ` ${className}` : "")} {...rest} />
-          <div className="visuallyhidden">{this.input}<canvas ref={this.backCanvasRef} /></div>
+          <canvas ref={this.canvasRef} className={"Asset--fade-in" + (this.state.loaded ? " isLoaded" : "") + (className ? ` ${className}` : "")} {...rest}></canvas>
+          <div className="visuallyhidden">{this.input} <canvas ref={this.backCanvasRef}></canvas></div>
         </React.Fragment>
       )
     }

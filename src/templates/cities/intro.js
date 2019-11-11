@@ -38,6 +38,8 @@ React.memo(
                  // height: (20 + 100) + "%"
                  height: "120%"
                }}></div>
+               
+
             </FixedPortal>
             <FixedPortal target={midgroundPortal}>
             <div className={"Panel Transition--slow-fade" + (active ? " isActive" : "")}>
@@ -56,8 +58,6 @@ React.memo(
                 width: "250px",
                 maxWidth:"65%",
                 height: "auto"}}/>
-
-                
             </div>
           </FixedPortal>
     </React.Fragment>
