@@ -236,6 +236,7 @@ body {
 
   &__background {
     @include fixedToVisible();
+    top: 0;
     @include whiteNoise(0.4);
     background-size: cover;
 

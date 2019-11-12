@@ -116,6 +116,7 @@ import React from 'react'
         this.inputRef.current.addEventListener('play', this.canvasBlend.bind(this));
       } else {
         this.inputRef.current.addEventListener('load', this.handleLoaded.bind(this));
+        if (this.inputRef.current.complete) {this.handleLoaded()}
       }
     }
 
