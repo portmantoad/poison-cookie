@@ -48,7 +48,7 @@ const Navbar = () => {
             <React.Fragment>
               <div><Link to="/cities/intro">Intro</Link>&ensp;|&ensp;<Link to="/cities/paris">Paris</Link></div>
               <div className="Navbar__endLinks">
-                
+                {volumeOn ? <Icon use="volumeHigh" /> : <Icon use="volumeOff" />}
                 &emsp;<Link to="/now">Now</Link>&ensp;|&ensp;<Link to="/about">About</Link>&emsp;
                 <Icon use="youtube" />
                 <Icon use="facebook" />

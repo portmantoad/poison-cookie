@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import VideoPlayer from '../../components/VideoPlayer'
 import FixedPortal from '../../components/FixedPortal'
 import CanvasBlend from '../../components/CanvasBlend'
+import Slideshow from '../../components/Slideshow'
 import { clamp } from 'lodash'
 import TweenMax from 'TweenMax'
 import TimelineMax from 'TimelineMax'
@@ -200,13 +201,23 @@ React.memo(
 )), React.memo(({registerAnimation, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal, progress}) => (
             <CanvasBlend 
               use="multiply" 
-              active={active}
               className={"Transition--slow-fade" + (active ? " isActive" : "")}
               style={{
                 maxWidth: "100%"
               }}>
               <img src={`${withPrefix('/')}img/parisCanal.jpg`} alt="" />
             </CanvasBlend>
+)), React.memo(({registerAnimation, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal, progress}) => (
+          <FixedPortal target={midgroundPortal}>
+            <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
+              <Slideshow progress={progress}>
+                <CanvasBlend use="multiply"><img src={`${withPrefix('/')}img/parisCanal.jpg`} alt="" /></CanvasBlend>
+                <CanvasBlend use="multiply"><img src={`${withPrefix('/')}img/jumbotron.jpg`} alt="" /></CanvasBlend>
+                <CanvasBlend use="multiply"><img src={`${withPrefix('/')}img/chemex.jpg`} alt="" /></CanvasBlend>
+                <CanvasBlend use="multiply"><img src={`${withPrefix('/')}img/og-image.jpg`} alt="" /></CanvasBlend>
+              </Slideshow>
+            </div>
+          </FixedPortal>
 )), React.memo(({registerAnimation, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal, progress}) => (
         <FixedPortal target={midgroundPortal}>
           <div style={{
