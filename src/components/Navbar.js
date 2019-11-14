@@ -1,5 +1,6 @@
-import React, {useState} from 'react'
+import React, {useState, useContext} from 'react'
 import { Link } from 'gatsby'
+import { MutedContext } from './contexts'
 import CanvasBlend from './CanvasBlend'
 import Icon from './Icon'
 import { withPrefix } from 'gatsby'
@@ -9,9 +10,9 @@ import useMedia from 'use-media';
 const Navbar = () => {
 
     const [active, setActive] = useState(false);
-    const isMobile = useMedia({maxWidth: 1000})
-
-    const volumeOn = true;
+    const isMobile = useMedia({maxWidth: 1000});
+    const muted = useContext(MutedContext);
+    // console.log(MutedContext)
     
     return (
       <nav className="Navbar">
@@ -20,7 +21,7 @@ const Navbar = () => {
         {isMobile 
           ? (
             <div className="Navbar__endLinks">
-              {volumeOn ? <Icon use="volumeHigh" /> : <Icon use="volumeOff" />}
+              <Icon onClick={muted.toggleMuted} use={muted.muted ? "volumeOff" : "volumeHigh"} />
               <div className="Navbar__hamburger" onClick={() => setActive(!active)}>
                 <Icon use="hamburger" />
               </div>
@@ -48,7 +49,7 @@ const Navbar = () => {
             <React.Fragment>
               <div><Link to="/cities/intro">Intro</Link>&ensp;|&ensp;<Link to="/cities/paris">Paris</Link></div>
               <div className="Navbar__endLinks">
-                {volumeOn ? <Icon use="volumeHigh" /> : <Icon use="volumeOff" />}
+                <Icon onClick={muted.toggleMuted} use={muted.muted ? "volumeOff" : "volumeHigh"} />
                 &emsp;<Link to="/now">Now</Link>&ensp;|&ensp;<Link to="/about">About</Link>&emsp;
                 <Icon use="youtube" />
                 <Icon use="facebook" />

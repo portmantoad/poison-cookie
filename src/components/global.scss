@@ -96,6 +96,7 @@ body {
   display: flex;
   align-items: left;
   color: #fff;
+  user-select: none;
   
   &__paper{
     height: 44px;
@@ -113,6 +114,7 @@ body {
   }
 
   a{
+    user-select: all;
     color: #fff;
     text-transform: uppercase;
     text-decoration: none;

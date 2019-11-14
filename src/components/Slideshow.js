@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
 // import { Link } from 'gatsby'
 // import CanvasBlend from './CanvasBlend'
 import Icon from './Icon'
@@ -10,10 +10,12 @@ const Slideshow = ({progress, children}) => {
     const [activeIndex, setActiveIndex] = useState(0);
     const [indexSetManually, setIndexSetManually] = useState(false);
 
-    if (!indexSetManually) {
-      const newIndex = Math.floor(progress * children.length);
-      if (!isNaN(newIndex) && newIndex !== activeIndex) setActiveIndex(newIndex);
-    }
+    useEffect(() => {
+      if (!indexSetManually) {
+        const newIndex = Math.floor(progress * children.length);
+        if (!isNaN(newIndex) && newIndex !== activeIndex) setActiveIndex(newIndex);
+      }
+    }, [progress]);
     
     return (
       <div className="Slideshow">
