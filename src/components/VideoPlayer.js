@@ -14,6 +14,7 @@ const VideoPlayer = React.memo((
       videoId, 
       startTime = 0, 
       endTime, 
+      onEnd,
       ...rest
     }) => {
       const muted = useContext(MutedContext);
@@ -38,6 +39,7 @@ const VideoPlayer = React.memo((
 
       const clearAudioFadeInterval = () => {
         clearInterval(audioFadeInterval.current);
+        setVolume(1);
       }
 
       const playToggle = () => {
@@ -46,7 +48,6 @@ const VideoPlayer = React.memo((
 
       const play = () => {
         clearAudioFadeInterval();
-        setVolume(1);
         active && setPlaying(true);
         // window.removeEventListener('scroll', this.handleInitialScrollEnd , false);
       }
@@ -54,7 +55,6 @@ const VideoPlayer = React.memo((
       const pause = () => {
         setPlaying(false);
         clearAudioFadeInterval();
-        setVolume(1);
       }
 
       const pauseFade = () => {
@@ -90,8 +90,9 @@ const VideoPlayer = React.memo((
 
       const handleEnd = () => {
         player.current && player.current.seekTo(startTime);
-        setPlaying(false)
-        setPlayed(0)
+        setPlaying(false);
+        setPlayed(0);
+        onEnd && onEnd();
       }
 
       const truePlayedToDisplay = played => {

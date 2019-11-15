@@ -21,7 +21,7 @@ const Slideshow = ({progress, children}) => {
       <div className="Slideshow">
         {children && children.map((child, index) => {
           return(
-            <div className={"Slideshow__item" + (index === activeIndex ? " isActive" : "")}>
+            <div key={"Slideshow--" + index} className={"Slideshow__item" + (index === activeIndex ? " isActive" : "")}>
               {child}
             </div>
           )

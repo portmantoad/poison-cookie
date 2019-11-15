@@ -7,6 +7,7 @@ import { throttle } from 'lodash'
 import TweenMax from 'TweenMax';
 import ScrollMagic from 'ScrollMagic';
 import 'animation.gsap';
+import ScrollToPlugin from 'gsap/umd/ScrollToPlugin';
 import 'debug.addIndicators';
 
 import ResizeObserver from 'resize-observer-polyfill';
@@ -31,6 +32,7 @@ class ScrollSections extends React.PureComponent {
     this.state = {
       sectionActive0: true
     };
+    this.activeSection = 0;
 
     this.registeredAnimations = [];
     if (typeof window !== `undefined`) {
@@ -40,6 +42,7 @@ class ScrollSections extends React.PureComponent {
     }
 
     this.mounted = false;
+
   }
 
   updateSectionHeights = () => {
@@ -49,10 +52,32 @@ class ScrollSections extends React.PureComponent {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
         this.sectionHeights[i] = rect.height;
         this.sectionOffsets[i] = rect.top + scrollTop;
-
-        this.visibleHeight = this.backgroundPortalRef.current.getBoundingClientRect().height;
-
       }
+    }
+  }
+
+  scrollTo = (target, progress, animated = true) => {
+    const end = this.props.sections.length - 1;
+
+    if (target === "next") target = Math.min(this.activeSection + 1, end);
+    if (target === "prev") target = Math.max(this.activeSection - 1, 0);
+    if (target === "start") target = 0;
+    if (target === "end") target = end;
+
+    const offset = this.sectionOffsets[target];
+    let output = offset;
+
+    if (progress !== undefined) {
+      // progress = 1;
+      const height = this.sectionHeights[target];
+      output = offset - this.sectionOffsets[0] + (height * progress);
+    }
+    if (animated) {
+      TweenMax.to(window, 0.5, {scrollTo: {y: output }});
+    }
+    else {
+      // console.log("current: " + window.pageYOffset + ", output: " + output)
+      window.scrollTo(0, output);
     }
   }
 
@@ -63,6 +88,7 @@ class ScrollSections extends React.PureComponent {
     if (typeof window !== `undefined`) {
       this.handleScroll();
       window.addEventListener('scroll', this.handleScrollThrottled , {passive: true});
+      window.addEventListener("keydown", this.handleKeydown);
     }
 
     this.resizeObserver.observe(this.wrapperElement)
@@ -74,6 +100,25 @@ class ScrollSections extends React.PureComponent {
         sectionIndex: i, 
         tween: () => TweenMax.fromTo(".ScrollSection__timeIndicator--" + i, 1, {y: '-50%'}, {y: '50%', ease: "Linear.easeNone"}),
       });
+    }
+  }
+
+  handleKeydown = event => {
+    if (event.isComposing || event.keyCode === 229) {
+      return;
+    }
+    //right arrow
+    if (event.keyCode === 39) {
+      this.scrollTo("next");
+    }
+    //left arrow
+    if (event.keyCode === 37) {
+      this.scrollTo("prev");
+    }
+    //spacebar
+    if(event.keyCode === 32) {
+      event.preventDefault();
+      this.scrollTo("next");
     }
   }
 
@@ -206,7 +251,9 @@ class ScrollSections extends React.PureComponent {
   handleResize = () => {
     this.updateSectionHeights();
     this.updateAllAnimations();
-    this.handleScroll();
+    // this.handleScroll();
+    // console.log(this.activeSection + ": " + this.activeSectionProgress)
+    this.scrollTo(this.activeSection, this.activeSectionProgress, false);
   }
 
   handleResizeThrottled = throttle(() => {
@@ -217,7 +264,7 @@ class ScrollSections extends React.PureComponent {
   }, 100);
 
   handleScroll = () => {
-    if (isNaN(this.visibleHeight)) {
+    if (isNaN(this.sectionOffsets[this.props.sections.length - 1])) {
       this.handleScrollThrottled();
       return false;
     }
@@ -235,13 +282,16 @@ class ScrollSections extends React.PureComponent {
       }
 
       const offset = this.sectionOffsets[i];
-      const topPad = this.visibleHeight/2 + 48;
+      const topPad = this.sectionOffsets[0];
 
       if (
         scrollTop >= offset - topPad
         && ((scrollTop - (offset - topPad)) <= height || i === this.props.sections.length - 1)
       ) {
-        newState['sectionProgress' + i] = (scrollTop - (offset - topPad)) / height;
+        const progress = (scrollTop - (offset - topPad)) / height;
+        this.activeSection = i;
+        this.activeSectionProgress = progress;
+        newState['sectionProgress' + i] = progress;
         if (!this.state['sectionActive' + i]) {
           newState['sectionActive' + i] = true;
         }
@@ -267,6 +317,7 @@ class ScrollSections extends React.PureComponent {
     this.mounted = false;
     if (typeof window !== `undefined`) {
       window.removeEventListener('scroll', this.handleScrollThrottled , {passive: true});
+      window.removeEventListener("keydown", this.handleKeydown);
       window.cancelAnimationFrame(this.scrollTimeout);
       window.cancelAnimationFrame(this.resizeTimeout);
     }
@@ -310,6 +361,7 @@ class ScrollSections extends React.PureComponent {
                           foregroundPortal={this.foregroundPortalRef.current} 
                           backgroundPortal={this.backgroundPortalRef.current} 
                           midgroundPortal={this.midgroundPortalRef.current} 
+                          scrollTo={this.scrollTo.bind(this)}
                         />
                         <FixedPortal target={this.foregroundPortalRef.current}>
                           <div className={"ScrollSection__timeIndicator ScrollSection__timeIndicator--" + index + (active ? " isActive" : "")}></div>

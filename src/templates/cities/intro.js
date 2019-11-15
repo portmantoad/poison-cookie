@@ -12,7 +12,7 @@ import { withPrefix } from 'gatsby'
 export default [
 
 React.memo(
-  ({registerAnimation, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal, progress}) => {
+  ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal, progress}) => {
 
     useEffect(() => {
       registerAnimation({
@@ -66,7 +66,7 @@ React.memo(
 ), 
 
 React.memo(
-  ({registerAnimation, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal, progress}) => {
+  ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal, progress}) => {
       
     useEffect(() => {
       registerAnimation({
@@ -119,6 +119,7 @@ React.memo(
               videoId="ofAfzauCdAU"
               fullscreen
               active={(progress > 0.3) && active}
+              onEnd={() => scrollTo("next")}
             />
             
         </FixedPortal>
@@ -156,7 +157,7 @@ React.memo(
       </React.Fragment>
 )}), 
 React.memo(
-  ({registerAnimation, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal, progress}) => {
+  ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal, progress}) => {
     
     // registerAnimation({
     //   key: "Animation--curtain-right-leave" + sectionIndex,
@@ -183,10 +184,11 @@ React.memo(
               endTime={61}
               fullscreen
               active={(progress < 0.7) && active}
+              onEnd={() => scrollTo("next")}
             />
       </FixedPortal>
       </React.Fragment>
-)}), React.memo(({registerAnimation, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal, progress}) => (
+)}), React.memo(({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal, progress}) => (
         <FixedPortal target={midgroundPortal}>
           <div className={"Panel Panel--centered Transition--slow-fade" + (active ? " isActive" : "")}>
             <div className="openingQuote">
@@ -198,7 +200,7 @@ React.memo(
             <div className="bigborder"></div>
           </div>
         </FixedPortal>
-)), React.memo(({registerAnimation, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal, progress}) => (
+)), React.memo(({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal, progress}) => (
             <CanvasBlend 
               use="multiply" 
               className={"Transition--slow-fade" + (active ? " isActive" : "")}
@@ -207,7 +209,7 @@ React.memo(
               }}>
               <img src={`${withPrefix('/')}img/parisCanal.jpg`} alt="" />
             </CanvasBlend>
-)), React.memo(({registerAnimation, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal, progress}) => (
+)), React.memo(({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal, progress}) => (
           <FixedPortal target={midgroundPortal}>
             <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
               <Slideshow progress={progress}>
@@ -218,7 +220,7 @@ React.memo(
               </Slideshow>
             </div>
           </FixedPortal>
-)), React.memo(({registerAnimation, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal, progress}) => (
+)), React.memo(({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal, progress}) => (
         <FixedPortal target={midgroundPortal}>
           <div style={{
             position: "absolute", 

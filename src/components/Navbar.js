@@ -17,7 +17,7 @@ const Navbar = () => {
     return (
       <nav className="Navbar">
         <CanvasBlend use="multiply" className="Navbar__paper"><img src={`${withPrefix('/')}img/headerpaper.jpg`} alt="" /></CanvasBlend>
-        <a href="https://www.beardedladiescabaret.com/" class="Navbar__logo"><img src={`${withPrefix('/')}img/nav_logo.png`} alt=""/></a>
+        <a href="https://www.beardedladiescabaret.com/" className="Navbar__logo"><img src={`${withPrefix('/')}img/nav_logo.png`} alt=""/></a>
         {isMobile 
           ? (
             <div className="Navbar__endLinks">
