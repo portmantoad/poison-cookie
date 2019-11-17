@@ -312,7 +312,7 @@ body {
     padding-top: calc(100% / (1280 / (720 - 2)));
     width: 100%;
     overflow: hidden;
-    background: #000;
+    // background: #000;
     mask-image: url('../img/postcard_mask.png');
     mask-size: 100% 100%;
     
@@ -533,3 +533,44 @@ body {
 //     }
 //   }
 // }
+
+.welcomeToParis{
+    width: calc(200px + 10%);
+    transform: rotate(-25deg);
+    position: relative;
+    z-index: 20;
+    margin-bottom: -11%;
+    align-self: flex-start;
+
+    @media screen and (max-width: 500px) {
+      width: 90%;
+      transform: unset;
+      align-self: center;
+      margin-bottom: 0;
+    }
+}
+
+.videoborder{
+  position: relative;
+  transform: rotate(-1deg);
+  max-width: calc(100% - 50px);
+}
+
+.videoborder .videoborder__border{
+  filter: drop-shadow(1px 1px 20px rgba(0,0,0,0.5));
+}
+.videoborder .videoborder__border img{
+  display: block;
+  mask-image: url("../img/card_mask.png");
+  mask-size: 100% 100%;
+  max-height: 75vh;
+  margin: 0;
+}
+
+.videoborder .Video{
+  width: 90%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

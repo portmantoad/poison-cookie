@@ -2,6 +2,7 @@ import React, { useEffect } from 'react'
 import VideoPlayer from '../../components/VideoPlayer'
 import FixedPortal from '../../components/FixedPortal'
 import CanvasBlend from '../../components/CanvasBlend'
+import Curtains from '../../components/Curtains'
 import Slideshow from '../../components/Slideshow'
 import { clamp } from 'lodash'
 import TweenMax from 'TweenMax'
@@ -39,8 +40,6 @@ React.memo(
                  // height: (20 + 100) + "%"
                  height: "120vh"
                }}></div>
-               
-
             </FixedPortal>
             <FixedPortal target={midgroundPortal}>
             <div className={"Panel Transition--slow-fade" + (active ? " isActive" : "")}>
@@ -67,92 +66,23 @@ React.memo(
 
 React.memo(
   ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal, progress}) => {
-      
-    useEffect(() => {
-      registerAnimation({
-        key: ".Animation--curtains-scrim",
-        sectionIndex: sectionIndex, 
-        classToggle: ['.Animation--curtains-scrim', 'isActive'], 
-        persist: 1, 
-      });
-
-      registerAnimation({
-        key: ".Animation--curtains",
-        sectionIndex: sectionIndex, 
-        classToggle: ['.Animation--curtains', 'isActive'], 
-        persist: 1, 
-      });
-
-      registerAnimation({
-        key: ".Animation--curtain-right",
-        sectionIndex: sectionIndex, 
-        tween: () => new TimelineMax()
-          .to(".Animation--curtain-right", .3, {x: '0%'})
-          .to(".Animation--curtain-right", .7, {x: '100%'})
-          .to(".Animation--curtain-right", 2, {x: '100%'})
-          .to(".Animation--curtain-right", .7, {x: '0%'})
-          .to(".Animation--curtain-right", .3, {x: '0%'}),
-        persist: 1
-      });
-
-      registerAnimation({
-        key: ".Animation--curtain-left",
-        sectionIndex: sectionIndex, 
-        tween: () => new TimelineMax()
-          .to(".Animation--curtain-left", .3, {x: '0%'})
-          .to(".Animation--curtain-left", .7, {x: '-100%'})
-          .to(".Animation--curtain-left", 2, {x: '-100%'})
-          .to(".Animation--curtain-left", .7, {x: '0%'})
-          .to(".Animation--curtain-left", .3, {x: '0%'}),
-        persist: 1
-      });
-    }, []);
 
     return(
       <React.Fragment>
+        <Curtains 
+          registerAnimation={registerAnimation}
+          sectionIndex={sectionIndex}
+          foregroundPortal={foregroundPortal}
+          backgroundPortal={backgroundPortal}
+          persist={1}
+        />
         <FixedPortal target={midgroundPortal}> 
-            <div 
-              className={"Panel Transition--fade Animation--curtains-scrim"}
-              style={{background: "rgb(72, 46, 40)"}}
-            />
             <VideoPlayer
-              videoId="ofAfzauCdAU"
+              videoId="89KcuiXDKb4"
               fullscreen
               active={(progress > 0.3) && active}
               onEnd={() => scrollTo("next")}
-            />
-            
-        </FixedPortal>
-        <FixedPortal target={foregroundPortal}>
-          <div className="Transition--fade Animation--curtains">
-                <div className="Panel Animation--curtain-right" style={{
-                  left: "50%"
-                }}>
-                  <img src={`${withPrefix('/')}img/curtain.png`} alt="" style={{
-                    height: "100%", 
-                    width: "auto", 
-                    transform: "scaleX(-1)",
-                    minWidth: "calc(100% + 25vh)",
-                    position: "absolute", 
-                    top: 0, 
-                    maxWidth: "unset", 
-                    left: "-25vh"
-                  }} />  
-                </div>
-                <div className="Panel Animation--curtain-left" style={{
-                  right: "50%"
-                }}>
-                  <img src={`${withPrefix('/')}img/curtain.png`} alt="" style={{
-                    height: "100%", 
-                    width: "auto", 
-                    minWidth: "calc(100% + 25vh)",
-                    position: "absolute", 
-                    top: 0, 
-                    maxWidth: "unset", 
-                    right: "-25vh"
-                  }} />  
-                </div>
-          </div>
+            />           
         </FixedPortal>
       </React.Fragment>
 )}), 

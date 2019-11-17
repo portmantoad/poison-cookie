@@ -19,7 +19,7 @@ const VideoPlayer = React.memo((
     }) => {
       const muted = useContext(MutedContext);
       const [ volume, setVolume ] = useState(1);
-      const [ playing, setPlaying ] = useState(false);
+      const [ playing, setPlaying ] = useState(active);
       const [ duration, setDuration ] = useState(0);
       const [ trueDuration, setTrueDuration ] = useState(0);
       const [ played, setPlayed ] = useState(0);
@@ -89,10 +89,10 @@ const VideoPlayer = React.memo((
       // }
 
       const handleEnd = () => {
-        player.current && player.current.seekTo(startTime);
-        setPlaying(false);
-        setPlayed(0);
         onEnd && onEnd();
+        player.current && player.current.seekTo(startTime);
+        // pause();
+        setPlayed(0);
       }
 
       const truePlayedToDisplay = played => {
@@ -152,7 +152,7 @@ const VideoPlayer = React.memo((
             width="100%"
             height="200%"
             playsinline
-            playing={playing}
+            playing={trueDuration && playing}
             onBufferEnd={
               ()=>{
                 if(!active){
@@ -166,6 +166,7 @@ const VideoPlayer = React.memo((
               if (isEnded) {
                 handleEnd()
               } else if (isBeforeStart) {
+                console.log(startTime + " ? " + played + " < (" + startTime + " / " + trueDuration + ")")
                 player.current && player.current.seekTo(startTime)
               } else {
                 setPlayed(truePlayedToDisplay(played));

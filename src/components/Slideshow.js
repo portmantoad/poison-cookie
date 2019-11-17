@@ -12,7 +12,7 @@ const Slideshow = ({progress, children}) => {
 
     useEffect(() => {
       if (!indexSetManually) {
-        const newIndex = Math.floor(progress * children.length);
+        const newIndex = Math.floor(progress * Math.min(children.length, 3));
         if (!isNaN(newIndex) && newIndex !== activeIndex) setActiveIndex(newIndex);
       }
     }, [progress]);
