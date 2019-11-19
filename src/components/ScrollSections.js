@@ -72,8 +72,12 @@ class ScrollSections extends React.PureComponent {
       const height = this.sectionHeights[target];
       output = offset - this.sectionOffsets[0] + (height * progress);
     }
+
     if (animated) {
-      TweenMax.to(window, 0.5, {scrollTo: {y: output }});
+      const scrollTop = Math.max(window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0, 0);
+      const diff = Math.abs(scrollTop - output) / Math.min(...this.sectionHeights);
+
+      TweenMax.to(window, 1.25 + (diff/4), {scrollTo: {y: output }, ease: "Quad.easeOut"});
     }
     else {
       // console.log("current: " + window.pageYOffset + ", output: " + output)
@@ -286,7 +290,7 @@ class ScrollSections extends React.PureComponent {
 
       if (
         scrollTop >= offset - topPad
-        && ((scrollTop - (offset - topPad)) <= height || i === this.props.sections.length - 1)
+        && ((scrollTop - (offset - topPad)) < height || i === this.props.sections.length - 1)
       ) {
         const progress = (scrollTop - (offset - topPad)) / height;
         this.activeSection = i;

@@ -54,7 +54,7 @@ const Curtains = React.memo(
         <FixedPortal target={backgroundPortal}> 
             <div 
               className={"Panel Transition--fade Animation--curtains-scrim" + uniqueKey.current}
-              style={{background: "rgb(72, 46, 40)"}}
+              style={{background: "rgba(0,0,0,0.8)"}}
             />            
         </FixedPortal>
         <FixedPortal target={foregroundPortal}>

@@ -5,7 +5,7 @@ import Icon from './Icon'
 // import { withPrefix } from 'gatsby'
 // import useMedia from 'use-media';
 
-const Slideshow = ({progress, children}) => {
+const Slideshow = ({progress, backgroundFill, children}) => {
 
     const [activeIndex, setActiveIndex] = useState(0);
     const [indexSetManually, setIndexSetManually] = useState(false);
@@ -21,7 +21,7 @@ const Slideshow = ({progress, children}) => {
       <div className="Slideshow">
         {children && children.map((child, index) => {
           return(
-            <div key={"Slideshow--" + index} className={"Slideshow__item" + (index === activeIndex ? " isActive" : "")}>
+            <div key={"Slideshow--" + index} className={"Slideshow__item" + (backgroundFill ? " Slideshow__item--backgroundFill" : "") + (index === activeIndex ? " isActive" : "")}>
               {child}
             </div>
           )

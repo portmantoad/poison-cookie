@@ -48,22 +48,31 @@ const VideoPlayer = React.memo((
 
       const play = () => {
         clearAudioFadeInterval();
-        active && setPlaying(true);
-        // window.removeEventListener('scroll', this.handleInitialScrollEnd , false);
+        if (active) {
+          if (played === 1 || (endTime && played * trueDuration >= endTime)){
+            setPlayed(0)
+            player.current && player.current.seekTo(startTime)
+          }
+          setPlaying(true);
+        }
       }
 
       const pause = () => {
+        const truePlayer = player.current && player.current.player.player.player;
         setPlaying(false);
+        truePlayer && truePlayer.pauseVideo && truePlayer.pauseVideo();
         clearAudioFadeInterval();
       }
 
       const pauseFade = () => {
+        // const backupPause = setTimeout(()=>{
+        //   pause();
+        // }, 300);
         clearAudioFadeInterval();
         audioFadeInterval.current = setInterval(() => {
           setVolume(vol => {
             if (vol < 0.1) {
-              setPlaying(false);
-              clearAudioFadeInterval();
+              pause();
               return 1
             } else {
               return vol - 0.1
@@ -90,9 +99,10 @@ const VideoPlayer = React.memo((
 
       const handleEnd = () => {
         onEnd && onEnd();
-        player.current && player.current.seekTo(startTime);
+        // player.current && player.current.seekTo(startTime);
         // pause();
-        setPlayed(0);
+        // setPlayed(0);
+        // setPlaying(false)
       }
 
       const truePlayedToDisplay = played => {
@@ -155,7 +165,7 @@ const VideoPlayer = React.memo((
             playing={trueDuration && playing}
             onBufferEnd={
               ()=>{
-                if(!active){
+                if(!active || !playing){
                   pause()
                 }
               }
@@ -166,7 +176,6 @@ const VideoPlayer = React.memo((
               if (isEnded) {
                 handleEnd()
               } else if (isBeforeStart) {
-                console.log(startTime + " ? " + played + " < (" + startTime + " / " + trueDuration + ")")
                 player.current && player.current.seekTo(startTime)
               } else {
                 setPlayed(truePlayedToDisplay(played));
