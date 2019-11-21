@@ -253,14 +253,15 @@ body {
     top: 0;
     @include whiteNoise(0.4);
     background-size: cover;
+  }
 
-    // &:before, 
-    
-    // &:before{
-    //   background-image: url('../img/noise_white.png');
-    //   background-size: 150px auto;
-    // }
-    // transition: transform 50ms;
+  &__pageCount{
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    background: #000;
+    color: #fff;
+    padding: 5px 10px;
   }
 }
 .ScrollSection {
@@ -288,9 +289,9 @@ body {
       top:45%;
       left:2px;
       border-radius: 5px;
-      background-color: #be553d;
+      background-color: #000;
       background-clip: content-box;
-      border:1px solid rgba(0,0,0,0.3);
+      border:1px solid rgba(255,255,255,0.5);
     }
   }
 }

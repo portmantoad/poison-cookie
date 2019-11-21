@@ -29,25 +29,25 @@ const VideoPlayer = React.memo((
       const [ onPlayInitialTimeout, setOnPlayInitialTimeout ] = useState(false);
       const [ intentActive, setIntentActive ] = useState(false);
       const [ controlsBottomPad, setControlsBottomPad ] = useState(0);
+      
 
       const controlsAreDetached = fullscreen && !controlsBottomPad;
       const controlsVisible = controlsAreDetached || (active && duration && (controlsHovered || onPlayInitialTimeout || !playing));
       const controlsScrimVisible = !controlsAreDetached && controlsVisible;
 
       const player = useRef(null);
-      const audioFadeInterval = useRef();
+      // const audioFadeInterval = useRef();
 
-      const clearAudioFadeInterval = () => {
-        clearInterval(audioFadeInterval.current);
-        setVolume(1);
-      }
+      // const clearAudioFadeInterval = () => {
+      //   clearInterval(audioFadeInterval.current);
+      //   setVolume(1);
+      // }
 
       const playToggle = () => {
         playing ? pause() : play();
       }
 
       const play = () => {
-        clearAudioFadeInterval();
         if (active) {
           if (played === 1 || (endTime && played * trueDuration >= endTime)){
             setPlayed(0)
@@ -55,31 +55,61 @@ const VideoPlayer = React.memo((
           }
           setPlaying(true);
         }
+        // clearAudioFadeInterval();
       }
 
       const pause = () => {
-        const truePlayer = player.current && player.current.player.player.player;
         setPlaying(false);
-        truePlayer && truePlayer.pauseVideo && truePlayer.pauseVideo();
-        clearAudioFadeInterval();
+        // clearAudioFadeInterval();
       }
 
-      const pauseFade = () => {
-        // const backupPause = setTimeout(()=>{
-        //   pause();
-        // }, 300);
-        clearAudioFadeInterval();
-        audioFadeInterval.current = setInterval(() => {
-          setVolume(vol => {
-            if (vol < 0.1) {
-              pause();
-              return 1
-            } else {
-              return vol - 0.1
-            }
-          })
-        }, 25);
+      const hardPause = () => {
+        const truePlayer = player.current && player.current.player.player.player;
+        truePlayer && truePlayer.pauseVideo && truePlayer.pauseVideo();
       }
+  
+      // const [ scrolling, setScrolling ] = useState(false);
+      // const scrollTimeout = useRef();
+      // const handleScroll = throttle(()=>{
+      //   setScrolling(true);
+      //   clearTimeout(scrollTimeout.current);
+      //   scrollTimeout.current = setTimeout(()=>{ 
+      //     setScrolling(false);
+      //     window.removeEventListener('scroll', handleScroll)
+      //   },200)
+      // },50)
+      // useEffect(() => {
+      //   window.addEventListener('scroll', handleScroll);
+      //   return () => window.removeEventListener('scroll', handleScroll);
+      // }, []);
+
+      useEffect(() => {
+        if (!playing && !active) {
+          hardPause();
+        }
+      }, [playing, active]);
+
+      useEffect(() => {
+        active ? play() : pause()
+      }, [active]);
+
+
+      // const pauseFade = () => {
+      //   // const backupPause = setTimeout(()=>{
+      //   //   pause();
+      //   // }, 300);
+      //   clearAudioFadeInterval();
+      //   audioFadeInterval.current = setInterval(() => {
+      //     setVolume(vol => {
+      //       if (vol < 0.1) {
+      //         pause();
+      //         return 1
+      //       } else {
+      //         return vol - 0.1
+      //       }
+      //     })
+      //   }, 25);
+      // }
 
       // const playFade = () => {
       //   clearAudioFadeInterval();
@@ -129,9 +159,7 @@ const VideoPlayer = React.memo((
         setControlsBottomPad(controlsAreAttached ? playerBottomPad : 0);
       }
 
-      useEffect(() => {
-        active ? play() : pauseFade()
-      }, [active]);
+      // return <div />
 
       return (
       <div 
@@ -162,12 +190,14 @@ const VideoPlayer = React.memo((
             width="100%"
             height="200%"
             playsinline
-            playing={trueDuration && playing}
+            playing={!!trueDuration && playing && active}
             onBufferEnd={
               ()=>{
-                if(!active || !playing){
-                  pause()
-                }
+                setPlaying(playState => {
+                  playState = playState && active ? true : false
+                  !playState && hardPause();
+                  return playState;
+                })
               }
             }
             onProgress={({played, loaded}) => {
@@ -183,12 +213,13 @@ const VideoPlayer = React.memo((
               }
             }}
             onPlay={()=>{
+              play();
               setOnPlayInitialTimeout(
                 setTimeout( () => {
                   setOnPlayInitialTimeout(false)
                 }, 3000)
               );
-              play();
+              
             }}
             onPause={() => pause()}
             onEnded={handleEnd}

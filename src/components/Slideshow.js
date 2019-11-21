@@ -1,24 +1,35 @@
-import React, {useState, useEffect} from 'react'
+import React, {useRef, useState, useEffect} from 'react'
 // import { Link } from 'gatsby'
 // import CanvasBlend from './CanvasBlend'
 import Icon from './Icon'
+import TweenMax from "TweenMax"
 // import { withPrefix } from 'gatsby'
 // import useMedia from 'use-media';
 
-const Slideshow = ({progress, backgroundFill, children}) => {
+const Slideshow = ({registerAnimation, sectionIndex, backgroundFill, children}) => {
 
-    const [activeIndex, setActiveIndex] = useState(0);
-    const [indexSetManually, setIndexSetManually] = useState(false);
+    const uniqueKey = useRef('_' + Math.random().toString(36).substr(2, 9));
+
+    const [indexSetByScroll, setIndexSetByScroll] = useState(0);
+    const [indexSetManually, setIndexSetManually] = useState(null);
 
     useEffect(() => {
-      if (!indexSetManually) {
-        const newIndex = Math.floor(progress * Math.min(children.length, 3));
-        if (!isNaN(newIndex) && newIndex !== activeIndex) setActiveIndex(newIndex);
-      }
-    }, [progress]);
+      registerAnimation({
+        key: ".Animation--slideshow" + uniqueKey.current,
+        sectionIndex: sectionIndex, 
+        callback: ["progress", event => {
+          if (event.state === "DURING"){
+            const newIndex = Math.floor(event.progress * Math.min(children.length, 3));
+            if (!isNaN(newIndex)) setIndexSetByScroll(newIndex);
+          }
+        }]
+      });
+    }, []);
+
+    const activeIndex = indexSetManually === null ? indexSetByScroll : indexSetManually;
     
     return (
-      <div className="Slideshow">
+      <div className={"Slideshow Animation--slideshow" + uniqueKey.current}>
         {children && children.map((child, index) => {
           return(
             <div key={"Slideshow--" + index} className={"Slideshow__item" + (backgroundFill ? " Slideshow__item--backgroundFill" : "") + (index === activeIndex ? " isActive" : "")}>
@@ -29,12 +40,12 @@ const Slideshow = ({progress, backgroundFill, children}) => {
         <div className="Slideshow__controls">
           <div 
             className={"Slideshow__controls__left" + (activeIndex === 0 ? " isDisabled" : "")}
-            onClick={() => {setIndexSetManually(true); setActiveIndex(activeIndex - 1)}}
+            onClick={() => setIndexSetManually(activeIndex - 1)}
           ><Icon use="arrowLeft" /></div> 
           {activeIndex + 1}/{children.length}
           <div 
             className={"Slideshow__controls__right" + (activeIndex === children.length - 1 ? " isDisabled" : "")}
-            onClick={() => {setIndexSetManually(true); setActiveIndex(activeIndex + 1)}}
+            onClick={() => setIndexSetManually(activeIndex + 1)}
           ><Icon use="arrowRight" /></div>
         </div>
       </div>

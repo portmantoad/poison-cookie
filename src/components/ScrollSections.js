@@ -20,6 +20,7 @@ class ScrollSections extends React.PureComponent {
     this.backgroundPortalRef = React.createRef();
     this.midgroundPortalRef = React.createRef();
     this.foregroundPortalRef = React.createRef();
+    this.UIPortalRef = React.createRef();
 
     this.sectionRefs = [];
     this.sectionHeights = [];
@@ -30,9 +31,8 @@ class ScrollSections extends React.PureComponent {
     });
 
     this.state = {
-      sectionActive0: true
+      activeSection: 0
     };
-    this.activeSection = 0;
 
     this.registeredAnimations = [];
     if (typeof window !== `undefined`) {
@@ -59,8 +59,8 @@ class ScrollSections extends React.PureComponent {
   scrollTo = (target, progress, animated = true) => {
     const end = this.props.sections.length - 1;
 
-    if (target === "next") target = Math.min(this.activeSection + 1, end);
-    if (target === "prev") target = Math.max(this.activeSection - 1, 0);
+    if (target === "next") target = Math.min(this.state.activeSection + 1, end);
+    if (target === "prev") target = Math.max(this.state.activeSection - 1, 0);
     if (target === "start") target = 0;
     if (target === "end") target = end;
 
@@ -103,6 +103,12 @@ class ScrollSections extends React.PureComponent {
         key: ".ScrollSection__timeIndicator--" + i,
         sectionIndex: i, 
         tween: () => TweenMax.fromTo(".ScrollSection__timeIndicator--" + i, 1, {y: '-50%'}, {y: '50%', ease: "Linear.easeNone"}),
+        callback: ["enter", e => {
+          if (e.state === "DURING"){
+              // console.log(this.registeredAnimations)
+              this.setState({activeSection: i})
+          }
+        }]
       });
     }
   }
@@ -148,22 +154,20 @@ class ScrollSections extends React.PureComponent {
     if (props.persist === 'all') props.persist = this.props.sections.length - 1 - props.sectionIndex;
     if (!props.start) props.start = 0;
     if (!props.end) props.end = 1;
-    this.registeredAnimations.push({
-      ...props,
-      currentAnimation: this.mountAnimation(props)
-    })
+
+    const currentAnimation = this.mountAnimation(props);
+    this.registeredAnimations.push({...props, currentAnimation});
   }
 
-  mountAnimation = ({key, sectionIndex, tween, classToggle, persist, start, end}) => {
+  mountAnimation = ({key, sectionIndex, tween, classToggle, persist, start, end, callback}) => {
     if (typeof window !== `undefined`) {
 
       let animationSpan = persist && persist >= 1 
       ? this.getAnimationSpan(sectionIndex, persist)
       : this.sectionHeights[sectionIndex];
 
-      document.querySelector(key)
-
       if (!animationSpan || !this.mounted || !document.querySelector(key)) {
+        // console.log(key + "[[looped]]");
         setTimeout(() => this.updateAnimation(key),100);
         return
       }
@@ -181,10 +185,16 @@ class ScrollSections extends React.PureComponent {
       }
 
       if (classToggle) {
-        scene.setClassToggle(classToggle[0], classToggle[1])
+        scene.setClassToggle(...classToggle)
       }
-      
-      return scene.addTo(this.controller);
+
+      if (callback) {
+        scene.on(...callback)
+      }
+
+      const output = scene.addTo(this.controller);
+      // console.log(key + "," + output);
+      return output;
     }
   }
 
@@ -193,10 +203,11 @@ class ScrollSections extends React.PureComponent {
 
     if (!anim) { return }
 
-    let {sectionIndex, tween, classToggle, persist, start, end} = newProps;
+    let {sectionIndex, tween, classToggle, persist, start, end, callback} = newProps;
     const currentAnimation = anim.currentAnimation;
     const tweenHasChanged = !!tween;
-    const classToggleHasChanged = !!classToggle
+    const classToggleHasChanged = !!classToggle;
+    const callbackHasChanged = !! callback;
 
     anim.sectionIndex = sectionIndex = sectionIndex || anim.sectionIndex;
     anim.tween = tween = tween || anim.tween;
@@ -240,6 +251,10 @@ class ScrollSections extends React.PureComponent {
     if (classToggleHasChanged) {
       currentAnimation.setClassToggle(classToggle[0], classToggle[1])
     }
+
+    if (callbackHasChanged) {
+      currentAnimation.off().on(...callback)
+    }
     
     return currentAnimation;
 
@@ -251,13 +266,12 @@ class ScrollSections extends React.PureComponent {
     }
   }
 
-
   handleResize = () => {
     this.updateSectionHeights();
     this.updateAllAnimations();
     // this.handleScroll();
     // console.log(this.activeSection + ": " + this.activeSectionProgress)
-    this.scrollTo(this.activeSection, this.activeSectionProgress, false);
+    this.scrollTo(this.state.activeSection, this.activeSectionProgress, false);
   }
 
   handleResizeThrottled = throttle(() => {
@@ -293,14 +307,9 @@ class ScrollSections extends React.PureComponent {
         && ((scrollTop - (offset - topPad)) < height || i === this.props.sections.length - 1)
       ) {
         const progress = (scrollTop - (offset - topPad)) / height;
-        this.activeSection = i;
         this.activeSectionProgress = progress;
-        newState['sectionProgress' + i] = progress;
-        if (!this.state['sectionActive' + i]) {
-          newState['sectionActive' + i] = true;
-        }
-      } else if (this.state['sectionActive' + i]) {
-        newState['sectionActive' + i] = false;
+        newState.hackyBS = true;
+        // newState.activeSection = i;
       }
     }
 
@@ -315,7 +324,7 @@ class ScrollSections extends React.PureComponent {
       window.cancelAnimationFrame(this.scrollTimeout);
     }
     this.scrollTimeout = window.requestAnimationFrame(this.handleScroll);
-  }, 50);
+  }, 75);
 
   componentWillUnmount(){
     this.mounted = false;
@@ -347,7 +356,7 @@ class ScrollSections extends React.PureComponent {
 
           {sections &&
             sections.map((Sect, index) => {
-                    const active = this.state["sectionActive" + index];
+                    const active = this.state.activeSection === index;
                     return (
                       <section 
                         key={"ScrollSection--" + index}
@@ -358,16 +367,17 @@ class ScrollSections extends React.PureComponent {
                         // style = {{...(this.state.visibleHeight ? {minHeight: this.state.visibleHeight} : {})}}
                       >
                         <Sect 
-                          progress={this.state["sectionProgress" + index]} 
+                          // progress={this.state["sectionProgress" + index]} 
                           registerAnimation={this.registerAnimation.bind(this)}
                           sectionIndex={index}
+                          activeIndex={this.state.activeSection} 
                           active={active} 
                           foregroundPortal={this.foregroundPortalRef.current} 
                           backgroundPortal={this.backgroundPortalRef.current} 
                           midgroundPortal={this.midgroundPortalRef.current} 
                           scrollTo={this.scrollTo.bind(this)}
                         />
-                        <FixedPortal target={this.foregroundPortalRef.current}>
+                        <FixedPortal target={this.UIPortalRef.current}>
                           <div className={"ScrollSection__timeIndicator ScrollSection__timeIndicator--" + index + (active ? " isActive" : "")}></div>
                         </FixedPortal>
                       </section>
@@ -375,6 +385,9 @@ class ScrollSections extends React.PureComponent {
           }
 
           <div className="ScrollSections__fixedRoot ScrollSections__fixedRoot--foreground" ref={this.foregroundPortalRef} />
+          <div className="ScrollSections__fixedRoot ScrollSections__fixedRoot--UI" ref={this.UIPortalRef}>
+            <div className="ScrollSections__pageCount">{this.state.activeSection + 1}/{sections.length + 1}</div>
+          </div>
       </div>
     );
   }

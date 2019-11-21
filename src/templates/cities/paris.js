@@ -11,7 +11,7 @@ import { withPrefix } from 'gatsby'
 
 const pages = [
 React.memo(
-  ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal, progress}) => {
+  ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
     useEffect(() => {
       registerAnimation({
         key: ".ScrollSections__background",
@@ -49,13 +49,14 @@ React.memo(
     </React.Fragment>
   )}
 ), React.memo(
-  ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal, progress}) => {
+  ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
 
     return(
       <React.Fragment>
         <Curtains 
           registerAnimation={registerAnimation}
           sectionIndex={sectionIndex}
+          activeIndex={activeIndex}
           foregroundPortal={foregroundPortal}
           backgroundPortal={backgroundPortal}
           persist={1}
@@ -64,23 +65,27 @@ React.memo(
             <VideoPlayer
               videoId="89KcuiXDKb4"
               fullscreen
-              active={(progress > 0.2) && active}
+              active={active}
               onEnd={() => scrollTo("next", 0)}
             />
             
         </FixedPortal>
       </React.Fragment>
-)}), React.memo(({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal, progress}) => (
+)}), React.memo(({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
           <FixedPortal target={midgroundPortal}>
             <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
-              <Slideshow progress={progress} backgroundFill>
+              <Slideshow 
+                registerAnimation={registerAnimation}
+                sectionIndex={sectionIndex}
+                backgroundFill
+              >
                 <CanvasBlend use="screenBW"><img src={`${withPrefix('/')}img/cabaret_1.jpg`} alt="" /></CanvasBlend>
                 <CanvasBlend use="screenBW"><img src={`${withPrefix('/')}img/cabaret_2.jpg`} alt="" /></CanvasBlend>
                 <CanvasBlend use="screenBW"><img src={`${withPrefix('/')}img/cabaret_3.jpg`} alt="" /></CanvasBlend>
               </Slideshow>
             </div>
           </FixedPortal>
-)), React.memo(({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal, progress}) => (
+)), React.memo(({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
           <FixedPortal target={midgroundPortal}>
             <div className={"Panel Panel--centered Transition--slow-fade" + (active ? " isActive" : "")}>
               <div className="videoborder">
@@ -94,13 +99,14 @@ React.memo(
             </div>    
           </FixedPortal>
 )), React.memo(
-  ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal, progress}) => {
+  ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
 
     return(
       <React.Fragment>
         <Curtains 
           registerAnimation={registerAnimation}
           sectionIndex={sectionIndex}
+          activeIndex={activeIndex}
           foregroundPortal={foregroundPortal}
           backgroundPortal={backgroundPortal}
           persist={2}
@@ -109,14 +115,14 @@ React.memo(
             <VideoPlayer
               videoId="W9jpiLfRLNs"
               fullscreen
-              active={(progress > 0.2) && active}
+              active={active}
               onEnd={() => scrollTo("next")}
             />
             
         </FixedPortal>
       </React.Fragment>
 )}), React.memo(
-  ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal, progress}) => {
+  ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
 
     return(
       <React.Fragment>
@@ -130,7 +136,7 @@ React.memo(
         </FixedPortal>
       </React.Fragment>
 )}), React.memo(
-  ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal, progress}) => {
+  ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
 
     return(
       <React.Fragment>
@@ -143,7 +149,7 @@ React.memo(
             />
         </FixedPortal>
       </React.Fragment>
-)}), React.memo(({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal, progress}) => (
+)}), React.memo(({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
         <FixedPortal target={midgroundPortal}>
           <div className={"Panel Panel--centered Transition--slow-fade" + (active ? " isActive" : "")}>
             <div className="openingQuote">
@@ -156,13 +162,14 @@ React.memo(
           </div>
         </FixedPortal>
 )), React.memo(
-  ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal, progress}) => {
+  ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
 
     return(
       <React.Fragment>
         <Curtains 
           registerAnimation={registerAnimation}
           sectionIndex={sectionIndex}
+          activeIndex={activeIndex}
           foregroundPortal={foregroundPortal}
           backgroundPortal={backgroundPortal}
           persist={4}
@@ -171,14 +178,14 @@ React.memo(
             <VideoPlayer
               videoId="ABGiqizwCso"
               fullscreen
-              active={(progress > 0.2) && active}
+              active={active}
               onEnd={() => scrollTo("next")}
             />
             
         </FixedPortal>
       </React.Fragment>
 )}), React.memo(
-  ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal, progress}) => {
+  ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
 
     return(
       <React.Fragment>
@@ -192,7 +199,7 @@ React.memo(
         </FixedPortal>
       </React.Fragment>
 )}), React.memo(
-  ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal, progress}) => {
+  ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
 
     return(
       <React.Fragment>
@@ -206,7 +213,7 @@ React.memo(
         </FixedPortal>
       </React.Fragment>
 )}), React.memo(
-  ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal, progress}) => {
+  ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
 
     return(
       <React.Fragment>
@@ -220,7 +227,7 @@ React.memo(
         </FixedPortal>
       </React.Fragment>
 )}), React.memo(
-  ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal, progress}) => {
+  ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
 
     return(
       <React.Fragment>
@@ -234,12 +241,12 @@ React.memo(
         </FixedPortal>
       </React.Fragment>
 )}), React.memo(
-  ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal, progress}) => {
+  ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
     return(
       <React.Fragment>
         In the 1920s and 30s, a flood of expats in Paris created both a stream of American entertainers and American ex-pats who would flock to establishments with American artists (as did the French). A huge part of the reason was jazz’s rapid advance around the world. In particular, African American artists who could not perform in front of integrated audiences at home and who were appalled and exhausted at their treatment in America found refuge in Paris. This cross-cultural exchange would have a lasting impact on cabaret in both Paris and America (and also in Berlin which was not immune to the influence of Josephine Baker). 
       </React.Fragment>
-)}), React.memo(({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal, progress}) => (
+)}), React.memo(({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
           <FixedPortal target={midgroundPortal}>
             <div className={"Panel Panel--centered Transition--slow-fade" + (active ? " isActive" : "")}>
               <div className="videoborder">
@@ -253,13 +260,14 @@ React.memo(
             </div>    
           </FixedPortal>
 )), React.memo(
-  ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal, progress}) => {
+  ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
 
     return(
       <React.Fragment>
         <Curtains 
           registerAnimation={registerAnimation}
           sectionIndex={sectionIndex}
+          activeIndex={activeIndex}
           foregroundPortal={foregroundPortal}
           backgroundPortal={backgroundPortal}
           persist={3}
@@ -268,14 +276,14 @@ React.memo(
             <VideoPlayer
               videoId="0iUTZajxlWI"
               fullscreen
-              active={(progress > 0.2) && active}
+              active={active}
               onEnd={() => scrollTo("next")}
             />
             
         </FixedPortal>
       </React.Fragment>
 )}), React.memo(
-  ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal, progress}) => {
+  ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
 
     return(
       <React.Fragment>
@@ -289,7 +297,7 @@ React.memo(
         </FixedPortal>
       </React.Fragment>
 )}), React.memo(
-  ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal, progress}) => {
+  ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
 
     return(
       <React.Fragment>
@@ -303,7 +311,7 @@ React.memo(
         </FixedPortal>
       </React.Fragment>
 )}), React.memo(
-  ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal, progress}) => {
+  ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
 
     return(
       <React.Fragment>

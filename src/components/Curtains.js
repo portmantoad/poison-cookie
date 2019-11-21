@@ -6,23 +6,11 @@ import FixedPortal from './FixedPortal'
 import { withPrefix } from 'gatsby'
 
 const Curtains = React.memo(
-  ({registerAnimation, sectionIndex, foregroundPortal, backgroundPortal, persist}) => {
+  ({registerAnimation, sectionIndex, activeIndex, foregroundPortal, backgroundPortal, persist = 0}) => {
     const uniqueKey = useRef('_' + Math.random().toString(36).substr(2, 9));
+    const active = activeIndex >= sectionIndex && activeIndex <= sectionIndex + persist;
 
     useEffect(() => {
-      registerAnimation({
-        key: ".Animation--curtains-scrim" + uniqueKey.current,
-        sectionIndex: sectionIndex, 
-        classToggle: ['.Animation--curtains-scrim' + uniqueKey.current, 'isActive'], 
-        persist: persist, 
-      });
-
-      registerAnimation({
-        key: ".Animation--curtains" + uniqueKey.current,
-        sectionIndex: sectionIndex, 
-        classToggle: ['.Animation--curtains' + uniqueKey.current, 'isActive'], 
-        persist: persist, 
-      });
 
       registerAnimation({
         key: ".Animation--curtain-right" + uniqueKey.current,
@@ -53,12 +41,12 @@ const Curtains = React.memo(
       <React.Fragment>
         <FixedPortal target={backgroundPortal}> 
             <div 
-              className={"Panel Transition--fade Animation--curtains-scrim" + uniqueKey.current}
+              className={"Panel Transition--fade" + (active ? " isActive" : "")}
               style={{background: "rgba(0,0,0,0.8)"}}
             />            
         </FixedPortal>
         <FixedPortal target={foregroundPortal}>
-          <div className={"Transition--fade Animation--curtains" + uniqueKey.current}>
+          <div className={"Transition--fade" + (active ? " isActive" : "")}>
                 <div className={"Panel Animation--curtain-right" + uniqueKey.current} style={{
                   left: "50%"
                 }}>
