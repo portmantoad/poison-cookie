@@ -34,6 +34,8 @@ class ScrollSections extends React.PureComponent {
       activeSection: 0
     };
 
+    this.activeSectionProgress = 0;
+
     this.registeredAnimations = [];
     if (typeof window !== `undefined`) {
       this.controller = new ScrollMagic.Controller();
@@ -51,7 +53,7 @@ class ScrollSections extends React.PureComponent {
         const rect = this.sectionRefs[i].getBoundingClientRect();
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
         this.sectionHeights[i] = rect.height;
-        this.sectionOffsets[i] = rect.top + scrollTop;
+        this.sectionOffsets[i] = rect.top + scrollTop - 20;
       }
     }
   }
@@ -65,22 +67,26 @@ class ScrollSections extends React.PureComponent {
     if (target === "end") target = end;
 
     const offset = this.sectionOffsets[target];
+    const visibleHeight = Math.min(...this.sectionHeights);
     let output = offset;
+    // console.log(offset - this.sectionOffsets[0]);
 
     if (progress !== undefined) {
       // progress = 1;
       const height = this.sectionHeights[target];
-      output = offset - this.sectionOffsets[0] + (height * progress);
+      output = offset - this.sectionOffsets[0] + 20 + (height * progress);
+      // console.log(offset + " - " + this.sectionOffsets[0] + " + (" + height + " * " + progress)
     }
 
     if (animated) {
+      // console.log("scrollTo fired!")
       const scrollTop = Math.max(window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0, 0);
-      const diff = Math.abs(scrollTop - output) / Math.min(...this.sectionHeights);
+      const diff = Math.abs(scrollTop - output) / visibleHeight;
 
       TweenMax.to(window, 1.25 + (diff/4), {scrollTo: {y: output }, ease: "Quad.easeOut"});
     }
     else {
-      // console.log("current: " + window.pageYOffset + ", output: " + output)
+      console.log("current: " + window.pageYOffset + ", output: " + output + ", progress: " + progress)
       window.scrollTo(0, output);
     }
   }
@@ -90,8 +96,7 @@ class ScrollSections extends React.PureComponent {
     this.mounted = true; 
 
     if (typeof window !== `undefined`) {
-      this.handleScroll();
-      window.addEventListener('scroll', this.handleScrollThrottled , {passive: true});
+      // this.handleScroll();
       window.addEventListener("keydown", this.handleKeydown);
     }
 
@@ -103,15 +108,20 @@ class ScrollSections extends React.PureComponent {
         key: ".ScrollSection__timeIndicator--" + i,
         sectionIndex: i, 
         tween: () => TweenMax.fromTo(".ScrollSection__timeIndicator--" + i, 1, {y: '-50%'}, {y: '50%', ease: "Linear.easeNone"}),
-        callback: ["enter", e => {
+        callback: ["enter progress", e => {
           if (e.state === "DURING"){
               // console.log(this.registeredAnimations)
-              this.setState({activeSection: i})
+              e.type === "enter" && this.setState({activeSection: i});
+              this.setActiveSectionProgress(e.progress)
           }
         }]
       });
     }
+
+    this.setState({hackyBS: true});
   }
+
+  setActiveSectionProgress = throttle((progress) => {this.activeSectionProgress = progress}, 50);
 
   handleKeydown = event => {
     if (event.isComposing || event.keyCode === 229) {
@@ -281,55 +291,9 @@ class ScrollSections extends React.PureComponent {
     this.resizeTimeout = window.requestAnimationFrame(this.handleResize);
   }, 100);
 
-  handleScroll = () => {
-    if (isNaN(this.sectionOffsets[this.props.sections.length - 1])) {
-      this.handleScrollThrottled();
-      return false;
-    }
-
-    const scrollTop = Math.max(window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0, 0);
-    // const topPad = this.state.visibleHeight / 2;
-    const newState = {};
-
-    for (let i = 0; i < this.props.sections.length; i++) {
-      const height = this.sectionHeights[i];
-
-      if (isNaN(height)) {
-        this.handleScrollThrottled();
-        return false;
-      }
-
-      const offset = this.sectionOffsets[i];
-      const topPad = this.sectionOffsets[0];
-
-      if (
-        scrollTop >= offset - topPad
-        && ((scrollTop - (offset - topPad)) < height || i === this.props.sections.length - 1)
-      ) {
-        const progress = (scrollTop - (offset - topPad)) / height;
-        this.activeSectionProgress = progress;
-        newState.hackyBS = true;
-        // newState.activeSection = i;
-      }
-    }
-
-    // newState.totalProgress = scrollTop / this.state.totalHeight;
-
-    this.setState(newState);
-
-  }
-
-  handleScrollThrottled = throttle(() => {
-    if (this.scrollTimeout) {
-      window.cancelAnimationFrame(this.scrollTimeout);
-    }
-    this.scrollTimeout = window.requestAnimationFrame(this.handleScroll);
-  }, 75);
-
   componentWillUnmount(){
     this.mounted = false;
     if (typeof window !== `undefined`) {
-      window.removeEventListener('scroll', this.handleScrollThrottled , {passive: true});
       window.removeEventListener("keydown", this.handleKeydown);
       window.cancelAnimationFrame(this.scrollTimeout);
       window.cancelAnimationFrame(this.resizeTimeout);
