@@ -283,11 +283,11 @@ body {
     &:after{
       content:'';
       display:block;
-      width:7px;
+      width:9px;
       height:10%;
       position:absolute;
       top:45%;
-      left:2px;
+      left:1px;
       border-radius: 5px;
       background-color: #000;
       background-clip: content-box;
@@ -309,6 +309,10 @@ body {
 
   &.isActive{
     pointer-events: auto;
+  }
+
+  &.isFullyHidden{
+    display: none;
   }
 
 

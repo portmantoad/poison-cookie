@@ -8,7 +8,8 @@ import ResizeDetector from 'react-resize-detector'
 
 
 const VideoPlayer = React.memo((
-    { active, 
+    { sectionIndex,
+      activeIndex, 
       className, 
       fullscreen, 
       videoId, 
@@ -17,6 +18,9 @@ const VideoPlayer = React.memo((
       onEnd,
       ...rest
     }) => {
+      const active = sectionIndex === activeIndex;
+      const onDeck = sectionIndex >= (activeIndex - 1) && sectionIndex <= (activeIndex + 1);
+
       const muted = useContext(MutedContext);
       const [ volume, setVolume ] = useState(1);
       const [ playing, setPlaying ] = useState(active);
@@ -93,6 +97,13 @@ const VideoPlayer = React.memo((
         active ? play() : pause()
       }, [active]);
 
+      useEffect(() => {
+        onDeck && player.current && player.current.seekTo(displayPlayedToTruth(played))
+      }, [onDeck]);
+
+
+      
+
 
       // const pauseFade = () => {
       //   // const backupPause = setTimeout(()=>{
@@ -167,6 +178,7 @@ const VideoPlayer = React.memo((
           "Video" 
           + (fullscreen ? " Video--fullscreen" : "")
           + (active ? " isActive" : "") 
+          + (!onDeck ? " isFullyHidden" : "") 
           + (className ? ` ${className}` : "")
         }
         onClick={() => playToggle()}
@@ -178,11 +190,17 @@ const VideoPlayer = React.memo((
         )}
         
         <div className="Video__wrapper">
-          <YouTubePlayer
+          {onDeck && <YouTubePlayer
             ref={player}
             url={'https://www.youtube.com/watch?v=' + videoId + '&start=' + startTime + (endTime ? '&end' + endTime : '')}
             volume={muted.muted ? 0 : volume}
             controls={false}
+            config={{
+              youtube: {
+                preload: onDeck
+                // preload: true
+              }
+            }}
             className={
               "Video__wrapper__ytEmbed" 
               // + (playing ? " isPlaying" : "")
@@ -228,7 +246,7 @@ const VideoPlayer = React.memo((
                 setDuration((endTime || duration) - startTime);
             }}
             progressInterval={100}
-          />
+          />}
           <div className={"Video__wrapper__playButton" + ((!playing && active) ? " isActive" : "")}><PlayerIcon.Play /></div>
           <div className={"Video__wrapper__controlsScrim" + (controlsScrimVisible ? " isActive" : "")}></div>
         </div>
