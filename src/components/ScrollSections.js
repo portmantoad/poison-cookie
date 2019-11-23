@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import VideoPlayer from './VideoPlayer'
 import FixedPortal from './FixedPortal'
-import { throttle, debounce } from 'lodash'
+import { throttle } from 'lodash'
 // import Lethargy from './Lethargy'
 
 import TweenMax from 'TweenMax';
@@ -78,6 +78,9 @@ class ScrollSections extends React.PureComponent {
       output = offset - this.sectionOffsets[0] + 20 + (height * progress);
       // console.log(offset + " - " + this.sectionOffsets[0] + " + (" + height + " * " + progress)
     }
+
+    // debugger;
+    // console.log(output)
 
     if (animated) {
       // console.log("scrollTo fired!")

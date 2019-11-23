@@ -5,6 +5,7 @@ import { MutedContext } from './contexts'
 import { Slider, FormattedTime, PlayerIcon } from 'react-player-controls'
 import { throttle, clamp } from 'lodash'
 import ResizeDetector from 'react-resize-detector'
+import fscreen from 'fscreen'
 // import useMedia from 'use-media';
 
 
@@ -158,7 +159,11 @@ const VideoPlayer = React.memo((
       // }
 
       const handleEnd = () => {
-        onEnd && onEnd();
+        if (fscreen.fullscreenElement !== null) {
+          fscreen.exitFullscreen().then(() =>{ onEnd && setTimeout(onEnd,1000)})
+        } else {
+          onEnd && onEnd();
+        }
         // player.current && player.current.seekTo(startTime);
         // pause();
         // setPlayed(0);
