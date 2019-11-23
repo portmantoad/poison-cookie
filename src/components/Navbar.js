@@ -22,22 +22,22 @@ const Navbar = () => {
           ? (
             <div className="Navbar__endLinks">
               <Icon onClick={muted.toggleMuted} use={muted.muted ? "volumeOff" : "volumeHigh"} />
-              <div className="Navbar__hamburger" onClick={() => setActive(!active)}>
+              <div className="Navbar__hamburger" onClick={() => setActive(true)}>
                 <Icon use="hamburger" />
               </div>
               <div 
                 className={"Navbar__menuWrapper" + (active ? " isActive" : "")}
-                onClick={() => setActive(!active)}
+                onClick={() => setActive(false)}
               >
                 <div 
                   className={"Navbar__menu" + (active ? " isActive" : "")} 
                   onClick={event => event.stopPropagation()}
                 >
-                  <Link to="/cities/intro">Intro</Link>
-                  <Link to="/cities/paris">Paris</Link>
+                  <Link onClick={() => setActive(false)} to="/cities/intro">Intro</Link>
+                  <Link onClick={() => setActive(false)} to="/cities/paris">Paris</Link>
                   <hr />
-                  <Link to="/now">Now</Link>
-                  <Link to="/about">About</Link>
+                  <Link onClick={() => setActive(false)} to="/now">Now</Link>
+                  <Link onClick={() => setActive(false)} to="/about">About</Link>
                   <Icon use="youtube" />
                   <Icon use="facebook" />
                   <Icon use="twitter" />

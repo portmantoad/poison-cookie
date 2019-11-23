@@ -5,6 +5,7 @@ import { MutedContext } from './contexts'
 import { Slider, FormattedTime, PlayerIcon } from 'react-player-controls'
 import { throttle, clamp } from 'lodash'
 import ResizeDetector from 'react-resize-detector'
+// import useMedia from 'use-media';
 
 
 const VideoPlayer = React.memo((
@@ -23,6 +24,7 @@ const VideoPlayer = React.memo((
 
       const muted = useContext(MutedContext);
       const [ volume, setVolume ] = useState(1);
+      const [ ready, setReady ] = useState(false);
       const [ playing, setPlaying ] = useState(active);
       const [ duration, setDuration ] = useState(0);
       const [ trueDuration, setTrueDuration ] = useState(0);
@@ -33,11 +35,14 @@ const VideoPlayer = React.memo((
       const [ onPlayInitialTimeout, setOnPlayInitialTimeout ] = useState(false);
       const [ intentActive, setIntentActive ] = useState(false);
       const [ controlsBottomPad, setControlsBottomPad ] = useState(0);
+
+      const [ controls, setControls ] = useState(false);
       
+      // const isMobile = useMedia({maxWidth: 1000});
 
       const controlsAreDetached = fullscreen && !controlsBottomPad;
       const controlsVisible = controlsAreDetached || (active && duration && (controlsHovered || onPlayInitialTimeout || !playing));
-      const controlsScrimVisible = !controlsAreDetached && controlsVisible;
+      const controlsScrimVisible = controls && !controlsAreDetached && controlsVisible;
 
       const player = useRef(null);
       // const audioFadeInterval = useRef();
@@ -58,6 +63,7 @@ const VideoPlayer = React.memo((
             player.current && player.current.seekTo(startTime)
           }
           setPlaying(true);
+          // setInitialPlay(true);
         }
         // clearAudioFadeInterval();
       }
@@ -68,18 +74,19 @@ const VideoPlayer = React.memo((
       }
 
       const hardPause = () => {
-        const truePlayer = player.current && player.current.player.player.player;
+        const truePlayer = player.current && player.current.player && player.current.player.player && player.current.player.player.player;
         truePlayer && truePlayer.pauseVideo && truePlayer.pauseVideo();
       }
-  
+
+      // const [ initialPlay, setInitialPlay ] = useState(false);
       // const [ scrolling, setScrolling ] = useState(false);
       // const scrollTimeout = useRef();
       // const handleScroll = throttle(()=>{
+      // //  console.log("scroll")
       //   setScrolling(true);
       //   clearTimeout(scrollTimeout.current);
       //   scrollTimeout.current = setTimeout(()=>{ 
       //     setScrolling(false);
-      //     window.removeEventListener('scroll', handleScroll)
       //   },200)
       // },50)
       // useEffect(() => {
@@ -93,14 +100,26 @@ const VideoPlayer = React.memo((
         }
       }, [playing, active]);
 
+      const playTimeout = useRef();
+
       useEffect(() => {
-        active ? play() : pause()
+        if (active) {
+          playTimeout.current = setTimeout(play, 250);
+        } else {
+          clearTimeout(playTimeout.current);
+          pause();
+          // setInitialPlay(false);
+        }
       }, [active]);
 
       useEffect(() => {
         onDeck && player.current && player.current.seekTo(displayPlayedToTruth(played))
       }, [onDeck]);
 
+      const playable = !!trueDuration 
+        && active 
+        // && !scrolling
+      ;
 
       
 
@@ -178,41 +197,43 @@ const VideoPlayer = React.memo((
           "Video" 
           + (fullscreen ? " Video--fullscreen" : "")
           + (active ? " isActive" : "") 
-          + (!onDeck ? " isFullyHidden" : "") 
+          // + (!onDeck ? " fullyHidden" : "") 
           + (className ? ` ${className}` : "")
         }
         onClick={() => playToggle()}
         {...rest}
         > 
 
-        {fullscreen && (
+        {fullscreen && controls && (
           <ResizeDetector refreshMode='throttle' handleWidth handleHeight onResize={handleResize} />  
         )}
         
         <div className="Video__wrapper">
-          {onDeck && <YouTubePlayer
+          {true && <YouTubePlayer
             ref={player}
             url={'https://www.youtube.com/watch?v=' + videoId + '&start=' + startTime + (endTime ? '&end' + endTime : '')}
             volume={muted.muted ? 0 : volume}
-            controls={false}
+            controls={!controls}
             config={{
               youtube: {
-                preload: onDeck
-                // preload: true
+                // preload: onDeck
+                preload: true
               }
             }}
             className={
-              "Video__wrapper__ytEmbed" 
+              "Video__wrapper__ytEmbed"
+              // + (ready ? " isActive" : "")
               // + (playing ? " isPlaying" : "")
             }
+            // onReady={() => setReady(true)}
             width="100%"
             height="200%"
             playsinline
-            playing={!!trueDuration && playing && active}
+            playing={playable && playing}
             onBufferEnd={
               ()=>{
                 setPlaying(playState => {
-                  playState = playState && active ? true : false
+                  playState = playState && playable ? true : false;
                   !playState && hardPause();
                   return playState;
                 })
@@ -239,7 +260,7 @@ const VideoPlayer = React.memo((
               );
               
             }}
-            onPause={() => pause()}
+            onPause={() => playable && pause()}
             onEnded={handleEnd}
             onDuration={duration => {
                 setTrueDuration(duration);
@@ -247,10 +268,10 @@ const VideoPlayer = React.memo((
             }}
             progressInterval={100}
           />}
-          <div className={"Video__wrapper__playButton" + ((!playing && active) ? " isActive" : "")}><PlayerIcon.Play /></div>
+          <div className={"Video__wrapper__playButton" + ((!playing && playable && active) ? " isActive" : "")}><PlayerIcon.Play /></div>
           <div className={"Video__wrapper__controlsScrim" + (controlsScrimVisible ? " isActive" : "")}></div>
         </div>
-        <div 
+        {controls && <div 
             className={"Video__controls"
                + (controlsVisible ? " isActive" : "")
                // + (this.state.playing ? " isPlaying" : "")
@@ -263,7 +284,7 @@ const VideoPlayer = React.memo((
               {playing ? <PlayerIcon.Pause /> : <PlayerIcon.Play />}
             </div>
             <div className="Video__controls__time">
-              <FormattedTime numSeconds={played * duration} />/<FormattedTime numSeconds={duration} />
+              <FormattedTime numSeconds={played * duration || 0} />/<FormattedTime numSeconds={duration} />
             </div>
             <div className="Video__controls__slider" onClick={event => event.stopPropagation()}>
               <Slider
@@ -290,7 +311,7 @@ const VideoPlayer = React.memo((
                 </div>
               </Slider>
             </div>
-          </div>
+          </div>}
       </div>
   )
 })

@@ -2,7 +2,8 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import VideoPlayer from './VideoPlayer'
 import FixedPortal from './FixedPortal'
-import { throttle } from 'lodash'
+import { throttle, debounce } from 'lodash'
+// import Lethargy from './Lethargy'
 
 import TweenMax from 'TweenMax';
 import ScrollMagic from 'ScrollMagic';
@@ -86,10 +87,21 @@ class ScrollSections extends React.PureComponent {
       TweenMax.to(window, 1.25 + (diff/4), {scrollTo: {y: output }, ease: "Quad.easeOut"});
     }
     else {
-      console.log("current: " + window.pageYOffset + ", output: " + output + ", progress: " + progress)
+      // console.log("current: " + window.pageYOffset + ", output: " + output + ", progress: " + progress)
       window.scrollTo(0, output);
     }
   }
+
+  // stopScroll = () => {
+  //   console.log("stopScroll")
+  //   if (typeof window !== `undefined`) {
+  //     const html = document.documentElement;
+  //     html.style.overflow = 'hidden';
+  //     setTimeout(() => {
+  //       html.style.overflow = '';
+  //     }, 10);
+  //   }
+  // }
 
   componentDidMount() {
     this.updateSectionHeights();
@@ -98,6 +110,7 @@ class ScrollSections extends React.PureComponent {
     if (typeof window !== `undefined`) {
       // this.handleScroll();
       window.addEventListener("keydown", this.handleKeydown);
+      // window.addEventListener("wheel", this.handleMouseWheel, { passive: false });
     }
 
     this.resizeObserver.observe(this.wrapperElement)
@@ -108,11 +121,24 @@ class ScrollSections extends React.PureComponent {
         key: ".ScrollSection__timeIndicator--" + i,
         sectionIndex: i, 
         tween: () => TweenMax.fromTo(".ScrollSection__timeIndicator--" + i, 1, {y: '-50%'}, {y: '50%', ease: "Linear.easeNone"}),
-        callback: ["enter progress", e => {
+        callback: ["enter", e => {
           if (e.state === "DURING"){
               // console.log(this.registeredAnimations)
-              e.type === "enter" && this.setState({activeSection: i});
-              this.setActiveSectionProgress(e.progress)
+              if (e.type === "enter") {
+                // if (!!this.scrollSpeedTimer){
+                //   this.stopScroll();
+                //   this.scrollTo(this.activeSection, 0.5, false);
+                // } else {
+                //   this.scrollSpeedTimer = setTimeout(() => { 
+                //     this.scrollSpeedTimer = false 
+                //   }, 100)
+                  // this.activeSection = i;
+                  // this.setActiveSection(i);
+                  this.setState({activeSection: i})
+                // }
+              } else {
+                this.setActiveSectionProgress(e.progress)
+              }
           }
         }]
       });
@@ -120,6 +146,8 @@ class ScrollSections extends React.PureComponent {
 
     this.setState({hackyBS: true});
   }
+
+  // setActiveSection = throttle(i => this.setState({activeSection: i}), 50);
 
   setActiveSectionProgress = throttle((progress) => {this.activeSectionProgress = progress}, 50);
 
@@ -321,6 +349,7 @@ class ScrollSections extends React.PureComponent {
           {sections &&
             sections.map((Sect, index) => {
                     const active = this.state.activeSection === index;
+                    const onDeck = index >= (this.state.activeSection - 1) && index <= (this.state.activeSection + 1);
                     return (
                       <section 
                         key={"ScrollSection--" + index}
@@ -335,7 +364,8 @@ class ScrollSections extends React.PureComponent {
                           registerAnimation={this.registerAnimation.bind(this)}
                           sectionIndex={index}
                           activeIndex={this.state.activeSection} 
-                          active={active} 
+                          active={active}
+                          onDeck={onDeck} 
                           foregroundPortal={this.foregroundPortalRef.current} 
                           backgroundPortal={this.backgroundPortalRef.current} 
                           midgroundPortal={this.midgroundPortalRef.current} 
@@ -350,7 +380,7 @@ class ScrollSections extends React.PureComponent {
 
           <div className="ScrollSections__fixedRoot ScrollSections__fixedRoot--foreground" ref={this.foregroundPortalRef} />
           <div className="ScrollSections__fixedRoot ScrollSections__fixedRoot--UI" ref={this.UIPortalRef}>
-            <div className="ScrollSections__pageCount">{this.state.activeSection + 1}/{sections.length + 1}</div>
+            <div className="ScrollSections__pageCount">{this.state.activeSection + 1}/{sections.length}</div>
           </div>
       </div>
     );

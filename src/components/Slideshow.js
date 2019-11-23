@@ -3,6 +3,7 @@ import React, {useRef, useState, useEffect} from 'react'
 // import CanvasBlend from './CanvasBlend'
 import Icon from './Icon'
 import TweenMax from "TweenMax"
+import { throttle } from 'lodash'
 // import { withPrefix } from 'gatsby'
 // import useMedia from 'use-media';
 
@@ -13,16 +14,18 @@ const Slideshow = ({registerAnimation, sectionIndex, backgroundFill, children}) 
     const [indexSetByScroll, setIndexSetByScroll] = useState(0);
     const [indexSetManually, setIndexSetManually] = useState(null);
 
-    useEffect(() => {
-      registerAnimation({
-        key: ".Animation--slideshow" + uniqueKey.current,
-        sectionIndex: sectionIndex, 
-        callback: ["progress", event => {
+    const callbackThrottled = throttle(event => {
           if (event.state === "DURING"){
             const newIndex = Math.floor(event.progress * Math.min(children.length, 3));
             if (!isNaN(newIndex)) setIndexSetByScroll(newIndex);
           }
-        }]
+        }, 50)
+
+    useEffect(() => {
+      registerAnimation({
+        key: ".Animation--slideshow" + uniqueKey.current,
+        sectionIndex: sectionIndex, 
+        callback: ["progress", callbackThrottled]
       });
     }, []);
 
