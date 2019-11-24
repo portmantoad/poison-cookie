@@ -12,12 +12,16 @@ import { withPrefix } from 'gatsby'
 const pages = [
 React.memo(
   ({registerAnimation, scrollTo, sectionIndex, activeIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
+
+    // const bgLength = 6;
+    // const bgLength = pages.length;
+
     useEffect(() => {
       registerAnimation({
         key: ".ScrollSections__background",
         sectionIndex: 0, 
-        tween: () => TweenMax.to(".ScrollSections__background", 1, {y: '-' + ((pages.length * 3) / (((pages.length * 3) + 100)/100)) + '%', ease: "Linear.easeNone"}),
-        persist: 'all', 
+        tween: () => TweenMax.to(".ScrollSections__background", 1, {y: '-' + (20 / ((20 + 100)/100)) + '%', ease: "Linear.easeNone"}),
+        persist: 7, 
       });
     }, []);
 
@@ -29,11 +33,14 @@ React.memo(
          style={{
            backgroundImage: "url(" + `${withPrefix('/')}img/paris.jpg` + ")",
            // height: (20 + 100) + "%"
-           height: ((pages.length * 3) + 100) + "vh"
+           height: (20 + 100) + "vh"
          }}></div>
       </FixedPortal>
-      <FixedPortal target={midgroundPortal}>
-        <div className={"Panel Panel--centered Transition--slow-fade" + (active ? " isActive" : "")}
+
+      <CanvasBlend use="multiply" style={{maxWidth: '40%', marginLeft: 'auto'}}><img src={`${withPrefix('/')}img/gentlemen.jpg`} alt=""/></CanvasBlend>
+
+      <FixedPortal target={foregroundPortal}>
+        <div className={"Panel Transition--fade" + (active ? " isActive" : "")}
         style={{flexDirection: "column"}}>
           <img src={`${withPrefix('/')}img/bienvenue-a-paris.png`} alt="" className="welcomeToParis" />
           <div className="videoborder">
@@ -60,7 +67,7 @@ React.memo(
           activeIndex={activeIndex}
           foregroundPortal={foregroundPortal}
           backgroundPortal={backgroundPortal}
-          persist={1}
+          persist={0}
         />
         <FixedPortal target={midgroundPortal}> 
 
@@ -75,23 +82,34 @@ React.memo(
             
         </FixedPortal>
       </React.Fragment>
+)}), React.memo(
+  ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
+
+    return(
+      <React.Fragment>
+        <CanvasBlend use="multiply" style={{maxWidth: '100%'}}><img src={`${withPrefix('/')}img/parismap.jpg`} alt=""/></CanvasBlend>
+      </React.Fragment>
 )}), React.memo(({registerAnimation, scrollTo, sectionIndex, activeIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
           <FixedPortal target={midgroundPortal}>
-            <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
+            <div className={"Panel Panel--padded Transition--fade" + (active ? " isActive" : "")}>
+              <div>The faces of cabaret in old Paris: </div>
               <Slideshow 
                 registerAnimation={registerAnimation}
                 sectionIndex={sectionIndex}
-                backgroundFill
+                // style={{flexGrow: 1}}
+                // backgroundFill
               >
-                <CanvasBlend use="screenBW"><img src={`${withPrefix('/')}img/cabaret_1.jpg`} alt="" /></CanvasBlend>
-                <CanvasBlend use="screenBW"><img src={`${withPrefix('/')}img/cabaret_2.jpg`} alt="" /></CanvasBlend>
-                <CanvasBlend use="screenBW"><img src={`${withPrefix('/')}img/cabaret_3.jpg`} alt="" /></CanvasBlend>
+                <CanvasBlend use="multiplyBW"><img src={`${withPrefix('/')}img/cabaret_1.jpg`} alt="" /></CanvasBlend>
+                <CanvasBlend use="multiplyBW"><img src={`${withPrefix('/')}img/cabaret_2.jpg`} alt="" /></CanvasBlend>
+                <CanvasBlend use="multiplyBW"><img src={`${withPrefix('/')}img/cabaret_3.jpg`} alt="" /></CanvasBlend>
+                <CanvasBlend use="multiplyBW"><img src={`${withPrefix('/')}img/cabaret_4.jpg`} alt="" /></CanvasBlend>
+                <CanvasBlend use="multiplyBW"><img src={`${withPrefix('/')}img/cabaret_5.jpg`} alt="" /></CanvasBlend>
               </Slideshow>
             </div>
           </FixedPortal>
 )), React.memo(({registerAnimation, scrollTo, sectionIndex, activeIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
           <FixedPortal target={midgroundPortal}>
-            <div className={"Panel Panel--centered Transition--slow-fade" + (active ? " isActive" : "")}>
+            <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
               <div className="videoborder">
                 <div className="videoborder__border"><img src={`${withPrefix('/')}img/card.jpg`} alt="" /></div>
                 <VideoPlayer
@@ -123,6 +141,7 @@ React.memo(
               fullscreen
               sectionIndex={sectionIndex}
               activeIndex={activeIndex}
+              captions={true}
               onEnd={() => scrollTo("next")}
             />
             
@@ -134,11 +153,15 @@ React.memo(
               <Slideshow 
                 registerAnimation={registerAnimation}
                 sectionIndex={sectionIndex}
-                backgroundFill
+                // backgroundFill
               >
-                <CanvasBlend use="screenBW"><img src={`${withPrefix('/')}img/cabaret_1.jpg`} alt="" /></CanvasBlend>
-                <CanvasBlend use="screenBW"><img src={`${withPrefix('/')}img/cabaret_2.jpg`} alt="" /></CanvasBlend>
-                <CanvasBlend use="screenBW"><img src={`${withPrefix('/')}img/cabaret_3.jpg`} alt="" /></CanvasBlend>
+                <CanvasBlend use="screen"><img src={`${withPrefix('/')}img/paris_famouspeople_bruant.jpg`} alt="" /></CanvasBlend>
+                <CanvasBlend use="screen"><img src={`${withPrefix('/')}img/paris_famouspeople_willette.jpg`} alt="" /></CanvasBlend>
+                <CanvasBlend use="screen"><img src={`${withPrefix('/')}img/paris_famouspeople_andregill.jpg`} alt="" /></CanvasBlend>
+                <CanvasBlend use="screen"><img src={`${withPrefix('/')}img/paris_famouspeople_claudedebussy.jpg`} alt="" /></CanvasBlend>
+                <CanvasBlend use="screen"><img src={`${withPrefix('/')}img/paris_famouspeople_ericsatie.jpg`} alt="" /></CanvasBlend>
+                <CanvasBlend use="screen"><img src={`${withPrefix('/')}img/paris_famouspeople_janeavril.jpg`} alt="" /></CanvasBlend>
+                <CanvasBlend use="screen"><img src={`${withPrefix('/')}img/paris_famouspeople_toulouselautrec.jpg`} alt="" /></CanvasBlend>
               </Slideshow>
             </div>
           </FixedPortal>
@@ -158,17 +181,20 @@ React.memo(
         </FixedPortal>
       </React.Fragment>
 )}), React.memo(({registerAnimation, scrollTo, sectionIndex, activeIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
+       <React.Fragment>
+        <CanvasBlend use="multiplyBW"><img src={`${withPrefix('/')}img/paris_bruant.jpg`} alt="" /></CanvasBlend>
         <FixedPortal target={midgroundPortal}>
-          <div className={"Panel Panel--centered Transition--slow-fade" + (active ? " isActive" : "")}>
+          <div className={"Panel Transition--slow-fade" + (active ? " isActive" : "")}>
             <div className="openingQuote">
                 <figure className="quote">
                    <q>Passers-by stop and stare: ‘who the devil is that fellow?’ The answer’s simple. He is Montmartre. Montmartre personified, Montmartre, alias Aristide Bruant.</q>
-                   <figcaption><img src={`${withPrefix('/')}img/friedrich.jpg`} alt="" />&ensp;&mdash;&ensp;Playwright and editor of Le Mirliton’s journal, Georges Courteline,on Bruant</figcaption>
+                   <figcaption>&mdash;&ensp;Playwright and editor of Le Mirliton’s journal, Georges Courteline,on Bruant</figcaption>
                 </figure>
             </div>
             <div className="bigborder"></div>
           </div>
         </FixedPortal>
+       </React.Fragment>
 )), React.memo(
   ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
 
@@ -202,7 +228,7 @@ React.memo(
         <FixedPortal target={midgroundPortal}> 
             <VideoPlayer
               /* interview with julia */
-              videoId="Euo71tDlx4w"
+              videoId="xxx"
               fullscreen
               sectionIndex={sectionIndex}
               activeIndex={activeIndex}
@@ -264,7 +290,7 @@ React.memo(
         <FixedPortal target={midgroundPortal}> 
             <VideoPlayer
               /* Edith Piaf’s grave site */
-              videoId="0iUTZajxlWI"
+              videoId="xxx"
               fullscreen
               sectionIndex={sectionIndex}
               activeIndex={activeIndex}
@@ -280,11 +306,11 @@ React.memo(
       </React.Fragment>
 )}), React.memo(({registerAnimation, scrollTo, sectionIndex, activeIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
         <FixedPortal target={midgroundPortal}>
-          <div className={"Panel Panel--centered Transition--slow-fade" + (active ? " isActive" : "")}>
+          <div className={"Panel Transition--slow-fade" + (active ? " isActive" : "")}>
             <div className="openingQuote">
                 <figure className="quote">
                    <q>One day I realized I was living in a country where I was afraid to be black. It was only a country for white people. Not black. So I left. I had been suffocating in the United States… A lot of us left, not because we wanted to leave, but because we couldn’t stand it anymore… I felt liberated in Paris.</q>
-                   <figcaption><img src={`${withPrefix('/')}img/friedrich.jpg`} alt="" />&ensp;&mdash;&ensp;Josephine Baker</figcaption>
+                   <figcaption>&mdash;&ensp;Josephine Baker</figcaption>
                 </figure>
             </div>
             <div className="bigborder"></div>
@@ -305,7 +331,7 @@ React.memo(
         />
         <FixedPortal target={midgroundPortal}> 
             <VideoPlayer
-              videoId="0iUTZajxlWI"
+              videoId="xxx"
               fullscreen
               sectionIndex={sectionIndex}
               activeIndex={activeIndex}
@@ -321,7 +347,7 @@ React.memo(
       <React.Fragment>
         <FixedPortal target={midgroundPortal}> 
             <VideoPlayer
-              videoId="9pkLvfFZnPk"
+              videoId="xxx"
               fullscreen
               sectionIndex={sectionIndex}
               activeIndex={activeIndex}
@@ -331,7 +357,7 @@ React.memo(
       </React.Fragment>
 )}), React.memo(({registerAnimation, scrollTo, sectionIndex, activeIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
           <FixedPortal target={midgroundPortal}>
-            <div className={"Panel Panel--centered Transition--slow-fade" + (active ? " isActive" : "")}>
+            <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
               <div className="videoborder">
                 <div className="videoborder__border"><img src={`${withPrefix('/')}img/card.jpg`} alt="" /></div>
                 <VideoPlayer
@@ -359,7 +385,7 @@ React.memo(
         <FixedPortal target={midgroundPortal}> 
             <VideoPlayer
               /* interview with gosia  */
-              videoId="89KcuiXDKb4"
+              videoId="xxx"
               fullscreen
               sectionIndex={sectionIndex}
               activeIndex={activeIndex}
@@ -440,7 +466,7 @@ React.memo(
         <FixedPortal target={midgroundPortal}> 
             <VideoPlayer
               /* interview with Monsieur K */
-              videoId="6NvzF1_f0Pw"
+              videoId="xxx"
               fullscreen
               sectionIndex={sectionIndex}
               activeIndex={activeIndex}
@@ -512,7 +538,7 @@ React.memo(
       </React.Fragment>
 )}), React.memo(({registerAnimation, scrollTo, sectionIndex, activeIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
           <FixedPortal target={midgroundPortal}>
-            <div className={"Panel Panel--centered Transition--slow-fade" + (active ? " isActive" : "")}>
+            <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
               <div className="videoborder">
                 <div className="videoborder__border"><img src={`${withPrefix('/')}img/card.jpg`} alt="" /></div>
                 <VideoPlayer
@@ -540,7 +566,7 @@ React.memo(
         <FixedPortal target={midgroundPortal}> 
             <VideoPlayer
               /* chat noir multicam cooking  */
-              videoId="ABGiqizwCso"
+              videoId="xxx"
               fullscreen
               sectionIndex={sectionIndex}
               activeIndex={activeIndex}
@@ -551,7 +577,7 @@ React.memo(
       </React.Fragment>
 )}), React.memo(({registerAnimation, scrollTo, sectionIndex, activeIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
           <FixedPortal target={midgroundPortal}>
-            <div className={"Panel Panel--centered Transition--slow-fade" + (active ? " isActive" : "")}>
+            <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
               <div className="videoborder">
                 <div className="videoborder__border"><img src={`${withPrefix('/')}img/card.jpg`} alt="" /></div>
                 <VideoPlayer
@@ -590,7 +616,7 @@ React.memo(
       </React.Fragment>
 )}), React.memo(({registerAnimation, scrollTo, sectionIndex, activeIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
         <FixedPortal target={midgroundPortal}>
-          <div className="Panel Panel--centered" >
+          <div className="Panel " >
               <div className={"Transition--slow-fade" + (active ? " isActive" : "") }>
                 See you in Berlin!
               </div>

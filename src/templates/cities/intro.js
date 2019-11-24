@@ -42,7 +42,7 @@ React.memo(
                }}></div>
             </FixedPortal>
             <FixedPortal target={midgroundPortal}>
-            <div className={"Panel Transition--slow-fade" + (active ? " isActive" : "")}>
+            <div className={"Panel Transition--slow-fade" + (active ? " isActive" : "")} style={{display: "block"}}>
             <img src={`${withPrefix('/')}img/cover.png`} alt="" className={"Animation--titlescreen"} style={{
                 objectFit: "cover",
                 objectPosition: "right 25%",
@@ -79,16 +79,17 @@ React.memo(
         />
         <FixedPortal target={midgroundPortal}> 
             <VideoPlayer
-              videoId="89KcuiXDKb4"
+              videoId="0GWlYInjOCI"
               fullscreen
-              active={active}
+              sectionIndex={sectionIndex}
+              activeIndex={activeIndex}
               onEnd={() => scrollTo("next")}
             />           
         </FixedPortal>
       </React.Fragment>
 )}), 
 React.memo(
-  ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
+  ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
     
     // registerAnimation({
     //   key: "Animation--curtain-right-leave" + sectionIndex,
@@ -110,11 +111,12 @@ React.memo(
         <FixedPortal target={midgroundPortal}>
             <VideoPlayer
               // videoId="GQPcG4D3Zno"
-              videoId="TwXilp2mUtE"
-              startTime={18}
-              endTime={61}
+              videoId="xl5eTt4Qusw"
+              // startTime={18}
+              // endTime={61}
               fullscreen
-              active={active}
+              sectionIndex={sectionIndex}
+              activeIndex={activeIndex}
               onEnd={() => scrollTo("next")}
             />
       </FixedPortal>
@@ -131,15 +133,6 @@ React.memo(
             <div className="bigborder"></div>
           </div>
         </FixedPortal>
-)), React.memo(({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
-            <CanvasBlend 
-              use="multiply" 
-              className={"Transition--slow-fade" + (active ? " isActive" : "")}
-              style={{
-                maxWidth: "100%"
-              }}>
-              <img src={`${withPrefix('/')}img/parisCanal.jpg`} alt="" />
-            </CanvasBlend>
 )), React.memo(({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
         <FixedPortal target={midgroundPortal}>
           <div style={{

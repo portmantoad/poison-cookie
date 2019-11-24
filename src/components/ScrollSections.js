@@ -90,6 +90,7 @@ class ScrollSections extends React.PureComponent {
       TweenMax.to(window, 1.25 + (diff/4), {scrollTo: {y: output }, ease: "Quad.easeOut"});
     }
     else {
+      // debugger;
       // console.log("current: " + window.pageYOffset + ", output: " + output + ", progress: " + progress)
       window.scrollTo(0, output);
     }
@@ -124,24 +125,14 @@ class ScrollSections extends React.PureComponent {
         key: ".ScrollSection__timeIndicator--" + i,
         sectionIndex: i, 
         tween: () => TweenMax.fromTo(".ScrollSection__timeIndicator--" + i, 1, {y: '-50%'}, {y: '50%', ease: "Linear.easeNone"}),
-        callback: ["enter", e => {
+        callback: ["enter progress", e => {
           if (e.state === "DURING"){
               // console.log(this.registeredAnimations)
               if (e.type === "enter") {
-                // if (!!this.scrollSpeedTimer){
-                //   this.stopScroll();
-                //   this.scrollTo(this.activeSection, 0.5, false);
-                // } else {
-                //   this.scrollSpeedTimer = setTimeout(() => { 
-                //     this.scrollSpeedTimer = false 
-                //   }, 100)
-                  // this.activeSection = i;
-                  // this.setActiveSection(i);
-                  this.setState({activeSection: i})
-                // }
-              } else {
-                this.setActiveSectionProgress(e.progress)
-              }
+                this.setState({activeSection: i})
+              } 
+              this.setActiveSectionProgress(e.progress)
+              
           }
         }]
       });

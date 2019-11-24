@@ -18,6 +18,7 @@ const VideoPlayer = React.memo((
       startTime = 0, 
       endTime, 
       onEnd,
+      captions,
       ...rest
     }) => {
       const active = sectionIndex === activeIndex;
@@ -59,7 +60,7 @@ const VideoPlayer = React.memo((
 
       const play = () => {
         if (active) {
-          if (played === 1 || (endTime && played * trueDuration >= endTime)){
+          if (played === 1 || (controls && endTime && played * trueDuration >= endTime)){
             setPlayed(0)
             player.current && player.current.seekTo(startTime)
           }
@@ -76,6 +77,7 @@ const VideoPlayer = React.memo((
 
       const hardPause = () => {
         const truePlayer = player.current && player.current.player && player.current.player.player && player.current.player.player.player;
+        // console.log(truePlayer);
         truePlayer && truePlayer.pauseVideo && truePlayer.pauseVideo();
       }
 
@@ -105,7 +107,7 @@ const VideoPlayer = React.memo((
 
       useEffect(() => {
         if (active) {
-          playTimeout.current = setTimeout(play, 250);
+          playTimeout.current = setTimeout(play, 100);
         } else {
           clearTimeout(playTimeout.current);
           pause();
@@ -216,13 +218,30 @@ const VideoPlayer = React.memo((
         <div className="Video__wrapper">
           {true && <YouTubePlayer
             ref={player}
-            url={'https://www.youtube.com/watch?v=' + videoId + '&start=' + startTime + (endTime ? '&end' + endTime : '')}
+            url={'https://www.youtube.com/embed/' 
+              + videoId 
+              // + (endTime ? '?end=' + endTime : '')
+              // + '&start=' + startTime 
+              // + '&autoplay=1'
+              // + '&cc_lang_pref=en'
+              // + '&cc_load_policy=1'
+              // + '&modestbranding=1'
+
+            }
             volume={muted.muted ? 0 : volume}
             controls={!controls}
             config={{
               youtube: {
                 // preload: onDeck
-                preload: true
+                preload: true,
+                playerVars: {
+                  ...(startTime ? {start: startTime} : {}), 
+                  ...(endTime ? {end: endTime} : {}),
+                  // cc_lang_pref: 'en',
+                  // cc_load_policy: 1,
+                  // modestbranding: 1
+                }
+
               }
             }}
             className={
@@ -245,8 +264,8 @@ const VideoPlayer = React.memo((
               }
             }
             onProgress={({played, loaded}) => {
-              const isEnded = endTime ? (played * trueDuration >= endTime) : false;
-              const isBeforeStart = startTime ? played < (startTime / trueDuration) : false;
+              const isEnded = controls && endTime ? (played * trueDuration >= endTime) : false;
+              const isBeforeStart = controls && startTime ? played < (startTime / trueDuration) : false;
               if (isEnded) {
                 handleEnd()
               } else if (isBeforeStart) {

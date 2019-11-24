@@ -7,7 +7,7 @@ import { throttle } from 'lodash'
 // import { withPrefix } from 'gatsby'
 // import useMedia from 'use-media';
 
-const Slideshow = ({registerAnimation, sectionIndex, backgroundFill, children}) => {
+const Slideshow = ({registerAnimation, sectionIndex, backgroundFill, style, children}) => {
 
     const uniqueKey = useRef('_' + Math.random().toString(36).substr(2, 9));
 
@@ -32,7 +32,7 @@ const Slideshow = ({registerAnimation, sectionIndex, backgroundFill, children}) 
     const activeIndex = indexSetManually === null ? indexSetByScroll : indexSetManually;
     
     return (
-      <div className={"Slideshow Animation--slideshow" + uniqueKey.current}>
+      <div className={"Slideshow Animation--slideshow" + uniqueKey.current} style={style}>
         {children && children.map((child, index) => {
           return(
             <div key={"Slideshow--" + index} className={"Slideshow__item" + (backgroundFill ? " Slideshow__item--backgroundFill" : "") + (index === activeIndex ? " isActive" : "")}>
