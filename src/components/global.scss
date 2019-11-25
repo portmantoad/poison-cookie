@@ -324,6 +324,7 @@ body {
   left:0;
   padding: calc(50vh - 20px) 0 calc(50vh - 21px);
   pointer-events: none;
+  overflow: hidden;
 
   &__fixedRoot{
     @include fixedToVisible();
