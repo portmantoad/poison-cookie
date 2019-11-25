@@ -128,13 +128,13 @@ body {
     transform: translateX(100%);
     img{
       transform: scaleX(-1);
-      left: -25vh;
+      left: -11vh;
     }
   }
   &__curtain-left{
     transform: translateX(-100%);
     img{
-      right: -25vh;
+      right: -11vh;
     }
   }
 
@@ -155,7 +155,7 @@ body {
 .Navbar{
   height: 40px;
   // background-color: #be553d;
-  line-height: 45px;
+  // line-height: 45px;
   position: fixed;
   top: 0;
   left: 0;
@@ -177,15 +177,23 @@ body {
   &__logo{
     img{
       height: 40px;
+      margin: 0;
     }
-    margin-right: 30px;
+    @media screen and (min-width: 1000px) {
+      margin-right: 30px;
+    }
   }
 
-  a{
+  &__link{
+    height: 40px;
+    &--offset{ padding-top: 5px; }
     user-select: all;
     color: #fff;
     text-transform: uppercase;
     text-decoration: none;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
   }
 
   svg{
@@ -203,6 +211,9 @@ body {
   &__hamburger{
     height: 40px;
     width: 40px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
   }
 
   &__menuWrapper{
@@ -217,7 +228,7 @@ body {
   }
   &__menu{
     @include transition--slide-left();
-    @include whiteNoise(0.2);
+    @include whiteNoise(0.05);
     position: absolute;
     top:0;
     right:0;
@@ -227,6 +238,12 @@ body {
     display: flex;
     flex-direction: column;
     background: #be553d;
+    justify-content: space-around;
+
+    hr{
+      margin: 10px 0;
+      background: #fff;
+    }
   }
 }
 

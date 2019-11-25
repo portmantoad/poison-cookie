@@ -33,28 +33,29 @@ const Navbar = () => {
                   className={"Navbar__menu" + (active ? " isActive" : "")} 
                   onClick={event => event.stopPropagation()}
                 >
-                  <Link onClick={() => setActive(false)} to="/cities/intro">Intro</Link>
-                  <Link onClick={() => setActive(false)} to="/cities/paris">Paris</Link>
+                  <Link className="Navbar__link" onClick={() => setActive(false)} to="/cities/intro">Intro</Link>
+                  <Link className="Navbar__link" onClick={() => setActive(false)} to="/cities/paris">Paris</Link>
                   <hr />
-                  <Link onClick={() => setActive(false)} to="/now">Now</Link>
-                  <Link onClick={() => setActive(false)} to="/about">About</Link>
-                  <Icon use="youtube" />
-                  <Icon use="facebook" />
-                  <Icon use="twitter" />
-                  <Icon use="instagram" />
+                  <Link className="Navbar__link" onClick={() => setActive(false)} to="/now">Now</Link>
+                  <Link className="Navbar__link" onClick={() => setActive(false)} to="/about">About</Link>
+                  <hr />
+                  <a className="Navbar__link" onClick={() => setActive(false)} href=""><Icon use="youtube" />&ensp;YouTube</a>
+                  <a className="Navbar__link" onClick={() => setActive(false)} href=""><Icon use="facebook" />&ensp;Facebook</a>
+                  <a className="Navbar__link" onClick={() => setActive(false)} href=""><Icon use="twitter" />&ensp;Twitter</a>
+                  <a className="Navbar__link" onClick={() => setActive(false)} href=""><Icon use="instagram" />&ensp;Instagram</a>
                 </div>
               </div>
             </div>
           ) : (
             <React.Fragment>
-              <div><Link to="/cities/intro">Intro</Link>&ensp;|&ensp;<Link to="/cities/paris">Paris</Link></div>
+              <div><Link className="Navbar__link Navbar__link--offset" to="/cities/intro">Intro</Link>&ensp;|&ensp;<Link className="Navbar__link Navbar__link--offset" to="/cities/paris">Paris</Link></div>
               <div className="Navbar__endLinks">
                 <Icon onClick={muted.toggleMuted} use={muted.muted ? "volumeOff" : "volumeHigh"} />
-                &emsp;<Link to="/now">Now</Link>&ensp;|&ensp;<Link to="/about">About</Link>&emsp;
-                <Icon use="youtube" />
-                <Icon use="facebook" />
-                <Icon use="twitter" />
-                <Icon use="instagram" />
+                &emsp;<Link className="Navbar__link" to="/now">Now</Link>&ensp;|&ensp;<Link className="Navbar__link" to="/about">About</Link>&emsp;
+                <a className="Navbar__link" href=""><Icon use="youtube" /></a>
+                <a className="Navbar__link" href=""><Icon use="facebook" /></a>
+                <a className="Navbar__link" href=""><Icon use="twitter" /></a>
+                <a className="Navbar__link" href=""><Icon use="instagram" /></a>
               </div>
             </React.Fragment>
           )}
