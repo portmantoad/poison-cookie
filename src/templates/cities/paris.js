@@ -155,13 +155,13 @@ React.memo(
                 sectionIndex={sectionIndex}
                 // backgroundFill
               >
-                <CanvasBlend use="screen"><img src={`${withPrefix('/')}img/paris_famouspeople_toulouselautrec.jpg`} alt="" /></CanvasBlend>
-                <CanvasBlend use="screen"><img src={`${withPrefix('/')}img/paris_famouspeople_willette.jpg`} alt="" /></CanvasBlend>
-                <CanvasBlend use="screen"><img src={`${withPrefix('/')}img/paris_famouspeople_andregill.jpg`} alt="" /></CanvasBlend>
-                <CanvasBlend use="screen"><img src={`${withPrefix('/')}img/paris_famouspeople_bruant.jpg`} alt="" /></CanvasBlend>
-                <CanvasBlend use="screen"><img src={`${withPrefix('/')}img/paris_famouspeople_claudedebussy.jpg`} alt="" /></CanvasBlend>
-                <CanvasBlend use="screen"><img src={`${withPrefix('/')}img/paris_famouspeople_ericsatie.jpg`} alt="" /></CanvasBlend>
-                <CanvasBlend use="screen"><img src={`${withPrefix('/')}img/paris_famouspeople_janeavril.jpg`} alt="" /></CanvasBlend>
+                <img src={`${withPrefix('/')}img/paris_famouspeople_toulouselautrec.jpg`} alt="" />
+                <img src={`${withPrefix('/')}img/paris_famouspeople_willette.jpg`} alt="" />
+                <img src={`${withPrefix('/')}img/paris_famouspeople_andregill.jpg`} alt="" />
+                <img src={`${withPrefix('/')}img/paris_famouspeople_bruant.jpg`} alt="" />
+                <img src={`${withPrefix('/')}img/paris_famouspeople_claudedebussy.jpg`} alt="" />
+                <img src={`${withPrefix('/')}img/paris_famouspeople_ericsatie.jpg`} alt="" />
+                <img src={`${withPrefix('/')}img/paris_famouspeople_janeavril.jpg`} alt="" />
               </Slideshow>
             </div>
           </FixedPortal>

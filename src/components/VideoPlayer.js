@@ -8,7 +8,6 @@ import ResizeDetector from 'react-resize-detector'
 import fscreen from 'fscreen'
 // import useMedia from 'use-media';
 
-
 const VideoPlayer = React.memo((
     { sectionIndex,
       activeIndex, 
@@ -38,12 +37,12 @@ const VideoPlayer = React.memo((
       const [ intentActive, setIntentActive ] = useState(false);
       const [ controlsBottomPad, setControlsBottomPad ] = useState(0);
 
-      const [ controls, setControls ] = useState(false);
+      const controls = true;
       
       // const isMobile = useMedia({maxWidth: 1000});
 
       const controlsAreDetached = fullscreen && !controlsBottomPad;
-      const controlsVisible = controlsAreDetached || (active && duration && (controlsHovered || onPlayInitialTimeout || !playing));
+      const controlsVisible = controls && (controlsAreDetached || (active && duration && (controlsHovered || onPlayInitialTimeout || !playing)));
       const controlsScrimVisible = controls && !controlsAreDetached && controlsVisible;
 
       const player = useRef(null);
@@ -63,7 +62,7 @@ const VideoPlayer = React.memo((
           if (played === 1 || (controls && endTime && played * trueDuration >= endTime)){
             setPlayed(0)
             player.current && player.current.seekTo(startTime)
-          }
+          } 
           setPlaying(true);
           // setInitialPlay(true);
         }
@@ -107,6 +106,8 @@ const VideoPlayer = React.memo((
 
       useEffect(() => {
         if (active) {
+          console.log(played)
+          player.current && player.current.seekTo(displayPlayedToTruth(played))
           playTimeout.current = setTimeout(play, 100);
         } else {
           clearTimeout(playTimeout.current);
@@ -115,9 +116,9 @@ const VideoPlayer = React.memo((
         }
       }, [active]);
 
-      useEffect(() => {
-        onDeck && player.current && player.current.seekTo(displayPlayedToTruth(played))
-      }, [onDeck]);
+      // useEffect(() => {
+      //   onDeck && player.current && player.current.seekTo(displayPlayedToTruth(played))
+      // }, [onDeck]);
 
       const playable = !!trueDuration 
         && active 
@@ -176,6 +177,7 @@ const VideoPlayer = React.memo((
         const start = startTime || 0;
         const end = endTime || trueDuration;
         const visibleDuration = end - start;
+        if (!visibleDuration) {return 0}
         return clamp( ((played * trueDuration) - start) / visibleDuration, 0, 1);
       }
 
@@ -183,6 +185,7 @@ const VideoPlayer = React.memo((
         const start = startTime || 0;
         const end = endTime || trueDuration;
         const visibleDuration = end - start;
+        if (!visibleDuration) {return 0}
         return ((played * visibleDuration) + start) / trueDuration;
       }
 
@@ -204,7 +207,7 @@ const VideoPlayer = React.memo((
           "Video" 
           + (fullscreen ? " Video--fullscreen" : "")
           + (active ? " isActive" : "") 
-          // + (!onDeck ? " fullyHidden" : "") 
+          + (!onDeck ? " fullyHidden" : "") 
           + (className ? ` ${className}` : "")
         }
         onClick={() => playToggle()}
@@ -216,7 +219,7 @@ const VideoPlayer = React.memo((
         )}
         
         <div className="Video__wrapper">
-          {true && <YouTubePlayer
+          <YouTubePlayer
             ref={player}
             url={'https://www.youtube.com/embed/' 
               + videoId 
@@ -269,7 +272,7 @@ const VideoPlayer = React.memo((
               if (isEnded) {
                 handleEnd()
               } else if (isBeforeStart) {
-                player.current && player.current.seekTo(startTime)
+                // player.current && player.current.seekTo(startTime)
               } else {
                 setPlayed(truePlayedToDisplay(played));
                 setLoaded(truePlayedToDisplay(loaded));
@@ -290,54 +293,62 @@ const VideoPlayer = React.memo((
                 setTrueDuration(duration);
                 setDuration((endTime || duration) - startTime);
             }}
-            progressInterval={100}
-          />}
+            progressInterval={500}
+          />
           <div className={"Video__wrapper__playButton" + ((!playing && playable && active) ? " isActive" : "")}><PlayerIcon.Play /></div>
           <div className={"Video__wrapper__controlsScrim" + (controlsScrimVisible ? " isActive" : "")}></div>
         </div>
-        {controls && <div 
+        <div 
             className={"Video__controls"
                + (controlsVisible ? " isActive" : "")
                // + (this.state.playing ? " isPlaying" : "")
             } 
             onMouseOver={() => setControlsHovered(true)}
             onMouseLeave={() => setControlsHovered(false)}
-            style={{bottom: controlsBottomPad + "px"}}
+            style={{
+              bottom: controlsBottomPad + (!controlsAreDetached ? 5 : 0) + "px",
+              ...(!controlsAreDetached ? {left: 5 + "px", right: 5 + "px"} : {})
+            }}
           >
-            <div className="Video__controls__playToggle" onClick={() => playToggle()}>
-              {playing ? <PlayerIcon.Pause /> : <PlayerIcon.Play />}
-            </div>
-            <div className="Video__controls__time">
-              <FormattedTime numSeconds={played * duration || 0} />/<FormattedTime numSeconds={duration} />
-            </div>
-            <div className="Video__controls__slider" onClick={event => event.stopPropagation()}>
-              <Slider
-                isEnabled
-                className="Video__controls__slider__wrapper"
-                onIntent={intent => setIntent(intent)}
-                onIntentStart={intent => setIntentActive(true)}
-                onIntentEnd={() => setIntentActive(false)}
-                onChange={newValue => setIntent(newValue)}
-                onChangeStart={startValue => setIntent(startValue)}
-                onChangeEnd={endValue => {
-                  player.current && player.current.seekTo(displayPlayedToTruth(endValue));
-                  setPlayed(endValue);
-                }}
-              >
-                <div className="Video__controls__slider__bar">
-                  <div className="Video__controls__slider__bar__loaded" style={{width: (100 * loaded) + "%"}}></div>
-                  <div className="Video__controls__slider__bar__progress" style={{width: (100 * played) + "%"}}></div>
-                </div>
-                <div className="Video__controls__slider__handle" style={{left: (100 * played) + "%"}}></div>
-                <div className={"Video__controls__slider__intentHandle" + (intentActive ? " isActive" : "")}
-                  style={{left: (100 * intent) + "%"}}>
-                  <FormattedTime numSeconds={duration * intent} />
-                </div>
-              </Slider>
-            </div>
-          </div>}
+             
+              <div className="Video__controls__playToggle" onClick={() => playToggle()}>
+                {playing ? <PlayerIcon.Pause /> : <PlayerIcon.Play />}
+              </div>
+              <div className="Video__controls__time">
+                <FormattedTime numSeconds={!active ? 0 : played * duration || 0} />/<FormattedTime numSeconds={duration} />
+              </div>
+               <div className="Video__controls__slider" onClick={event => event.stopPropagation()}>
+                 <Slider
+                  isEnabled
+                  className="Video__controls__slider__wrapper"
+                  onIntent={intent => setIntent(intent)}
+                  onIntentStart={intent => setIntentActive(true)}
+                  onIntentEnd={() => setIntentActive(false)}
+                  onChange={newValue => setIntent(newValue)}
+                  onChangeStart={startValue => setIntent(startValue)}
+                  onChangeEnd={endValue => {
+                    player.current && player.current.seekTo(displayPlayedToTruth(endValue));
+                    setPlayed(endValue);
+                  }}
+                >
+                  <div className="Video__controls__slider__bar">
+                    <div className="Video__controls__slider__bar__loaded" style={{width: (100 * (!active ? 0 : loaded)) + "%"}}></div>
+                    <div className="Video__controls__slider__bar__progress" style={{width: (100 * (!active ? 0 : played)) + "%"}}></div>
+                  </div>
+                  <div className="Video__controls__slider__handle" style={{left: (100 * (!active ? 0 : played)) + "%"}}></div>
+                  <div className={"Video__controls__slider__intentHandle" + (intentActive ? " isActive" : "")}
+                    style={{left: (100 * intent) + "%"}}>
+                    <FormattedTime numSeconds={duration * intent} />
+                  </div>
+                </Slider>
+              </div>
+            
+          </div>
       </div>
   )
 })
 
 export default VideoPlayer
+
+
+
