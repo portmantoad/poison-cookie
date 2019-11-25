@@ -20,8 +20,8 @@ React.memo(
       registerAnimation({
         key: ".ScrollSections__background",
         sectionIndex: 0, 
-        tween: () => TweenMax.to(".ScrollSections__background", 1, {y: '-' + (20 / ((20 + 100)/100)) + '%', ease: "Linear.easeNone"}),
-        persist: 7, 
+        tween: () => TweenMax.to(".ScrollSections__background", 1, {y: '-' + (40 / ((40 + 100)/100)) + '%', ease: "Linear.easeNone"}),
+        persist: 'all', 
       });
     }, []);
 
@@ -32,8 +32,8 @@ React.memo(
          className="ScrollSections__background"
          style={{
            backgroundImage: "url(" + `${withPrefix('/')}img/paris.jpg` + ")",
-           // height: (20 + 100) + "%"
-           height: (20 + 100) + "vh"
+           // height: (40 + 100) + "%"
+           height: (40 + 100) + "vh"
          }}></div>
       </FixedPortal>
 
@@ -155,13 +155,13 @@ React.memo(
                 sectionIndex={sectionIndex}
                 // backgroundFill
               >
-                <CanvasBlend use="screen"><img src={`${withPrefix('/')}img/paris_famouspeople_bruant.jpg`} alt="" /></CanvasBlend>
+                <CanvasBlend use="screen"><img src={`${withPrefix('/')}img/paris_famouspeople_toulouselautrec.jpg`} alt="" /></CanvasBlend>
                 <CanvasBlend use="screen"><img src={`${withPrefix('/')}img/paris_famouspeople_willette.jpg`} alt="" /></CanvasBlend>
                 <CanvasBlend use="screen"><img src={`${withPrefix('/')}img/paris_famouspeople_andregill.jpg`} alt="" /></CanvasBlend>
+                <CanvasBlend use="screen"><img src={`${withPrefix('/')}img/paris_famouspeople_bruant.jpg`} alt="" /></CanvasBlend>
                 <CanvasBlend use="screen"><img src={`${withPrefix('/')}img/paris_famouspeople_claudedebussy.jpg`} alt="" /></CanvasBlend>
                 <CanvasBlend use="screen"><img src={`${withPrefix('/')}img/paris_famouspeople_ericsatie.jpg`} alt="" /></CanvasBlend>
                 <CanvasBlend use="screen"><img src={`${withPrefix('/')}img/paris_famouspeople_janeavril.jpg`} alt="" /></CanvasBlend>
-                <CanvasBlend use="screen"><img src={`${withPrefix('/')}img/paris_famouspeople_toulouselautrec.jpg`} alt="" /></CanvasBlend>
               </Slideshow>
             </div>
           </FixedPortal>
@@ -182,7 +182,7 @@ React.memo(
       </React.Fragment>
 )}), React.memo(({registerAnimation, scrollTo, sectionIndex, activeIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
        <React.Fragment>
-        <CanvasBlend use="multiplyBW"><img src={`${withPrefix('/')}img/paris_bruant.jpg`} alt="" /></CanvasBlend>
+        <CanvasBlend use="multiply" style={{marginRight: "auto"}}><img src={`${withPrefix('/')}img/paris_bruant.jpg`} alt="" /></CanvasBlend>
         <FixedPortal target={midgroundPortal}>
           <div className={"Panel Transition--slow-fade" + (active ? " isActive" : "")}>
             <div className="openingQuote">
@@ -302,9 +302,17 @@ React.memo(
   ({registerAnimation, scrollTo, sectionIndex, activeIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
     return(
       <React.Fragment>
-        In the 1920s and 30s, a flood of expats in Paris created both a stream of American entertainers and American ex-pats who would flock to establishments with American artists (as did the French). A huge part of the reason was jazz’s rapid advance around the world. In particular, African American artists who could not perform in front of integrated audiences at home and who were appalled and exhausted at their treatment in America found refuge in Paris. This cross-cultural exchange would have a lasting impact on cabaret in both Paris and America (and also in Berlin which was not immune to the influence of Josephine Baker). 
+        <FixedPortal target={midgroundPortal}>
+          <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
+          <CanvasBlend use="multiply" style={{marginLeft: "auto", maxWidth: "600px"}}><img src={`${withPrefix('/')}img/paris_bricktop.jpg`} alt="" /></CanvasBlend>
+          <CanvasBlend use="multiply" style={{marginLeft: "auto", maxWidth: "600px"}}><img src={`${withPrefix('/')}img/paris_josephine2.jpg`} alt="" /></CanvasBlend>
+          </div>
+        </FixedPortal>
+        <div className="Paper" style={{transform: 'rotate(-1deg)', maxWidth: '400px'}}><p>In the 1920s and 30s, a flood of expats in Paris created both a stream of American entertainers and American ex-pats who would flock to establishments with American artists (as did the French). A huge part of the reason was jazz’s rapid advance around the world.</p> <p>In particular, African American artists who could not perform in front of integrated audiences at home and who were appalled and exhausted at their treatment in America found refuge in Paris. This cross-cultural exchange would have a lasting impact on cabaret in both Paris and America (and also in Berlin which was not immune to the influence of Josephine Baker).</p></div>
       </React.Fragment>
 )}), React.memo(({registerAnimation, scrollTo, sectionIndex, activeIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
+      <React.Fragment>
+        <CanvasBlend use="multiply" style={{marginLeft: "auto", maxWidth: "600px"}}><img src={`${withPrefix('/')}img/paris_josephine.jpg`} alt="" /></CanvasBlend>
         <FixedPortal target={midgroundPortal}>
           <div className={"Panel Transition--slow-fade" + (active ? " isActive" : "")}>
             <div className="openingQuote">
@@ -316,6 +324,7 @@ React.memo(
             <div className="bigborder"></div>
           </div>
         </FixedPortal>
+      </React.Fragment>
 )), React.memo(
   ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
 
@@ -476,25 +485,24 @@ React.memo(
       </React.Fragment>
 )}), React.memo(
   ({registerAnimation, scrollTo, sectionIndex, activeIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
-    return(
-      <React.Fragment>
-        Madame Arthur is named after a song by one of fin-de-siecle’s most famous chanteuses: Yvette Guilbert. Guilbert Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
-      </React.Fragment>
-)}), React.memo(
-  ({registerAnimation, scrollTo, sectionIndex, activeIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
 
     return(
       <React.Fragment>
-        <FixedPortal target={midgroundPortal}> 
-            <VideoPlayer
-              /* music video partial song */
-              videoId="RnyJ8nwcuOE"
-              fullscreen
-              sectionIndex={sectionIndex}
-              activeIndex={activeIndex}
-              onEnd={() => scrollTo("next")}
-            />
-        </FixedPortal>
+      <div className="Panel Panel--padded">
+        <div style={{flexGrow: 1, paddingRight: '3.5vw'}}>
+              <VideoPlayer
+                /* music video partial song */
+                videoId="RnyJ8nwcuOE"
+                // fullscreen
+                sectionIndex={sectionIndex}
+                activeIndex={activeIndex}
+                onEnd={() => scrollTo("next")}
+              />
+        </div>
+        <div className="Paper" style={{maxWidth: "300px", transform: 'rotate(1deg)'}}>
+          Madame Arthur is named after a song by one of fin-de-siecle’s most famous chanteuses: Yvette Guilbert. Guilbert Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
+        </div>
+      </div>
       </React.Fragment>
 )}), React.memo(
   ({registerAnimation, scrollTo, sectionIndex, activeIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
