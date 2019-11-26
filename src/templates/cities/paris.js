@@ -44,7 +44,8 @@ React.memo(
         style={{flexDirection: "column"}}>
           <img src={`${withPrefix('/')}img/bienvenue-a-paris.png`} alt="" className="welcomeToParis" />
           <div className="videoborder">
-            <div className="videoborder__border"><img src={`${withPrefix('/')}img/card.jpg`} alt="" /></div>
+            <div className="videoborder__border">
+            <img className="videoborder__img" src={`${withPrefix('/')}img/card.jpg`} alt="" /></div>
             <VideoPlayer
                 videoId="qdU_IKxIhAk"
                 sectionIndex={sectionIndex}
@@ -111,7 +112,8 @@ React.memo(
           <FixedPortal target={midgroundPortal}>
             <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
               <div className="videoborder">
-                <div className="videoborder__border"><img src={`${withPrefix('/')}img/card.jpg`} alt="" /></div>
+                <div className="videoborder__border">
+                <img className="videoborder__img videoborder__img--mask2" src={`${withPrefix('/')}img/card2.jpg`} alt="" /></div>
                 <VideoPlayer
                     videoId="LkdWOkpCuTw"
                     sectionIndex={sectionIndex}
@@ -185,7 +187,7 @@ React.memo(
         <CanvasBlend use="multiply" style={{marginRight: "auto"}}><img src={`${withPrefix('/')}img/paris_bruant.jpg`} alt="" /></CanvasBlend>
         <FixedPortal target={midgroundPortal}>
           <div className={"Panel Transition--slow-fade" + (active ? " isActive" : "")}>
-            <div className="openingQuote">
+            <div className="fullscreenQuote">
                 <figure className="quote">
                    <q>Passers-by stop and stare: ‘who the devil is that fellow?’ The answer’s simple. He is Montmartre. Montmartre personified, Montmartre, alias Aristide Bruant.</q>
                    <figcaption>&mdash;&ensp;Playwright and editor of Le Mirliton’s journal, Georges Courteline,on Bruant</figcaption>
@@ -315,7 +317,7 @@ React.memo(
         <CanvasBlend use="multiply" style={{marginLeft: "auto", maxWidth: "600px"}}><img src={`${withPrefix('/')}img/paris_josephine.jpg`} alt="" /></CanvasBlend>
         <FixedPortal target={midgroundPortal}>
           <div className={"Panel Transition--slow-fade" + (active ? " isActive" : "")}>
-            <div className="openingQuote">
+            <div className="fullscreenQuote">
                 <figure className="quote">
                    <q>One day I realized I was living in a country where I was afraid to be black. It was only a country for white people. Not black. So I left. I had been suffocating in the United States… A lot of us left, not because we wanted to leave, but because we couldn’t stand it anymore… I felt liberated in Paris.</q>
                    <figcaption>&mdash;&ensp;Josephine Baker</figcaption>
@@ -368,7 +370,8 @@ React.memo(
           <FixedPortal target={midgroundPortal}>
             <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
               <div className="videoborder">
-                <div className="videoborder__border"><img src={`${withPrefix('/')}img/card.jpg`} alt="" /></div>
+                <div className="videoborder__border">
+                <img className="videoborder__img videoborder__img--alt3" src={`${withPrefix('/')}img/card.jpg`} alt="" /></div>
                 <VideoPlayer
                     videoId="vrvVpZsKVYk"
                     sectionIndex={sectionIndex}
@@ -548,7 +551,8 @@ React.memo(
           <FixedPortal target={midgroundPortal}>
             <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
               <div className="videoborder">
-                <div className="videoborder__border"><img src={`${withPrefix('/')}img/card.jpg`} alt="" /></div>
+                <div className="videoborder__border">
+                <img className="videoborder__img videoborder__img--mask2 videoborder__img--alt3" src={`${withPrefix('/')}img/card.jpg`} alt="" /></div>
                 <VideoPlayer
                     videoId="1T1T3coj6BI"
                     sectionIndex={sectionIndex}
@@ -587,7 +591,8 @@ React.memo(
           <FixedPortal target={midgroundPortal}>
             <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
               <div className="videoborder">
-                <div className="videoborder__border"><img src={`${withPrefix('/')}img/card.jpg`} alt="" /></div>
+                <div className="videoborder__border">
+                <img className="videoborder__img videoborder__img--alt1" src={`${withPrefix('/')}img/card2.jpg`} alt="" /></div>
                 <VideoPlayer
                     videoId="ZsjrIQY16aQ"
                     sectionIndex={sectionIndex}

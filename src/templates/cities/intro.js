@@ -7,7 +7,7 @@ import Slideshow from '../../components/Slideshow'
 import { clamp } from 'lodash'
 import TweenMax from 'TweenMax'
 import TimelineMax from 'TimelineMax'
-import { withPrefix } from 'gatsby'
+import { withPrefix, Link } from 'gatsby'
 
 
 export default [
@@ -40,25 +40,12 @@ React.memo(
                  // height: (20 + 100) + "%"
                  height: "120vh" 
                }}></div>
-               <video class={"IntroCoverVid" + (active ? " isActive" : "")} autoPlay muted loop src={`${withPrefix('/')}img/cover.mp4`} />
+               <video className={"IntroCover__vid" + (active ? " isActive" : "")} autoPlay muted loop src={`${withPrefix('/')}img/cover.mp4`} />
             </FixedPortal>
-            <FixedPortal target={midgroundPortal}>
+          <FixedPortal target={midgroundPortal}>
             <div className={"Panel Transition--slow-fade" + (active ? " isActive" : "")} style={{display: "block"}}>
-            <img src={`${withPrefix('/')}img/cover.png`} alt="" className={"Animation--titlescreen"} style={{
-                objectFit: "cover",
-                objectPosition: "right 25%",
-                // right: "calc(15% - 50px)",
-                width: "calc(85% + 50px)",
-                // height: "auto",
-                height: "calc((100vh - 40px) * 1.2)",
-                minHeight: "120%"
-              }}/>
-              <img src={`${withPrefix('/')}img/cookietitle.png`} alt="The Poison Cookie Jar" style={{
-                position: "absolute", 
-                right:"5%", bottom: "5%", 
-                width: "250px",
-                maxWidth:"65%",
-                height: "auto"}}/>
+              <img className="IntroCover__img Animation--titlescreen" src={`${withPrefix('/')}img/cover.png`} alt="" />
+              <img className="IntroCover__logo" src={`${withPrefix('/')}img/cookietitle.png`} alt="The Poison Cookie Jar" />
             </div>
           </FixedPortal>
     </React.Fragment>
@@ -125,7 +112,7 @@ React.memo(
 )}), React.memo(({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
         <FixedPortal target={midgroundPortal}>
           <div className={"Panel Panel--centered Transition--slow-fade" + (active ? " isActive" : "")}>
-            <div className="openingQuote">
+            <div className="fullscreenQuote fullscreenQuote--hollaender">
                 <figure className="quote">
                    <q>Under the cover of an evening’s relaxing entertainment, cabaret, like nothing else, suddenly dispenses a <span style={{color: '#be553d', fontStyle: 'italic'}}>poison cookie</span>. Suggestively administered and hastily swallowed, its effect reaches far beyond the harmless evening to make otherwise placid blood boil and inspire a sluggish brain to think.</q>
                    <figcaption><img src={`${withPrefix('/')}img/friedrich.jpg`} alt="" />&ensp;&mdash;&ensp;Friedrich Hollaender, 1932</figcaption>
@@ -136,17 +123,9 @@ React.memo(
         </FixedPortal>
 )), React.memo(({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
         <FixedPortal target={midgroundPortal}>
-          <div style={{
-            position: "absolute", 
-            top:0, left:0, bottom:0, right:0, 
-            display: "flex", 
-            alignItems: "center", 
-            justifyContent: "center", 
-            textAlign: "center"
-          }} >
-              <div className={"Transition--slow-fade" + (active ? " isActive" : "") }>
-                Eat fast, we're off to paris
-              </div>
+          <div className={"EatFast Panel Transition--slow-fade" + (active ? " isActive" : "")}  >
+                <video autoPlay muted loop src={`${withPrefix('/')}img/john-eats.mp4`} />
+                <div className={"EatFast__text"}>Eat fast, we're off to <Link className="EatFast__link" to="/cities/paris">Paris</Link></div>
           </div>
         </FixedPortal>
 ))
