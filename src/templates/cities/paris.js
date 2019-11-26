@@ -392,7 +392,7 @@ React.memo(
           activeIndex={activeIndex}
           foregroundPortal={foregroundPortal}
           backgroundPortal={backgroundPortal}
-          persist={5}
+          persist={6}
         />
         <FixedPortal target={midgroundPortal}> 
             <VideoPlayer
@@ -420,6 +420,17 @@ React.memo(
               activeIndex={activeIndex}
               onEnd={() => scrollTo("next")}
             />
+        </FixedPortal>
+      </React.Fragment>
+)}), React.memo(
+  ({registerAnimation, scrollTo, sectionIndex, activeIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
+
+    return(
+      <React.Fragment>
+        <FixedPortal target={midgroundPortal}> 
+            <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
+              <img className="Interstitial" src={`${withPrefix('/')}img/paris_aumagique.png`} alt="" />
+            </div>
         </FixedPortal>
       </React.Fragment>
 )}), React.memo(

@@ -600,6 +600,32 @@ body {
   }
 }
 
+@keyframes jitter {
+  0%, 9.99999% {    transform: translate3d(-0.2px, 0   , 0); }
+  10%, 19.99999% {    transform: translate3d(-0.2px, -0.2px, 0); }
+  20%, 29.99999% {    transform: translate3d(0   , 0   , 0); }
+  30%, 39.99999% {    transform: translate3d(-0.2px, 0.2px , 0); }
+  40%, 49.99999% {    transform: translate3d(0.2px , 0, 0); }
+  50%, 59.99999% {    transform: translate3d(0.2px , 0.2px, 0); }
+  60%, 69.99999% {    transform: translate3d(0   , 0.2px, 0); }
+  70%, 79.99999% {    transform: translate3d(0   , -0.2px, 0); }
+  80%, 89.99999% {    transform: translate3d(0.2px , -0.2px , 0); }
+  90%, 100% {    transform: translate3d(0.2px , 0, 0); }
+}
+
+.Interstitial{
+  animation: jitter 300ms infinite;
+  position: absolute;
+  top:0;
+  left:3.5vh;
+  bottom:0;
+  right:3.5vh;
+  width: calc(100% - 7vh);
+  height: 100%;
+  object-fit: contain;
+  object-position: center center;
+}
+
 .IntroCover{
   &__vid{
     @include transition--fade();
@@ -648,7 +674,7 @@ body {
   }
 
  &__text{
-  padding: 3.5vw;
+  padding: 3.5vh;
  }
 
 
