@@ -91,8 +91,7 @@ React.memo(
       </React.Fragment>
 )}), React.memo(({registerAnimation, scrollTo, sectionIndex, activeIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
           <FixedPortal target={midgroundPortal}>
-            <div className={"Panel Panel--padded Transition--fade" + (active ? " isActive" : "")} style={{flexWrap: 'wrap'}}>
-              <div>The faces of cabaret in old Paris: </div>
+            <div className={"Panel Panel--padded Transition--fade" + (active ? " isActive" : "")} style={{flexDirection: 'column'}}>
               <Slideshow 
                 registerAnimation={registerAnimation}
                 sectionIndex={sectionIndex}
@@ -105,6 +104,7 @@ React.memo(
                 <CanvasBlend use="multiplyBW"><img src={`${withPrefix('/')}img/cabaret_4.jpg`} alt="" /></CanvasBlend>
                 <CanvasBlend use="multiplyBW"><img src={`${withPrefix('/')}img/cabaret_5.jpg`} alt="" /></CanvasBlend>
               </Slideshow>
+              <div style={{marginTop: "10px"}}>The faces of cabaret in old Paris</div>
             </div>
           </FixedPortal>
 )), React.memo(({registerAnimation, scrollTo, sectionIndex, activeIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (

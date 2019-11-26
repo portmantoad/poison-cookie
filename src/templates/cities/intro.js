@@ -38,8 +38,9 @@ React.memo(
                style={{
                  backgroundImage: "url(" + `${withPrefix('/')}img/paris.jpg` + ")",
                  // height: (20 + 100) + "%"
-                 height: "120vh"
+                 height: "120vh" 
                }}></div>
+               <video class={"IntroCoverVid" + (active ? " isActive" : "")} autoPlay muted loop src={`${withPrefix('/')}img/cover.mp4`} />
             </FixedPortal>
             <FixedPortal target={midgroundPortal}>
             <div className={"Panel Transition--slow-fade" + (active ? " isActive" : "")} style={{display: "block"}}>

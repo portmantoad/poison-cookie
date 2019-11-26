@@ -43,12 +43,12 @@ const Slideshow = ({registerAnimation, sectionIndex, backgroundFill, style, chil
         <div className="Slideshow__controls">
           <div 
             className={"Slideshow__controls__left" + (activeIndex === 0 ? " isDisabled" : "")}
-            onClick={() => setIndexSetManually(activeIndex - 1)}
+            onClick={(event) => {event.preventDefault(); setIndexSetManually(activeIndex - 1)}}
           ><Icon use="arrowLeft" /></div> 
           {activeIndex + 1}/{children.length}
           <div 
             className={"Slideshow__controls__right" + (activeIndex === children.length - 1 ? " isDisabled" : "")}
-            onClick={() => setIndexSetManually(activeIndex + 1)}
+            onClick={(event) => {event.preventDefault(); setIndexSetManually(activeIndex + 1)}}
           ><Icon use="arrowRight" /></div>
         </div>
       </div>

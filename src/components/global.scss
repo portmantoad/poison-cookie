@@ -594,6 +594,18 @@ body {
   }
 }
 
+.IntroCoverVid{
+  @include transition--fade();
+  min-width: 100%;
+  min-height: 100%;
+  position: fixed;
+  top:50%;
+  left:50%;
+  transform: translate(-50%, -50%);
+  opacity: 1;
+  mix-blend-mode: screen;
+}
+
 .openingQuote{
   display: flex;
   align-items: center;
