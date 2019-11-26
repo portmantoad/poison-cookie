@@ -37,7 +37,7 @@ const VideoPlayer = React.memo((
       const [ intentActive, setIntentActive ] = useState(false);
       const [ controlsBottomPad, setControlsBottomPad ] = useState(0);
 
-      const controls = true;
+      const controls = false;
       
       // const isMobile = useMedia({maxWidth: 1000});
 
@@ -254,7 +254,8 @@ const VideoPlayer = React.memo((
             }
             // onReady={() => setReady(true)}
             width="100%"
-            height="200%"
+            height={controls ? "200%" : "100%"}
+            style={{top: controls ? "-50%" : "0"}}
             playsinline
             playing={playable && playing}
             onBufferEnd={
@@ -298,7 +299,7 @@ const VideoPlayer = React.memo((
           <div className={"Video__wrapper__playButton" + ((!playing && playable && active) ? " isActive" : "")}><PlayerIcon.Play /></div>
           <div className={"Video__wrapper__controlsScrim" + (controlsScrimVisible ? " isActive" : "")}></div>
         </div>
-        <div 
+        {controls && <div 
             className={"Video__controls"
                + (controlsVisible ? " isActive" : "")
                // + (this.state.playing ? " isPlaying" : "")
@@ -343,7 +344,7 @@ const VideoPlayer = React.memo((
                 </Slider>
               </div>
             
-          </div>
+          </div>}
       </div>
   )
 })
