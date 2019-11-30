@@ -292,7 +292,7 @@ React.memo(
         <FixedPortal target={midgroundPortal}> 
             <VideoPlayer
               /* Edith Piaf’s grave site */
-              videoId="xxx"
+              videoId="lqsW1FCVi_M"
               fullscreen
               sectionIndex={sectionIndex}
               activeIndex={activeIndex}
@@ -342,7 +342,8 @@ React.memo(
         />
         <FixedPortal target={midgroundPortal}> 
             <VideoPlayer
-              videoId="xxx"
+              /*Edith piaf chanson realiste*/
+              videoId="uOiQOKthi7g"
               fullscreen
               sectionIndex={sectionIndex}
               activeIndex={activeIndex}
@@ -351,22 +352,24 @@ React.memo(
             
         </FixedPortal>
       </React.Fragment>
-)}), React.memo(
-  ({registerAnimation, scrollTo, sectionIndex, activeIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
+)})
+// , React.memo(
+//   ({registerAnimation, scrollTo, sectionIndex, activeIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
 
-    return(
-      <React.Fragment>
-        <FixedPortal target={midgroundPortal}> 
-            <VideoPlayer
-              videoId="xxx"
-              fullscreen
-              sectionIndex={sectionIndex}
-              activeIndex={activeIndex}
-              onEnd={() => scrollTo("next")}
-            />
-        </FixedPortal>
-      </React.Fragment>
-)}), React.memo(({registerAnimation, scrollTo, sectionIndex, activeIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
+//     return(
+//       <React.Fragment>
+//         <FixedPortal target={midgroundPortal}> 
+//             <VideoPlayer
+//               videoId="xxx"
+//               fullscreen
+//               sectionIndex={sectionIndex}
+//               activeIndex={activeIndex}
+//               onEnd={() => scrollTo("next")}
+//             />
+//         </FixedPortal>
+//       </React.Fragment>
+// )})
+, React.memo(({registerAnimation, scrollTo, sectionIndex, activeIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
           <FixedPortal target={midgroundPortal}>
             <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
               <div className="videoborder">
@@ -397,7 +400,7 @@ React.memo(
         <FixedPortal target={midgroundPortal}> 
             <VideoPlayer
               /* interview with gosia  */
-              videoId="xxx"
+              videoId="uUspDjAhVSo"
               fullscreen
               sectionIndex={sectionIndex}
               activeIndex={activeIndex}
@@ -578,23 +581,23 @@ React.memo(
 
     return(
       <React.Fragment>
-        <Curtains 
-          registerAnimation={registerAnimation}
-          sectionIndex={sectionIndex}
-          activeIndex={activeIndex}
-          foregroundPortal={foregroundPortal}
-          backgroundPortal={backgroundPortal}
-          persist={0}
-        />
         <FixedPortal target={midgroundPortal}> 
-            <VideoPlayer
-              /* chat noir multicam cooking  */
-              videoId="xxx"
-              fullscreen
-              sectionIndex={sectionIndex}
-              activeIndex={activeIndex}
-              onEnd={() => scrollTo("next")}
-            />
+          <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
+            <div className="TVborder">
+              <CanvasBlend use="maskInverse" color={[122,95,70]} className="TVborder__img">
+                <img src={`${withPrefix('/')}img/tv.jpg`} alt=""/>
+              </CanvasBlend>
+              <VideoPlayer
+                /* chat noir multicam cooking  */
+                videoId="HzUIUTatyZI"
+                sectionIndex={sectionIndex}
+                activeIndex={activeIndex}
+                onEnd={() => scrollTo("next")}
+              />
+            </div>
+          </div>
+
+
             
         </FixedPortal>
       </React.Fragment>

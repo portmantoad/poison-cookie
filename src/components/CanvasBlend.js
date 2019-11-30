@@ -98,6 +98,22 @@ import React from 'react'
             data[i+2] = 0;
             data[i+3] = 255-r;
         }
+      } else if (type === "mask" && this.props.color) {
+        for(let i = 0; i < data.length; i+=4) {
+            const r = data[i];
+            data[i] = this.props.color[0];
+            data[i+1] = this.props.color[1];
+            data[i+2] = this.props.color[2];
+            data[i+3] = r;
+        }
+      } else if (type === "maskInverse" && this.props.color) {
+        for(let i = 0; i < data.length; i+=4) {
+            const r = data[i];
+            data[i] = this.props.color[0];
+            data[i+1] = this.props.color[1];
+            data[i+2] = this.props.color[2];
+            data[i+3] = 255-r;
+        }
       }
 
       // idata.data = data;
@@ -121,7 +137,7 @@ import React from 'react'
     }
 
     render() {
-      const { use, className, paused, children, ...rest } = this.props;
+      const { use, className, paused, children, color, ...rest } = this.props;
       return(
         <React.Fragment>
           <canvas ref={this.canvasRef} className={"Asset--fade-in" + (this.state.loaded ? " isLoaded" : "") + (className ? ` ${className}` : "")} {...rest}></canvas>
