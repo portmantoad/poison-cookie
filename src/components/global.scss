@@ -3,6 +3,10 @@ a{
   color: #be553d;
 }
 
+img{
+  margin: 0;
+}
+
 .Asset--fade-in{
   transition: opacity 250ms ease-in-out;
 
@@ -810,8 +814,6 @@ body {
     background-image: url('../img/noise_white.png'); 
     background-size: 93px auto;
 
-      -webkit-mask-image: url('../img/photoborder.png');
-      -webkit-mask-size: 100% 100%;
     mask-image: url('../img/photoborder.png');
       mask-size: 100% 100%;
 
@@ -842,5 +844,54 @@ body {
     bottom: 8.65%;
     left: 5%;
     width: 75%;
+  }
+}
+
+.DecollageBorder{
+  width: calc(100%);
+  max-width: calc((100vh - 40px - 7vh - 10vh) / (663 / 1146));
+  position: relative;
+
+  &:after{
+    content: "";
+    display: block;
+    padding-top: calc(100% / (1146 / 663));
+  }
+
+  &__img{
+    position: absolute;
+    top: -108%;
+    left: ((1827 - 1146)/1146)/2 * -100%;
+    width: (((1827 - 1146)/1146) + 1) * 100%;
+    max-width: unset;
+    mask-image: url('../img/paris_decollage-mask.png');
+    mask-size: 100% 100%;
+  }
+
+  .Video{
+    position: absolute;
+    top: 2%;
+    left: 3%;
+    width: 93%;
+  }
+}
+
+.whereAreTheyNow{
+  padding: 3.5vh;
+  &__title{
+    margin-left: 40px;
+    padding: 20px;
+    color: #fff;
+    text-align: center;
+
+    h2{margin:0;}
+  }
+
+  @media screen and (max-width: 1000px) {
+    flex-direction: column;
+
+    .whereAreTheyNow__title{
+      margin: 0 0 0px;
+    }
   }
 }

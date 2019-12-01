@@ -106,7 +106,7 @@ const VideoPlayer = React.memo((
 
       useEffect(() => {
         if (active) {
-          console.log(played)
+          // console.log(played)
           player.current && player.current.seekTo(displayPlayedToTruth(played))
           playTimeout.current = setTimeout(play, 100);
         } else {

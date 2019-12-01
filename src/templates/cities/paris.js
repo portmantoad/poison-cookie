@@ -151,7 +151,11 @@ React.memo(
       </React.Fragment>
 )}), React.memo(({registerAnimation, scrollTo, sectionIndex, activeIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
           <FixedPortal target={midgroundPortal}>
-            <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
+            <div className={"Panel Transition--fade whereAreTheyNow" + (active ? " isActive" : "")}>
+            <div className="whereAreTheyNow__title">
+              <h2>Où sont-ils maintenant?</h2>
+              <span>(Where are they now?)</span>
+            </div>
               <Slideshow 
                 registerAnimation={registerAnimation}
                 sectionIndex={sectionIndex}
@@ -332,23 +336,21 @@ React.memo(
 
     return(
       <React.Fragment>
-        <Curtains 
-          registerAnimation={registerAnimation}
-          sectionIndex={sectionIndex}
-          activeIndex={activeIndex}
-          foregroundPortal={foregroundPortal}
-          backgroundPortal={backgroundPortal}
-          persist={1}
-        />
         <FixedPortal target={midgroundPortal}> 
-            <VideoPlayer
-              /*Edith piaf chanson realiste*/
-              videoId="uOiQOKthi7g"
-              fullscreen
-              sectionIndex={sectionIndex}
-              activeIndex={activeIndex}
-              onEnd={() => scrollTo("next")}
-            />
+          <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
+            <div className="DecollageBorder">
+              <VideoPlayer
+                /*Edith piaf chanson realiste*/
+                videoId="uOiQOKthi7g"
+                sectionIndex={sectionIndex}
+                activeIndex={activeIndex}
+                onEnd={() => scrollTo("next")}
+              />
+              <img src={`${withPrefix('/')}img/paris_decollage.jpg`} alt="" className="DecollageBorder__img" />
+            </div>
+          </div>
+
+
             
         </FixedPortal>
       </React.Fragment>
