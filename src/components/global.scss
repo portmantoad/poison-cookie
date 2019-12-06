@@ -634,7 +634,7 @@ body {
   &__vid{
     @include transition--fade();
     min-width: 100%;
-    min-height: 100%;
+    min-height: 100vh;
     position: fixed;
     top:50%;
     left:50%;
@@ -652,7 +652,7 @@ body {
   }
 
   &__logo{
-    position: absolute; 
+    position: fixed; 
     right: 5%; 
     bottom: 5%; 
     width: 18%;

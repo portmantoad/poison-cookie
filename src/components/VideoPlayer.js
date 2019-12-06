@@ -221,7 +221,7 @@ const VideoPlayer = React.memo((
         <div className="Video__wrapper">
           <YouTubePlayer
             ref={player}
-            url={'https://www.youtube.com/embed/' 
+            url={'http://www.youtube.com/embed/' 
               + videoId 
               // + (endTime ? '?end=' + endTime : '')
               // + '&start=' + startTime 
