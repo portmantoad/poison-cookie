@@ -9,8 +9,7 @@ import fscreen from 'fscreen'
 // import useMedia from 'use-media';
 
 const VideoPlayer = React.memo((
-    { sectionIndex,
-      activeIndex, 
+    { active, 
       className, 
       fullscreen, 
       videoId, 
@@ -20,8 +19,8 @@ const VideoPlayer = React.memo((
       captions,
       ...rest
     }) => {
-      const active = sectionIndex === activeIndex;
-      const onDeck = sectionIndex >= (activeIndex - 1) && sectionIndex <= (activeIndex + 1);
+      // const active = sectionIndex === activeIndex;
+      // const onDeck = sectionIndex >= (activeIndex - 1) && sectionIndex <= (activeIndex + 1);
 
       const muted = useContext(MutedContext);
       const [ volume, setVolume ] = useState(1);
@@ -80,6 +79,15 @@ const VideoPlayer = React.memo((
         truePlayer && truePlayer.pauseVideo && truePlayer.pauseVideo();
       }
 
+      useEffect(() => {
+        if (!playing && !active) {
+          setTimeout(hardPause,0);
+        }
+      }, [playing, active]);
+
+
+
+
       // const [ initialPlay, setInitialPlay ] = useState(false);
       // const [ scrolling, setScrolling ] = useState(false);
       // const scrollTimeout = useRef();
@@ -96,19 +104,15 @@ const VideoPlayer = React.memo((
       //   return () => window.removeEventListener('scroll', handleScroll);
       // }, []);
 
-      useEffect(() => {
-        if (!playing && !active) {
-          hardPause();
-        }
-      }, [playing, active]);
-
       const playTimeout = useRef();
 
       useEffect(() => {
         if (active) {
           // console.log(played)
-          player.current && player.current.seekTo(displayPlayedToTruth(played))
-          playTimeout.current = setTimeout(play, 100);
+          playTimeout.current = setTimeout(() => {
+            player.current && player.current.seekTo(displayPlayedToTruth(played));
+            play();
+          }, 50);
         } else {
           clearTimeout(playTimeout.current);
           pause();
@@ -207,7 +211,7 @@ const VideoPlayer = React.memo((
           "Video" 
           + (fullscreen ? " Video--fullscreen" : "")
           + (active ? " isActive" : "") 
-          + (!onDeck ? " fullyHidden" : "") 
+          // + (!onDeck ? " fullyHidden" : "") 
           + (className ? ` ${className}` : "")
         }
         onClick={() => playToggle()}
@@ -221,6 +225,7 @@ const VideoPlayer = React.memo((
         <div className="Video__wrapper">
           <YouTubePlayer
             ref={player}
+            light
             url={'http://www.youtube.com/embed/' 
               + videoId 
               // + (endTime ? '?end=' + endTime : '')

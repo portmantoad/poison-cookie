@@ -48,8 +48,7 @@ React.memo(
             <img className="videoborder__img" src={`${withPrefix('/')}img/card.jpg`} alt="" /></div>
             <VideoPlayer
                 videoId="qdU_IKxIhAk"
-                sectionIndex={sectionIndex}
-                activeIndex={activeIndex}
+                active={active}
                 onEnd={() => scrollTo("next")}
               />
           </div>  
@@ -76,8 +75,7 @@ React.memo(
               /* kitty litter */
               videoId="ZS8zlMNmTEU"
               fullscreen
-              sectionIndex={sectionIndex}
-              activeIndex={activeIndex}
+              active={active}
               onEnd={() => scrollTo("next", 0)}
             />
             
@@ -116,8 +114,7 @@ React.memo(
                 <img className="videoborder__img videoborder__img--mask2" src={`${withPrefix('/')}img/card2.jpg`} alt="" /></div>
                 <VideoPlayer
                     videoId="LkdWOkpCuTw"
-                    sectionIndex={sectionIndex}
-                    activeIndex={activeIndex}
+                    active={active}
                     onEnd={() => scrollTo("next")}
                   />
               </div>  
@@ -141,8 +138,7 @@ React.memo(
               /* Strongman chat noir */
               videoId="reWxXdcKJoI"
               fullscreen
-              sectionIndex={sectionIndex}
-              activeIndex={activeIndex}
+              active={active}
               captions={true}
               onEnd={() => scrollTo("next")}
             />
@@ -180,8 +176,7 @@ React.memo(
               /* le mirilton */
               videoId="takA-zY-Tn8"
               fullscreen
-              sectionIndex={sectionIndex}
-              activeIndex={activeIndex}
+              active={active}
               onEnd={() => scrollTo("next")}
             />
         </FixedPortal>
@@ -219,8 +214,7 @@ React.memo(
               /* musee montmatre */
               videoId="j9ieAAvYpJU"
               fullscreen
-              sectionIndex={sectionIndex}
-              activeIndex={activeIndex}
+              active={active}
               onEnd={() => scrollTo("next")}
             />
             
@@ -236,8 +230,7 @@ React.memo(
               /* interview with julia */
               videoId="xxx"
               fullscreen
-              sectionIndex={sectionIndex}
-              activeIndex={activeIndex}
+              active={active}
               onEnd={() => scrollTo("next")}
             />
         </FixedPortal>
@@ -252,8 +245,7 @@ React.memo(
               /* strongman lapin agile */
               videoId="HmHbXzvqRpk"
               fullscreen
-              sectionIndex={sectionIndex}
-              activeIndex={activeIndex}
+              active={active}
               onEnd={() => scrollTo("next")}
             />
         </FixedPortal>
@@ -268,8 +260,7 @@ React.memo(
               /* lapin agile interview */
               videoId="ubFSIFzFLs8"
               fullscreen
-              sectionIndex={sectionIndex}
-              activeIndex={activeIndex}
+              active={active}
               onEnd={() => scrollTo("next")}
             />
         </FixedPortal>
@@ -283,8 +274,7 @@ React.memo(
               /* other minor cabarets */
               videoId="vPX40vnxS6g"
               fullscreen
-              sectionIndex={sectionIndex}
-              activeIndex={activeIndex}
+              active={active}
               onEnd={() => scrollTo("next")}
             />
         </FixedPortal>
@@ -298,8 +288,7 @@ React.memo(
               /* Edith Piaf’s grave site */
               videoId="lqsW1FCVi_M"
               fullscreen
-              sectionIndex={sectionIndex}
-              activeIndex={activeIndex}
+              active={active}
               onEnd={() => scrollTo("next")}
             />
         </FixedPortal>
@@ -339,14 +328,13 @@ React.memo(
         <FixedPortal target={midgroundPortal}> 
           <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
             <div className="DecollageBorder">
+              <img src={`${withPrefix('/')}img/paris_decollage2.jpg`} alt="" className="DecollageBorder__img" />
               <VideoPlayer
                 /*Edith piaf chanson realiste*/
                 videoId="uOiQOKthi7g"
-                sectionIndex={sectionIndex}
-                activeIndex={activeIndex}
+                active={active}
                 onEnd={() => scrollTo("next")}
               />
-              <img src={`${withPrefix('/')}img/paris_decollage.jpg`} alt="" className="DecollageBorder__img" />
             </div>
           </div>
 
@@ -379,8 +367,7 @@ React.memo(
                 <img className="videoborder__img videoborder__img--alt3" src={`${withPrefix('/')}img/card.jpg`} alt="" /></div>
                 <VideoPlayer
                     videoId="vrvVpZsKVYk"
-                    sectionIndex={sectionIndex}
-                    activeIndex={activeIndex}
+                    active={active}
                     onEnd={() => scrollTo("next")}
                   />
               </div>  
@@ -404,8 +391,7 @@ React.memo(
               /* interview with gosia  */
               videoId="uUspDjAhVSo"
               fullscreen
-              sectionIndex={sectionIndex}
-              activeIndex={activeIndex}
+              active={active}
               onEnd={() => scrollTo("next")}
             />
             
@@ -421,8 +407,7 @@ React.memo(
               /* Interview with Michel from Vieux Belleville   */
               videoId="az8ftb3NgNw"
               fullscreen
-              sectionIndex={sectionIndex}
-              activeIndex={activeIndex}
+              active={active}
               onEnd={() => scrollTo("next")}
             />
         </FixedPortal>
@@ -448,8 +433,7 @@ React.memo(
               /* Interview_Natalie_au Magique */
               videoId="jS34OY5LCk0"
               fullscreen
-              sectionIndex={sectionIndex}
-              activeIndex={activeIndex}
+              active={active}
               onEnd={() => scrollTo("next")}
             />
         </FixedPortal>
@@ -464,8 +448,7 @@ React.memo(
               /* martine au magique */
               videoId="5sS94fQ0zRo"
               fullscreen
-              sectionIndex={sectionIndex}
-              activeIndex={activeIndex}
+              active={active}
               onEnd={() => scrollTo("next")}
             />
         </FixedPortal>
@@ -480,8 +463,7 @@ React.memo(
               /* strongman divan japanois */
               videoId="_7kQh0ot5Kc"
               fullscreen
-              sectionIndex={sectionIndex}
-              activeIndex={activeIndex}
+              active={active}
               onEnd={() => scrollTo("next")}
             />
         </FixedPortal>
@@ -496,8 +478,7 @@ React.memo(
               /* interview with Monsieur K */
               videoId="xxx"
               fullscreen
-              sectionIndex={sectionIndex}
-              activeIndex={activeIndex}
+              active={active}
               onEnd={() => scrollTo("next")}
             />
         </FixedPortal>
@@ -513,8 +494,7 @@ React.memo(
                 /* music video partial song */
                 videoId="RnyJ8nwcuOE"
                 // fullscreen
-                sectionIndex={sectionIndex}
-                activeIndex={activeIndex}
+                active={active}
                 onEnd={() => scrollTo("next")}
               />
         </div>
@@ -541,8 +521,7 @@ React.memo(
               /* strongman limonaire */
               videoId="2UTO67pYjpU"
               fullscreen
-              sectionIndex={sectionIndex}
-              activeIndex={activeIndex}
+              active={active}
               onEnd={() => scrollTo("next")}
             />
         </FixedPortal>
@@ -557,8 +536,7 @@ React.memo(
               /* limonaire interview with closing */
               videoId="NHC-gkfr61Y"
               fullscreen
-              sectionIndex={sectionIndex}
-              activeIndex={activeIndex}
+              active={active}
               onEnd={() => scrollTo("next")}
             />
         </FixedPortal>
@@ -571,8 +549,7 @@ React.memo(
                 <img className="videoborder__img videoborder__img--mask2 videoborder__img--alt3" src={`${withPrefix('/')}img/card.jpg`} alt="" /></div>
                 <VideoPlayer
                     videoId="1T1T3coj6BI"
-                    sectionIndex={sectionIndex}
-                    activeIndex={activeIndex}
+                    active={active}
                     onEnd={() => scrollTo("next")}
                   />
               </div>  
@@ -592,8 +569,7 @@ React.memo(
               <VideoPlayer
                 /* chat noir multicam cooking  */
                 videoId="HzUIUTatyZI"
-                sectionIndex={sectionIndex}
-                activeIndex={activeIndex}
+                active={active}
                 onEnd={() => scrollTo("next")}
               />
             </div>
@@ -611,8 +587,7 @@ React.memo(
                 <img className="videoborder__img videoborder__img--alt1" src={`${withPrefix('/')}img/card2.jpg`} alt="" /></div>
                 <VideoPlayer
                     videoId="ZsjrIQY16aQ"
-                    sectionIndex={sectionIndex}
-                    activeIndex={activeIndex}
+                    active={active}
                     onEnd={() => scrollTo("next")}
                   />
               </div>  
@@ -636,8 +611,7 @@ React.memo(
               /* asshole singalong  */
               videoId="7Unp0PL2m8Q"
               fullscreen
-              sectionIndex={sectionIndex}
-              activeIndex={activeIndex}
+              active={active}
               onEnd={() => scrollTo("next")}
             />
             

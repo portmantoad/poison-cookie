@@ -88,8 +88,8 @@ img{
   margin: -1px; padding: 0; border: 0; 
 }
 
-.fullyhidden{
-  display: none;
+.fullyHidden{
+  display: none !important;
 }
 
 body {
@@ -864,8 +864,8 @@ body {
     left: ((1827 - 1146)/1146)/2 * -100%;
     width: (((1827 - 1146)/1146) + 1) * 100%;
     max-width: unset;
-    mask-image: url('../img/paris_decollage-mask.png');
-    mask-size: 100% 100%;
+    // mask-image: url('../img/paris_decollage-mask.png');
+    // mask-size: 100% 100%;
   }
 
   .Video{

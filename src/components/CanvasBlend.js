@@ -26,6 +26,8 @@ import React from 'react'
     }
 
     handleLoaded = () => {
+      if (!this.inputRef.current || !this.canvasRef.current || !this.backCanvasRef.current) { return }
+
       if (this.isVideo) {
         this.contextWidth = this.inputRef.current.clientWidth;
         this.contextHeight = this.inputRef.current.clientHeight;
@@ -133,6 +135,7 @@ import React from 'react'
       } else {
         this.inputRef.current.addEventListener('load', this.handleLoaded.bind(this));
         if (this.inputRef.current.complete) {this.handleLoaded()}
+        setTimeout(() => this.inputRef.current.naturalHeight !== 0 && this.handleLoaded.bind(this), 1000);
       }
     }
 

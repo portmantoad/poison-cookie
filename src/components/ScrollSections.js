@@ -2,7 +2,7 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import VideoPlayer from './VideoPlayer'
 import FixedPortal from './FixedPortal'
-import { throttle } from 'lodash'
+import { throttle, debounce } from 'lodash'
 // import Lethargy from './Lethargy'
 
 import TweenMax from 'TweenMax';
@@ -32,7 +32,8 @@ class ScrollSections extends React.PureComponent {
     });
 
     this.state = {
-      activeSection: 0
+      activeSection: 0,
+      contentVisible: true
     };
 
     this.activeSectionProgress = 0;
@@ -45,6 +46,8 @@ class ScrollSections extends React.PureComponent {
     }
 
     this.mounted = false;
+
+    this.sectionsTraversedInCurrentScroll = 0;
 
   }
 
@@ -104,6 +107,21 @@ class ScrollSections extends React.PureComponent {
   //     setTimeout(() => {
   //       html.style.overflow = '';
   //     }, 10);
+  //   }
+  // }
+
+  // sectionsTraversedDebouncedReset = debounce(() => {
+  //   this.sectionsTraversedInCurrentScroll = 0;
+  //   this.setState({contentVisible: true});
+  // }, 100)
+
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (prevState.activeSection !== this.state.activeSection) {
+  //     this.sectionsTraversedDebouncedReset();
+  //     // this.sectionsTraversedInCurrentScroll = this.sectionsTraversedInCurrentScroll + 1;
+  //     // if (this.sectionsTraversedInCurrentScroll > 2 && this.state.contentVisible) {
+  //       this.setState({contentVisible: false});
+  //     // }
   //   }
   // }
 
@@ -313,6 +331,9 @@ class ScrollSections extends React.PureComponent {
     this.resizeTimeout = window.requestAnimationFrame(this.handleResize);
   }, 100);
 
+
+
+
   componentWillUnmount(){
     this.mounted = false;
     if (typeof window !== `undefined`) {
@@ -337,12 +358,11 @@ class ScrollSections extends React.PureComponent {
       >
 
        <div className="ScrollSections__fixedRoot ScrollSections__fixedRoot--background" ref={this.backgroundPortalRef} />
-
-        <div className="ScrollSections__fixedRoot ScrollSections__fixedRoot--midground" ref={this.midgroundPortalRef} />
+       <div className="ScrollSections__fixedRoot ScrollSections__fixedRoot--midground" ref={this.midgroundPortalRef} />
 
           {sections &&
             sections.map((Sect, index) => {
-                    const active = this.state.activeSection === index;
+                    const active = this.state.activeSection === index && this.state.contentVisible;
                     const onDeck = index >= (this.state.activeSection - 1) && index <= (this.state.activeSection + 1);
                     return (
                       <section 
