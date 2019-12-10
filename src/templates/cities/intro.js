@@ -69,15 +69,14 @@ React.memo(
             <VideoPlayer
               videoId="0GWlYInjOCI"
               fullscreen
-              sectionIndex={sectionIndex}
-              activeIndex={activeIndex}
+              active={active}
               onEnd={() => scrollTo("next")}
             />           
         </FixedPortal>
       </React.Fragment>
 )}), 
 React.memo(
-  ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
+  ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
     
     // registerAnimation({
     //   key: "Animation--curtain-right-leave" + sectionIndex,
@@ -103,8 +102,7 @@ React.memo(
               // startTime={18}
               // endTime={61}
               fullscreen
-              sectionIndex={sectionIndex}
-              activeIndex={activeIndex}
+              active={active}
               onEnd={() => scrollTo("next")}
             />
       </FixedPortal>

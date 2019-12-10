@@ -1,14 +1,18 @@
-import React, {useEffect, useRef} from 'react'
+import React, {useEffect, useRef, useContext} from 'react'
 import PropTypes from 'prop-types'
 import TweenMax from 'TweenMax'
 import TimelineMax from 'TimelineMax'
 import FixedPortal from './FixedPortal'
 import { withPrefix } from 'gatsby'
+import { ASContext } from './contexts'
 
 const Curtains = React.memo(
-  ({registerAnimation, sectionIndex, activeIndex, foregroundPortal, backgroundPortal, persist = 0}) => {
+  ({registerAnimation, sectionIndex, foregroundPortal, backgroundPortal, persist = 0}) => {
     const uniqueKey = useRef('_' + Math.random().toString(36).substr(2, 9));
+    const activeIndex = useContext(ASContext);
     const active = activeIndex >= sectionIndex && activeIndex <= sectionIndex + persist;
+
+
 
     // useEffect(() => {
     //   registerAnimation({
@@ -56,6 +60,16 @@ const Curtains = React.memo(
           </div>
         </FixedPortal>
       </React.Fragment>
-)})
+)}
+//     , (prevProps, nextProps) => {
+//     const prevActive = prevProps.activeIndex >= prevProps.sectionIndex && prevProps.activeIndex <= prevProps.sectionIndex + prevProps.persist;
+//     const nextActive = nextProps.activeIndex >= nextProps.sectionIndex && nextProps.activeIndex <= nextProps.sectionIndex + nextProps.persist;
+//     if (prevActive !== nextActive) {
+//       return false
+//     }
+
+//     return true
+// }
+)
 
 export default Curtains

@@ -3,6 +3,8 @@ import PropTypes from 'prop-types'
 import VideoPlayer from './VideoPlayer'
 import FixedPortal from './FixedPortal'
 import { throttle, debounce } from 'lodash'
+
+import { ASContext } from './contexts'
 // import Lethargy from './Lethargy'
 
 import TweenMax from 'TweenMax';
@@ -10,6 +12,7 @@ import ScrollMagic from 'ScrollMagic';
 import 'animation.gsap';
 import ScrollToPlugin from 'gsap/umd/ScrollToPlugin';
 import 'debug.addIndicators';
+
 
 import ResizeObserver from 'resize-observer-polyfill';
 
@@ -48,7 +51,6 @@ class ScrollSections extends React.PureComponent {
     this.mounted = false;
 
     this.sectionsTraversedInCurrentScroll = 0;
-
   }
 
   updateSectionHeights = () => {
@@ -360,10 +362,10 @@ class ScrollSections extends React.PureComponent {
        <div className="ScrollSections__fixedRoot ScrollSections__fixedRoot--background" ref={this.backgroundPortalRef} />
        <div className="ScrollSections__fixedRoot ScrollSections__fixedRoot--midground" ref={this.midgroundPortalRef} />
 
+      <ASContext.Provider value={this.state.activeSection}>
           {sections &&
             sections.map((Sect, index) => {
                     const active = this.state.activeSection === index && this.state.contentVisible;
-                    const onDeck = index >= (this.state.activeSection - 1) && index <= (this.state.activeSection + 1);
                     return (
                       <section 
                         key={"ScrollSection--" + index}
@@ -379,7 +381,6 @@ class ScrollSections extends React.PureComponent {
                           sectionIndex={index}
                           activeIndex={this.state.activeSection} 
                           active={active}
-                          onDeck={onDeck} 
                           foregroundPortal={this.foregroundPortalRef.current} 
                           backgroundPortal={this.backgroundPortalRef.current} 
                           midgroundPortal={this.midgroundPortalRef.current} 
@@ -391,6 +392,7 @@ class ScrollSections extends React.PureComponent {
                       </section>
                   )})
           }
+          </ASContext.Provider>
 
           <div className="ScrollSections__fixedRoot ScrollSections__fixedRoot--foreground" ref={this.foregroundPortalRef} />
           <div className="ScrollSections__fixedRoot ScrollSections__fixedRoot--UI" ref={this.UIPortalRef}>
