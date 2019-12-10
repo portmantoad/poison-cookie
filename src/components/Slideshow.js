@@ -7,29 +7,35 @@ import { throttle } from 'lodash'
 // import { withPrefix } from 'gatsby'
 // import useMedia from 'use-media';
 
-const Slideshow = ({registerAnimation, sectionIndex, backgroundFill, style, children}) => {
+const Slideshow = ({active, sectionIndex, backgroundFill, style, children}) => {
 
     const uniqueKey = useRef('_' + Math.random().toString(36).substr(2, 9));
 
-    const [indexSetByScroll, setIndexSetByScroll] = useState(0);
+    const [indexSetByTimer, setIndexSetByTimer] = useState(0);
     const [indexSetManually, setIndexSetManually] = useState(null);
 
-    const callbackThrottled = throttle(event => {
-          if (event.state === "DURING"){
-            const newIndex = Math.floor(event.progress * Math.min(children.length, 3));
-            if (!isNaN(newIndex)) setIndexSetByScroll(newIndex);
+    const autoAdvanceTimer = useRef(null);
+
+    const advanceTimerGenerator = () => setTimeout(() => {
+        setIndexSetByTimer(index => {
+          if (index === children.length - 1) {
+            return index;
+          } else {
+            autoAdvanceTimer.current = advanceTimerGenerator();
+            return index + 1;
           }
-        }, 50)
+        })
+      }, 4000);
 
     useEffect(() => {
-      registerAnimation({
-        key: ".Animation--slideshow" + uniqueKey.current,
-        sectionIndex: sectionIndex, 
-        callback: ["progress", callbackThrottled]
-      });
-    }, []);
+      if (active && indexSetManually === null) {
+        autoAdvanceTimer.current = advanceTimerGenerator();
+      } else {
+        clearTimeout(autoAdvanceTimer.current);
+      }
+    }, [active]);
 
-    const activeIndex = indexSetManually === null ? indexSetByScroll : indexSetManually;
+    const activeIndex = indexSetManually === null ? indexSetByTimer : indexSetManually;
     
     return (
       <div className={"Slideshow Animation--slideshow" + uniqueKey.current} style={style}>

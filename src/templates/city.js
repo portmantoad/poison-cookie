@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import Helmet from 'react-helmet'
 import { graphql } from 'gatsby'
 import Layout from '../components/Layout'
-import ScrollSections from '../components/ScrollSections'
+import SlideSections from '../components/SlideSections'
 
 import Intro from '../templates/cities/intro.js'
 import Paris from '../templates/cities/paris.js'
@@ -22,7 +22,7 @@ export const CityTemplate = ({
   return (
     <div className={"City City--" + title.replace(/\s/g, '')}>
       {helmet || ''}
-      <ScrollSections sections={cities[title.replace(/\s/g, '')]} />
+      <SlideSections sections={cities[title.replace(/\s/g, '')]} />
     </div>
   )
 }
