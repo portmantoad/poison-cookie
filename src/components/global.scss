@@ -374,7 +374,7 @@ body {
   }
 }
 .ScrollSection {
-  @include transition--fade;
+  // @include transition--fade;
   opacity: 1;
   display: flex; 
   align-items: center; 
@@ -385,7 +385,7 @@ body {
   pointer-events: none;
 
   &__timeIndicator{
-    @include transition--fade;
+    @include transition--none;
     @include fixedToVisible();
     // z-index: 100;
 

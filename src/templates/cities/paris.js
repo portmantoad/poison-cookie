@@ -503,8 +503,7 @@ React.memo(
   ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
 
     return(
-      <React.Fragment>
-      <div className="Panel Panel--padded">
+      <div className={"Panel Transition--fade Panel--padded" + (active ? " isActive" : "")}>
         <div style={{flexGrow: 1, paddingRight: '3.5vw'}}>
               <VideoPlayer
                 /* music video partial song */
@@ -518,7 +517,6 @@ React.memo(
           Madame Arthur is named after a song by one of fin-de-siecle’s most famous chanteuses: Yvette Guilbert. Guilbert Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
         </div>
       </div>
-      </React.Fragment>
 )}, updateFunction), React.memo(
   ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
 

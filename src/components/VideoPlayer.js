@@ -47,12 +47,19 @@ const VideoPlayer = React.memo((
 
       const pause = () => {
         setPlaying(false);
+        hardPause();
       }
 
       const hardPause = () => {
         const truePlayer = player.current && player.current.player && player.current.player.player && player.current.player.player.player;
         truePlayer && truePlayer.pauseVideo && truePlayer.pauseVideo();
       }
+
+      // useEffect(() => {
+      //   if (!active) {
+      //     setTimeout(hardPause,0);
+      //   }
+      // }, [active]);
 
       const playTimeout = useRef();
 
