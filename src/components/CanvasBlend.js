@@ -133,9 +133,11 @@ import React from 'react'
         this.inputRef.current.addEventListener('canplay', this.handleLoaded.bind(this));
         this.inputRef.current.addEventListener('play', this.canvasBlend.bind(this));
       } else {
-        this.inputRef.current.addEventListener('load', this.handleLoaded.bind(this));
-        if (this.inputRef.current.complete) {this.handleLoaded()}
-        setTimeout(() => this.inputRef.current.naturalHeight !== 0 && this.handleLoaded.bind(this), 1000);
+        if (this.inputRef.current.complete) {
+          this.handleLoaded()
+        } else {
+          this.inputRef.current.addEventListener('load', this.handleLoaded.bind(this));         
+        }
       }
     }
 
@@ -149,5 +151,11 @@ import React from 'react'
       )
     }
   }
+
+// const CanvasBlend = (props) => {
+//   return(
+//     <React.Fragment>{props.children}</React.Fragment>
+//   )
+// }
 
 export default CanvasBlend

@@ -6,39 +6,13 @@ import FixedPortal from './FixedPortal'
 import { withPrefix } from 'gatsby'
 import { ASContext } from './contexts'
 
-const Curtains = React.memo(
-  ({registerAnimation, sectionIndex, foregroundPortal, backgroundPortal, persist = 0}) => {
+// const Curtains = () => <div />
+
+const Curtains = 
+React.memo(
+  ({registerAnimation, activeIndex, sectionIndex, foregroundPortal, backgroundPortal, persist = 0}) => {
     const uniqueKey = useRef('_' + Math.random().toString(36).substr(2, 9));
-    const activeIndex = useContext(ASContext);
     const active = activeIndex >= sectionIndex && activeIndex <= sectionIndex + persist;
-
-
-
-    // useEffect(() => {
-    //   registerAnimation({
-    //     key: ".Animation--curtain-right" + uniqueKey.current,
-    //     sectionIndex: sectionIndex, 
-    //     tween: () => new TimelineMax()
-    //       .to(".Animation--curtain-right" + uniqueKey.current, .05, {x: '0%'})
-    //       .to(".Animation--curtain-right" + uniqueKey.current, .2, {x: '100%', ease: "Quad.easeOut"})
-    //       .to(".Animation--curtain-right" + uniqueKey.current, (.5 + persist), {x: '100%'})
-    //       .to(".Animation--curtain-right" + uniqueKey.current, .2, {x: '0%', ease: "Quad.easeIn"})
-    //       .to(".Animation--curtain-right" + uniqueKey.current, .05, {x: '0%'}),
-    //     persist: persist
-    //   });
-
-    //   registerAnimation({
-    //     key: ".Animation--curtain-left" + uniqueKey.current,
-    //     sectionIndex: sectionIndex, 
-    //     tween: () => new TimelineMax()
-    //       .to(".Animation--curtain-left" + uniqueKey.current, .05, {x: '0%'})
-    //       .to(".Animation--curtain-left" + uniqueKey.current, .2, {x: '-100%', ease: "Quad.easeOut"})
-    //       .to(".Animation--curtain-left" + uniqueKey.current, (.5 + persist), {x: '-100%'})
-    //       .to(".Animation--curtain-left" + uniqueKey.current, .2, {x: '0%', ease: "Quad.easeIn"})
-    //       .to(".Animation--curtain-left" + uniqueKey.current, .05, {x: '0%'}),
-    //     persist: persist
-    //   });
-    // }, [persist]);
 
     return(
       <React.Fragment>
@@ -61,15 +35,19 @@ const Curtains = React.memo(
         </FixedPortal>
       </React.Fragment>
 )}
-//     , (prevProps, nextProps) => {
-//     const prevActive = prevProps.activeIndex >= prevProps.sectionIndex && prevProps.activeIndex <= prevProps.sectionIndex + prevProps.persist;
-//     const nextActive = nextProps.activeIndex >= nextProps.sectionIndex && nextProps.activeIndex <= nextProps.sectionIndex + nextProps.persist;
-//     if (prevActive !== nextActive) {
-//       return false
-//     }
-
-//     return true
-// }
+    , (prevProps, nextProps) => {
+    const prevActive = prevProps.activeIndex >= prevProps.sectionIndex && prevProps.activeIndex <= prevProps.sectionIndex + prevProps.persist;
+    const nextActive = nextProps.activeIndex >= nextProps.sectionIndex && nextProps.activeIndex <= nextProps.sectionIndex + nextProps.persist;
+    if (prevActive !== nextActive) {
+      return false
+    }
+    return true
+}
 )
 
-export default Curtains
+const CurtainsWrapped = props => {
+    const activeIndex = useContext(ASContext);
+    return <Curtains activeIndex={activeIndex} {...props} />
+}
+
+export default CurtainsWrapped

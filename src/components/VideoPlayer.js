@@ -8,7 +8,9 @@ import ResizeDetector from 'react-resize-detector'
 import fscreen from 'fscreen'
 // import useMedia from 'use-media';
 
-const VideoPlayer = React.memo((
+import debounceRender from 'react-debounce-render'
+
+const VideoPlayer = debounceRender(React.memo((
     { active, 
       className, 
       fullscreen, 
@@ -61,15 +63,15 @@ const VideoPlayer = React.memo((
       //   }
       // }, [active]);
 
-      const playTimeout = useRef();
+      // const playTimeout = useRef();
 
       useEffect(() => {
         if (active) {
-          playTimeout.current = setTimeout(() => {
+          // playTimeout.current = setTimeout(() => {
             play();
-          }, 50);
+          // }, 50);
         } else {
-          clearTimeout(playTimeout.current);
+          // clearTimeout(playTimeout.current);
           pause();
         }
       }, [active]);
@@ -112,6 +114,7 @@ const VideoPlayer = React.memo((
 
             }
             playing={active && playing}
+            controls
             onBufferEnd={
               ()=>{
                 setPlaying(playState => {
@@ -149,7 +152,7 @@ const VideoPlayer = React.memo((
         </div>
       </div>
   )
-})
+}), 100, { leading: false });
 
 export default VideoPlayer
 

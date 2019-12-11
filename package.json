@@ -30,6 +30,7 @@
     "parcel-bundler": "^1.9.4",
     "prop-types": "^15.6.0",
     "react": "^16.8.4",
+    "react-debounce-render": "^5.0.0",
     "react-dom": "^16.8.4",
     "react-headroom": "^3.0.0",
     "react-helmet": "^5.2.0",

@@ -36,6 +36,7 @@ class ScrollSections extends React.PureComponent {
 
     this.state = {
       activeSection: 0,
+      debouncedActiveSection: 0,
       contentVisible: true
     };
 
@@ -120,10 +121,10 @@ class ScrollSections extends React.PureComponent {
   // componentDidUpdate(prevProps, prevState) {
   //   if (prevState.activeSection !== this.state.activeSection) {
   //     this.sectionsTraversedDebouncedReset();
-  //     // this.sectionsTraversedInCurrentScroll = this.sectionsTraversedInCurrentScroll + 1;
-  //     // if (this.sectionsTraversedInCurrentScroll > 2 && this.state.contentVisible) {
+  //     this.sectionsTraversedInCurrentScroll = this.sectionsTraversedInCurrentScroll + 1;
+  //     if (this.sectionsTraversedInCurrentScroll > 1 && this.state.contentVisible) {
   //       this.setState({contentVisible: false});
-  //     // }
+  //     }
   //   }
   // }
 
@@ -355,7 +356,6 @@ class ScrollSections extends React.PureComponent {
     return (
       <div 
         className={"ScrollSections" + (className ? ` ${className}` : "")}
-        // style={{padding: (this.state.visibleHeight/2) + "px 0 " + (this.state.visibleHeight/2 - 1) + "px"}}
         ref={el => this.wrapperElement = el}
       >
 
