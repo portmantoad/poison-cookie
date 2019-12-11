@@ -152,7 +152,7 @@ const VideoPlayer = debounceRender(React.memo((
         </div>
       </div>
   )
-}), 100, { leading: false });
+}), 200, { leading: false });
 
 export default VideoPlayer
 

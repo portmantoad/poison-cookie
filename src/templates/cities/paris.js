@@ -9,25 +9,10 @@ import TweenMax from 'TweenMax'
 import TimelineMax from 'TimelineMax'
 import { withPrefix } from 'gatsby'
 
-const updateFunction = (prevProps, nextProps) => {
-    if (prevProps.active !== nextProps.active) {
-      return false
-    }
-
-    // if (
-    //     prevProps.foregroundPortal !== nextProps.foregroundPortal ||
-    //     prevProps.backgroundPortal !== nextProps.backgroundPortal ||
-    //     prevProps.registerAnimation !== nextProps.registerAnimation
-    // ) {
-    //   return false 
-    // }
-
-    return true
-}
+import debounceRender from 'react-debounce-render'
 
 const pages = [
-React.memo(
-  ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
+({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
 
     // const bgLength = 6;
     // const bgLength = pages.length;
@@ -71,7 +56,7 @@ React.memo(
         </div>    
       </FixedPortal>
     </React.Fragment>
-  )}), React.memo(
+  )}, 
   ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
 
     return(
@@ -96,14 +81,14 @@ React.memo(
             
         </div>
       </React.Fragment>
-)}), React.memo(
+)}, 
   ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
 
     return(
       <React.Fragment>
         <CanvasBlend use="multiply" style={{maxWidth: '100%'}}><img src={`${withPrefix('/')}img/parismap.jpg`} alt=""/></CanvasBlend>
       </React.Fragment>
-)}), React.memo(({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
+)}, ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
           <div className="Panel">
             <div className={"Panel Panel--padded Transition--fade" + (active ? " isActive" : "")} style={{flexDirection: 'column'}}>
               <Slideshow 
@@ -121,7 +106,7 @@ React.memo(
               <div style={{marginTop: "10px"}}>The faces of cabaret in old Paris</div>
             </div>
           </div>
-)), React.memo(({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
+), ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
           <div className="Panel">
             <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
               <div className="videoborder">
@@ -135,7 +120,7 @@ React.memo(
               </div>  
             </div>    
           </div>
-)), React.memo(
+), 
   ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
 
     return(
@@ -160,7 +145,7 @@ React.memo(
             
         </div>
       </React.Fragment>
-)}), React.memo(({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
+)}, ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
           <div className="Panel">
             <div className={"Panel Transition--fade whereAreTheyNow" + (active ? " isActive" : "")}>
             <div className="whereAreTheyNow__title">
@@ -182,7 +167,7 @@ React.memo(
               </Slideshow>
             </div>
           </div>
-)), React.memo(
+), 
   ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
     return(
       <React.Fragment>
@@ -196,7 +181,7 @@ React.memo(
             />
         </div>
       </React.Fragment>
-)}), React.memo(({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
+)}, ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
        <React.Fragment>
         <CanvasBlend use="multiply" style={{marginRight: "auto"}}><img src={`${withPrefix('/')}img/paris_bruant.jpg`} alt="" /></CanvasBlend>
         <div className="Panel">
@@ -211,7 +196,7 @@ React.memo(
           </div>
         </div>
        </React.Fragment>
-)), React.memo(
+), 
   ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
 
     return(
@@ -235,7 +220,7 @@ React.memo(
             
         </div>
       </React.Fragment>
-)}), React.memo(
+)}, 
   ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
 
     return(
@@ -250,7 +235,7 @@ React.memo(
             />
         </div>
       </React.Fragment>
-)}), React.memo(
+)}, 
   ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
 
     return(
@@ -265,7 +250,7 @@ React.memo(
             />
         </div>
       </React.Fragment>
-)}), React.memo(
+)}, 
   ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
 
     return(
@@ -280,7 +265,7 @@ React.memo(
             />
         </div>
       </React.Fragment>
-)}), React.memo(
+)}, 
   ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
     return(
       <React.Fragment>
@@ -294,7 +279,7 @@ React.memo(
             />
         </div>
       </React.Fragment>
-)}), React.memo(
+)}, 
   ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
     return(
       <React.Fragment>
@@ -308,7 +293,7 @@ React.memo(
             />
         </div>
       </React.Fragment>
-)}), React.memo(
+)}, 
   ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
     return(
       <React.Fragment>
@@ -320,7 +305,7 @@ React.memo(
         </div>
         <div className="Paper" style={{transform: 'rotate(-1deg)', maxWidth: '400px'}}><p>In the 1920s and 30s, a flood of expats in Paris created both a stream of American entertainers and American ex-pats who would flock to establishments with American artists (as did the French). A huge part of the reason was jazz’s rapid advance around the world.</p> <p>In particular, African American artists who could not perform in front of integrated audiences at home and who were appalled and exhausted at their treatment in America found refuge in Paris. This cross-cultural exchange would have a lasting impact on cabaret in both Paris and America (and also in Berlin which was not immune to the influence of Josephine Baker).</p></div>
       </React.Fragment>
-)}), React.memo(({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
+)}, ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
       <React.Fragment>
         <CanvasBlend use="multiply" style={{marginLeft: "auto", maxWidth: "600px"}}><img src={`${withPrefix('/')}img/paris_josephine.jpg`} alt="" /></CanvasBlend>
         <div className="Panel">
@@ -335,7 +320,7 @@ React.memo(
           </div>
         </div>
       </React.Fragment>
-)), React.memo(
+), 
   ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
 
     return(
@@ -357,8 +342,8 @@ React.memo(
             
         </div>
       </React.Fragment>
-)})
-// , React.memo(
+)}
+// , 
 //   ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
 
 //     return(
@@ -374,7 +359,7 @@ React.memo(
 //         </div>
 //       </React.Fragment>
 // )})
-, React.memo(({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
+, ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
           <div className="Panel">
             <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
               <div className="videoborder">
@@ -388,7 +373,7 @@ React.memo(
               </div>  
             </div>    
           </div>
-)), React.memo(
+), 
   ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
 
     return(
@@ -412,7 +397,7 @@ React.memo(
             
         </div>
       </React.Fragment>
-)}), React.memo(
+)}, 
   ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
 
     return(
@@ -427,7 +412,7 @@ React.memo(
             />
         </div>
       </React.Fragment>
-)}), React.memo(
+)}, 
   ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
 
     return(
@@ -438,7 +423,7 @@ React.memo(
             </div>
         </div>
       </React.Fragment>
-)}), React.memo(
+)}, 
   ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
 
     return(
@@ -453,7 +438,7 @@ React.memo(
             />
         </div>
       </React.Fragment>
-)}), React.memo(
+)}, 
   ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
 
     return(
@@ -468,7 +453,7 @@ React.memo(
             />
         </div>
       </React.Fragment>
-)}), React.memo(
+)}, 
   ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
 
     return(
@@ -483,7 +468,7 @@ React.memo(
             />
         </div>
       </React.Fragment>
-)}), React.memo(
+)}, 
   ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
 
     return(
@@ -498,7 +483,7 @@ React.memo(
             />
         </div>
       </React.Fragment>
-)}), React.memo(
+)}, 
   ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
 
     return(
@@ -516,7 +501,7 @@ React.memo(
           Madame Arthur is named after a song by one of fin-de-siecle’s most famous chanteuses: Yvette Guilbert. Guilbert Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
         </div>
       </div>
-)}), React.memo(
+)}, 
   ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
 
     return(
@@ -539,7 +524,7 @@ React.memo(
             />
         </div>
       </React.Fragment>
-)}), React.memo(
+)}, 
   ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
 
     return(
@@ -554,7 +539,7 @@ React.memo(
             />
         </div>
       </React.Fragment>
-)}), React.memo(({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
+)}, ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
           <div className="Panel">
             <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
               <div className="videoborder">
@@ -568,7 +553,7 @@ React.memo(
               </div>  
             </div>    
           </div>
-)), React.memo(
+), 
   ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
 
     return(
@@ -592,7 +577,7 @@ React.memo(
             
         </div>
       </React.Fragment>
-)}), React.memo(({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
+)}, ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
           <div className="Panel">
             <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
               <div className="videoborder">
@@ -606,7 +591,7 @@ React.memo(
               </div>  
             </div>    
           </div>
-)), React.memo(
+), 
   ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
 
     return(
@@ -630,7 +615,7 @@ React.memo(
             
         </div>
       </React.Fragment>
-)}), React.memo(({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
+)}, ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
         <div className="Panel">
           <div className="Panel " >
               <div className={"Transition--slow-fade" + (active ? " isActive" : "") }>
@@ -638,12 +623,32 @@ React.memo(
               </div>
           </div>
         </div>
-))
+)
 ]
 
+const updateFunction = (prevProps, nextProps) => {
+    if (
+      prevProps.active !== nextProps.active
+      || (!prevProps.foregroundPortal && nextProps.foregroundPortal)
+      || (!prevProps.backgroundPortal && nextProps.backgroundPortal)
+      || (!prevProps.midgroundPortal && nextProps.midgroundPortal)
+    ) {
+      return false
+    }
+
+    // if (
+    //     prevProps.foregroundPortal !== nextProps.foregroundPortal ||
+    //     prevProps.backgroundPortal !== nextProps.backgroundPortal ||
+    //     prevProps.registerAnimation !== nextProps.registerAnimation
+    // ) {
+    //   return false 
+    // }
+
+    return true
+}
+
 const namedPages = pages.map((page, i) => {
-  page.name = "page" + i;
-  return page
+  return debounceRender(React.memo(page), 50, { leading: false })
 })
 
 
