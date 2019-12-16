@@ -65,14 +65,14 @@ React.memo(
           backgroundPortal={backgroundPortal}
           persist={1}
         />
-        <FixedPortal target={midgroundPortal}> 
+        <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
             <VideoPlayer
               videoId="0GWlYInjOCI"
               fullscreen
               active={active}
               onEnd={() => scrollTo("next")}
             />           
-        </FixedPortal>
+        </div>
       </React.Fragment>
 )}), 
 React.memo(
@@ -95,7 +95,7 @@ React.memo(
     // });
     return (
       <React.Fragment>
-        <FixedPortal target={midgroundPortal}>
+        <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
             <VideoPlayer
               // videoId="GQPcG4D3Zno"
               videoId="xl5eTt4Qusw"
@@ -105,7 +105,7 @@ React.memo(
               active={active}
               onEnd={() => scrollTo("next")}
             />
-      </FixedPortal>
+      </div>
       </React.Fragment>
 )}), React.memo(({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
         <FixedPortal target={midgroundPortal}>
