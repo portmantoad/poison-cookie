@@ -67,7 +67,7 @@ img{
 }
 
 
-.Transition{
+.Transition, .Transition--none{
   @include transition--none();
 }
 
@@ -77,6 +77,10 @@ img{
 
 .Transition--slow-fade{
   @include transition--fade(1000ms);
+}
+
+.Transition--curtain-delay.isActive{
+  transition-delay: 300ms;
 }
 
 
@@ -112,14 +116,15 @@ body {
 
 .Curtains{
   @include transition--fade();
+  will-change: opacity;
   &__scrim{
     @include transition--fade();
-    transition-delay: 100ms;
     position: absolute;
     top:0; left:0; bottom:0; right:0;
-    background: #000;
+    background: rgba(0,0,0,0.65);
     &.isActive{
       transition-duration: 0;
+      transition-delay: 400ms;
     }
   }
   &__curtain-left, &__curtain-right{
@@ -150,11 +155,11 @@ body {
   &.isActive {
 
     .Curtains__curtain-left{
-      animation: Curtain-left-in 1250ms;
+      animation: Curtain-left-in 1500ms;
       // animation-fill-mode: forwards;
     }
     .Curtains__curtain-right{
-      animation: Curtain-right-in 1250ms;
+      animation: Curtain-right-in 1500ms;
       // animation-fill-mode: forwards;
     }
   }
@@ -406,21 +411,33 @@ body {
   }
 }
 
+  @keyframes video_spinner {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
 .Video{
   // @include transition--none;
-  @include transition--fade();
+  // @include transition--fade();
   
   // background-color: #000;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  will-change: opacity;
+  // will-change: opacity;
   max-width: calc((100vh - 40px - 7vh) / (720 / 1280));
 
   &.isActive{
-    transition-delay: 250ms;
     pointer-events: auto;
+
+    // .Video__spinner{
+    //   display: none;
+    // }
   }
 
   &:not(.isActive){ 
@@ -430,6 +447,36 @@ body {
     }
   }
 
+  &__spinner{
+    position: absolute;
+    top:calc(50% - 40px);
+    left:calc(50% - 40px);
+    width: 80px;
+    height: 80px;
+  
+      div {
+        box-sizing: border-box;
+        display: block;
+        position: absolute;
+        width: 68px;
+        height: 68px;
+        margin: 6px;
+        border: 6px solid #fff;
+        border-radius: 50%;
+        animation: video_spinner 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+        border-color: #fff transparent transparent transparent;
+      
+        &:nth-child(1) {
+          animation-delay: -0.45s;
+        }
+        &:nth-child(2) {
+          animation-delay: -0.3s;
+        }
+        &:nth-child(3) {
+          animation-delay: -0.15s;
+        }
+      }
+  }
 
    &__wrapper{
     position:relative;
@@ -440,6 +487,8 @@ body {
     // mask-image: url('../img/video_mask.png');
     // mask-size: 100% 100%;
     border-radius: 1% / calc(1% * (1280 / 720));
+
+
     
     &__playButton{
       display: none;

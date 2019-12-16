@@ -5,7 +5,7 @@ import React from 'react'
       super(props, context);
 
       if(!(this.props.children.type === "img" || this.props.children.type === "video")){
-        throw "CanvasBlend only accepts a single image or video element as an input"
+        throw "CanvasBlend only accepts a single image or video element as an input, type: " + this.props.children.type
       }
 
       this.state = {loaded: false}

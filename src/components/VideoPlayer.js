@@ -2,15 +2,19 @@ import React, {useState, useEffect, useRef, useContext} from 'react'
 import PropTypes from 'prop-types'
 import YouTubePlayer from 'react-player/lib/players/YouTube'
 import { MutedContext } from './contexts'
-import { Slider, FormattedTime, PlayerIcon } from 'react-player-controls'
-import { throttle, clamp } from 'lodash'
+// import { Slider, FormattedTime, PlayerIcon } from 'react-player-controls'
+import { debounce, clamp } from 'lodash'
 import ResizeDetector from 'react-resize-detector'
 import fscreen from 'fscreen'
 // import useMedia from 'use-media';
 
-import debounceRender from 'react-debounce-render'
+// import debounceRender from 'react-debounce-render'
 
-const VideoPlayer = debounceRender(React.memo((
+import debounceActiveRender from './debounceActiveRender'
+
+
+
+const VideoPlayer = debounceActiveRender(React.memo((
     { active, 
       className, 
       fullscreen, 
@@ -100,6 +104,7 @@ const VideoPlayer = debounceRender(React.memo((
         > 
         
         <div className="Video__wrapper">
+          <div class="Video__spinner"><div></div><div></div><div></div><div></div></div>
           <YouTubePlayer
             ref={player}
             light
@@ -152,7 +157,7 @@ const VideoPlayer = debounceRender(React.memo((
         </div>
       </div>
   )
-}), 200, { leading: false });
+}), 100, { leading: false });
 
 export default VideoPlayer
 

@@ -8,7 +8,9 @@ import { ASContext } from './contexts'
 
 // const Curtains = () => <div />
 
-const Curtains = 
+import debounceActiveRender from './debounceActiveRender'
+
+const Curtains = debounceActiveRender(
 React.memo(
   ({registerAnimation, activeIndex, sectionIndex, foregroundPortal, backgroundPortal, persist = 0}) => {
     const uniqueKey = useRef('_' + Math.random().toString(36).substr(2, 9));
@@ -43,7 +45,7 @@ React.memo(
     }
     return true
 }
-)
+), 100, { leading: false });
 
 const CurtainsWrapped = props => {
     const activeIndex = useContext(ASContext);
