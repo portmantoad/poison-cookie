@@ -45,7 +45,7 @@ React.memo(
     }
     return true
 }
-), 100, { leading: false });
+), 50, { leading: false });
 
 const CurtainsWrapped = props => {
     const activeIndex = useContext(ASContext);

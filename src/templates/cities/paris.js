@@ -693,7 +693,7 @@ const updateFunction = (prevProps, nextProps) => {
 
 
 const namedPages = pages.map((page, i) => {
-  return debounceActiveRender(React.memo(page, updateFunction), 500, { leading: false })
+  return debounceActiveRender(React.memo(page, updateFunction), 200, { leading: false })
 })
 
 
