@@ -205,7 +205,6 @@ const pages = [
             <VideoPlayer
               /* le mirilton */
               videoId="takA-zY-Tn8"
-              fullscreen
               // active={active}
               // onEnd={() => scrollTo("next")}
             />
@@ -245,7 +244,6 @@ const pages = [
               <VideoPlayer
                 /* musee montmatre */
                 videoId="j9ieAAvYpJU"
-                fullscreen
                 // active={active}
                 // onEnd={() => scrollTo("next")}
               />
@@ -279,7 +277,6 @@ const pages = [
           <VideoPlayer
             /* strongman lapin agile */
             videoId="-995ptoiNjw"
-            fullscreen
             // active={active}
             // onEnd={() => scrollTo("next")}
           />
@@ -307,7 +304,6 @@ const pages = [
               <VideoPlayer
                 /* other minor cabarets */
                 videoId="bysHS5IqVdI"
-                fullscreen
                 // active={active}
                 // onEnd={() => scrollTo("next")}
               />
@@ -322,7 +318,6 @@ const pages = [
             <VideoPlayer
               /* other minor cabarets 2 */
               videoId="jRouAXIvDrw"
-              fullscreen
               // active={active}
               // onEnd={() => scrollTo("next")}
             />
@@ -423,7 +418,6 @@ const pages = [
           <VideoPlayer
             /* Streeter [parc] */
             videoId="vrvVpZsKVYk"
-            fullscreen
             // active={active}
             // onEnd={() => scrollTo("next")}
           /> 
@@ -452,7 +446,6 @@ const pages = [
               <VideoPlayer
                 /* Interview with Michel from Vieux Belleville   */
                 videoId="az8ftb3NgNw"
-                fullscreen
                 // active={active}
                 // onEnd={() => scrollTo("next")}
               />
@@ -467,16 +460,16 @@ const pages = [
         <div className="scrim"></div>
         <img src={`${withPrefix('/')}img/paris_aumagique.png`} alt="" css={css(`
           @keyframes jitter {
-            0%, 9.99999% {    transform: translate3d(-0.5px, 0   , 0); }
-            10%, 19.99999% {    transform: translate3d(-0.5px, -0.5px, 0); }
+            0%, 9.99999% {    transform: translate3d(-0.3px, 0   , 0); }
+            10%, 19.99999% {    transform: translate3d(-0.3px, -0.3px, 0); }
             20%, 29.99999% {    transform: translate3d(0   , 0   , 0); }
-            30%, 39.99999% {    transform: translate3d(-0.5px, 0.5px , 0); }
-            40%, 49.99999% {    transform: translate3d(0.5px , 0, 0); }
-            50%, 59.99999% {    transform: translate3d(0.5px , 0.5px, 0); }
-            60%, 69.99999% {    transform: translate3d(0   , 0.5px, 0); }
-            70%, 79.99999% {    transform: translate3d(0   , -0.5px, 0); }
-            80%, 89.99999% {    transform: translate3d(0.5px , -0.5px , 0); }
-            90%, 100% {    transform: translate3d(0.5px , 0, 0); }
+            30%, 39.99999% {    transform: translate3d(-0.3px, 0.3px , 0); }
+            40%, 49.99999% {    transform: translate3d(0.3px , 0, 0); }
+            50%, 59.99999% {    transform: translate3d(0.3px , 0.3px, 0); }
+            60%, 69.99999% {    transform: translate3d(0   , 0.3px, 0); }
+            70%, 79.99999% {    transform: translate3d(0   , -0.3px, 0); }
+            80%, 89.99999% {    transform: translate3d(0.3px , -0.3px , 0); }
+            90%, 100% {    transform: translate3d(0.3px , 0, 0); }
           }
 
             animation: jitter 300ms infinite;
@@ -496,74 +489,69 @@ const pages = [
 
     return(
       <React.Fragment>
-        <div className="scrim"></div>
+          <Postcard mask="1" card="1" alt="1">
             <VideoPlayer
               /* Interview_Natalie_au Magique */
               videoId="jS34OY5LCk0"
-              fullscreen
               // active={active}
               // onEnd={() => scrollTo("next")}
             />
+          </Postcard>
+          <Postcard mask="2" card="2" >
+            <VideoPlayer
+              /* martine au magique */
+              videoId="5sS94fQ0zRo"
+              // active={active}
+              // onEnd={() => scrollTo("next")}
+            />
+          </Postcard>
+      </React.Fragment>
+)}
+,   ({sectionIndex, rootEl}) => {
+    return(
+      <React.Fragment>
+        <ParallaxLayerWrap offset={0} speed={0.1} sectionIndex={sectionIndex} rootEl={rootEl}>
+          <Postcard mask="2" card="1" alt="1">
+              <VideoPlayer
+                /* strongman divan japanois */
+                videoId="_7kQh0ot5Kc"
+                fullscreen
+                // active={active}
+                // onEnd={() => scrollTo("next")}
+              />
+          </Postcard>
+        </ParallaxLayerWrap>
+      </React.Fragment>
+)}
+,    ({sectionIndex, rootEl}) => {
+    return(
+      <React.Fragment>
+        <Postcard mask="1" card="2" alt="3">
+            interview with Monsieur K
+        </Postcard>
       </React.Fragment>
 )}
 ,    ({sectionIndex, rootEl}) => {
 
     return(
       <React.Fragment>
-        <div className="scrim"></div>
-            <VideoPlayer
-              /* martine au magique */
-              videoId="5sS94fQ0zRo"
-              fullscreen
-              // active={active}
-              // onEnd={() => scrollTo("next")}
-            />
+        <div css={css(`flex-grow: 1; padding-right: 3.5vw`)}>
+            <Postcard mask="1" card="1" alt="2">
+              <VideoPlayer
+                /* music video partial song */
+                videoId="RnyJ8nwcuOE"
+                // fullscreen
+                // active={active}
+                // onEnd={() => scrollTo("next")}
+              />
+            </Postcard>
+        </div>
+        <div className="Paper" css={css(`max-width: 300px; transform: rotate(1deg)`)}>
+          Madame Arthur is named after a song by one of fin-de-siecle’s most famous chanteuses: Yvette Guilbert. Guilbert Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
+        </div>
       </React.Fragment>
 )}
-// ,   ({sectionIndex, rootEl}) => {
-//     return(
-//       <React.Fragment>
-//         <Postcard mask="2" card="2" alt="1">
-//             <VideoPlayer
-//               /* strongman divan japanois */
-//               videoId="_7kQh0ot5Kc"
-//               fullscreen
-//               active={active}
-//               onEnd={() => scrollTo("next")}
-//             />
-//         </Postcard>
-//       </React.Fragment>
-// )}, 
-//   ({sectionIndex, rootEl}) => {
-
-//     return(
-//       <React.Fragment>
-//         <Postcard mask="1" card="2" alt="3">
-//             interview with Monsieur K
-//         </Postcard>
-//       </React.Fragment>
-// )}, 
-//   ({sectionIndex, rootEl}) => {
-
-//     return(
-//       <div className={"Panel Transition--fade Panel--padded" + (active ? " isActive" : "")}>
-//         <div style={{flexGrow: 1, paddingRight: '3.5vw'}}>
-//             <Postcard mask="1" card="1" alt="2">
-//               <VideoPlayer
-//                 /* music video partial song */
-//                 videoId="RnyJ8nwcuOE"
-//                 // fullscreen
-//                 active={active}
-//                 onEnd={() => scrollTo("next")}
-//               />
-//             </Postcard>
-//         </div>
-//         <div className="Paper" style={{maxWidth: "300px", transform: 'rotate(1deg)'}}>
-//           Madame Arthur is named after a song by one of fin-de-siecle’s most famous chanteuses: Yvette Guilbert. Guilbert Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
-//         </div>
-//       </div>
-// )}, 
-//   ({sectionIndex, rootEl}) => {
+// ,    ({sectionIndex, rootEl}) => {
 
 //     return(
 //       <React.Fragment>

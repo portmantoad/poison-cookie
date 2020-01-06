@@ -2,6 +2,7 @@ import React, {useRef, useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import { withPrefix } from 'gatsby'
 
+// import {config} from 'react-spring/renderprops'
 import {Parallax, ParallaxLayer} from 'react-spring/renderprops-addons'
 
 const ScrollSections = React.memo((
@@ -20,14 +21,15 @@ const ScrollSections = React.memo((
             {sections &&
               sections.map((Sect, index) => {
                       return (
-                        <section 
+                        <ParallaxLayer 
                           key={"ScrollSection--" + index}
                           className={
                             "ScrollSection ScrollSection--" + index
                           } 
+                          offset={index}
                         >
                           <Sect sectionIndex={index} rootEl={rootEl} />
-                        </section>
+                        </ParallaxLayer>
                     )})
             }       
          </Parallax>

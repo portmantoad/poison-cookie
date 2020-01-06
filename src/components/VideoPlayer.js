@@ -4,11 +4,7 @@ import YouTubePlayer from 'react-player/lib/players/YouTube'
 import { MutedContext } from './contexts'
 // import { Slider, FormattedTime, PlayerIcon } from 'react-player-controls'
 import { debounce, clamp } from 'lodash'
-import ResizeDetector from 'react-resize-detector'
 import fscreen from 'fscreen'
-// import useMedia from 'use-media';
-
-// import debounceRender from 'react-debounce-render'
 
 import debounceActiveRender from './debounceActiveRender'
 
@@ -28,64 +24,13 @@ const VideoPlayer = debounceActiveRender(React.memo((
 
       const muted = useContext(MutedContext);
       const [ volume, setVolume ] = useState(1);
-      const [ playing, setPlaying ] = useState(active);
-      // const [ duration, setDuration ] = useState(0);
-      // const [ trueDuration, setTrueDuration ] = useState(0);
-      // const [ played, setPlayed ] = useState(0);
-      // const [ loaded, setLoaded ] = useState(0);
-      // const [ intent, setIntent ] = useState(0);
-      // const [ controlsHovered, setControlsHovered ] = useState(false);
-      // const [ onPlayInitialTimeout, setOnPlayInitialTimeout ] = useState(false);
-      // const [ intentActive, setIntentActive ] = useState(false);
-      // const [ controlsBottomPad, setControlsBottomPad ] = useState(0);
-
-      // const controls = false;
-      
-      // const controlsAreDetached = fullscreen && !controlsBottomPad;
-      // const controlsVisible = controls && (controlsAreDetached || (active && duration && (controlsHovered || onPlayInitialTimeout || !playing)));
-      // const controlsScrimVisible = controls && !controlsAreDetached && controlsVisible;
-
-      const player = useRef(null);
-
-      const play = () => {
-        setPlaying(true);
-      }
-
-      const pause = () => {
-        setPlaying(false);
-        hardPause();
-      }
-
-      const hardPause = () => {
-        const truePlayer = player.current && player.current.player && player.current.player.player && player.current.player.player.player;
-        truePlayer && truePlayer.pauseVideo && truePlayer.pauseVideo();
-      }
-
-      // useEffect(() => {
-      //   if (!active) {
-      //     setTimeout(hardPause,0);
-      //   }
-      // }, [active]);
-
-      // const playTimeout = useRef();
-
-      useEffect(() => {
-        if (active) {
-          // playTimeout.current = setTimeout(() => {
-            play();
-          // }, 50);
-        } else {
-          // clearTimeout(playTimeout.current);
-          pause();
-        }
-      }, [active]);
 
       const handleEnd = () => {
-        if (fscreen.fullscreenElement !== null) {
-          fscreen.exitFullscreen().then(() =>{ onEnd && setTimeout(onEnd,1000)})
-        } else {
+        // if (fscreen.fullscreenElement !== null) {
+        //   fscreen.exitFullscreen().then(() =>{ onEnd && setTimeout(onEnd,1000)})
+        // } else {
           onEnd && onEnd();
-        }
+        // }
       }
 
         
@@ -96,7 +41,7 @@ const VideoPlayer = debounceActiveRender(React.memo((
         className={
           "Video" 
           + (fullscreen ? " Video--fullscreen" : "")
-          + (active ? " isActive" : "") 
+          + (true ? " isActive" : "") 
           // + (!onDeck ? " fullyHidden" : "") 
           + (className ? ` ${className}` : "")
         }
@@ -106,7 +51,6 @@ const VideoPlayer = debounceActiveRender(React.memo((
         <div className="Video__wrapper">
           <div className="Video__spinner"><div></div><div></div><div></div><div></div></div>
           <YouTubePlayer
-            ref={player}
             light
             url={'http://www.youtube.com/embed/' 
               + videoId 
@@ -118,19 +62,8 @@ const VideoPlayer = debounceActiveRender(React.memo((
               // + '&modestbranding=1'
 
             }
-            playing={active && playing}
             controls
-            onBufferEnd={
-              ()=>{
-                setPlaying(playState => {
-                  playState = playState && active ? true : false;
-                  !playState && hardPause();
-                  return playState;
-                })
-              }
-            }
-
-            volume={muted.muted ? 0 : volume}
+            muted={muted.muted}
             config={{
               youtube: {
                 // preload: onDeck
