@@ -1,5 +1,4 @@
 a{
-  pointer-events: all;
   color: #be553d;
 }
 
@@ -7,12 +6,23 @@ img{
   margin: 0;
 }
 
-.Asset--fade-in{
-  transition: opacity 250ms ease-in-out;
+$dropShadow: 1px 1px 15px rgba(0,0,0,0.25);
 
-  &:not(.isLoaded) { 
-    opacity: 0; 
-  }
+.drop-shadow{
+  box-shadow: $dropShadow;
+}
+
+.round-corners{
+  border-radius: 3px;
+}
+
+.scrim{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(66, 14, 3, 0.29);
 }
 
 @mixin transition--none(){
@@ -24,7 +34,7 @@ img{
 
 @mixin transition--fade($transition-time: 250ms){
   transition: opacity $transition-time ease-in-out;
-  will-change: opacity;
+  // will-change: opacity;
   // opacity: 1;
 
   &:not(.isActive) { 
@@ -40,14 +50,6 @@ img{
     transform: translateX(100%) !important; 
     pointer-events: none;
   }
-}
-
-@mixin fixedToVisible(){
-  position: fixed;
-  top: 40px;
-  left:0;
-  right:0;
-  height: calc(100vh - 40px);
 }
 
 @mixin whiteNoise($opacity: 0.4){
@@ -66,24 +68,6 @@ img{
     }
 }
 
-
-.Transition, .Transition--none{
-  @include transition--none();
-}
-
-.Transition--fade{
-  @include transition--fade();
-}
-
-.Transition--slow-fade{
-  @include transition--fade(1000ms);
-}
-
-.Transition--curtain-delay.isActive{
-  transition-delay: 300ms;
-}
-
-
 .visuallyhidden { 
   position: absolute; 
   overflow: hidden; 
@@ -96,80 +80,15 @@ img{
   display: none !important;
 }
 
-body {
-  padding: 40px 0 0;
+html, body {
+  padding: 0;
   background: #f2cd94;
-}
-
-
-@keyframes Curtain-left-in {
-  0%   { transform: translateX(0%);}
-  20%  { transform: translateX(0%);}
-  100% { transform: translateX(-100%);}
-}
-
-@keyframes Curtain-right-in {
-  0%   { transform: translateX(0%);}
-  20%  { transform: translateX(0%);}
-  100% { transform: translateX(100%);}
-}
-
-.Curtains{
-  @include transition--fade();
-  will-change: opacity;
-  &__scrim{
-    @include transition--fade();
-    position: absolute;
-    top:0; left:0; bottom:0; right:0;
-    background: rgba(0,0,0,0.95);
-    &.isActive{
-      transition-duration: 0;
-      transition-delay: 250ms;
-    }
-  }
-  &__curtain-left, &__curtain-right{
-    will-change: transform;
-    img{
-      height: 100%;
-      width: auto;
-      min-width: calc(100% + 25vh);
-      position: absolute;
-      top: 0;
-      max-width: unset;
-    }
-  }
-  &__curtain-right{
-    transform: translateX(100%);
-    img{
-      transform: scaleX(-1);
-      left: -11vh;
-    }
-  }
-  &__curtain-left{
-    transform: translateX(-100%);
-    img{
-      right: -11vh;
-    }
-  }
-
-  &.isActive {
-
-    .Curtains__curtain-left{
-      animation: Curtain-left-in 1500ms;
-      // animation-fill-mode: forwards;
-    }
-    .Curtains__curtain-right{
-      animation: Curtain-right-in 1500ms;
-      // animation-fill-mode: forwards;
-    }
-  }
+  overflow: hidden;
 }
 
 
 .Navbar{
   height: 40px;
-  // background-color: #be553d;
-  // line-height: 45px;
   position: fixed;
   top: 0;
   left: 0;
@@ -261,154 +180,31 @@ body {
   }
 }
 
-.Slideshow{
-  // height: 100%;
-  justify-self: stretch;
-  align-self: stretch;
-  flex-grow: 1;
-  position: relative;
-  // position: absolute;
-  // top:0;
-  // left:0;
-  // bottom:0;
-  // right:0;
-
-  &__item{
-    @include transition--none();
-
-    position: absolute;
-    top:0;
-    left:0;
-    bottom:0;
-    right:0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-
-    & > *{
-      max-width: 100%;
-      max-height: 100%;
-    }
-
-    &--backgroundFill{ 
-      top:0;
-      left:0;
-      bottom:0;
-      right:0;
-      & > *{
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        object-position: center;
-      }
-    }
-  }
-
-  &__controls{
-    display: flex;
-    align-items: center;
-    position: absolute;
-    bottom:7vh;
-    left:50%;
-    transform:translateX(-50%);
-    background: #000;
-    color: #fff;
-
-    &__left, &__right{
-      width: 40px;
-      height: 40px;
-      pointer-events: all;
-      svg{
-        width: 100%;
-        height: 100%;
-      }
-
-      &.isDisabled{
-        pointer-events: none;
-        opacity: 0.5;
-      }
-    }
-  }
-}
-
-.Panel{
-  @include fixedToVisible();
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  &--padded{
-    padding:3.5vh;
-  }
-
-  &--two-up{
-    display: flex;
-    align-items: center;
-    justify-content: stretch;
-  }
-}
-
 .ScrollSections {
-  position: relative;
-  // margin-top:40px;
-  left:0;
-  padding: calc(50vh - 20px) 0 calc(50vh - 21px);
-  pointer-events: none;
-  overflow: hidden;
-
-  &__fixedRoot{
-    @include fixedToVisible();
-    // @include transition--none();
-    // height: calc(100vh - 40px);
-  }
-
+  position: fixed;
+  top: 40px;
+  left: 0;
+  right: 0;
+  bottom: 0;
   &__background {
-    @include fixedToVisible();
+    position: absolute;
     top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
     @include whiteNoise(0.4);
     background-size: cover;
-  }
-
-  &__pageCount{
-    position: fixed;
-    bottom: 0;
-    right: 0;
-    background: #000;
-    color: #fff;
-    padding: 5px 10px;
+    background-position: center;
   }
 }
 .ScrollSection {
-  @include transition--fade;
   opacity: 1;
   display: flex; 
   align-items: center; 
   justify-content:center;
-  min-height: calc(100vh - 40px);
+  height: calc(100vh - 40px);
   position: relative;
-  width:100%;
-  pointer-events: none;
-
-  &__timeIndicator{
-    @include transition--none;
-    @include fixedToVisible();
-    // z-index: 100;
-
-    &:after{
-      content:'';
-      display:block;
-      width:9px;
-      height:10%;
-      position:absolute;
-      top:45%;
-      left:1px;
-      border-radius: 5px;
-      background-color: #000;
-      background-clip: content-box;
-      border:1px solid rgba(255,255,255,0.5);
-    }
-  }
+  width: 100%;
 }
 
   @keyframes video_spinner {
@@ -421,30 +217,14 @@ body {
   }
 
 .Video{
-  // @include transition--none;
-  // @include transition--fade();
-  
-  // background-color: #000;
   display: flex;
   align-items: center;
   justify-content: center;
   position: relative;
-  // will-change: opacity;
   max-width: calc((100vh - 40px - 7vh) / (720 / 1280));
 
   &.isActive{
     pointer-events: auto;
-
-    // .Video__spinner{
-    //   display: none;
-    // }
-  }
-
-  &:not(.isActive){ 
-    // transition: opacity 2500ms;
-    iframe{
-      // display: none;
-    }
   }
 
   &__spinner{
@@ -484,171 +264,16 @@ body {
     width: 100%;
     overflow: hidden;
     background: #000;
-    // mask-image: url('../img/video_mask.png');
-    // mask-size: 100% 100%;
     border-radius: 1% / calc(1% * (1280 / 720));
-
-
-    
-    &__playButton{
-      display: none;
-      @include transition--fade(200ms);
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: #000;
-      border: 1px solid #be553d;
-      border-radius: 50%;
-      width: calc(8% + 35px);
-
-      svg {
-        width: 100%;
-        padding: 20%;
-        display: block;
-        *{fill: #be553d;}
-      }
-    }
 
     &__ytEmbed{
     position: absolute;
-    // top: -50%;
     left: -2px;
     width: calc(100% + 4px) !important;
-    // height: 200% !important;
-    // pointer-events: none;
    }
-
-   &__controlsScrim{
-      @include transition--fade(200ms);
-      position: absolute;
-      height: 40%;
-      pointer-events: none;
-      left: -1px;
-      bottom: -1px;
-      right: -1px;
-      background: linear-gradient(0deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0) 100%);
-    }
   }
-
-  &__controls{
-    @include transition--fade(200ms);
-    // @include transition--none;
-    &:not(.isActive) { pointer-events: inherit;}
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    min-height: 40%;
-
-    // &.isPlaying{
-    //   cursor: none;
-    // }
-
-    &__playToggle{
-      position: absolute; left:calc(1% + 10px); bottom: 40px; width: 20px;
-
-      svg{
-        display: block;
-      }
-
-      polygon, rect{
-        fill: #fff;
-      }
-    }
-    &__time{
-      position: absolute; right:calc(1% + 16px); bottom: 40px; color: #fff;
-      line-height: 30px;
-    }
-    &__slider{
-      position: absolute; bottom:0; left: calc(1% + 16px); right: calc(1% + 16px);
-
-      &__wrapper{
-        position: relative;
-        height: 40px;
-        width: 100%;
-      }
-
-      &__bar{
-        position: absolute;
-        bottom: 50%;
-        height: 2px;
-        left:0px;
-        right:0px;
-        background: rgba(255,255,255,0.25);
-
-        &__progress, &__loaded, &__intent{
-          position: absolute; top:0; bottom:0; left:0; 
-          transition: width 500ms linear;
-        }
-        &__loaded{ background: rgba(255,255,255,0.25);}
-        &__progress{ background: #be553d; }
-      }
-
-      &__handle{
-        position: absolute;
-        bottom: calc(50% + 2px + 5px);
-        transition: left 500ms linear;
-        transform: translateX(-50%);
-
-        &:before{
-          content:"";
-          display: block;
-          width: 0; 
-          height: 0; 
-          border-left: 6px solid transparent;
-          border-right: 6px solid transparent;
-          border-top: 6px solid #fff;
-        }
-      }
-      &__intentHandle{
-        @media (hover: none) {
-          display: none;
-        }
-        opacity: 0;
-        pointer-events: none;
-        transition: opacity 250ms;
-        position: absolute; 
-        bottom: calc(50% + 2px + 5px);
-        transform: translateX(-50%);
-        width: 101px;
-        text-align: center;
-        color: #fff;
-
-        &:after{
-          content: "";
-          display: block;
-          width: 1px;
-          height: 17px;
-          background: #fff;
-          position: absolute;
-          left:50%;
-          top: 100%;
-        }
-        &.isActive{
-          opacity: 1;
-        }
-      }
-    }
-  }
-
 
   &--fullscreen{
-    // .Video__wrapper{
-    //   &:after{
-    //     content:"";
-    //     display: block;
-    //     position: absolute;
-    //     top:0;
-    //     left:0;
-    //     width: 100%;
-    //     height: 100%;
-    //     background-image: url('../img/video_edge.png');
-    //     background-size: 100% 100%;
-    //     pointer-events: none;
-    //   }
-    // }
-    @include fixedToVisible();
     margin: auto;
     width: calc(100% - 7vh);
   }
@@ -785,22 +410,6 @@ body {
   }
 }
 
-
-// .Animation--curtains{
-//   @include transition--fade();
-//   .Animation--curtain-left, .Animation--curtain-right{
-//     transition: transform 1000ms ease-in-out;
-//   }
-//   &.isActive{
-//     .Animation--curtain-left{
-//       transform: translateX(-100%);
-//     }
-//     .Animation--curtain-right{
-//       transform: translateX(100%);
-//     }
-//   }
-// }
-
 .welcomeToParis{
     width: calc(200px + 10%);
     transform: rotate(-25deg);
@@ -817,36 +426,42 @@ body {
     }
 }
 
-.videoborder{
+.Postcard{
   position: relative;
   transform: rotate(-1deg);
   max-width: calc(100% - 50px);
 
-&__border{
-  filter: drop-shadow(1px 1px 20px rgba(0,0,0,0.5));
-}
+  &__wrap{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 
-&__img{
-  display: block;
-  mask-image: url("../img/card_mask.png");
-  mask-size: 100% 100%;
-  max-height: 75vh;
-  margin: 0;
+  &__border{
+    filter: drop-shadow($dropShadow);
+  }
 
-  &--alt1{ transform: scale(-1,1) }
-  &--alt2{ transform: scale(1,-1) }
-  &--alt3{ transform: scale(-1,-1) }
+  &__img{
+    display: block;
+    mask-image: url("../img/card_mask.png");
+    mask-size: 100% 100%;
+    max-height: 75vh;
+    margin: 0;
 
-  &--mask2 {mask-image: url("../img/card2_mask.png");}
-}
+    &--alt1{ transform: scale(-1,1) }
+    &--alt2{ transform: scale(1,-1) }
+    &--alt3{ transform: scale(-1,-1) }
 
-.Video{
-  width: 90%;
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
+    &--mask2 {mask-image: url("../img/card2_mask.png");}
+  }
+
+  .Video{
+    width: 90%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
 }
 
 .Paper{
@@ -864,7 +479,7 @@ body {
     background-image: url('../img/noise_white.png'); 
     background-size: 93px auto;
 
-    mask-image: url('../img/photoborder.png');
+    mask-image: url('../img/card2_mask.png');
       mask-size: 100% 100%;
 
       z-index: -1;
@@ -943,5 +558,29 @@ body {
     .whereAreTheyNow__title{
       margin: 0 0 0px;
     }
+  }
+}
+
+.BookScroll{
+  height: calc(100vh - 40px);
+  max-width: calc((100vh - 40px) / (1038 / 1778) - 30px);
+  width: 100%;
+  filter: drop-shadow(1px 1px 20px rgba(0,0,0,0.5));
+
+  &--scroll {
+    height: auto;
+    max-width: unset;
+
+    .BookScroll__img{
+      max-width: 100%;
+      width:100%;
+      height: auto;
+    }
+  }
+
+  &__img{
+    height: 100%;
+    width: auto;
+    max-width: unset;
   }
 }

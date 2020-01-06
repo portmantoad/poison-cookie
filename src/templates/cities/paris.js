@@ -1,193 +1,179 @@
 import React, { useEffect } from 'react'
+import ReactDOM from 'react-dom'
 import VideoPlayer from '../../components/VideoPlayer'
 import FixedPortal from '../../components/FixedPortal'
 import CanvasBlend from '../../components/CanvasBlend'
-import Curtains from '../../components/Curtains'
-import Slideshow from '../../components/Slideshow'
+import Postcard from '../../components/Postcard'
 import { clamp } from 'lodash'
-import TweenMax from 'TweenMax'
-import TimelineMax from 'TimelineMax'
 import { withPrefix } from 'gatsby'
+import useMedia from 'use-media';
+import {ParallaxLayer} from 'react-spring/renderprops-addons'
 
 // import debounceRender from 'react-debounce-render'
-import debounceActiveRender from '../../components/debounceActiveRender'
+// import debounceActiveRender from '../../components/debounceActiveRender'
+
+const ParallaxLayerWrap = ({offset, sectionIndex, rootEl, ...rest}) => {
+  const output = <ParallaxLayer offset={sectionIndex + offset} {...rest} />;
+
+  console.log(rootEl);
+  if (rootEl) {
+    return ReactDOM.createPortal( output, rootEl)
+  } else {
+    return output
+  }
+}
 
 const pages = [
-({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
-
-    // const bgLength = 6;
-    // const bgLength = pages.length;
-
-    useEffect(() => {
-      registerAnimation({
-        key: ".ScrollSections__background",
-        sectionIndex: 0, 
-        tween: () => TweenMax.to(".ScrollSections__background", 1, {y: '-' + (60 / ((60 + 100)/100)) + '%', ease: "Linear.easeNone"}),
-        persist: 'all', 
-      });
-    }, []);
+({sectionIndex, rootEl}) => {
 
     return (
     <React.Fragment>
-      <FixedPortal target={backgroundPortal}>
+      <FixedPortal target={rootEl}>
         <img src={`${withPrefix('/')}img/curtain.png`} alt="" className="visuallyhidden" /> 
-        <div 
-         className="ScrollSections__background"
-         style={{
-           backgroundImage: "url(" + `${withPrefix('/')}img/paris.jpg` + ")",
-           // height: (60 + 100) + "%"
-           height: (60 + 100) + "vh"
-         }}></div>
       </FixedPortal>
 
-      <CanvasBlend use="multiply" style={{maxWidth: '40%', marginLeft: 'auto'}}><img src={`${withPrefix('/')}img/gentlemen.jpg`} alt=""/></CanvasBlend>
+            <ParallaxLayerWrap offset={.15} speed={0.5} sectionIndex={sectionIndex} rootEl={rootEl}>
+              <img src={`${withPrefix('/')}img/bienvenue-a-paris.png`} alt="" className="welcomeToParis" />
+            </ParallaxLayerWrap>
 
-      <FixedPortal target={foregroundPortal}>
-        <div className={"Panel Transition--fade" + (active ? " isActive" : "")}
-        style={{flexDirection: "column"}}>
-          <img src={`${withPrefix('/')}img/bienvenue-a-paris.png`} alt="" className="welcomeToParis" />
-          <div className="videoborder">
-            <div className="videoborder__border">
-            <img className="videoborder__img" src={`${withPrefix('/')}img/card.jpg`} alt="" /></div>
-            <VideoPlayer
-                videoId="qdU_IKxIhAk"
-                active={active}
-                onEnd={() => scrollTo("next")}
-              />
-          </div>  
-        </div>    
-      </FixedPortal>
+            <ParallaxLayerWrap offset={.1} speed={-0.1} sectionIndex={sectionIndex} rootEl={rootEl}>
+              <Postcard>
+                <VideoPlayer
+                    videoId="qdU_IKxIhAk"
+                    // active={active}
+                    // onEnd={() => scrollTo("next")}
+                  />
+              </Postcard> 
+            </ParallaxLayerWrap>
+
+          
     </React.Fragment>
   )}, 
-  ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
+  ({sectionIndex, rootEl}) => {
 
     return(
       <React.Fragment>
-        <Curtains 
-          registerAnimation={registerAnimation}
-          sectionIndex={sectionIndex}
-          activeIndex={activeIndex}
-          foregroundPortal={foregroundPortal}
-          backgroundPortal={backgroundPortal}
-          persist={0}
+        <div className="scrim"></div>
+
+        <VideoPlayer
+          /* kitty litter */
+          videoId="ZS8zlMNmTEU"
+          fullscreen
+          // active={active}
+          // onEnd={() => scrollTo("next", 0)}
         />
-        <div className={"Panel Transition--curtain-delay Transition--fade" + (active ? " isActive" : "")}>
-
-            <VideoPlayer
-              /* kitty litter */
-              videoId="ZS8zlMNmTEU"
-              fullscreen
-              active={active}
-              onEnd={() => scrollTo("next", 0)}
-            />
-            
-        </div>
+              
       </React.Fragment>
-)}, 
-  ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
+)}
+,({sectionIndex, rootEl}) => {
 
     return(
       <React.Fragment>
-        <CanvasBlend use="multiply" style={{maxWidth: '100%'}}><img src={`${withPrefix('/')}img/parismap.jpg`} alt=""/></CanvasBlend>
+        <ParallaxLayerWrap offset={0} speed={0.25} sectionIndex={sectionIndex} rootEl={rootEl}>
+          <img src={`${withPrefix('/')}img/paris_map.jpg`} alt="" className="drop-shadow round-corners" style={{width: '90%', transform: 'rotate(1deg)', marginLeft: '5%'}}/>
+        </ParallaxLayerWrap>
       </React.Fragment>
-)}, ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => (
-          <div className="Panel">
-            <div className={"Panel Panel--padded Transition--fade" + (active ? " isActive" : "")} style={{flexDirection: 'column'}}>
-              <Slideshow 
-                registerAnimation={registerAnimation}
-                sectionIndex={sectionIndex}
-                style={{minWidth: '300px'}}
-                // backgroundFill
-              >
-                <CanvasBlend use="multiplyBW"><img src={`${withPrefix('/')}img/cabaret_1.jpg`} alt="" /></CanvasBlend>
-                <CanvasBlend use="multiplyBW"><img src={`${withPrefix('/')}img/cabaret_2.jpg`} alt="" /></CanvasBlend>
-                <CanvasBlend use="multiplyBW"><img src={`${withPrefix('/')}img/cabaret_3.jpg`} alt="" /></CanvasBlend>
-                <CanvasBlend use="multiplyBW"><img src={`${withPrefix('/')}img/cabaret_4.jpg`} alt="" /></CanvasBlend>
-                <CanvasBlend use="multiplyBW"><img src={`${withPrefix('/')}img/cabaret_5.jpg`} alt="" /></CanvasBlend>
-              </Slideshow>
-              <div style={{marginTop: "10px"}}>The faces of cabaret in old Paris</div>
-            </div>
-          </div>
-), ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => (
-          <div className="Panel">
-            <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
-              <div className="videoborder">
-                <div className="videoborder__border">
-                <img className="videoborder__img videoborder__img--mask2" src={`${withPrefix('/')}img/card2.jpg`} alt="" /></div>
-                <VideoPlayer
+)}
+    // , ({sectionIndex, rootEl}) => {
+//     const isMobile = useMedia({maxWidth: 700});
+//     // const isMobile = false;
+
+//     useEffect(() => {
+//       registerAnimation({
+//         key: ".Animation__BookScroll1--outer",
+//         sectionIndex: sectionIndex, 
+//         tween: () => TweenMax.to(".Animation__BookScroll1--outer", 1, {x: '100%', ease: "Quad.easeInOut"}),
+//       });
+
+//       registerAnimation({
+//         key: ".Animation__BookScroll1--inner",
+//         sectionIndex: sectionIndex, 
+//         tween: () => TweenMax.to(".Animation__BookScroll1--inner", 1, {x: '-100%', ease: "Quad.easeInOut"}),
+//       });
+//     }, []);
+//       return(
+//             <div className={(isMobile ? "Panel Transition--fade" : "") + (active ? " isActive" : "")}>
+//               <div className={"BookScroll" + (isMobile ? " Animation__BookScroll1--outer" : " BookScroll--scroll")}>
+//                 <img className={"BookScroll__img" + (isMobile ? " Animation__BookScroll1--inner" : "")} src={`${withPrefix('/')}img/paris_book-1.jpg`} alt=""
+//                   style={{
+//                     WebkitMaskImage: `url('${withPrefix('/')}img/paris_book-1_mask.png')`,
+//                     WebkitMaskSize: '100% 100%'
+//                   }} 
+//                 />
+//               </div>
+//             </div>
+// )}
+, ({sectionIndex, rootEl}) => (
+              <Postcard mask="2" card="2">                
+                  <VideoPlayer
                     videoId="LkdWOkpCuTw"
-                    active={active}
-                    onEnd={() => scrollTo("next")}
+                    // active={active}
+                    // onEnd={() => scrollTo("next")}
                   />
-              </div>  
-            </div>    
-          </div>
-), 
-  ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
+              </Postcard>  
+)
+, ({sectionIndex, rootEl}) => {
 
     return(
       <React.Fragment>
-        <Curtains 
-          registerAnimation={registerAnimation}
-          sectionIndex={sectionIndex}
-          activeIndex={activeIndex}
-          foregroundPortal={foregroundPortal}
-          backgroundPortal={backgroundPortal}
-          persist={0}
+        <div className="scrim"></div>
+        <VideoPlayer
+          /* Strongman chat noir */
+          videoId="T6nNI2Nw9a0"
+          fullscreen
+          // active={active}
+          // captions={true}
+          // onEnd={() => scrollTo("next")}
         />
-        <div className={"Panel Transition--curtain-delay Transition--fade" + (active ? " isActive" : "")}>
-            <VideoPlayer
-              /* Strongman chat noir */
-              videoId="T6nNI2Nw9a0"
-              fullscreen
-              active={active}
-              captions={true}
-              onEnd={() => scrollTo("next")}
-            />
-            
-        </div>
       </React.Fragment>
-)}, ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => (
-          <div className="Panel">
-            <div className={"Panel Transition--fade whereAreTheyNow" + (active ? " isActive" : "")}>
-            <div className="whereAreTheyNow__title">
-              <h2>Où sont-ils maintenant?</h2>
-              <span>(Where are they now?)</span>
-            </div>
-              <Slideshow 
-                registerAnimation={registerAnimation}
-                sectionIndex={sectionIndex}
-                // backgroundFill
-              >
-                <img src={`${withPrefix('/')}img/paris_famouspeople_toulouselautrec.jpg`} alt="" />
-                <img src={`${withPrefix('/')}img/paris_famouspeople_willette.jpg`} alt="" />
-                <img src={`${withPrefix('/')}img/paris_famouspeople_andregill.jpg`} alt="" />
-                <img src={`${withPrefix('/')}img/paris_famouspeople_bruant.jpg`} alt="" />
-                <img src={`${withPrefix('/')}img/paris_famouspeople_claudedebussy.jpg`} alt="" />
-                <img src={`${withPrefix('/')}img/paris_famouspeople_ericsatie.jpg`} alt="" />
-                <img src={`${withPrefix('/')}img/paris_famouspeople_janeavril.jpg`} alt="" />
-              </Slideshow>
-            </div>
-          </div>
-), 
-  ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
+)}
+// , ({sectionIndex, rootEl}) => (
+//           <div className="Panel">
+//             <div className={"Panel Transition--fade whereAreTheyNow" + (active ? " isActive" : "")}>
+//             <div className="whereAreTheyNow__title">
+//               <h2>Où sont-ils maintenant?</h2>
+//               <span>(Where are they now?)</span>
+//             </div>
+//               <Slideshow 
+//                 registerAnimation={registerAnimation}
+//                 sectionIndex={sectionIndex}
+//                 // backgroundFill
+//               >
+//                 <img src={`${withPrefix('/')}img/paris_famouspeople_toulouselautrec.jpg`} alt="" />
+//                 <img src={`${withPrefix('/')}img/paris_famouspeople_willette.jpg`} alt="" />
+//                 <img src={`${withPrefix('/')}img/paris_famouspeople_andregill.jpg`} alt="" />
+//                 <img src={`${withPrefix('/')}img/paris_famouspeople_bruant.jpg`} alt="" />
+//                 <img src={`${withPrefix('/')}img/paris_famouspeople_claudedebussy.jpg`} alt="" />
+//                 <img src={`${withPrefix('/')}img/paris_famouspeople_ericsatie.jpg`} alt="" />
+//                 <img src={`${withPrefix('/')}img/paris_famouspeople_janeavril.jpg`} alt="" />
+//               </Slideshow>
+//             </div>
+//           </div>
+// ) 
+ , ({sectionIndex, rootEl}) => {
     return(
       <React.Fragment>
-        <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
+        <ParallaxLayerWrap offset={0} speed={0.1} sectionIndex={sectionIndex} rootEl={rootEl}>
+        <Postcard mask="1" card="2" alt="2">
             <VideoPlayer
               /* le mirilton */
               videoId="takA-zY-Tn8"
               fullscreen
-              active={active}
-              onEnd={() => scrollTo("next")}
+              // active={active}
+              // onEnd={() => scrollTo("next")}
             />
-        </div>
+        </Postcard>
+        </ParallaxLayerWrap>
       </React.Fragment>
-)}, ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => (
+)}
+, ({sectionIndex, rootEl}) => (
        <React.Fragment>
-        <CanvasBlend use="multiply" style={{marginRight: "auto"}}><img src={`${withPrefix('/')}img/paris_bruant.jpg`} alt="" /></CanvasBlend>
+        <ParallaxLayerWrap offset={-0.1} speed={0.25} sectionIndex={sectionIndex} rootEl={rootEl}>
+          <img className="drop-shadow round-corners" style={{marginRight: "auto", marginLeft: "5%", maxHeight: "110vh", width:"auto", transform: "rotate(-.25deg)" }} src={`${withPrefix('/')}img/paris_bruant.jpg`} alt="" />
+        </ParallaxLayerWrap>
+
         <div className="Panel">
-          <div className={"Panel Transition--slow-fade" + (active ? " isActive" : "")}>
+          <div className={"Panel"}>
             <div className="fullscreenQuote">
                 <figure className="quote">
                    <q>Those who have come to the world with a silver spoon in their mouths, I revenge myself in insulting them, in treating them worse than dogs. That makes them laugh to tears; they believe I joke when, often enough, it is a breeze from the past, miseries submitted to, dirtiness seen, which remounts on my lips and makes me speak as I do.</q>
@@ -198,503 +184,493 @@ const pages = [
           </div>
         </div>
        </React.Fragment>
-), 
-  ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
+)
+,    ({sectionIndex, rootEl}) => {
 
     return(
       <React.Fragment>
-        <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
-            <VideoPlayer
-              /* musee montmatre */
-              videoId="j9ieAAvYpJU"
-              fullscreen
-              active={active}
-              onEnd={() => scrollTo("next")}
-            />
-            
-        </div>
+        <ParallaxLayerWrap offset={0} speed={0.1} sectionIndex={sectionIndex} rootEl={rootEl}>
+          <Postcard mask="2" card="1" alt="1">
+              <VideoPlayer
+                /* musee montmatre */
+                videoId="j9ieAAvYpJU"
+                fullscreen
+                // active={active}
+                // onEnd={() => scrollTo("next")}
+              />
+              
+          </Postcard>
+        </ParallaxLayerWrap>
       </React.Fragment>
-)}, 
-  ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
-
+)}
+,    ({sectionIndex, rootEl}) => {
     return(
       <React.Fragment>
-        <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
-            <VideoPlayer
-              /* interview with julia */
-              videoId="sKxtbvayB50"
-              fullscreen
-              active={active}
-              onEnd={() => scrollTo("next")}
-            />
-          "Visit the Musee Montmartre in person or virtually!" - https://museedemontmartre.fr/en/
-        </div>
-
-      </React.Fragment>
-)}, 
-  ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
-
-    return(
-      <React.Fragment>
-        <Curtains 
-          registerAnimation={registerAnimation}
-          sectionIndex={sectionIndex}
-          activeIndex={activeIndex}
-          foregroundPortal={foregroundPortal}
-          backgroundPortal={backgroundPortal}
-          persist={1}
+        <div className="scrim"></div>
+        <VideoPlayer
+          /* interview with julia */
+          videoId="sKxtbvayB50"
+          fullscreen
+          // active={active}
+          // onEnd={() => scrollTo("next")}
         />
-        <div className={"Panel Transition--curtain-delay Transition--fade" + (active ? " isActive" : "")}>
-            <VideoPlayer
-              /* strongman lapin agile */
-              videoId="-995ptoiNjw"
-              fullscreen
-              active={active}
-              onEnd={() => scrollTo("next")}
-            />
-        </div>
+  
+      <ParallaxLayerWrap offset={0} speed={-0.1} sectionIndex={sectionIndex} rootEl={rootEl}>
+        <a href="https://museedemontmartre.fr/en/">Visit the Musee Montmartre in person or virtually!</a>
+      </ParallaxLayerWrap>
       </React.Fragment>
-)}, 
-  ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
+)}
+    , ({sectionIndex, rootEl}) => {
 
     return(
-      <React.Fragment>
-        <div className={"Panel Transition--curtain-delay Transition--fade" + (active ? " isActive" : "")}>
-            <VideoPlayer
-              /* lapin agile interview */
-              videoId="ubFSIFzFLs8"
-              fullscreen
-              active={active}
-              onEnd={() => scrollTo("next")}
-            />
-        </div>
-      </React.Fragment>
-)}, 
-  ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
+      <ParallaxLayerWrap offset={0.1} speed={0.1} sectionIndex={sectionIndex} rootEl={rootEl}>
+        <Postcard mask="2" card="2" alt="3">           
+          <VideoPlayer
+            /* strongman lapin agile */
+            videoId="-995ptoiNjw"
+            fullscreen
+            // active={active}
+            // onEnd={() => scrollTo("next")}
+          />
+        </Postcard>
+      </ParallaxLayerWrap>
+)}
+,    ({sectionIndex, rootEl}) => {
     return(
       <React.Fragment>
-         <CanvasBlend use="multiply" style={{maxWidth: '100%'}}><img src={`${withPrefix('/')}img/parismap.jpg`} alt=""/></CanvasBlend>
+      <div className="scrim"></div> 
+      <VideoPlayer
+        /* lapin agile interview */
+        videoId="ubFSIFzFLs8"
+        fullscreen
+        // active={active}
+        // onEnd={() => scrollTo("next")}
+      />
       </React.Fragment>
-)}, 
-  ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
+)}
+, ({sectionIndex, rootEl}) => {
     return(
       <React.Fragment>
-        <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
-            <VideoPlayer
-              /* other minor cabarets */
-              videoId="bysHS5IqVdI"
-              fullscreen
-              active={active}
-              onEnd={() => scrollTo("next")}
-            />
-        </div>
+        <ParallaxLayerWrap offset={0.1} speed={0.1} sectionIndex={sectionIndex} rootEl={rootEl}>
+          <Postcard mask="1" card="2" alt="4">
+              <VideoPlayer
+                /* other minor cabarets */
+                videoId="bysHS5IqVdI"
+                fullscreen
+                // active={active}
+                // onEnd={() => scrollTo("next")}
+              />
+          </Postcard>
+        </ParallaxLayerWrap>
       </React.Fragment>
-)}, 
-  ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
+)}
+, ({sectionIndex, rootEl}) => {
     return(
       <React.Fragment>
-        <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
+        <Postcard mask="2" card="2">
             <VideoPlayer
               /* other minor cabarets 2 */
               videoId="jRouAXIvDrw"
               fullscreen
-              active={active}
-              onEnd={() => scrollTo("next")}
+              // active={active}
+              // onEnd={() => scrollTo("next")}
             />
-        </div>
-      </React.Fragment>
-)}, ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => (
-          <div className="Panel">
-            <div className={"Panel Panel--padded Transition--fade" + (active ? " isActive" : "")} style={{flexDirection: 'column'}}>
-              <Slideshow 
-                registerAnimation={registerAnimation}
-                sectionIndex={sectionIndex}
-                style={{minWidth: '300px'}}
-                // backgroundFill
-              >
-                <CanvasBlend use="multiplyBW"><img src={`${withPrefix('/')}img/cabaret_1.jpg`} alt="" /></CanvasBlend>
-                <CanvasBlend use="multiplyBW"><img src={`${withPrefix('/')}img/cabaret_2.jpg`} alt="" /></CanvasBlend>
-                <CanvasBlend use="multiplyBW"><img src={`${withPrefix('/')}img/cabaret_3.jpg`} alt="" /></CanvasBlend>
-                <CanvasBlend use="multiplyBW"><img src={`${withPrefix('/')}img/cabaret_4.jpg`} alt="" /></CanvasBlend>
-                <CanvasBlend use="multiplyBW"><img src={`${withPrefix('/')}img/cabaret_5.jpg`} alt="" /></CanvasBlend>
-              </Slideshow>
-              <div style={{marginTop: "10px"}}>The faces of cabaret in old Paris</div>
-            </div>
-          </div>
-), 
-  ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
-    return(
-      <React.Fragment>
-        <Curtains 
-          registerAnimation={registerAnimation}
-          sectionIndex={sectionIndex}
-          activeIndex={activeIndex}
-          foregroundPortal={foregroundPortal}
-          backgroundPortal={backgroundPortal}
-          persist={0}
-        />
-        <div className={"Panel Transition--curtain-delay Transition--fade" + (active ? " isActive" : "")}>
-            <VideoPlayer
-              /* Edith Piaf’s grave site */
-              videoId="lqsW1FCVi_M"
-              fullscreen
-              active={active}
-              onEnd={() => scrollTo("next")}
-            />
-        </div>
-      </React.Fragment>
-)}, 
-  ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
-    return(
-      <React.Fragment>
-        <div className="Panel">
-          <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
-          <CanvasBlend use="multiply" style={{marginLeft: "auto", maxWidth: "600px"}}><img src={`${withPrefix('/')}img/paris_bricktop.jpg`} alt="" /></CanvasBlend>
-          <CanvasBlend use="multiply" style={{marginLeft: "auto", maxWidth: "600px"}}><img src={`${withPrefix('/')}img/paris_josephine2.jpg`} alt="" /></CanvasBlend>
-          </div>
-        </div>
-        <div className="Paper" style={{transform: 'rotate(-1deg)', maxWidth: '400px'}}><p>In the 1920s and 30s, a flood of expats in Paris created both a stream of American entertainers and American ex-pats who would flock to establishments with American artists (as did the French). A huge part of the reason was jazz’s rapid advance around the world.</p> <p>In particular, African American artists who could not perform in front of integrated audiences at home and who were appalled and exhausted at their treatment in America found refuge in Paris. This cross-cultural exchange would have a lasting impact on cabaret in both Paris and America (and also in Berlin which was not immune to the influence of Josephine Baker).</p></div>
-      </React.Fragment>
-)}, ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => (
-      <React.Fragment>
-        <CanvasBlend use="multiply" style={{marginLeft: "auto", maxWidth: "600px"}}><img src={`${withPrefix('/')}img/paris_josephine.jpg`} alt="" /></CanvasBlend>
-        <div className="Panel">
-          <div className={"Panel Transition--slow-fade" + (active ? " isActive" : "")}>
-            <div className="fullscreenQuote">
-                <figure className="quote">
-                   <q>One day I realized I was living in a country where I was afraid to be black. It was only a country for white people. Not black. So I left. I had been suffocating in the United States… A lot of us left, not because we wanted to leave, but because we couldn’t stand it anymore… I felt liberated in Paris.</q>
-                   <figcaption>&mdash;&ensp;Josephine Baker</figcaption>
-                </figure>
-            </div>
-            <div className="bigborder"></div>
-          </div>
-        </div>
-      </React.Fragment>
-), 
-  ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
-
-    return(
-      <React.Fragment>
-        <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
-          <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
-            <div className="DecollageBorder">
-              <img src={`${withPrefix('/')}img/paris_decollage2.jpg`} alt="" className="DecollageBorder__img" />
-              <VideoPlayer
-                /*Edith piaf chanson realiste*/
-                videoId="Sp0oggT2IjY"
-                active={active}
-                onEnd={() => scrollTo("next")}
-              />
-            </div>
-          </div>
-
-
-            
-        </div>
+        </Postcard>
       </React.Fragment>
 )}
-// , 
-//   ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
+// , ({sectionIndex, rootEl}) => (
+//           <div className="Panel">
+//             <div className={"Panel Panel--padded Transition--fade" + (active ? " isActive" : "")} style={{flexDirection: 'column'}}>
+//               <Slideshow 
+//                 registerAnimation={registerAnimation}
+//                 sectionIndex={sectionIndex}
+//                 style={{minWidth: '300px'}}
+//                 // backgroundFill
+//               >
+//                 <CanvasBlend use="multiplyBW"><img src={`${withPrefix('/')}img/cabaret_1.jpg`} alt="" /></CanvasBlend>
+//                 <CanvasBlend use="multiplyBW"><img src={`${withPrefix('/')}img/cabaret_2.jpg`} alt="" /></CanvasBlend>
+//                 <CanvasBlend use="multiplyBW"><img src={`${withPrefix('/')}img/cabaret_3.jpg`} alt="" /></CanvasBlend>
+//                 <CanvasBlend use="multiplyBW"><img src={`${withPrefix('/')}img/cabaret_4.jpg`} alt="" /></CanvasBlend>
+//                 <CanvasBlend use="multiplyBW"><img src={`${withPrefix('/')}img/cabaret_5.jpg`} alt="" /></CanvasBlend>
+//               </Slideshow>
+//               <div style={{marginTop: "10px"}}>The faces of cabaret in old Paris</div>
+//             </div>
+//           </div>
+// ), 
+//   ({sectionIndex, rootEl}) => {
+//     return(
+//       <React.Fragment>
+//         <Curtains 
+//           registerAnimation={registerAnimation}
+//           sectionIndex={sectionIndex}
+//           activeIndex={activeIndex}
+//           foregroundPortal={foregroundPortal}
+//           midgroundPortal={midgroundPortal}
+//           persist={0}
+//         />
+//         <FixedPortal target={midgroundPortal}>
+//         <div className={"Panel Transition--curtain-delay Transition--fade" + (active ? " isActive" : "")}>
+//             <VideoPlayer
+//               /* Edith Piaf’s grave site */
+//               videoId="lqsW1FCVi_M"
+//               fullscreen
+//               active={active}
+//               onEnd={() => scrollTo("next")}
+//             />
+//         </div>
+//         </FixedPortal>
+//       </React.Fragment>
+// )}, 
+//   ({sectionIndex, rootEl}) => {
+//     return(
+//       <React.Fragment>
+//         <div className="Panel">
+//           <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
+//           <CanvasBlend use="multiply" style={{marginLeft: "auto", maxWidth: "600px"}}><img src={`${withPrefix('/')}img/paris_bricktop.jpg`} alt="" /></CanvasBlend>
+//           <CanvasBlend use="multiply" style={{marginLeft: "auto", maxWidth: "600px"}}><img src={`${withPrefix('/')}img/paris_josephine2.jpg`} alt="" /></CanvasBlend>
+//           </div>
+//         </div>
+//         <div className="Paper" style={{transform: 'rotate(-1deg)', maxWidth: '400px'}}><p>In the 1920s and 30s, a flood of expats in Paris created both a stream of American entertainers and American ex-pats who would flock to establishments with American artists (as did the French). A huge part of the reason was jazz’s rapid advance around the world.</p> <p>In particular, African American artists who could not perform in front of integrated audiences at home and who were appalled and exhausted at their treatment in America found refuge in Paris. This cross-cultural exchange would have a lasting impact on cabaret in both Paris and America (and also in Berlin which was not immune to the influence of Josephine Baker).</p></div>
+//       </React.Fragment>
+// )}, ({sectionIndex, rootEl}) => (
+//       <React.Fragment>
+//         <CanvasBlend use="multiply" style={{marginLeft: "auto", maxWidth: "600px"}}><img src={`${withPrefix('/')}img/paris_josephine.jpg`} alt="" /></CanvasBlend>
+//         <div className="Panel">
+//           <div className={"Panel Transition--slow-fade" + (active ? " isActive" : "")}>
+//             <div className="fullscreenQuote">
+//                 <figure className="quote">
+//                    <q>One day I realized I was living in a country where I was afraid to be black. It was only a country for white people. Not black. So I left. I had been suffocating in the United States… A lot of us left, not because we wanted to leave, but because we couldn’t stand it anymore… I felt liberated in Paris.</q>
+//                    <figcaption>&mdash;&ensp;Josephine Baker</figcaption>
+//                 </figure>
+//             </div>
+//             <div className="bigborder"></div>
+//           </div>
+//         </div>
+//       </React.Fragment>
+// ), 
+//   ({sectionIndex, rootEl}) => {
 
 //     return(
 //       <React.Fragment>
 //         <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
+//           <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
+//             <div className="DecollageBorder">
+//               <img src={`${withPrefix('/')}img/paris_decollage2.jpg`} alt="" className="DecollageBorder__img" />
+//               <VideoPlayer
+//                 /*Edith piaf chanson realiste*/
+//                 videoId="Sp0oggT2IjY"
+//                 active={active}
+//                 onEnd={() => scrollTo("next")}
+//               />
+//             </div>
+//           </div>
+
+
+            
+//         </div>
+//       </React.Fragment>
+// )}
+// // , 
+// //   ({sectionIndex, rootEl}) => {
+
+// //     return(
+// //       <React.Fragment>
+// //         <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
+// //             <VideoPlayer
+// //               videoId="xxx"
+// //               fullscreen
+// //               sectionIndex={sectionIndex}
+// //               activeIndex={activeIndex}
+// //               onEnd={() => scrollTo("next")}
+// //             />
+// //         </div>
+// //       </React.Fragment>
+// // )})
+// , ({sectionIndex, rootEl}) => (
+//       <React.Fragment>
+//         <Curtains 
+//           registerAnimation={registerAnimation}
+//           sectionIndex={sectionIndex}
+//           activeIndex={activeIndex}
+//           foregroundPortal={foregroundPortal}
+//           midgroundPortal={midgroundPortal}
+//           persist={1}
+//         />
+
+//         <div className={"Panel Transition--curtain-delay Transition--fade" + (active ? " isActive" : "")}>                
+//           <VideoPlayer
+//             /* Streeter [parc] */
+//             videoId="vrvVpZsKVYk"
+//             fullscreen
+//             active={active}
+//             onEnd={() => scrollTo("next")}
+//           />
+//         </div>  
+//       </React.Fragment>
+// ), 
+//   ({sectionIndex, rootEl}) => {
+
+//     return(
+//       <React.Fragment>
+//         <div className={"Panel Transition--curtain-delay Transition--fade" + (active ? " isActive" : "")}>
 //             <VideoPlayer
-//               videoId="xxx"
+//               /* interview with gosia  */
+//               videoId="VxGeGeKUaU0"
 //               fullscreen
-//               sectionIndex={sectionIndex}
-//               activeIndex={activeIndex}
+//               active={active}
 //               onEnd={() => scrollTo("next")}
 //             />
 //         </div>
 //       </React.Fragment>
-// )})
-, ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => (
-      <React.Fragment>
-        <Curtains 
-          registerAnimation={registerAnimation}
-          sectionIndex={sectionIndex}
-          activeIndex={activeIndex}
-          foregroundPortal={foregroundPortal}
-          backgroundPortal={backgroundPortal}
-          persist={1}
-        />
-        <div className={"Panel Transition--curtain-delay Transition--fade" + (active ? " isActive" : "")}>                
-          <VideoPlayer
-            /* Streeter [parc] */
-            videoId="vrvVpZsKVYk"
-            fullscreen
-            active={active}
-            onEnd={() => scrollTo("next")}
-          />
-        </div>  
-      </React.Fragment>
-), 
-  ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
+// )}, 
+//   ({sectionIndex, rootEl}) => {
 
-    return(
-      <React.Fragment>
-        <div className={"Panel Transition--curtain-delay Transition--fade" + (active ? " isActive" : "")}>
-            <VideoPlayer
-              /* interview with gosia  */
-              videoId="VxGeGeKUaU0"
-              fullscreen
-              active={active}
-              onEnd={() => scrollTo("next")}
-            />
-        </div>
-      </React.Fragment>
-)}, 
-  ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
+//     return(
+//       <React.Fragment>
+//         <Postcard mask="1" card="1" alt="3">
+//             <VideoPlayer
+//               /* Interview with Michel from Vieux Belleville   */
+//               videoId="az8ftb3NgNw"
+//               fullscreen
+//               active={active}
+//               onEnd={() => scrollTo("next")}
+//             />
+//         </Postcard>
+//       </React.Fragment>
+// )}, 
+//   ({sectionIndex, rootEl}) => {
 
-    return(
-      <React.Fragment>
-        <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
-            <VideoPlayer
-              /* Interview with Michel from Vieux Belleville   */
-              videoId="az8ftb3NgNw"
-              fullscreen
-              active={active}
-              onEnd={() => scrollTo("next")}
-            />
-        </div>
-      </React.Fragment>
-)}, 
-  ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
+//     return(
+//       <React.Fragment>
+//         <Curtains 
+//           registerAnimation={registerAnimation}
+//           sectionIndex={sectionIndex}
+//           activeIndex={activeIndex}
+//           foregroundPortal={foregroundPortal}
+//           midgroundPortal={midgroundPortal}
+//           persist={2}
+//         />
+//         <div className={"Panel Transition--curtain-delay Transition--fade" + (active ? " isActive" : "")}>
+//               <CanvasBlend use="screenBW" className="Interstitial"> 
+//                 <img src={`${withPrefix('/')}img/paris_aumagique.png`} alt=""/>
+//               </CanvasBlend>
+//         </div>
+//       </React.Fragment>
+// )}, 
+//   ({sectionIndex, rootEl}) => {
 
-    return(
-      <React.Fragment>
-        <Curtains 
-          registerAnimation={registerAnimation}
-          sectionIndex={sectionIndex}
-          activeIndex={activeIndex}
-          foregroundPortal={foregroundPortal}
-          backgroundPortal={backgroundPortal}
-          persist={2}
-        />
-        <div className={"Panel Transition--curtain-delay Transition--fade" + (active ? " isActive" : "")}>
-              <CanvasBlend use="screenBW" className="Interstitial"> 
-                <img src={`${withPrefix('/')}img/paris_aumagique.png`} alt=""/>
-              </CanvasBlend>
-        </div>
-      </React.Fragment>
-)}, 
-  ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
+//     return(
+//       <React.Fragment>
+//         <div className={"Panel Transition--curtain-delay Transition--fade" + (active ? " isActive" : "")}>
+//             <VideoPlayer
+//               /* Interview_Natalie_au Magique */
+//               videoId="jS34OY5LCk0"
+//               fullscreen
+//               active={active}
+//               onEnd={() => scrollTo("next")}
+//             />
+//         </div>
+//       </React.Fragment>
+// )}, 
+//   ({sectionIndex, rootEl}) => {
 
-    return(
-      <React.Fragment>
-        <div className={"Panel Transition--curtain-delay Transition--fade" + (active ? " isActive" : "")}>
-            <VideoPlayer
-              /* Interview_Natalie_au Magique */
-              videoId="jS34OY5LCk0"
-              fullscreen
-              active={active}
-              onEnd={() => scrollTo("next")}
-            />
-        </div>
-      </React.Fragment>
-)}, 
-  ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
+//     return(
+//       <React.Fragment>
+//         <div className={"Panel Transition--curtain-delay Transition--fade" + (active ? " isActive" : "")}>
+//             <VideoPlayer
+//               /* martine au magique */
+//               videoId="5sS94fQ0zRo"
+//               fullscreen
+//               active={active}
+//               onEnd={() => scrollTo("next")}
+//             />
+//         </div>
+//       </React.Fragment>
+// )}, 
+//   ({sectionIndex, rootEl}) => {
 
-    return(
-      <React.Fragment>
-        <div className={"Panel Transition--curtain-delay Transition--fade" + (active ? " isActive" : "")}>
-            <VideoPlayer
-              /* martine au magique */
-              videoId="5sS94fQ0zRo"
-              fullscreen
-              active={active}
-              onEnd={() => scrollTo("next")}
-            />
-        </div>
-      </React.Fragment>
-)}, 
-  ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
+//     return(
+//       <React.Fragment>
+//         <Postcard mask="2" card="2" alt="1">
+//             <VideoPlayer
+//               /* strongman divan japanois */
+//               videoId="_7kQh0ot5Kc"
+//               fullscreen
+//               active={active}
+//               onEnd={() => scrollTo("next")}
+//             />
+//         </Postcard>
+//       </React.Fragment>
+// )}, 
+//   ({sectionIndex, rootEl}) => {
 
-    return(
-      <React.Fragment>
-        <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
-            <VideoPlayer
-              /* strongman divan japanois */
-              videoId="_7kQh0ot5Kc"
-              fullscreen
-              active={active}
-              onEnd={() => scrollTo("next")}
-            />
-        </div>
-      </React.Fragment>
-)}, 
-  ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
+//     return(
+//       <React.Fragment>
+//         <Postcard mask="1" card="2" alt="3">
+//             interview with Monsieur K
+//         </Postcard>
+//       </React.Fragment>
+// )}, 
+//   ({sectionIndex, rootEl}) => {
 
-    return(
-      <React.Fragment>
-        <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
-            interview with Monsieur K
-        </div>
-      </React.Fragment>
-)}, 
-  ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
+//     return(
+//       <div className={"Panel Transition--fade Panel--padded" + (active ? " isActive" : "")}>
+//         <div style={{flexGrow: 1, paddingRight: '3.5vw'}}>
+//             <Postcard mask="1" card="1" alt="2">
+//               <VideoPlayer
+//                 /* music video partial song */
+//                 videoId="RnyJ8nwcuOE"
+//                 // fullscreen
+//                 active={active}
+//                 onEnd={() => scrollTo("next")}
+//               />
+//             </Postcard>
+//         </div>
+//         <div className="Paper" style={{maxWidth: "300px", transform: 'rotate(1deg)'}}>
+//           Madame Arthur is named after a song by one of fin-de-siecle’s most famous chanteuses: Yvette Guilbert. Guilbert Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
+//         </div>
+//       </div>
+// )}, 
+//   ({sectionIndex, rootEl}) => {
 
-    return(
-      <div className={"Panel Transition--fade Panel--padded" + (active ? " isActive" : "")}>
-        <div style={{flexGrow: 1, paddingRight: '3.5vw'}}>
-              <VideoPlayer
-                /* music video partial song */
-                videoId="RnyJ8nwcuOE"
-                // fullscreen
-                active={active}
-                onEnd={() => scrollTo("next")}
-              />
-        </div>
-        <div className="Paper" style={{maxWidth: "300px", transform: 'rotate(1deg)'}}>
-          Madame Arthur is named after a song by one of fin-de-siecle’s most famous chanteuses: Yvette Guilbert. Guilbert Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
-        </div>
-      </div>
-)}, 
-  ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
+//     return(
+//       <React.Fragment>
+//         <Curtains 
+//           registerAnimation={registerAnimation}
+//           sectionIndex={sectionIndex}
+//           activeIndex={activeIndex}
+//           foregroundPortal={foregroundPortal}
+//           midgroundPortal={midgroundPortal}
+//           persist={1}
+//         />
+//         <div className={"Panel Transition--curtain-delay Transition--fade" + (active ? " isActive" : "")}>
+//             <VideoPlayer
+//               /* strongman limonaire */
+//               videoId="2UTO67pYjpU"
+//               fullscreen
+//               active={active}
+//               onEnd={() => scrollTo("next")}
+//             />
+//         </div>
+//       </React.Fragment>
+// )}, 
+//   ({sectionIndex, rootEl}) => {
 
-    return(
-      <React.Fragment>
-        <Curtains 
-          registerAnimation={registerAnimation}
-          sectionIndex={sectionIndex}
-          activeIndex={activeIndex}
-          foregroundPortal={foregroundPortal}
-          backgroundPortal={backgroundPortal}
-          persist={1}
-        />
-        <div className={"Panel Transition--curtain-delay Transition--fade" + (active ? " isActive" : "")}>
-            <VideoPlayer
-              /* strongman limonaire */
-              videoId="2UTO67pYjpU"
-              fullscreen
-              active={active}
-              onEnd={() => scrollTo("next")}
-            />
-        </div>
-      </React.Fragment>
-)}, 
-  ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
+//     return(
+//       <React.Fragment>
+//         <div className={"Panel Transition--curtain-delay Transition--fade" + (active ? " isActive" : "")}>
+//             <VideoPlayer
+//               /* limonaire interview with closing */
+//               videoId="NHC-gkfr61Y"
+//               fullscreen
+//               active={active}
+//               onEnd={() => scrollTo("next")}
+//             />
+//         </div>
+//       </React.Fragment>
+// )}, ({sectionIndex, rootEl}) => (
+//           <div className="Panel">
+//             <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
+//               <Postcard mask="2" alt="3">  
+//                 <VideoPlayer
+//                     videoId="1T1T3coj6BI"
+//                     active={active}
+//                     onEnd={() => scrollTo("next")}
+//                   />
+//               </Postcard>  
+//             </div>    
+//           </div>
+// ), 
+//   ({sectionIndex, rootEl}) => {
 
-    return(
-      <React.Fragment>
-        <div className={"Panel Transition--curtain-delay Transition--fade" + (active ? " isActive" : "")}>
-            <VideoPlayer
-              /* limonaire interview with closing */
-              videoId="NHC-gkfr61Y"
-              fullscreen
-              active={active}
-              onEnd={() => scrollTo("next")}
-            />
-        </div>
-      </React.Fragment>
-)}, ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => (
-          <div className="Panel">
-            <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
-              <div className="videoborder">
-                <div className="videoborder__border">
-                <img className="videoborder__img videoborder__img--mask2 videoborder__img--alt3" src={`${withPrefix('/')}img/card.jpg`} alt="" /></div>
-                <VideoPlayer
-                    videoId="1T1T3coj6BI"
-                    active={active}
-                    onEnd={() => scrollTo("next")}
-                  />
-              </div>  
-            </div>    
-          </div>
-), 
-  ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
-
-    return(
-      <React.Fragment>
-        <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
-          <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
-            <div className="TVborder">
-              <CanvasBlend use="maskInverse" color={[122,95,70]} className="TVborder__img">
-                <img src={`${withPrefix('/')}img/tv.jpg`} alt=""/>
-              </CanvasBlend>
-              <VideoPlayer
-                /* chat noir multicam cooking  */
-                videoId="HzUIUTatyZI"
-                active={active}
-                onEnd={() => scrollTo("next")}
-              />
-            </div>
-          </div>
+//     return(
+//       <React.Fragment>
+//         <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
+//           <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
+//             <div className="TVborder">
+//               <CanvasBlend use="maskInverse" color={[122,95,70]} className="TVborder__img">
+//                 <img src={`${withPrefix('/')}img/tv.jpg`} alt=""/>
+//               </CanvasBlend>
+//               <VideoPlayer
+//                 /* chat noir multicam cooking  */
+//                 videoId="HzUIUTatyZI"
+//                 active={active}
+//                 onEnd={() => scrollTo("next")}
+//               />
+//             </div>
+//           </div>
 
 
             
-        </div>
-      </React.Fragment>
-)}, ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => (
-          <div className="Panel">
-            <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
-              <div className="videoborder">
-                <div className="videoborder__border">
-                <img className="videoborder__img videoborder__img--alt1" src={`${withPrefix('/')}img/card2.jpg`} alt="" /></div>
-                <VideoPlayer
-                    videoId="ZsjrIQY16aQ"
-                    active={active}
-                    onEnd={() => scrollTo("next")}
-                  />
-              </div>  
-            </div>    
-          </div>
-), 
-  ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
+//         </div>
+//       </React.Fragment>
+// )}, ({sectionIndex, rootEl}) => (
+//           <div className="Panel">
+//             <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
+//               <Postcard alt="2" card="2">  
+//                 <VideoPlayer
+//                     videoId="ZsjrIQY16aQ"
+//                     active={active}
+//                     onEnd={() => scrollTo("next")}
+//                   />
+//               </Postcard>  
+//             </div>    
+//           </div>
+// ), 
+//   ({sectionIndex, rootEl}) => {
 
-    return(
-      <React.Fragment>
-        <Curtains 
-          registerAnimation={registerAnimation}
-          sectionIndex={sectionIndex}
-          activeIndex={activeIndex}
-          foregroundPortal={foregroundPortal}
-          backgroundPortal={backgroundPortal}
-          persist={0}
-        />
-        <div className={"Panel Transition--curtain-delay Transition--fade" + (active ? " isActive" : "")}>
-            <VideoPlayer
-              /* asshole singalong  */
-              videoId="7Unp0PL2m8Q"
-              fullscreen
-              active={active}
-              onEnd={() => scrollTo("next")}
-            />
+//     return(
+//       <React.Fragment>
+//         <Curtains 
+//           registerAnimation={registerAnimation}
+//           sectionIndex={sectionIndex}
+//           activeIndex={activeIndex}
+//           foregroundPortal={foregroundPortal}
+//           midgroundPortal={midgroundPortal}
+//           persist={0}
+//         />
+//         <div className={"Panel Transition--curtain-delay Transition--fade" + (active ? " isActive" : "")}>
+//             <VideoPlayer
+//               /* asshole singalong  */
+//               videoId="7Unp0PL2m8Q"
+//               fullscreen
+//               active={active}
+//               onEnd={() => scrollTo("next")}
+//             />
             
-        </div>
-      </React.Fragment>
-)}, ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => (
-        <div className="Panel">
-          <div className="Panel " >
-              <div className={"Transition--slow-fade" + (active ? " isActive" : "") }>
-                See you in Berlin!
-              </div>
-          </div>
-        </div>
-)
+//         </div>
+//       </React.Fragment>
+// )}, ({sectionIndex, rootEl}) => (
+//         <div className="Panel">
+//           <div className="Panel " >
+//               <div className={"Transition--slow-fade" + (active ? " isActive" : "") }>
+//                 See you in Berlin!
+//               </div>
+//           </div>
+//         </div>
+// )
 ]
 
-const updateFunction = (prevProps, nextProps) => {
-    if (prevProps.active !== nextProps.active) {
-      return false
-    }
+// const updateFunction = (prevProps, nextProps) => {
+//     if (prevProps.active !== nextProps.active) {
+//       return false
+//     }
 
-    if (
-        prevProps.foregroundPortal !== nextProps.foregroundPortal ||
-        prevProps.backgroundPortal !== nextProps.backgroundPortal ||
-        prevProps.registerAnimation !== nextProps.registerAnimation
-    ) {
-      return false 
-    }
+//     if (
+//         prevProps.foregroundPortal !== nextProps.foregroundPortal ||
+//         prevProps.backgroundPortal !== nextProps.backgroundPortal ||
+//         prevProps.registerAnimation !== nextProps.registerAnimation
+//     ) {
+//       return false 
+//     }
 
-    return true
-}
-
-
-const namedPages = pages.map((page, i) => {
-  return debounceActiveRender(React.memo(page, updateFunction), 200, { leading: false })
-})
+//     return true
+// }
 
 
-export default namedPages;
+// const namedPages = pages.map((page, i) => {
+//   return debounceActiveRender(React.memo(page, updateFunction), 200, { leading: false })
+// })
+
+
+export default pages;

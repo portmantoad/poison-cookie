@@ -12,13 +12,13 @@ import debounceActiveRender from './debounceActiveRender'
 
 const Curtains = debounceActiveRender(
 React.memo(
-  ({registerAnimation, activeIndex, sectionIndex, foregroundPortal, backgroundPortal, persist = 0}) => {
+  ({registerAnimation, activeIndex, sectionIndex, foregroundPortal, midgroundPortal, persist = 0}) => {
     const uniqueKey = useRef('_' + Math.random().toString(36).substr(2, 9));
     const active = activeIndex >= sectionIndex && activeIndex <= sectionIndex + persist;
 
     return(
       <React.Fragment>
-        <FixedPortal target={backgroundPortal}> 
+        <FixedPortal target={midgroundPortal}> 
             <div className={"Curtains__scrim" + (active ? " isActive" : "")} />            
         </FixedPortal>
         <FixedPortal target={foregroundPortal}>

@@ -104,7 +104,7 @@ const VideoPlayer = debounceActiveRender(React.memo((
         > 
         
         <div className="Video__wrapper">
-          <div class="Video__spinner"><div></div><div></div><div></div><div></div></div>
+          <div className="Video__spinner"><div></div><div></div><div></div><div></div></div>
           <YouTubePlayer
             ref={player}
             light

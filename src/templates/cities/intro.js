@@ -62,7 +62,7 @@ React.memo(
           sectionIndex={sectionIndex}
           activeIndex={activeIndex}
           foregroundPortal={foregroundPortal}
-          backgroundPortal={backgroundPortal}
+          midgroundPortal={backgroundPortal}
           persist={1}
         />
         <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>

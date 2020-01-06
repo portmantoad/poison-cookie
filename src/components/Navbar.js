@@ -1,7 +1,6 @@
 import React, {useState, useContext} from 'react'
 import { Link } from 'gatsby'
 import { MutedContext } from './contexts'
-import CanvasBlend from './CanvasBlend'
 import Icon from './Icon'
 import { withPrefix } from 'gatsby'
 import useMedia from 'use-media';
@@ -16,7 +15,7 @@ const Navbar = () => {
     
     return (
       <nav className="Navbar">
-        <CanvasBlend use="multiply" className="Navbar__paper"><img src={`${withPrefix('/')}img/headerpaper.jpg`} alt="" /></CanvasBlend>
+        <img className="Navbar__paper" src={`${withPrefix('/')}img/headerpaper.png`} alt="" />
         <a href="https://www.beardedladiescabaret.com/" className="Navbar__logo"><img src={`${withPrefix('/')}img/nav_logo.png`} alt=""/></a>
         {isMobile 
           ? (

@@ -1,0 +1,420 @@
+import React from 'react'
+import PropTypes from 'prop-types'
+import VideoPlayer from './VideoPlayer'
+import FixedPortal from './FixedPortal'
+import { throttle, debounce } from 'lodash'
+
+import { ASContext } from './contexts'
+// import Lethargy from './Lethargy'
+
+import TweenMax from 'TweenMax';
+import ScrollMagic from 'ScrollMagic';
+import 'animation.gsap';
+import ScrollToPlugin from 'gsap/umd/ScrollToPlugin';
+import 'debug.addIndicators';
+import {Parallax, ParallaxLayer} from 'react-spring/renderprops-addons'
+
+
+import ResizeObserver from 'resize-observer-polyfill';
+
+
+class ScrollSections extends React.PureComponent {
+  constructor(props, context) {
+    super(props, context);
+ 
+    this.backgroundPortalRef = React.createRef();
+    this.midgroundPortalRef = React.createRef();
+    this.foregroundPortalRef = React.createRef();
+    this.UIPortalRef = React.createRef();
+
+    this.sectionRefs = [];
+    this.sectionHeights = [];
+    this.sectionOffsets = [];
+
+    this.resizeObserver = new ResizeObserver(() => {
+      this.handleResizeThrottled()
+    });
+
+    this.state = {
+      activeSection: 0,
+      debouncedActiveSection: 0,
+      contentVisible: true
+    };
+
+    this.activeSectionProgress = 0;
+
+    this.registeredAnimations = [];
+    if (typeof window !== `undefined`) {
+      // this.controller = new ScrollMagic.Controller();
+      this.controller = {};
+    } else {
+      this.controller = {};
+    }
+
+    this.mounted = false;
+
+    // this.sectionsTraversedInCurrentScroll = 0;
+  }
+
+  updateSectionHeights = () => {
+    if (this.sectionRefs[0]) {
+      for (var i = 0; i <= this.sectionRefs.length - 1; i++) {
+        const rect = this.sectionRefs[i].getBoundingClientRect();
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0;
+        this.sectionHeights[i] = rect.height;
+        this.sectionOffsets[i] = rect.top + scrollTop - 20;
+      }
+    }
+  }
+
+  scrollTo = (target, progress, animated = true) => {
+    const end = this.props.sections.length - 1;
+
+    if (target === "next") target = Math.min(this.state.activeSection + 1, end);
+    if (target === "prev") target = Math.max(this.state.activeSection - 1, 0);
+    if (target === "start") target = 0;
+    if (target === "end") target = end;
+
+    const offset = this.sectionOffsets[target];
+    const visibleHeight = Math.min(...this.sectionHeights);
+    let output = offset;
+    // console.log(offset - this.sectionOffsets[0]);
+
+    if (progress !== undefined) {
+      // progress = 1;
+      const height = this.sectionHeights[target];
+      output = offset - this.sectionOffsets[0] + 20 + (height * progress);
+      // console.log(offset + " - " + this.sectionOffsets[0] + " + (" + height + " * " + progress)
+    }
+
+    // debugger;
+    // console.log(output)
+
+    if (animated) {
+      // console.log("scrollTo fired!")
+      const scrollTop = Math.max(window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop || 0, 0);
+      const diff = Math.abs(scrollTop - output) / visibleHeight;
+
+      TweenMax.to(window, 1.25 + (diff/4), {scrollTo: {y: output }, ease: "Quad.easeOut"});
+    }
+    else {
+      // debugger;
+      // console.log("current: " + window.pageYOffset + ", output: " + output + ", progress: " + progress)
+      window.scrollTo(0, output);
+    }
+  }
+
+  // stopScroll = () => {
+  //   console.log("stopScroll")
+  //   if (typeof window !== `undefined`) {
+  //     const html = document.documentElement;
+  //     html.style.overflow = 'hidden';
+  //     setTimeout(() => {
+  //       html.style.overflow = '';
+  //     }, 10);
+  //   }
+  // }
+
+  // sectionsTraversedDebouncedReset = debounce(() => {
+  //   this.sectionsTraversedInCurrentScroll = 0;
+  //   this.setState({contentVisible: true});
+  // }, 100)
+
+  // componentDidUpdate(prevProps, prevState) {
+  //   if (prevState.activeSection !== this.state.activeSection) {
+  //     this.sectionsTraversedDebouncedReset();
+  //     this.sectionsTraversedInCurrentScroll = this.sectionsTraversedInCurrentScroll + 1;
+  //     if (this.sectionsTraversedInCurrentScroll > 1 && this.state.contentVisible) {
+  //       this.setState({contentVisible: false});
+  //     }
+  //   }
+  // }
+
+  componentDidMount() {
+    this.updateSectionHeights();
+    this.mounted = true; 
+
+    if (typeof window !== `undefined`) {
+      // this.handleScroll();
+      window.addEventListener("keydown", this.handleKeydown);
+      // window.addEventListener("wheel", this.handleMouseWheel, { passive: false });
+    }
+
+    // this.resizeObserver.observe(this.wrapperElement)
+
+    for (let i = this.props.sections.length - 1; i >= 0; i--) {
+      
+      this.registerAnimation({
+        key: ".ScrollSection__timeIndicator--" + i,
+        sectionIndex: i, 
+        // tween: () => TweenMax.fromTo(".ScrollSection__timeIndicator--" + i, 1, {y: '-50%'}, {y: '50%', ease: "Linear.easeNone"}),
+        callback: ["enter", e => {
+          if (e.state === "DURING"){
+              // console.log(this.registeredAnimations)
+              // if (e.type === "enter") {
+                this.setState({activeSection: i})
+              // } 
+              // this.setActiveSectionProgress(e.progress)
+              
+          }
+        }]
+      });
+    }
+
+    this.setState({hackyBS: true});
+  }
+
+  // setActiveSection = throttle(i => this.setState({activeSection: i}), 50);
+
+  // setActiveSectionProgress = throttle((progress) => {this.activeSectionProgress = progress}, 50);
+
+  handleKeydown = event => {
+    if (event.isComposing || event.keyCode === 229) {
+      return;
+    }
+    //right arrow
+    if (event.keyCode === 39) {
+      this.scrollTo("next");
+    }
+    //left arrow
+    if (event.keyCode === 37) {
+      this.scrollTo("prev");
+    }
+    //spacebar
+    if(event.keyCode === 32) {
+      event.preventDefault();
+      this.scrollTo("next");
+    }
+  }
+
+  getAnimationSpan = (sectionIndex, persist) => {
+    let span = 0
+    for (let i = sectionIndex; i <= (sectionIndex + persist); i++) {
+      span += this.sectionHeights[i];
+    }
+    if (isNaN(span)) {
+      return undefined
+    }
+    return span;
+  }
+
+  registerAnimation = (props) => {
+    const anim = this.registeredAnimations.find(anim => { return anim.key === props.key});
+    if (anim) {
+      this.updateAnimation(props.key, props);
+      return
+    }
+
+    if (!props.persist) props.persist = 0;
+    if (props.persist === 'all') props.persist = this.props.sections.length - 1 - props.sectionIndex;
+    if (!props.start) props.start = 0;
+    if (!props.end) props.end = 1;
+
+    const currentAnimation = this.mountAnimation(props);
+    this.registeredAnimations.push({...props, currentAnimation});
+  }
+
+  mountAnimation = ({key, sectionIndex, tween, classToggle, persist, start, end, callback}) => {
+    if (typeof window !== `undefined`) {
+
+      let animationSpan = persist && persist >= 1 
+      ? this.getAnimationSpan(sectionIndex, persist)
+      : this.sectionHeights[sectionIndex];
+
+      if (!animationSpan || !this.mounted || !document.querySelector(key)) {
+        // console.log(key + "[[looped]]");
+        setTimeout(() => this.updateAnimation(key),100);
+        return
+      }
+
+      const scene = new ScrollMagic.Scene({
+        triggerElement: ".ScrollSection--" + sectionIndex,
+        duration: animationSpan * (end - start),
+        offset: animationSpan * start,
+      })
+
+      // console.log(key)
+
+      if (tween) {
+        scene.setTween(tween())
+      }
+
+      if (classToggle) {
+        scene.setClassToggle(...classToggle)
+      }
+
+      if (callback) {
+        scene.on(...callback)
+      }
+
+      const output = scene.addTo(this.controller);
+      // console.log(key + "," + output);
+      return output;
+    }
+  }
+
+  updateAnimation = (key, newProps = {}) => {
+    const anim = this.registeredAnimations.find(a => { return a.key === key});
+
+    if (!anim) { return }
+
+    let {sectionIndex, tween, classToggle, persist, start, end, callback} = newProps;
+    const currentAnimation = anim.currentAnimation;
+    const tweenHasChanged = !!tween;
+    const classToggleHasChanged = !!classToggle;
+    const callbackHasChanged = !! callback;
+
+    anim.sectionIndex = sectionIndex = sectionIndex || anim.sectionIndex;
+    anim.tween = tween = tween || anim.tween;
+    anim.classToggle = classToggle = classToggle || anim.classToggle;
+    anim.persist = persist = persist || anim.persist;
+    anim.start = start = start || anim.start;
+    anim.end = end = end || anim.end;
+    
+    if (!currentAnimation) {
+      anim.currentAnimation = this.mountAnimation(anim);
+      return
+    }
+
+    // console.log('update:' + key)
+
+    const animationSpan = persist && persist >= 1 
+    ? this.getAnimationSpan(sectionIndex, persist)
+    : this.sectionHeights[sectionIndex];
+
+
+    const newTrigger = ".ScrollSection--" + sectionIndex;
+    if (newTrigger !== currentAnimation.triggerElement()) {
+      currentAnimation.triggerElement(newTrigger);
+    }
+
+    const newDuration = animationSpan * (end - start);
+    if (!isNaN(newDuration) && newDuration !== currentAnimation.duration()) {
+      currentAnimation.duration(newDuration);
+      // console.log(newDuration)
+    }
+
+    const newOffset = animationSpan * start;
+    if (!isNaN(newOffset) && newOffset !== currentAnimation.offset()) {
+      currentAnimation.offset(newOffset);
+    }
+
+    if (tweenHasChanged) {
+      currentAnimation.setTween(tween())
+    }
+
+    if (classToggleHasChanged) {
+      currentAnimation.setClassToggle(classToggle[0], classToggle[1])
+    }
+
+    if (callbackHasChanged) {
+      currentAnimation.off().on(...callback)
+    }
+    
+    return currentAnimation;
+
+  }
+
+  updateAllAnimations = () => {
+    for (const anim of this.registeredAnimations) {
+      this.updateAnimation(anim.key);
+    }
+  }
+
+  handleResize = () => {
+    this.updateSectionHeights();
+    this.updateAllAnimations();
+    // this.handleScroll();
+    // console.log(this.activeSection + ": " + this.activeSectionProgress)
+    this.scrollTo(this.state.activeSection, this.activeSectionProgress, false);
+  }
+
+  handleResizeThrottled = throttle(() => {
+    if (this.resizeTimeout) {
+      window.cancelAnimationFrame(this.resizeTimeout);
+    }
+    this.resizeTimeout = window.requestAnimationFrame(this.handleResize);
+  }, 100);
+
+
+
+
+  componentWillUnmount(){
+    this.mounted = false;
+    if (typeof window !== `undefined`) {
+      window.removeEventListener("keydown", this.handleKeydown);
+      window.cancelAnimationFrame(this.scrollTimeout);
+      window.cancelAnimationFrame(this.resizeTimeout);
+    }
+    // this.ResizeObserver.disconnect();
+  }
+
+  render() {
+    const {
+      className,
+      sections
+    } = this.props;
+
+    return (
+      <Parallax pages={sections.length}>
+      <div 
+        className={"ScrollSections" + (className ? ` ${className}` : "")}
+        ref={el => this.wrapperElement = el}
+      >
+
+       <div className="ScrollSections__fixedRoot ScrollSections__fixedRoot--background" ref={this.backgroundPortalRef} />
+
+      
+      <ASContext.Provider value={this.state.activeSection}>
+          {sections &&
+            sections.map((Sect, index) => {
+                    const active = this.state.activeSection === index && this.state.contentVisible;
+                    return (
+                      <section 
+                        key={"ScrollSection--" + index}
+                        ref={el => this.sectionRefs[index] = el}
+                        className={
+                          "ScrollSection ScrollSection--" + index + (active ? " isActive" : "")
+                        } 
+                        // style = {{...(this.state.visibleHeight ? {minHeight: this.state.visibleHeight} : {})}}
+                      >
+                        <Sect 
+                          // progress={this.state["sectionProgress" + index]} 
+                          registerAnimation={this.registerAnimation.bind(this)}
+                          sectionIndex={index}
+                          activeIndex={this.state.activeSection} 
+                          active={active}
+                          foregroundPortal={this.foregroundPortalRef.current} 
+                          backgroundPortal={this.backgroundPortalRef.current} 
+                          midgroundPortal={this.midgroundPortalRef.current} 
+                          scrollTo={this.scrollTo.bind(this)}
+                        />
+                        {/*<FixedPortal target={this.UIPortalRef.current}>
+                          <div className={"ScrollSection__timeIndicator ScrollSection__timeIndicator--" + index + (active ? " isActive" : "")}></div>
+                        </FixedPortal>*/}
+                      </section>
+                  )})
+          }
+          </ASContext.Provider>
+       
+
+          <div className="ScrollSections__fixedRoot ScrollSections__fixedRoot--midground" ref={this.midgroundPortalRef} />
+          <div className="ScrollSections__fixedRoot ScrollSections__fixedRoot--foreground" ref={this.foregroundPortalRef} />
+          <div className="ScrollSections__fixedRoot ScrollSections__fixedRoot--UI" ref={this.UIPortalRef}>
+            <div className="ScrollSections__pageCount">{this.state.activeSection + 1}/{sections.length}</div>
+          </div>
+      </div>
+
+       </Parallax>
+
+    );
+  }
+}
+
+
+ScrollSections.propTypes = {
+  sections: PropTypes.array,
+  className: PropTypes.string
+}
+
+export default ScrollSections
