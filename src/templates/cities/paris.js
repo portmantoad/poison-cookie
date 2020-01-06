@@ -18,9 +18,13 @@ import { css, jsx } from '@emotion/core'
 const ParallaxLayerWrap = ({offset, sectionIndex, rootEl, ...rest}) => {
   // const output = <ParallaxLayer offset={sectionIndex + offset} {...rest} />;
 
+  const factor = -1;
+  const perspective = 2;
+  const scalefactor = 1 + (factor * -1) / perspective;
+
   const output = <div css={css(`
     position: absolute;
-    top: calc((100vh - 40px) * ${sectionIndex} * 0.8);
+    top: calc((100vh - 40px) * (${sectionIndex} / ${scalefactor} + ${(1 - scalefactor)/4}));
     left: 0;
     width: 100%;
     height: calc(100vh - 40px);

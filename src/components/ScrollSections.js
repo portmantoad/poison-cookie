@@ -2,23 +2,26 @@ import React, {useRef, useState, useLayoutEffect} from 'react'
 import PropTypes from 'prop-types'
 import { withPrefix } from 'gatsby'
 
-import {useSpring, animated} from 'react-spring'
-import { throttle } from 'lodash'
+/** @jsx jsx */
+import { css, jsx } from '@emotion/core'
+
+// import {useSpring, animated} from 'react-spring'
+// import { throttle } from 'lodash'
 // import {Parallax, ParallaxLayer} from 'react-spring/renderprops-addons'
 // import {Spring} from 'react-spring/renderprops'
 
 
-function rafThrottle(fn) { 
-  var busy = false;
-  return function() { 
-    if (busy) return;
-    busy = true; 
-    fn.apply(this, arguments); 
-    window.requestAnimationFrame(function() {
-      busy = false;
-    });
-  };
-};
+// function rafThrottle(fn) { 
+//   var busy = false;
+//   return function() { 
+//     if (busy) return;
+//     busy = true; 
+//     fn.apply(this, arguments); 
+//     window.requestAnimationFrame(function() {
+//       busy = false;
+//     });
+//   };
+// };
 
 
 const ScrollSections = React.memo((
@@ -28,42 +31,41 @@ const ScrollSections = React.memo((
 
     const [rootEl, setRootEl] = useState();
 
-    const [{ offset }, set] = useSpring(() => ({ offset: 0}));
+    // const [{ offset }, set] = useSpring(() => ({ offset: 0}));
 
 
-    const handleScroll = 
-      rafThrottle(
-        // throttle(
-          () => {
-            const offset = window.pageYOffset;
-            set({ offset });
-          }
-        // , 100)
-      )
+    // const handleScroll = 
+    //   rafThrottle(
+    //     // throttle(
+    //       () => {
+    //         const offset = window.pageYOffset;
+    //         set({ offset });
+    //       }
+    //     // , 100)
+    //   )
 
-    useLayoutEffect(() => {
-      window.addEventListener('scroll', handleScroll, { passive: true });
+    // useLayoutEffect(() => {
+    //   window.addEventListener('scroll', handleScroll, { passive: true });
 
-      return () => {
-        window.removeEventListener('scroll', handleScroll, { passive: true });
-      };
-    }, []);
+    //   return () => {
+    //     window.removeEventListener('scroll', handleScroll, { passive: true });
+    //   };
+    // }, []);
 
     return (
-      <div className="ScrollSections">
-        <div className="ScrollSections__background" style={{ backgroundImage: "url(" + `${withPrefix('/')}img/paris.jpg` + ")"}}></div>
-            <animated.div 
+      <div className="ScrollSections" 
+      // css={css(` height: calc((100vh - 40px) * ${sections.length});`)}
+      >
+
+            <div className="ScrollSections__parallax ScrollSections__parallax--background" >
+              <div className="ScrollSections__background" css={css(`
+                background-image: url( ${withPrefix('/')}img/paris.jpg);
+                height: calc((100vh - 40px) * ${sections.length} / 51 * 3);
+                `)}></div>
+            </div>
+            <div 
                 ref={ref => setRootEl(ref)} 
-                style={{
-                  position: 'fixed',
-                  backgroundSize: 'auto',
-                  backgroundRepeat: 'no-repeat',
-                  willChange: 'transform',
-                  width: '100%',
-                  transition: 'transform 100ms',
-                  height: `calc((100vh - 40px) * ${sections.length * 0.8})`,
-                  transform: offset.interpolate(o => `translateY(${o * -0.8}px)`)
-                }}
+                className="ScrollSections__parallax ScrollSections__parallax--slow"
             />
             {sections &&
               sections.map((Sect, index) => {

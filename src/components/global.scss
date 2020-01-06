@@ -86,7 +86,8 @@ $dropShadow: 1px 1px 15px rgba(0,0,0,0.25);
 html, body {
   padding: 0;
   background: #f2cd94;
-  overflow-x: hidden;
+  // overflow-x: hidden;
+  overflow: hidden;
 }
 
 
@@ -183,21 +184,62 @@ html, body {
   }
 }
 
+
+
 .ScrollSections {
-  // position: fixed;
-  // top: 40px;
-  // left: 0;
-  // right: 0;
-  // bottom: 0;
-  &__background {
-    position: fixed;
+  $perspective: 2;
+  @mixin parallax($factor) {
+    $scalefactor: 1 + ($factor * -1) / $perspective;
+    transform: 
+      translateZ($factor * 1px) 
+      scale($scalefactor)
+      // translateY( (1 - (1/$scalefactor))/2 * 100% )
+      ;
+    z-index: $factor;
+    transform-origin: 50% 100%;
+  }
+
+  position: fixed;
+  top: 40px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  overflow-x: hidden;
+  overflow-y: auto;
+  perspective: $perspective * 1px;
+  transform-origin: 50% 100%;
+
+  &__parallax{
+    position: absolute;
+    width: 100%;
+    // height: 100%;
     top: 0;
     left: 0;
+    // background-size: auto;
+    // background-repeat: no-repeat;
+    // will-change: transform;
+    // width: 100%;
+    // transition: transform 100ms;
+
+    &--slow{
+      @include parallax(-1);
+    }
+
+    &--background{
+      @include parallax(-100);
+      // top: calc((100vh - 40px) * -.5);
+    }
+  }
+
+  &__background{
+    position: absolute;
     width: 100%;
-    height: 100%;
+    top: calc((100vh - 40px) * -.49);
+    left: -.5%;
+    // height: calc(100% / 51);
     @include whiteNoise(0.4);
-    background-size: cover;
-    background-position: center;
+    background-size: auto 100%;
   }
 }
 .ScrollSection {
