@@ -5,4 +5,9 @@ export const MutedContext = React.createContext({
   toggleMuted: () => {},
 });
 
-export const ASContext = React.createContext(0);
+export const PlxContext = React.createContext({
+  slow: null,
+  fast: null,
+});
+
+
