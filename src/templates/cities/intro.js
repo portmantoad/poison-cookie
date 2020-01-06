@@ -15,21 +15,6 @@ export default [
 React.memo(
   ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
 
-    useEffect(() => {
-      registerAnimation({
-        key: ".ScrollSections__background",
-        sectionIndex: 0, 
-        tween: () => TweenMax.to(".ScrollSections__background", 1, {y: '-' + (20 / ((20 + 100)/100)) + '%', ease: "Linear.easeNone"}),
-        persist: 'all', 
-      });
-
-      registerAnimation({
-        key: ".Animation--titlescreen",
-        sectionIndex: sectionIndex, 
-        tween:() => TweenMax.to(".Animation--titlescreen", 1, {y: '-' + (20 / ((20 + 100)/100)) + '%', opacity: 0}), 
-      });
-    }, []);
-
     return (
     <React.Fragment>
             <FixedPortal target={backgroundPortal}>
