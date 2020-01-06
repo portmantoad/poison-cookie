@@ -7,7 +7,7 @@ import Postcard from '../../components/Postcard'
 import { clamp } from 'lodash'
 import { withPrefix } from 'gatsby'
 import useMedia from 'use-media';
-import {ParallaxLayer} from 'react-spring/renderprops-addons'
+// import {ParallaxLayer} from 'react-spring/renderprops-addons'
 
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
@@ -16,7 +16,18 @@ import { css, jsx } from '@emotion/core'
 // import debounceActiveRender from '../../components/debounceActiveRender'
 
 const ParallaxLayerWrap = ({offset, sectionIndex, rootEl, ...rest}) => {
-  const output = <ParallaxLayer offset={sectionIndex + offset} {...rest} />;
+  // const output = <ParallaxLayer offset={sectionIndex + offset} {...rest} />;
+
+  const output = <div css={css(`
+    position: absolute;
+    top: calc((100vh - 40px) * ${sectionIndex} * 0.8);
+    left: 0;
+    width: 100%;
+    height: calc(100vh - 40px);
+    display:flex;
+    align-items: center;
+    justify-content: center;
+  `)} {...rest} />
 
   if (rootEl) {
     return ReactDOM.createPortal( output, rootEl)

@@ -86,7 +86,7 @@ $dropShadow: 1px 1px 15px rgba(0,0,0,0.25);
 html, body {
   padding: 0;
   background: #f2cd94;
-  overflow: hidden;
+  overflow-x: hidden;
 }
 
 
@@ -184,13 +184,13 @@ html, body {
 }
 
 .ScrollSections {
-  position: fixed;
-  top: 40px;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  // position: fixed;
+  // top: 40px;
+  // left: 0;
+  // right: 0;
+  // bottom: 0;
   &__background {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
