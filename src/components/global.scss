@@ -221,6 +221,7 @@ html, body {
 
   &__normalScroll{
     // filter: drop-shadow();
+    pointer-events: none;
   }
 
   &__background{

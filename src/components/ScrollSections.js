@@ -27,19 +27,21 @@ const ScrollSections = React.memo((
                     ref={ref => setPlxSlowEl(ref)} 
                     className="ScrollSections__parallax ScrollSections__parallax--slow"
                 />
-                {sections &&
-                  sections.map((Sect, index) => {
-                          return (
-                            <section 
-                              key={"ScrollSection--" + index}
-                              className={
-                                "ScrollSection ScrollSection--" + index
-                              } 
-                            >
-                              <Sect sectionIndex={index} />
-                            </section>
-                        )})
-                } 
+                <div className="ScrollSections__normalScroll">
+                  {sections &&
+                    sections.map((Sect, index) => {
+                            return (
+                              <section 
+                                key={"ScrollSection--" + index}
+                                className={
+                                  "ScrollSection ScrollSection--" + index
+                                } 
+                              >
+                                <Sect sectionIndex={index} />
+                              </section>
+                          )})
+                  } 
+                </div>
                 <div 
                     ref={ref => setPlxFastEl(ref)} 
                     className="ScrollSections__parallax ScrollSections__parallax--fast"
