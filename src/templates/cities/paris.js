@@ -16,8 +16,12 @@ const Parallax = ({offset, speed = 'slow', ...rest}) => {
   const rootEl = (speed === 'slow') ? context.slow : context.fast;
 
   const factor = (speed === 'slow') ? -1 : 1;
-  const perspective = 2;
+  const perspective = 4;
   const scalefactor = 1 + (factor * -1) / perspective;
+
+  const magicOffsetNumber = (speed === 'slow') ? 
+  // -.1645 : .505; //perspective 2
+  -0.096 : 0.171; //perspective 4
 
   const output = <div className="ScrollSection" css={css(`
     position: absolute;
@@ -28,7 +32,7 @@ const Parallax = ({offset, speed = 'slow', ...rest}) => {
 
     @media screen and (min-width: 40em) {
       @supports ((perspective: 1px) and (not (-webkit-overflow-scrolling: touch))) {
-        top: calc((100vh - 40px) * (${offset} / ${scalefactor} + ${(1 - scalefactor)/4}));
+        top: calc((100vh - 40px) * (${offset} / ${scalefactor} + ${magicOffsetNumber}));
       }
     }
   `)} {...rest} />

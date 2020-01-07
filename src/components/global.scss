@@ -51,7 +51,7 @@ img{
     }
 }
 
-$dropShadow: 1px 1px 15px rgba(0,0,0,0.25);
+$dropShadow: 1px 1px 5px rgba(0,0,0,0.35);
 
 .drop-shadow{
   box-shadow: $dropShadow;
@@ -59,16 +59,23 @@ $dropShadow: 1px 1px 15px rgba(0,0,0,0.25);
 
 .round-corners{
   border-radius: 3px;
+  mask-image: url('../img/paper-smooth_mask.png');
+  mask-size: 100% 100%;
 }
 
 .scrim{
   position: absolute;
-  width: 100%;
-  height: 100%;
-  top: 0;
-  left: 0;
-  background: rgba(0,0,0, 1);
+  bottom: -10px;
+  right: -10px;
+  top: -10px;
+  left: -10px;
+  // background: #000;
+  background-image: url('../img/scrim.png');
+  background-size: 100% 100%;
   // @include whiteNoise(0.05);
+  // mask-image: url('../img/paper_mask.png');
+  // mask-size: 100% 100%;
+  // filter: drop-shadow($dropShadow);
 }
 
 .visuallyhidden { 
@@ -212,6 +219,10 @@ html, body {
     left: 0;
   }
 
+  &__normalScroll{
+    // filter: drop-shadow();
+  }
+
   &__background{
     position: absolute;
     width: 100%;
@@ -227,7 +238,7 @@ html, body {
   @supports ((perspective: 1px) and (not (-webkit-overflow-scrolling: touch))) {
 
     .ScrollSections {
-      $perspective: 2;
+      $perspective: 4;
       @mixin parallax($factor) {
         $scalefactor: 1 + ($factor * -1) / $perspective;
         transform: 
@@ -328,25 +339,47 @@ html, body {
     border-radius: 1% / calc(1% * (1280 / 720));
 
     &__ytEmbed{
-    position: absolute;
-    left: -2px;
-    width: calc(100% + 4px) !important;
-   }
+      position: absolute;
+      left: -2px;
+      width: calc(100% + 4px) !important;
+     }
   }
 
   &--fullscreen{
+    // margin: auto;
+    // width:100%;
+    // height: 100%;
+    // left:0;
+    // top:0;
+    // max-width: unset;
+
+    // .Video__wrapper{
+    //   padding:0;
+    //   height: 100%;
+    //   border-radius: 0;
+    // }
+
     margin: auto;
-    // width: calc(100% - 7vh);
-    width:100%;
-    height: 100%;
-    left:0;
-    top:0;
-    max-width: unset;
+    width: calc(100% - 7vh);
+
+    // .Video__wrapper{
+    //   mask-image: url('../img/video_mask.png');
+    //   mask-size: 100% 100%;
+    // }
 
     .Video__wrapper{
-      padding:0;
-      height: 100%;
-      border-radius: 0;
+      &:after{
+        content:"";
+        display: block;
+        position: absolute;
+        top:0;
+        left:0;
+        width: 100%;
+        height: 100%;
+        background-image: url('../img/video_edge.png');
+        background-size: 100% 100%;
+        pointer-events: none;
+      }
     }
   }
 }
