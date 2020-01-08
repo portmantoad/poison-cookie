@@ -5,8 +5,6 @@ import CanvasBlend from '../../components/CanvasBlend'
 import Curtains from '../../components/Curtains'
 import Slideshow from '../../components/Slideshow'
 import { clamp } from 'lodash'
-import TweenMax from 'TweenMax'
-import TimelineMax from 'TimelineMax'
 import { withPrefix, Link } from 'gatsby'
 
 

@@ -1,7 +1,5 @@
 import React, {useEffect, useRef, useContext} from 'react'
 import PropTypes from 'prop-types'
-import TweenMax from 'TweenMax'
-import TimelineMax from 'TimelineMax'
 import FixedPortal from './FixedPortal'
 import { withPrefix } from 'gatsby'
 

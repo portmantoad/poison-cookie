@@ -1,7 +1,8 @@
 import React, {useState, useEffect, useRef, useContext} from 'react'
 import PropTypes from 'prop-types'
-import YouTubePlayer from 'react-player/lib/players/YouTube'
+import ReactPlayer from 'react-player'
 import { MutedContext } from './contexts'
+import { withPrefix } from 'gatsby'
 // import { Slider, FormattedTime, PlayerIcon } from 'react-player-controls'
 import { debounce, clamp } from 'lodash'
 import fscreen from 'fscreen'
@@ -24,6 +25,8 @@ const VideoPlayer = debounceActiveRender(React.memo((
 
       const muted = useContext(MutedContext);
       const [ volume, setVolume ] = useState(1);
+      const [ playing, setPlaying ] = useState(false);
+      const hasBeenClicked = useRef(false);
 
       const handleEnd = () => {
         // if (fscreen.fullscreenElement !== null) {
@@ -31,6 +34,14 @@ const VideoPlayer = debounceActiveRender(React.memo((
         // } else {
           onEnd && onEnd();
         // }
+      }
+
+      const initialClick = () => {
+        if (!hasBeenClicked.current) {
+          setPlaying(true)
+        } else {
+          hasBeenClicked.current = true;
+        }  
       }
 
         
@@ -50,8 +61,9 @@ const VideoPlayer = debounceActiveRender(React.memo((
         
         <div className="Video__wrapper">
           <div className="Video__spinner"><div></div><div></div><div></div><div></div></div>
-          <YouTubePlayer
-            light
+          <ReactPlayer
+            light={true}
+            playing={playing}
             url={'http://www.youtube.com/embed/' 
               + videoId 
               // + (endTime ? '?end=' + endTime : '')
@@ -67,7 +79,7 @@ const VideoPlayer = debounceActiveRender(React.memo((
             config={{
               youtube: {
                 // preload: onDeck
-                preload: true,
+                // preload: true,
                 playerVars: {
                   ...(startTime ? {start: startTime} : {}), 
                   ...(endTime ? {end: endTime} : {}),
@@ -86,6 +98,9 @@ const VideoPlayer = debounceActiveRender(React.memo((
             style={{top: 0}}
             playsinline
             onEnded={handleEnd}
+            onStart={() => setPlaying(true)}
+            onPause={() => setPlaying(false)}
+            onClick={() => initialClick()}
           />
         </div>
       </div>

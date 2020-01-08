@@ -11,7 +11,7 @@ import { PlxContext } from '../../components/contexts'
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 
-const Parallax = ({offset, speed = 'slow', ...rest}) => {
+const Parallax = ({offset, speed = 'slow', children, ...rest}) => {
   const context = useContext(PlxContext);
   const rootEl = (speed === 'slow') ? context.slow : context.fast;
 
@@ -35,7 +35,9 @@ const Parallax = ({offset, speed = 'slow', ...rest}) => {
         top: calc((100vh - 40px) * (${offset} / ${scalefactor} + ${magicOffsetNumber}));
       }
     }
-  `)} {...rest} />
+  `)} {...rest}>
+      {children}
+  </div>
 
   if (rootEl) {
     return ReactDOM.createPortal( output, rootEl)
@@ -44,23 +46,99 @@ const Parallax = ({offset, speed = 'slow', ...rest}) => {
   }
 }
 
-// const Layout = React.memo(({x,y,width = 'auto', height = 'auto', children}) => {
+const Picture = ({
+  src = "", 
+  alt = "", 
+  padding = 0, 
+  shadow = true, 
+  mask, 
+  fit = 'contain',
+  x = 0.5,
+  y = 0.5, 
+  width,
+  height,
+  rotate,
+  className
+}) => {
+
+  x = clamp(x, 0, 1);
+  y = clamp(y, 0, 1);
+
+  if (mask === 1) mask = `${withPrefix('/')}img/paper_mask.png`;
+  if (mask === 2) mask = `${withPrefix('/')}img/paper-smooth_mask.png`;
+
+  return (
+    // <div />
+    <div className={className} css={css(`
+      ${width ? `width: ${width};` : ''}
+      ${height ? `height: ${height};` : ''}
+      display: grid;
+      grid-template-columns: minmax(0, ${x}fr) auto minmax(0, ${(1 - x)}fr);
+      grid-template-rows: minmax(0, ${y}fr) auto minmax(0, ${(1 - y)}fr);
+      position: relative;
+      ${shadow ? `
+        // filter: 
+        //   drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.25)) 
+        //   drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.15))
+        //   drop-shadow(0px 2px 7px rgba(0, 0, 0, 0.15))
+        // ;
+
+        // &:before{
+        //   content: "";
+        //   display: block;
+        //   position: absolute;
+        //   top:5px;
+        //   left: 5px;
+        //   right: 5px;
+        //   bottom: 5px;
+        //   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.5);
+        // }
+      ` : ''}
+      
+    `)}> 
+
+        <img css={css(`
+          grid-column-start: 2;
+          grid-row-start: 2;
+          background: #eeddbc;
+          overflow: hidden;
+          ${height ? `max-height: ${height};` : ''}
+          max-width: 100%;
+          ${fit === 'cover' ? `
+            width: 100%;
+            ${height ? `height: ${height};` : ''}
+          ` : ''}
+          ${mask ? `
+            mask-image: url("${mask}");
+            mask-size: 100% 100%;
+          ` : 'border-radius: 4px;'}
+          padding: ${padding};
+          display: block;
+          object-fit: ${fit};
+          object-position: ${x*100}% ${y*100}%;
+          ${rotate ? `transform: rotate(${rotate}deg);` : ''}
+        `)} src={src} alt={alt} />
+      </div>
+  )
+}
+
+// const Layout = React.memo(({x,y, children}) => {
 //   x = clamp(x, 0, 1);
 //   y = clamp(y, 0, 1);
 
 //   return(
-//     <div style={{
-//       position: 'absolute', 
-//       width: '100%', 
-//       height: 'calc(100vh - 40px)',
-//       display: 'grid',
-//       gridTemplateColumns: x + 'fr minmax( auto, ' + width + ') ' + (1 - x) + 'fr',
-//       gridTemplateRows: y + 'fr minmax(auto, ' + height + ') ' + (1 - y) + 'fr'
-//     }}>
-//       <div style={{
-//         gridColumnStart: 2,
-//         gridRowStart: 2
-//       }}>
+//     <div css={css(`
+//       position: absolute;
+//       width: 100%;
+//       height: calc(100vh - 40px);
+//       display: grid;
+//       gridTemplateColumns: ${x}fr auto ${(1 - x)}fr;
+//       gridTemplateRows: ${y}fr auto ${(1 - y)}fr;
+//     `)}>
+//       <div style={css(`
+//         gridColumnStart: 2;
+//         gridRowStart: 2;
+//       `)}>
 //         {children}
 //       </div>
 //     </div>
@@ -127,12 +205,9 @@ const pages = [
     return(
       <React.Fragment>
         <Parallax speed="fast" offset={sectionIndex}>
-          <img src={`${withPrefix('/')}img/paris_map.jpg`} alt="" className="drop-shadow round-corners" 
-            css={css`
-              width: 90%; 
-              transform: rotate(1deg); 
-              margin-left: 5%
-            `}
+          <Picture src={`${withPrefix('/')}img/paris_map.jpg`} rotate={1} 
+            width="90%" 
+            height="120vh"
           />
         </Parallax>
       </React.Fragment>
@@ -231,16 +306,26 @@ const pages = [
 , ({sectionIndex}) => (
        <React.Fragment>
         <Parallax speed="fast" offset={sectionIndex}>
-          <img className="drop-shadow round-corners" 
-            css={css`
-              margin-right: auto;
-              margin-left: 5%;
-              max-height: 110vh;
-              width:auto;
-              transform: rotate(-.25deg);
-            `} src={`${withPrefix('/')}img/paris_bruant.jpg`} alt="" />
+          <Picture 
+            mask={2} 
+            height="110vh"
+            width="40%"
+            rotate={.25}
+            css={css`margin-right: auto;`} 
+            src={`${withPrefix('/')}img/paris_bruant.jpg`} 
+            alt="" 
+          />
         </Parallax>
 
+        <div css={css(`
+          width: 60%; 
+          height: 100%; 
+          display: flex; 
+          align-items: center;
+          justify-content: center;
+          margin-left: auto; 
+          position: relative;
+        `)}>
             <div className="fullscreenQuote">
                 <figure className="quote">
                    <q>Those who have come to the world with a silver spoon in their mouths, 
@@ -249,6 +334,7 @@ const pages = [
                 </figure>
             </div>
             <div className="bigborder"></div>
+        </div>
        </React.Fragment>
 )
 ,    ({sectionIndex}) => {
@@ -376,10 +462,10 @@ const pages = [
     return(
       <React.Fragment>
         <Parallax offset={sectionIndex}>
-          <img className="drop-shadow round-corners" css={css(`position: absolute; width: 55%; left: 2.5%;`)} src={`${withPrefix('/')}img/paris_bricktop.jpg`} alt="" />
+          <Picture width="55%" x={0.75} css={css(`position: absolute; left: 2.5%;`)} src={`${withPrefix('/')}img/paris_bricktop.jpg`} alt="" />
         </Parallax>
         
-        <img className="drop-shadow round-corners" css={css(`position: absolute; width: 50%; right: 2.5%; transform: rotate(1deg)`)} src={`${withPrefix('/')}img/paris_josephine2.jpg`} alt=""/>
+        <Picture width="50%" height="102vh" x={0.25} css={css(`position: absolute; right: 2.5%;`)} rotate={1} src={`${withPrefix('/')}img/paris_josephine2.jpg`} alt=""/>
         
         <Parallax speed="fast" offset={sectionIndex}>
           <div className="Paper" css={css(`transform: rotate(-1deg); max-width: 400px`)}><p>In the 1920s and 30s, a flood of expats in Paris created both a stream of American entertainers and American ex-pats who would flock to establishments with American artists (as did the French). A huge part of the reason was jazz’s rapid advance around the world.</p> <p>In particular, African American artists who could not perform in front of integrated audiences at home and who were appalled and exhausted at their treatment in America found refuge in Paris. This cross-cultural exchange would have a lasting impact on cabaret in both Paris and America (and also in Berlin which was not immune to the influence of Josephine Baker).</p></div>
@@ -389,15 +475,27 @@ const pages = [
 , ({sectionIndex}) => (
       <React.Fragment>
         <Parallax speed="fast" offset={sectionIndex}>
-          <img src={`${withPrefix('/')}img/paris_josephine.jpg`} alt="" css={css(`max-width: 600px; position: absolute; right: 5% `)} />
+          <Picture height="120vh" fit="cover" x={0} width="40%" src={`${withPrefix('/')}img/paris_josephine.jpg`} alt="" css={css(`margin-left: auto`)} />
         </Parallax>
-        <div className="fullscreenQuote">
-            <figure className="quote">
-               <q>One day I realized I was living in a country where I was afraid to be black. It was only a country for white people. Not black. So I left. I had been suffocating in the United States… A lot of us left, not because we wanted to leave, but because we couldn’t stand it anymore… I felt liberated in Paris.</q>
-               <figcaption>&mdash;&ensp;Josephine Baker</figcaption>
-            </figure>
+
+        <div css={css(`
+          width: 60%; 
+          height: 100%; 
+          display: flex; 
+          align-items: center;
+          justify-content: center;
+          margin-right: auto; 
+          position: relative;
+        `)}>
+          <div className="fullscreenQuote">
+              <figure className="quote">
+                 <q>One day I realized I was living in a country where I was afraid to be black. It was only a country for white people. Not black. So I left. I had been suffocating in the United States… A lot of us left, not because we wanted to leave, but because we couldn’t stand it anymore… I felt liberated in Paris.</q>
+                 <figcaption>&mdash;&ensp;Josephine Baker</figcaption>
+              </figure>
+          </div>
+
+          <div className="bigborder"></div>
         </div>
-        <div className="bigborder"></div>
       </React.Fragment>
 )
 ,  ({sectionIndex}) => {
