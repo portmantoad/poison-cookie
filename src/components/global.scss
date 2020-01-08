@@ -58,6 +58,7 @@ $drop-shadow:
       // drop-shadow(0px 2px 7px rgba(0, 0, 0, 0.15))
       ;
 
+
 .scrim{
   position: absolute;
   bottom: -10px;
@@ -442,7 +443,7 @@ html, body {
   align-items: center;
   justify-content: center;
   color: #111;
-  margin: 2rem;
+  margin: 7rem;
 
   &--hollaender figcaption{
     transform: rotate(-3deg);
