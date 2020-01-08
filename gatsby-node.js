@@ -3,29 +3,6 @@ const path = require('path')
 const { createFilePath } = require('gatsby-source-filesystem')
 const { fmImagesToRelative } = require('gatsby-remark-relative-images')
 
-exports.onCreateWebpackConfig = ({ stage, loaders, actions }) => {
-  if (stage === "build-html") {
-    actions.setWebpackConfig({
-      module: {
-        rules: [
-          {
-            test: /ScrollMagic/,
-            use: loaders.null(),
-          },
-          {
-            test: /animation.gsap/,
-            use: loaders.null(),
-          },
-          {
-            test: /debug.addIndicators/,
-            use: loaders.null(),
-          }
-        ],
-      },
-    })
-  }
-}
-
 exports.createPages = ({ actions, graphql }) => {
   const { createPage } = actions
 
