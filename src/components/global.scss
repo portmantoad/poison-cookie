@@ -58,14 +58,6 @@ $drop-shadow:
       // drop-shadow(0px 2px 7px rgba(0, 0, 0, 0.15))
       ;
 
-
-
-.round-corners{
-  border-radius: 3px;
-  mask-image: url('../../static/img/paper-smooth_mask.png');
-  mask-size: 100% 100%;
-}
-
 .scrim{
   position: absolute;
   bottom: -10px;

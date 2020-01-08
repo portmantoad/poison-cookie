@@ -58,6 +58,7 @@ const Picture = ({
   width,
   height,
   rotate,
+  background = '#eeddbc',
   className
 }) => {
 
@@ -76,31 +77,13 @@ const Picture = ({
       grid-template-columns: minmax(0, ${x}fr) auto minmax(0, ${(1 - x)}fr);
       grid-template-rows: minmax(0, ${y}fr) auto minmax(0, ${(1 - y)}fr);
       position: relative;
-      ${shadow ? `
-        // filter: 
-        //   drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.25)) 
-        //   drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.15))
-        //   drop-shadow(0px 2px 7px rgba(0, 0, 0, 0.15))
-        // ;
-
-        // &:before{
-        //   content: "";
-        //   display: block;
-        //   position: absolute;
-        //   top:5px;
-        //   left: 5px;
-        //   right: 5px;
-        //   bottom: 5px;
-        //   box-shadow: 0px 2px 10px rgba(0, 0, 0, 0.5);
-        // }
-      ` : ''}
-      
+      ${shadow && mask && false ? `filter: drop-shadow(0px 1px 5px rgba(0, 0, 0, 0.15));` : ''}
     `)}> 
 
         <img css={css(`
           grid-column-start: 2;
           grid-row-start: 2;
-          background: #eeddbc;
+          background: ${background};
           overflow: hidden;
           ${height ? `max-height: ${height};` : ''}
           max-width: 100%;
@@ -111,7 +94,10 @@ const Picture = ({
           ${mask ? `
             mask-image: url("${mask}");
             mask-size: 100% 100%;
-          ` : 'border-radius: 4px;'}
+          ` : `
+            border-radius: 4px;
+            ${shadow ? `box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.15);` : ''}
+          `}
           padding: ${padding};
           display: block;
           object-fit: ${fit};
@@ -152,23 +138,15 @@ const pages = [
     <React.Fragment>
 
             <Parallax speed="fast" offset={sectionIndex}>
-                <img src={`${withPrefix('/')}img/bienvenue-a-paris.png`} alt="" 
-                  css={css`
-                    width: calc(200px + 10%);
-                    transform: rotate(-25deg);
-                    position: relative;
-                    z-index: 20;
-                    margin-bottom: -11%;
-                    align-self: flex-start;
-
-                    @media screen and (max-width: 500px) {
-                      width: 90%;
-                      transform: unset;
-                      align-self: center;
-                      margin-bottom: 0;
-                    }
-                  `}
+              <div css={css(`margin: 5% auto auto 0;`)}>
+                <Picture 
+                  src={`${withPrefix('/')}img/bienvenue-a-paris.png`}
+                  width="calc(200px + 25%)" 
+                  rotate="-25"
+                  shadow={false}
+                  background="transparent"
                 />
+              </div>
             </Parallax>
 
             <Parallax offset={sectionIndex}>
@@ -307,7 +285,7 @@ const pages = [
        <React.Fragment>
         <Parallax speed="fast" offset={sectionIndex}>
           <Picture 
-            mask={2} 
+            // mask={2} 
             height="110vh"
             width="40%"
             rotate={.25}
@@ -401,7 +379,15 @@ const pages = [
 , ({sectionIndex}) => {
     return(
       <React.Fragment>
-        <Parallax offset={sectionIndex}>
+        <Parallax speed="fast" offset={sectionIndex}>
+          <div css={css(`
+            width: 50%;
+            margin-right: auto;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          `)}>
           <Postcard mask="1" card="2" alt="4">
               <VideoPlayer
                 /* other minor cabarets */
@@ -410,12 +396,16 @@ const pages = [
                 // onEnd={() => scrollTo("next")}
               />
           </Postcard>
+          </div>
         </Parallax>
-      </React.Fragment>
-)}
-, ({sectionIndex}) => {
-    return(
-      <React.Fragment>
+        <div css={css(`
+            width: 50%;
+            margin-left: auto;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          `)}>
         <Postcard mask="2" card="2">
             <VideoPlayer
               /* other minor cabarets 2 */
@@ -424,6 +414,21 @@ const pages = [
               // onEnd={() => scrollTo("next")}
             />
         </Postcard>
+        </div>
+      </React.Fragment>
+)}
+, ({sectionIndex}) => {
+    return(
+      <React.Fragment>
+        <Parallax offset={sectionIndex - 0.1}>
+          <Picture 
+            width="100%"
+            shadow={false}
+            height="calc((100vh - 40px) * 1.2)"
+            mask={`${withPrefix('/')}img/paris_book-1_mask.png`} 
+            src={`${withPrefix('/')}img/paris_book-1.jpg`} 
+          />
+        </Parallax>
       </React.Fragment>
 )}
 // , ({sectionIndex}) => (
@@ -462,10 +467,10 @@ const pages = [
     return(
       <React.Fragment>
         <Parallax offset={sectionIndex}>
-          <Picture width="55%" x={0.75} css={css(`position: absolute; left: 2.5%;`)} src={`${withPrefix('/')}img/paris_bricktop.jpg`} alt="" />
+          <Picture width="55%" padding="3%" mask={1} x={0.75} css={css(`position: absolute; left: 2.5%;`)} src={`${withPrefix('/')}img/paris_bricktop.jpg`} alt="" />
         </Parallax>
         
-        <Picture width="50%" height="102vh" x={0.25} css={css(`position: absolute; right: 2.5%;`)} rotate={1} src={`${withPrefix('/')}img/paris_josephine2.jpg`} alt=""/>
+        <Picture width="50%" padding="0.5%" background="#efefef" height="102vh" x={0.25} css={css(`position: absolute; right: 2.5%;`)} rotate={1} src={`${withPrefix('/')}img/paris_josephine2.jpg`} alt=""/>
         
         <Parallax speed="fast" offset={sectionIndex}>
           <div className="Paper" css={css(`transform: rotate(-1deg); max-width: 400px`)}><p>In the 1920s and 30s, a flood of expats in Paris created both a stream of American entertainers and American ex-pats who would flock to establishments with American artists (as did the French). A huge part of the reason was jazz’s rapid advance around the world.</p> <p>In particular, African American artists who could not perform in front of integrated audiences at home and who were appalled and exhausted at their treatment in America found refuge in Paris. This cross-cultural exchange would have a lasting impact on cabaret in both Paris and America (and also in Berlin which was not immune to the influence of Josephine Baker).</p></div>
@@ -475,7 +480,7 @@ const pages = [
 , ({sectionIndex}) => (
       <React.Fragment>
         <Parallax speed="fast" offset={sectionIndex}>
-          <Picture height="120vh" fit="cover" x={0} width="40%" src={`${withPrefix('/')}img/paris_josephine.jpg`} alt="" css={css(`margin-left: auto`)} />
+          <Picture height="120vh" fit="cover" x={0.3} width="40%" src={`${withPrefix('/')}img/paris_josephine.jpg`} alt="" css={css(`margin-left: auto`)} />
         </Parallax>
 
         <div css={css(`
@@ -606,23 +611,41 @@ const pages = [
     return(
       <React.Fragment>
         <Parallax offset={sectionIndex}>
-          <Postcard mask="1" card="1" alt="1">
-            <VideoPlayer
-              /* Interview_Natalie_au Magique */
-              videoId="jS34OY5LCk0"
-              // active={active}
-              // onEnd={() => scrollTo("next")}
-            />
-          </Postcard>
+          <div css={css(`
+            width: 50%;
+            margin-right: auto;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          `)}>
+            <Postcard mask="1" card="1" alt="1">
+              <VideoPlayer
+                /* Interview_Natalie_au Magique */
+                videoId="jS34OY5LCk0"
+                // active={active}
+                // onEnd={() => scrollTo("next")}
+              />
+            </Postcard>
+          </div>
         </Parallax>
-          <Postcard mask="2" card="2" >
-            <VideoPlayer
-              /* martine au magique */
-              videoId="5sS94fQ0zRo"
-              // active={active}
-              // onEnd={() => scrollTo("next")}
-            />
-          </Postcard>
+          <div css={css(`
+            width: 50%;
+            margin-left: auto;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          `)}>
+            <Postcard mask="2" card="2" >
+              <VideoPlayer
+                /* martine au magique */
+                videoId="5sS94fQ0zRo"
+                // active={active}
+                // onEnd={() => scrollTo("next")}
+              />
+            </Postcard>
+          </div>
       </React.Fragment>
 )}
 ,   ({sectionIndex}) => {
@@ -641,14 +664,14 @@ const pages = [
         </Parallax>
       </React.Fragment>
 )}
-,    ({sectionIndex}) => {
-    return(
-      <React.Fragment>
-        <Postcard mask="1" card="2" alt="3">
-            interview with Monsieur K
-        </Postcard>
-      </React.Fragment>
-)}
+// ,    ({sectionIndex}) => {
+//     return(
+//       <React.Fragment>
+//         <Postcard mask="1" card="2" alt="3">
+//             interview with Monsieur K
+//         </Postcard>
+//       </React.Fragment>
+// )}
 ,    ({sectionIndex}) => {
 
     return(

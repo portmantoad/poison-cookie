@@ -1,9 +1,13 @@
-import React from 'react'
+import React, {useRef} from 'react'
 import { withPrefix } from 'gatsby'
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 
-const Postcard = ({ children, card = 1, mask = 1, alt, ...rest }) => {
+const Postcard = ({ children, card = 1, mask = 1, alt, rotate, ...rest }) => {
+
+  const amplitude = 1.3;
+  const randomRotation = useRef(Math.random() * (2*amplitude) - amplitude);
+
   return (
     <div css={css(`
       display: flex;
@@ -12,7 +16,7 @@ const Postcard = ({ children, card = 1, mask = 1, alt, ...rest }) => {
     `)} {...rest}>
       <div css={css(`
         position: relative;
-        transform: rotate(-1deg);
+        transform: rotate(${rotate || rotate === 0 ? 0 : randomRotation.current || -1}deg);
         max-width: calc(100% - 50px);
         pointer-events: none;
 
