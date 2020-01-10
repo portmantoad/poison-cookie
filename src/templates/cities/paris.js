@@ -6,34 +6,41 @@ import Postcard from '../../components/Postcard'
 import { clamp } from 'lodash'
 import { withPrefix } from 'gatsby'
 import useMedia from 'use-media';
-import { PlxContext } from '../../components/contexts'
+import { PlxContext, SectionSizeContext } from '../../components/contexts'
+
 
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 
 const Parallax = ({offset, speed = -2, children, className, ...rest}) => {
+
+  const isMobile = useMedia({maxWidth: '40em'});
+  const sectionHeight = useContext(SectionSizeContext);
+
   speed = Number(speed);
   const factor = speed === NaN ? -2 : Math.min(speed,7);
   const perspective = 8;
-  const sectionHeight = "105vh";
   const scalefactor = 1 + (factor * -1) / perspective;
-
-  const magicOffsetNumber = factor * perspective/2;
 
   const output = <div className="ScrollSection" css={css(`
     position: absolute;
     left: 0;
     width: 100%;
+    ${isMobile ? 'height: 100%;' : ``}
+    z-index: ${Math.round(factor * 100)};
 
-    top: calc(${sectionHeight} * ${offset});
+    top: ${isMobile ? '0' : `calc(${sectionHeight} * ${offset})`};
 
     @media screen and (min-width: 40em) {
       @supports ((perspective: 1px) and (not (-webkit-overflow-scrolling: touch))) {
         transform: 
-          translate3D(${factor/2 / perspective}%,${-100/perspective * factor/2}%,${factor}px) 
+          translate3D(
+            ${isMobile ? '0' : (factor/2 / perspective)}%,
+            ${isMobile ? '0' : (-100/perspective * factor/2)}%,
+            ${factor}px
+          ) 
           scale(${scalefactor})
         ;
-        z-index: ${Math.round(factor * 100)};
         transform-origin: 50% 100%;
     }
   `)} {...rest}>
@@ -41,7 +48,7 @@ const Parallax = ({offset, speed = -2, children, className, ...rest}) => {
   </div>
 
   const rootEl = useContext(PlxContext);
-  if (rootEl) {
+  if (rootEl && !isMobile) {
     return ReactDOM.createPortal( output, rootEl)
   } else {
     return output
@@ -110,7 +117,7 @@ const Picture = ({
   )
 }
 
-const Layout = React.memo(({x = 0.5, y = 0.5, children}) => {
+const Layout = React.memo(({x = 0.5, y = 0.5, children, ...rest}) => {
   x = clamp(Number(x), 0, 1);
   y = clamp(Number(y), 0, 1);
 
@@ -127,7 +134,7 @@ const Layout = React.memo(({x = 0.5, y = 0.5, children}) => {
         grid-column-start: 2;
         grid-row-start: 2;
       }
-    `)}>
+    `)} {...rest}>
         {children}
     </div>
   )
@@ -152,6 +159,7 @@ const pages = [
 ({sectionIndex}) => {
 
   // const overhang = 0.1;
+  const isMobile = useMedia({maxWidth: '40em'});
 
     return (
     <React.Fragment>
@@ -165,7 +173,7 @@ const pages = [
           */}
 
             <Parallax speed="2" offset={sectionIndex}>
-              <div css={css(`margin: 5% auto auto 0;`)}>
+              <div css={css(`margin: ${isMobile ? '10vh' : '5%'} auto auto 0;`)}>
                 <Picture 
                   src={`${withPrefix('/')}img/bienvenue-a-paris.png`}
                   width="calc(200px + 25%)" 
@@ -177,7 +185,10 @@ const pages = [
             </Parallax>
 
             <Parallax offset={sectionIndex}>
-              <Layout x="0.6">
+              <Layout 
+                x="0.6" 
+                y={isMobile ? 0.7 : undefined} 
+              >
                 <Postcard>
                   <VideoPlayer
                       videoId="qdU_IKxIhAk"
@@ -188,6 +199,10 @@ const pages = [
                 </Postcard> 
               </Layout>
             </Parallax>
+
+            <div css={isMobile ? css(`
+                  min-height: calc(90vh - 40px);
+                `) : undefined}></div>
 
           
     </React.Fragment>

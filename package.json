@@ -5,6 +5,7 @@
   "author": "Austin Green",
   "dependencies": {
     "@emotion/core": "^10.0.27",
+    "@react-hook/window-size": "^1.0.12",
     "babel-plugin-emotion": "^10.0.27",
     "fscreen": "^1.0.2",
     "gatsby": "^2.13.31",

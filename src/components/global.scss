@@ -90,8 +90,8 @@ $drop-shadow:
 html, body {
   padding: 0;
   background: #f2cd94;
-  // overflow-x: hidden;
-  overflow: hidden;
+  overflow-x: hidden;
+  // overflow: hidden;
 }
 
 
@@ -191,35 +191,21 @@ html, body {
 
 
 .ScrollSections {
-  position: fixed;
+  position: absolute;
   top: 40px;
   left: 0;
   right: 0;
   bottom: 0;
+  transform: translateZ(0);
+  overflow-x: hidden;
 
-  &__3D-scrollbox{
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    overflow-x: hidden;
-    overflow-y: auto;
-    -webkit-overflow-scrolling: touch;
-  }
-
-  &__normalScroll{
-    // filter: drop-shadow();
-    pointer-events: none;
-  }
-
-  &__parallax{
-    top: 0;
-    left:0;
-    width: 100%;
-    position: absolute;
-    pointer-events: none;
-  }
+  // &__parallax{
+  //   top: 0;
+  //   left:0;
+  //   width: 100%;
+  //   position: absolute;
+  //   pointer-events: none;
+  // }
 
   &__background{
     position: absolute;
@@ -229,27 +215,9 @@ html, body {
     height: 100%;
     @include whiteNoise(0.4);
     background-size: auto 100%;
+    z-index: -10000;
   }
 }
-
-@media screen and (min-width: 40em) {
-  @supports ((perspective: 1px) and (not (-webkit-overflow-scrolling: touch))) {
-
-    .ScrollSections {
-      $perspective: 8;
-
-      transform: translateZ(0);
-      will-change: transform;
-
-      &__3D-scrollbox{
-        perspective: $perspective * 1px;
-        transform-origin: 50% 100%;
-        transform-style: preserve-3d;
-      }
-    }
-  }
-}
-
 
 .ScrollSection {
   opacity: 1;
@@ -257,6 +225,8 @@ html, body {
   align-items: center; 
   justify-content:center;
   height: 105vh;
+  max-height: 70vw;
+
   position: relative;
   width: 100%;
   pointer-events: none;
