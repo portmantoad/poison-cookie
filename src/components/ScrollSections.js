@@ -1,4 +1,5 @@
 import React, {useRef, useState, useLayoutEffect} from 'react'
+import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import { withPrefix } from 'gatsby'
 import { PlxContext } from '../components/contexts'
@@ -14,38 +15,35 @@ const ScrollSections = React.memo((
       sections
     }) => {
 
-    const [plxSlowEl, setPlxSlowEl] = useState();
-    const [plxFastEl, setPlxFastEl] = useState();
+    const [plxWrapEl, setPlxWrapEl] = useState();
 
     return (
       <div className="ScrollSections">
             <div className="ScrollSections__background" css={css(`background-image: url( ${withPrefix('/')}img/paris.jpg);`)}></div>
 
-            <PlxContext.Provider value={{slow: plxSlowEl, fast: plxFastEl}}>
-              <div className="ScrollSections__3D-scrollbox">
-                <div 
-                    ref={ref => setPlxSlowEl(ref)} 
-                    className="ScrollSections__parallax ScrollSections__parallax--slow"
-                />
-                <div className="ScrollSections__normalScroll">
+            <PlxContext.Provider value={plxWrapEl}>
+              <div className="ScrollSections__3D-scrollbox" ref={ref => setPlxWrapEl(ref)}>
                   {sections &&
                     sections.map((Sect, index) => {
-                            return (
+
+                        const output = (
                               <section 
                                 key={"ScrollSection--" + index}
                                 className={
-                                  "ScrollSection ScrollSection--" + index
+                                  "ScrollSection ScrollSection--normalScroll ScrollSection--" + index
                                 } 
                               >
                                 <Sect sectionIndex={index} />
                               </section>
-                          )})
+                          );
+
+                      if (plxWrapEl) {
+                        return ReactDOM.createPortal( output, plxWrapEl)
+                      } else {
+                        return output
+                      }
+                    })
                   } 
-                </div>
-                <div 
-                    ref={ref => setPlxFastEl(ref)} 
-                    className="ScrollSections__parallax ScrollSections__parallax--fast"
-                />      
               </div>
             </PlxContext.Provider>
        </div>

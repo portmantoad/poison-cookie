@@ -29,7 +29,7 @@ const Postcard = ({ children, card = 1, mask = 1, alt, rotate, ...rest }) => {
           right: 1.2%;
           bottom: 1.3%;
           border-radius: 5px;
-          box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.25);
+          box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.38);
         }
 
         .Video{

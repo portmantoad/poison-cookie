@@ -11,17 +11,13 @@ import { PlxContext } from '../../components/contexts'
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 
-const Parallax = ({offset, speed = 'slow', children, ...rest}) => {
-  const context = useContext(PlxContext);
-  const rootEl = (speed === 'slow') ? context.slow : context.fast;
-
-  const factor = (speed === 'slow') ? -1 : 1;
-  const perspective = 4;
+const Parallax = ({offset, speed = -2, children, className, ...rest}) => {
+  speed = Number(speed);
+  const factor = speed === NaN ? -2 : Math.min(speed,7);
+  const perspective = 8;
   const scalefactor = 1 + (factor * -1) / perspective;
 
-  const magicOffsetNumber = (speed === 'slow') ? 
-  // -.1645 : .505; //perspective 2
-  -0.096 : 0.171; //perspective 4
+  const magicOffsetNumber = factor * perspective/2;
 
   const output = <div className="ScrollSection" css={css(`
     position: absolute;
@@ -32,13 +28,19 @@ const Parallax = ({offset, speed = 'slow', children, ...rest}) => {
 
     @media screen and (min-width: 40em) {
       @supports ((perspective: 1px) and (not (-webkit-overflow-scrolling: touch))) {
-        top: calc((100vh - 40px) * (${offset} / ${scalefactor} + ${magicOffsetNumber}));
-      }
+        // top: calc((100vh - 40px) * (${offset} - ${magicOffsetNumber}));
+        transform: 
+          translate3D(${factor/2 / perspective}%,${-100/perspective * factor/2}%,${factor}px) 
+          scale(${scalefactor})
+        ;
+        z-index: ${Math.round(factor * 100)};
+        transform-origin: 50% 100%;
     }
   `)} {...rest}>
       {children}
   </div>
 
+  const rootEl = useContext(PlxContext);
   if (rootEl) {
     return ReactDOM.createPortal( output, rootEl)
   } else {
@@ -131,13 +133,38 @@ const Picture = ({
 //   )
 // })
 
+//-5 = 2.2
+
+
+// (x * -1) / 8 = ((pages.length - 1) - 1) * -8
+
+// 1 + (x * -1) / 8
+
+//13.5
+//-100 = 15
+//1.5
+
+//19.75
+//-150 = 20.5
+//.75
+
 const pages = [
 ({sectionIndex}) => {
 
+  // const overhang = 0.1;
+
     return (
     <React.Fragment>
+    {/*
+            <Parallax speed={(pages.length - 1 - overhang) * (-8/overhang)} offset={sectionIndex}>
+              <div className="ScrollSections__background" css={css(`
+                background-image: url( ${withPrefix('/')}img/paris.jpg);
+                height: calc((100vh - 40px) * ${1 + overhang})
+              `)}></div>
+            </Parallax>
+          */}
 
-            <Parallax speed="fast" offset={sectionIndex}>
+            <Parallax speed="2" offset={sectionIndex}>
               <div css={css(`margin: 5% auto auto 0;`)}>
                 <Picture 
                   src={`${withPrefix('/')}img/bienvenue-a-paris.png`}
@@ -182,7 +209,7 @@ const pages = [
 
     return(
       <React.Fragment>
-        <Parallax speed="fast" offset={sectionIndex}>
+        <Parallax speed="2" offset={sectionIndex}>
           <Picture src={`${withPrefix('/')}img/paris_map.jpg`} rotate={1} 
             width="90%" 
             height="120vh"
@@ -283,7 +310,7 @@ const pages = [
 )}
 , ({sectionIndex}) => (
        <React.Fragment>
-        <Parallax speed="fast" offset={sectionIndex}>
+        <Parallax speed="2" offset={sectionIndex}>
           <Picture 
             // mask={2} 
             height="110vh"
@@ -344,7 +371,7 @@ const pages = [
           // onEnd={() => scrollTo("next")}
         />
   
-      <Parallax speed="fast" offset={sectionIndex}>
+      <Parallax speed="2" offset={sectionIndex}>
         <a href="https://museedemontmartre.fr/en/">Visit the Musee Montmartre in person or virtually!</a>
       </Parallax>
       </React.Fragment>
@@ -379,7 +406,7 @@ const pages = [
 , ({sectionIndex}) => {
     return(
       <React.Fragment>
-        <Parallax speed="fast" offset={sectionIndex}>
+        <Parallax speed="2" offset={sectionIndex}>
           <div css={css(`
             width: 50%;
             margin-right: auto;
@@ -466,20 +493,22 @@ const pages = [
 ,    ({sectionIndex}) => {
     return(
       <React.Fragment>
-        <Parallax offset={sectionIndex}>
+        <Parallax speed="-2.5" offset={sectionIndex}>
           <Picture width="55%" padding="3%" mask={1} x={0.75} css={css(`position: absolute; left: 2.5%;`)} src={`${withPrefix('/')}img/paris_bricktop.jpg`} alt="" />
         </Parallax>
         
-        <Picture width="50%" padding="0.5%" background="#efefef" height="102vh" x={0.25} css={css(`position: absolute; right: 2.5%;`)} rotate={1} src={`${withPrefix('/')}img/paris_josephine2.jpg`} alt=""/>
-        
-        <Parallax speed="fast" offset={sectionIndex}>
+        <Parallax speed="-0.5" offset={sectionIndex}>
+          <Picture width="50%" padding="0.5%" background="#efefef" height="102vh" x={0.25} css={css(`position: absolute; right: 2.5%;`)} rotate={1} src={`${withPrefix('/')}img/paris_josephine2.jpg`} alt=""/>
+        </Parallax>
+
+        <Parallax speed="2" offset={sectionIndex}>
           <div className="Paper" css={css(`transform: rotate(-1deg); max-width: 400px`)}><p>In the 1920s and 30s, a flood of expats in Paris created both a stream of American entertainers and American ex-pats who would flock to establishments with American artists (as did the French). A huge part of the reason was jazz’s rapid advance around the world.</p> <p>In particular, African American artists who could not perform in front of integrated audiences at home and who were appalled and exhausted at their treatment in America found refuge in Paris. This cross-cultural exchange would have a lasting impact on cabaret in both Paris and America (and also in Berlin which was not immune to the influence of Josephine Baker).</p></div>
         </Parallax>
       </React.Fragment>
 )}
 , ({sectionIndex}) => (
       <React.Fragment>
-        <Parallax speed="fast" offset={sectionIndex}>
+        <Parallax speed="2" offset={sectionIndex}>
           <Picture height="120vh" fit="cover" x={0.3} width="40%" src={`${withPrefix('/')}img/paris_josephine.jpg`} alt="" css={css(`margin-left: auto`)} />
         </Parallax>
 
@@ -651,12 +680,11 @@ const pages = [
 ,   ({sectionIndex}) => {
     return(
       <React.Fragment>
-        <Parallax speed="fast" offset={sectionIndex}>
+        <Parallax speed="2" offset={sectionIndex}>
           <Postcard mask="2" card="1" alt="1">
               <VideoPlayer
                 /* strongman divan japanois */
                 videoId="_7kQh0ot5Kc"
-                fullscreen
                 // active={active}
                 // onEnd={() => scrollTo("next")}
               />
