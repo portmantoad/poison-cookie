@@ -20,6 +20,7 @@ const VideoPlayer = debounceActiveRender(React.memo((
       endTime, 
       onEnd,
       captions,
+      thumbnail = true, //pass in image here
       ...rest
     }) => {
 
@@ -62,7 +63,7 @@ const VideoPlayer = debounceActiveRender(React.memo((
         <div className="Video__wrapper">
           <div className="Video__spinner"><div></div><div></div><div></div><div></div></div>
           <ReactPlayer
-            light={true}
+            light={thumbnail}
             playing={playing}
             url={'http://www.youtube.com/embed/' 
               + videoId 

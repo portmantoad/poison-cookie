@@ -256,7 +256,7 @@ html, body {
   display: flex; 
   align-items: center; 
   justify-content:center;
-  height: calc(100vh - 40px);
+  height: 105vh;
   position: relative;
   width: 100%;
   pointer-events: none;
@@ -352,20 +352,20 @@ html, body {
     //   mask-size: 100% 100%;
     // }
 
-    .Video__wrapper{
-      &:after{
-        content:"";
-        display: block;
-        position: absolute;
-        top:0;
-        left:0;
-        width: 100%;
-        height: 100%;
-        background-image: url('../../static/img/video_edge.png');
-        background-size: 100% 100%;
-        pointer-events: none;
-      }
-    }
+    // .Video__wrapper{
+    //   &:after{
+    //     content:"";
+    //     display: block;
+    //     position: absolute;
+    //     top:0;
+    //     left:0;
+    //     width: 100%;
+    //     height: 100%;
+    //     background-image: url('../../static/img/video_edge.png');
+    //     background-size: 100% 100%;
+    //     pointer-events: none;
+    //   }
+    // }
   }
 }
 
@@ -429,6 +429,7 @@ html, body {
   justify-content: center;
   color: #111;
   margin: 7rem;
+  position: relative;
 
   &--hollaender figcaption{
     transform: rotate(-3deg);
@@ -461,7 +462,7 @@ html, body {
 }
 
 .bigborder{
-  position: absolute; top:30px; left:30px; bottom:30px; right:30px;
+  position: absolute; top:-70px; left:-60px; bottom:-70px; right:-60px;
   pointer-events: none;
   border-image: url('../../static/img/border1.svg');
   border-style: solid;

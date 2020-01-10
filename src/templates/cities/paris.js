@@ -15,6 +15,7 @@ const Parallax = ({offset, speed = -2, children, className, ...rest}) => {
   speed = Number(speed);
   const factor = speed === NaN ? -2 : Math.min(speed,7);
   const perspective = 8;
+  const sectionHeight = "105vh";
   const scalefactor = 1 + (factor * -1) / perspective;
 
   const magicOffsetNumber = factor * perspective/2;
@@ -24,11 +25,10 @@ const Parallax = ({offset, speed = -2, children, className, ...rest}) => {
     left: 0;
     width: 100%;
 
-    top: calc((100vh - 40px) * ${offset});
+    top: calc(${sectionHeight} * ${offset});
 
     @media screen and (min-width: 40em) {
       @supports ((perspective: 1px) and (not (-webkit-overflow-scrolling: touch))) {
-        // top: calc((100vh - 40px) * (${offset} - ${magicOffsetNumber}));
         transform: 
           translate3D(${factor/2 / perspective}%,${-100/perspective * factor/2}%,${factor}px) 
           scale(${scalefactor})
@@ -64,8 +64,8 @@ const Picture = ({
   className
 }) => {
 
-  x = clamp(x, 0, 1);
-  y = clamp(y, 0, 1);
+  x = clamp(Number(x), 0, 1);
+  y = clamp(Number(y), 0, 1);
 
   if (mask === 1) mask = `${withPrefix('/')}img/paper_mask.png`;
   if (mask === 2) mask = `${withPrefix('/')}img/paper-smooth_mask.png`;
@@ -110,28 +110,28 @@ const Picture = ({
   )
 }
 
-// const Layout = React.memo(({x,y, children}) => {
-//   x = clamp(x, 0, 1);
-//   y = clamp(y, 0, 1);
+const Layout = React.memo(({x = 0.5, y = 0.5, children}) => {
+  x = clamp(Number(x), 0, 1);
+  y = clamp(Number(y), 0, 1);
 
-//   return(
-//     <div css={css(`
-//       position: absolute;
-//       width: 100%;
-//       height: calc(100vh - 40px);
-//       display: grid;
-//       gridTemplateColumns: ${x}fr auto ${(1 - x)}fr;
-//       gridTemplateRows: ${y}fr auto ${(1 - y)}fr;
-//     `)}>
-//       <div style={css(`
-//         gridColumnStart: 2;
-//         gridRowStart: 2;
-//       `)}>
-//         {children}
-//       </div>
-//     </div>
-//   )
-// })
+  return(
+    <div css={css(`
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      display: grid;
+      grid-template-columns: ${x}fr auto ${(1 - x)}fr;
+      grid-template-rows: ${y}fr auto ${(1 - y)}fr;
+
+      & > *{
+        grid-column-start: 2;
+        grid-row-start: 2;
+      }
+    `)}>
+        {children}
+    </div>
+  )
+})
 
 //-5 = 2.2
 
@@ -177,13 +177,16 @@ const pages = [
             </Parallax>
 
             <Parallax offset={sectionIndex}>
-              <Postcard>
-                <VideoPlayer
-                    videoId="qdU_IKxIhAk"
-                    // active={active}
-                    // onEnd={() => scrollTo("next")}
-                  />
-              </Postcard> 
+              <Layout x="0.6">
+                <Postcard>
+                  <VideoPlayer
+                      videoId="qdU_IKxIhAk"
+                      thumbnail={`${withPrefix('/')}img/thumbnails/cat_streeter.jpg`}
+                      // active={active}
+                      // onEnd={() => scrollTo("next")}
+                    />
+                </Postcard> 
+              </Layout>
             </Parallax>
 
           
@@ -198,6 +201,7 @@ const pages = [
         <VideoPlayer
           /* kitty litter */
           videoId="ZS8zlMNmTEU"
+          thumbnail={`${withPrefix('/')}img/thumbnails/00_intro_cat-litter_V2.jpg`}
           fullscreen
           // active={active}
           // onEnd={() => scrollTo("next", 0)}
@@ -209,10 +213,10 @@ const pages = [
 
     return(
       <React.Fragment>
-        <Parallax speed="2" offset={sectionIndex}>
+        <Parallax speed="-2" offset={sectionIndex + 0.2}>
           <Picture src={`${withPrefix('/')}img/paris_map.jpg`} rotate={1} 
             width="90%" 
-            height="120vh"
+            height="140vh"
           />
         </Parallax>
       </React.Fragment>
@@ -247,27 +251,51 @@ const pages = [
 //             </div>
 // )}
 , ({sectionIndex}) => (
-              <Postcard mask="2" card="2">                
-                  <VideoPlayer
-                    videoId="LkdWOkpCuTw"
-                    // active={active}
-                    // onEnd={() => scrollTo("next")}
-                  />
-              </Postcard>  
+  <React.Fragment>
+            <Parallax speed="3" offset={sectionIndex}>
+              <Layout x="0.4" y="0.4">
+                <Postcard mask="2" card="2">                
+                    <VideoPlayer
+                      videoId="LkdWOkpCuTw"
+                      thumbnail={`${withPrefix('/')}img/thumbnails/wig_shop.jpg`}
+                      // active={active}
+                      // onEnd={() => scrollTo("next")}
+                    />
+                </Postcard> 
+              </Layout> 
+            </Parallax>
+            <Parallax speed="1" offset={sectionIndex + 0.3}>
+              <div css={css(`
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                background-image: url('${withPrefix('/')}img/paris_poster-2.jpg');
+                background-size: cover;
+                mask-image: url('${withPrefix('/')}img/torn-edge_mask.png');
+                mask-size: 100% 100%;
+              `)}></div>
+            </Parallax>
+            </React.Fragment>
 )
 , ({sectionIndex}) => {
 
     return(
       <React.Fragment>
-        <div className="scrim"></div>
-        <VideoPlayer
-          /* Strongman chat noir */
-          videoId="T6nNI2Nw9a0"
-          fullscreen
-          // active={active}
-          // captions={true}
-          // onEnd={() => scrollTo("next")}
-        />
+        <Parallax offset={sectionIndex} speed="-6">
+          <Layout x="0.3">
+            <Postcard mask="2" card="1" alt="3">
+              <VideoPlayer
+                /* Strongman chat noir */
+                videoId="T6nNI2Nw9a0"
+                thumbnail={`${withPrefix('/')}img/thumbnails/00_strongman_chat_noir%20v3.jpg`}
+                // fullscreen
+                // active={active}
+                // captions={true}
+                // onEnd={() => scrollTo("next")}
+              />
+            </Postcard>
+          </Layout>
+        </Parallax>
       </React.Fragment>
 )}
 // , ({sectionIndex}) => (
@@ -297,25 +325,38 @@ const pages = [
     return(
       <React.Fragment>
         <Parallax offset={sectionIndex}>
+        <Layout x="0.7">
         <Postcard mask="1" card="2" alt="2">
             <VideoPlayer
               /* le mirilton */
               videoId="takA-zY-Tn8"
+              thumbnail={`${withPrefix('/')}img/thumbnails/00_le_mirliton%20v2_crop.jpg`}
               // active={active}
               // onEnd={() => scrollTo("next")}
             />
         </Postcard>
+        </Layout>
         </Parallax>
       </React.Fragment>
 )}
 , ({sectionIndex}) => (
        <React.Fragment>
+       <div css={css(`
+         position: absolute;
+         width: 100%;
+         height: 100%;
+         background-image: url('${withPrefix('/')}img/paris_poster-1.jpg');
+         background-size: cover;
+         mask-image: url('${withPrefix('/')}img/torn-edge_mask.png');
+         mask-size: 100% 100%;
+       `)}></div>
         <Parallax speed="2" offset={sectionIndex}>
           <Picture 
             // mask={2} 
-            height="110vh"
+            height="90vh"
             width="40%"
             rotate={.25}
+            x="1"
             css={css`margin-right: auto;`} 
             src={`${withPrefix('/')}img/paris_bruant.jpg`} 
             alt="" 
@@ -332,13 +373,12 @@ const pages = [
           position: relative;
         `)}>
             <div className="fullscreenQuote">
-                <figure className="quote">
+                <figure className="quote" css={css(`color:#fff;`)}>
                    <q>Those who have come to the world with a silver spoon in their mouths, 
                    I revenge myself in insulting them, in treating them worse than dogs. That makes them laugh to tears; they believe I joke when, often enough, it is a breeze from the past, miseries submitted to, dirtiness seen, which remounts on my lips and makes me speak as I do.</q>
                    <figcaption>&mdash;&ensp;Aristide Bruant (translated by Richard D. Sonne)</figcaption>
                 </figure>
             </div>
-            <div className="bigborder"></div>
         </div>
        </React.Fragment>
 )
@@ -346,11 +386,12 @@ const pages = [
 
     return(
       <React.Fragment>
-        <Parallax offset={sectionIndex}>
+        <Parallax speed={-6} offset={sectionIndex}>
           <Postcard mask="2" card="1" alt="1">
               <VideoPlayer
                 /* musee montmatre */
                 videoId="j9ieAAvYpJU"
+                thumbnail={`${withPrefix('/')}img/thumbnails/00_Musee_Montmartre%20v2.jpg`}
                 // active={active}
                 // onEnd={() => scrollTo("next")}
               />
@@ -366,13 +407,50 @@ const pages = [
         <VideoPlayer
           /* interview with julia */
           videoId="sKxtbvayB50"
+          thumbnail={`${withPrefix('/')}img/thumbnails/00_julia_interview%20v7.jpg`}
           fullscreen
           // active={active}
           // onEnd={() => scrollTo("next")}
         />
   
-      <Parallax speed="2" offset={sectionIndex}>
-        <a href="https://museedemontmartre.fr/en/">Visit the Musee Montmartre in person or virtually!</a>
+      <Parallax speed="1" offset={sectionIndex + 0.5}>
+        <a href="https://museedemontmartre.fr/en/" css={css(`
+          width: 230px; 
+          height: 200px; 
+          display: flex; 
+          align-items: center; 
+          justify-content: center; 
+          text-align: center; 
+          margin-left:auto; 
+          margin-right:5%;
+          position: relative;
+          border-radius: 100%;
+          padding: 30px;
+          background: #861f12;
+          color: #fff;
+          box-shadow: 1px 1px 8px #00000047;
+          text-decoration: none;
+
+          &:before{
+            content: "";
+            display: block;
+            position: absolute;
+            top: 5px;
+            left:5px;
+            bottom: 5px;
+            right: 5px;
+            border-radius: 100%;
+            background-image: url("${withPrefix('/')}img/paris_map.jpg");
+            background-size: 700% auto;
+            background-position: center center;
+            opacity: 0.25;
+            // background-clip: content-box;
+          }
+        `)}>
+          <div css={css(`position: relative; text-decoration: none;`)}>
+            Visit the Musee Montmartre in person or <u>virtually</u>!
+          </div>
+        </a>
       </Parallax>
       </React.Fragment>
 )}
@@ -384,6 +462,7 @@ const pages = [
           <VideoPlayer
             /* strongman lapin agile */
             videoId="-995ptoiNjw"
+            thumbnail={`${withPrefix('/')}img/thumbnails/00_strongman_Lapin%20agile_v1.jpg`}
             // active={active}
             // onEnd={() => scrollTo("next")}
           />
@@ -397,6 +476,7 @@ const pages = [
       <VideoPlayer
         /* lapin agile interview */
         videoId="ubFSIFzFLs8"
+        thumbnail={`${withPrefix('/')}img/thumbnails/00_Lapin_agile_interview.jpg`}
         fullscreen
         // active={active}
         // onEnd={() => scrollTo("next")}
@@ -408,46 +488,50 @@ const pages = [
       <React.Fragment>
         <Parallax speed="2" offset={sectionIndex}>
           <div css={css(`
-            width: 50%;
+            width: 54%;
             margin-right: auto;
             height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
           `)}>
-          <Postcard mask="1" card="2" alt="4">
+          <Postcard mask="1" card="2" alt="4" css={css(`margin-left: auto;`)}>
               <VideoPlayer
                 /* other minor cabarets */
                 videoId="bysHS5IqVdI"
+                thumbnail={`${withPrefix('/')}img/thumbnails/00_Other%20Minor%20Cabarets_v2ab.jpg`}
                 // active={active}
                 // onEnd={() => scrollTo("next")}
               />
           </Postcard>
           </div>
         </Parallax>
+        <Parallax speed="-0.5" offset={sectionIndex}>
         <div css={css(`
-            width: 50%;
+            width: 51%;
             margin-left: auto;
             height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
           `)}>
-        <Postcard mask="2" card="2">
+        <Postcard mask="2" card="2" css={css(`margin-right: auto;`)}>
             <VideoPlayer
               /* other minor cabarets 2 */
               videoId="jRouAXIvDrw"
+              thumbnail={`${withPrefix('/')}img/thumbnails/00_Other%20Minor%20Cabarets_v2b.jpg`}
               // active={active}
               // onEnd={() => scrollTo("next")}
             />
         </Postcard>
         </div>
+        </Parallax>
       </React.Fragment>
 )}
 , ({sectionIndex}) => {
     return(
       <React.Fragment>
-        <Parallax offset={sectionIndex - 0.1}>
+        <Parallax offset={sectionIndex - 0.1} speed="-4">
           <Picture 
             width="100%"
             shadow={false}
@@ -484,6 +568,7 @@ const pages = [
         <VideoPlayer
           /* Edith Piaf’s grave site */
           videoId="lqsW1FCVi_M"
+          thumbnail={`${withPrefix('/')}img/thumbnails/00_Edith_Piafs_Grave.jpg`}
           fullscreen
           // active={active}
           // onEnd={() => scrollTo("next")}
@@ -526,9 +611,8 @@ const pages = [
                  <q>One day I realized I was living in a country where I was afraid to be black. It was only a country for white people. Not black. So I left. I had been suffocating in the United States… A lot of us left, not because we wanted to leave, but because we couldn’t stand it anymore… I felt liberated in Paris.</q>
                  <figcaption>&mdash;&ensp;Josephine Baker</figcaption>
               </figure>
+              <div className="bigborder"></div>
           </div>
-
-          <div className="bigborder"></div>
         </div>
       </React.Fragment>
 )
@@ -539,6 +623,7 @@ const pages = [
         <VideoPlayer
           /*Edith piaf chanson realiste*/
           videoId="Sp0oggT2IjY"
+          thumbnail={`${withPrefix('/')}img/thumbnails/00_Edith_Piaf_Chanson_Realiste_V4.jpg`}
           fullscreen
           // active={active}
           // onEnd={() => scrollTo("next")}
@@ -568,6 +653,7 @@ const pages = [
           <VideoPlayer
             /* Streeter [parc] */
             videoId="vrvVpZsKVYk"
+            // thumbnail={`${withPrefix('/')}img/thumbnails/`}
             // active={active}
             // onEnd={() => scrollTo("next")}
           /> 
@@ -582,6 +668,7 @@ const pages = [
             <VideoPlayer
               /* interview with gosia  */
               videoId="VxGeGeKUaU0"
+              // thumbnail={`${withPrefix('/')}img/thumbnails/`}
               fullscreen
               // active={active}
               // onEnd={() => scrollTo("next")}
@@ -596,6 +683,7 @@ const pages = [
               <VideoPlayer
                 /* Interview with Michel from Vieux Belleville   */
                 videoId="az8ftb3NgNw"
+                thumbnail={`${withPrefix('/')}img/thumbnails/00_interview_with_michel_v4.jpg`}
                 // active={active}
                 // onEnd={() => scrollTo("next")}
               />
@@ -639,42 +727,46 @@ const pages = [
 
     return(
       <React.Fragment>
-        <Parallax offset={sectionIndex}>
+        <Parallax speed="-4" offset={sectionIndex}>
           <div css={css(`
-            width: 50%;
+            width: 51%;
             margin-right: auto;
             height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
           `)}>
-            <Postcard mask="1" card="1" alt="1">
+            <Postcard mask="1" card="1" alt="1" css={css(`margin-left: auto;`)}>
               <VideoPlayer
                 /* Interview_Natalie_au Magique */
                 videoId="jS34OY5LCk0"
+                // thumbnail={`${withPrefix('/')}img/thumbnails/`}
                 // active={active}
                 // onEnd={() => scrollTo("next")}
               />
             </Postcard>
           </div>
         </Parallax>
+        <Parallax speed="-2" offset={sectionIndex}>
           <div css={css(`
-            width: 50%;
+            width: 54%;
             margin-left: auto;
             height: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
           `)}>
-            <Postcard mask="2" card="2" >
+            <Postcard mask="2" card="2" css={css(`margin-right: auto;`)}>
               <VideoPlayer
                 /* martine au magique */
                 videoId="5sS94fQ0zRo"
+                thumbnail={`${withPrefix('/')}img/thumbnails/00_interview%20at%20Au%20Magique.jpg`}
                 // active={active}
                 // onEnd={() => scrollTo("next")}
               />
             </Postcard>
           </div>
+        </Parallax>
       </React.Fragment>
 )}
 ,   ({sectionIndex}) => {
@@ -685,6 +777,7 @@ const pages = [
               <VideoPlayer
                 /* strongman divan japanois */
                 videoId="_7kQh0ot5Kc"
+                // thumbnail={`${withPrefix('/')}img/thumbnails/`}
                 // active={active}
                 // onEnd={() => scrollTo("next")}
               />
@@ -709,6 +802,7 @@ const pages = [
               <VideoPlayer
                 /* music video partial song */
                 videoId="RnyJ8nwcuOE"
+                // thumbnail={`${withPrefix('/')}img/thumbnails/`}
                 // fullscreen
                 // active={active}
                 // onEnd={() => scrollTo("next")}
