@@ -21,10 +21,13 @@ const Parallax = React.memo(({offset = 0, dimensions, speed = -2, children, clas
   const perspective = 8;
   const scalefactor = 1 + (factor * -1) / perspective;
 
-  const output = <div className="ScrollSection" css={css(`
+  const output = <div css={css(`
     position: absolute;
     left: 0;
     width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     z-index: ${Math.round(factor * 100)};
 
     top: ${dimensions.top}px;
@@ -35,7 +38,7 @@ const Parallax = React.memo(({offset = 0, dimensions, speed = -2, children, clas
         transform: 
           translate3D(
             ${(factor/2 / perspective)}%,
-            ${(-100/perspective * factor/2) + (offset * 100)}%,
+            ${(-100/perspective * factor/2) - (factor/2) + (offset * 100)}%,
             ${factor}px
           ) 
           scale(${scalefactor})
@@ -123,11 +126,13 @@ const Layout = React.memo(({x = 0.5, y = 0.5, children, ...rest}) => {
   return(
     <div css={css(`
       position: absolute;
-      width: 100%;
-      height: 100%;
+      top:0;
+      left:0;
+      bottom:0;
+      right:0;
       display: grid;
-      grid-template-columns: ${x}fr auto ${(1 - x)}fr;
-      grid-template-rows: ${y}fr auto ${(1 - y)}fr;
+      grid-template-columns: ${x}fr minmax(0, auto) ${(1 - x)}fr;
+      grid-template-rows: ${y}fr minmax(0, auto) ${(1 - y)}fr;
 
       & > *{
         grid-column-start: 2;
@@ -137,13 +142,36 @@ const Layout = React.memo(({x = 0.5, y = 0.5, children, ...rest}) => {
         {children}
     </div>
   )
+
+  // return(
+  //   <div css={css(`
+  //     position: absolute;
+  //     top:0;
+  //     left:0;
+  //     width: 100vw;
+  //     height: 100%;
+  //     display: flex;
+  //     flex-direction: column;
+  //   `)} {...rest}>
+  //     <div css={css(`height:0; flex-grow:${y}`)} />
+  //     <div css={css(`display: flex;`)}>
+  //       <div css={css(`height:0; flex-grow:${x}`)} />
+  //       <div>
+  //         {children}
+  //       </div>
+  //       <div css={css(`height:0; flex-grow:${1 - x}`)} />
+  //     </div>
+  //     <div css={css(`height:0; flex-grow:${1 - y}`)} />
+  //   </div>
+  // )
 })
 
 const pages = [
-({sectionIndex, dimensions}) => {
+({sectionIndex, dimensions, setContainerCss}) => {
 
   // const overhang = 0.1;
   const isMobile = useMedia({maxWidth: '40em'});
+  setContainerCss(`min-height: calc(100vh - 40px);`)
 
     return (
     <React.Fragment>
@@ -157,21 +185,24 @@ const pages = [
           */}
 
             <Parallax speed="2" dimensions={dimensions}>
-              <div css={css(`margin: ${isMobile ? '10vh' : '5%'} auto auto 0;`)}>
-                <Picture 
-                  src={`${withPrefix('/')}img/bienvenue-a-paris.png`}
-                  width="calc(200px + 25%)" 
-                  rotate="-25"
-                  shadow={false}
-                  background="transparent"
-                />
-              </div>
+                <Layout 
+                  x="0.1" 
+                  y="0.1" 
+                >
+                  <Picture 
+                    src={`${withPrefix('/')}img/bienvenue-a-paris.png`}
+                    width="calc(200px + 25%)" 
+                    rotate="-25"
+                    shadow={false}
+                    background="transparent"
+                  />
+                </Layout>
             </Parallax>
 
             <Parallax dimensions={dimensions}>
               <Layout 
                 x="0.6" 
-                y={isMobile ? 0.7 : undefined} 
+                y="0.6" 
               >
                 <Postcard>
                   <VideoPlayer
@@ -179,14 +210,9 @@ const pages = [
                       thumbnail={`${withPrefix('/')}img/thumbnails/cat_streeter.jpg`}
                       // autoplay
                     />
-                </Postcard> 
+                </Postcard>
               </Layout>
             </Parallax>
-
-            <div css={isMobile ? css(`
-                  min-height: calc(90vh - 40px);
-                `) : undefined}></div>
-
           
     </React.Fragment>
   )}, 

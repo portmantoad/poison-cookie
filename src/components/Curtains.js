@@ -12,7 +12,7 @@ import { css, jsx } from '@emotion/core'
 
 const Curtains = React.memo( () => {
 
-    const [ref, open] = useInView({ threshold: 0.25 })
+    const [ref, open] = useInView({ threshold: 0.1 })
 
     const positioning = `
           position: absolute;
@@ -26,6 +26,7 @@ const Curtains = React.memo( () => {
       background-size: auto 100%;
       background-position: top right;
       background-repeat: no-repeat;
+      border-top-right-radius: 5px;
       // transition: transform 1000ms;
     `;
 

@@ -27,10 +27,17 @@ const ScrollSections = React.memo((
       windowWidth 
       && windowHeight 
       && ((windowWidth/100*70) < (windowHeight/100*105)) 
-      ? "70vw" : "105vh";
+      ? "70vw" : "115vh";
 
     return (
-      <div className="ScrollSections">
+      <div className="ScrollSections" css={css(`
+          @media screen and (min-width: 40em) {
+              @supports ((perspective: 1px) and (not (-webkit-overflow-scrolling: touch))) {
+                bottom: 0;
+                transform: translateZ(0);
+              }
+            }
+      `)}>
         <Global
           styles={css`
             @media screen and (min-width: 40em) {
@@ -48,8 +55,7 @@ const ScrollSections = React.memo((
         />
             <div className="ScrollSections__background" css={css(`background-image: url( ${withPrefix('/')}img/paris.jpg);`)}></div>
 
-            <PlxContext.Provider value={plxWrapEl}>\
-
+            <PlxContext.Provider value={plxWrapEl}>
                 <div 
                   className="ScrollSections__3D-scrollbox" 
                   ref={ref => setPlxWrapEl(ref)}
@@ -110,6 +116,7 @@ const ScrollSections = React.memo((
                             }
                           },[])
 
+                          const [containerCss, setContainerCss] = useState('');
 
                           const output = (
                                 <section 
@@ -118,10 +125,12 @@ const ScrollSections = React.memo((
                                   className={
                                     "ScrollSection ScrollSection--normalScroll ScrollSection--" + index
                                   } 
+                                  css={css(`${containerCss}`)}
                                 >
                                   <Sect 
                                     sectionIndex={index} 
                                     dimensions={dimensions} 
+                                    setContainerCss={setContainerCss}
                                   />
                                 </section>
                             );

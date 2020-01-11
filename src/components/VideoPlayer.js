@@ -24,7 +24,7 @@ const VideoPlayer = React.memo((
       ...rest
     }) => {
 
-      const [inViewRef, inView] = useInView({ threshold: 0.25 })
+      const [inViewRef, inView] = useInView({ threshold: 0 })
 
       const player = useRef();
 
@@ -34,7 +34,7 @@ const VideoPlayer = React.memo((
       const hasBeenClicked = useRef(false);
 
       const handleEnd = () => {
-          onEnd && onEnd();
+        onEnd && onEnd();
       }
 
       const initialClick = () => {
@@ -46,20 +46,16 @@ const VideoPlayer = React.memo((
       }
 
       const hardPause = () => {
-        setPlaying(false)
         const truePlayer = player.current && player.current.player && player.current.player.player && player.current.player.player.player;
         truePlayer && truePlayer.pauseVideo && truePlayer.pauseVideo();
       }
 
-      // useEffect(() => {
-      //   if (inView) {
-      //     // if (autoplay) {
-      //       setPlaying(true);
-      //     // }
-      //   } else {
-      //     hardPause();
-      //   }
-      // }, [inView]);
+      useEffect(() => {
+        if (!inView) {
+          setPlaying(false);
+          hardPause();
+        }
+      }, [inView, playing]);
 
         
       // return <div />
@@ -69,8 +65,7 @@ const VideoPlayer = React.memo((
         className={
           "Video" 
           + (fullscreen ? " Video--fullscreen" : "")
-          + (true ? " isActive" : "") 
-          // + (!onDeck ? " fullyHidden" : "") 
+          + (inView ? " isActive" : "") 
           + (className ? ` ${className}` : "")
         }
         {...rest}
@@ -81,7 +76,7 @@ const VideoPlayer = React.memo((
           <ReactPlayer
             ref={player}
             light={!autoplay && thumbnail}
-            playing={playing && inView}
+            playing={playing}
             url={'http://www.youtube.com/embed/' 
               + videoId 
               // + (endTime ? '?end=' + endTime : '')
@@ -119,8 +114,6 @@ const VideoPlayer = React.memo((
             onPlay={() => setPlaying(true)}
             onPause={() => setPlaying(false)}
             onClick={() => initialClick()}
-            onBufferEnd={()=>{!inView && hardPause();}
-            }
           />
         </div>
       </div>

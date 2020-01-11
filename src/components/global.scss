@@ -195,9 +195,7 @@ html, body {
   top: 40px;
   left: 0;
   right: 0;
-  bottom: 0;
-  transform: translateZ(0);
-  overflow-x: hidden;
+  overflow: hidden;
 
   // &__parallax{
   //   top: 0;
@@ -208,11 +206,11 @@ html, body {
   // }
 
   &__background{
-    position: absolute;
+    position: fixed;
     width: 100%;
-    top: 0;
+    top: 0px;
     left: 0;
-    height: 100%;
+    height: 100vh;
     @include whiteNoise(0.4);
     background-size: auto 100%;
     z-index: -10000;
@@ -224,8 +222,6 @@ html, body {
   display: flex; 
   align-items: center; 
   justify-content:center;
-  height: 105vh;
-  max-height: 70vw;
 
   position: relative;
   width: 100%;
