@@ -5,45 +5,61 @@ import { MutedContext } from './contexts'
 import { withPrefix } from 'gatsby'
 // import { Slider, FormattedTime, PlayerIcon } from 'react-player-controls'
 import { debounce, clamp } from 'lodash'
-import fscreen from 'fscreen'
+// import fscreen from 'fscreen'
+import { useInView } from 'react-intersection-observer'
 
-import debounceActiveRender from './debounceActiveRender'
+// import debounceActiveRender from './debounceActiveRender'\
 
 
 
-const VideoPlayer = debounceActiveRender(React.memo((
-    { active, 
-      className, 
+const VideoPlayer = React.memo((
+    { className, 
       fullscreen, 
       videoId, 
       startTime = 0, 
       endTime, 
       onEnd,
-      captions,
+      autoplay = false,
       thumbnail = true, //pass in image here
       ...rest
     }) => {
 
+      const [inViewRef, inView] = useInView({ threshold: 0.25 })
+
+      const player = useRef();
+
       const muted = useContext(MutedContext);
       const [ volume, setVolume ] = useState(1);
-      const [ playing, setPlaying ] = useState(false);
+      const [ playing, setPlaying ] = useState(autoplay);
       const hasBeenClicked = useRef(false);
 
       const handleEnd = () => {
-        // if (fscreen.fullscreenElement !== null) {
-        //   fscreen.exitFullscreen().then(() =>{ onEnd && setTimeout(onEnd,1000)})
-        // } else {
           onEnd && onEnd();
-        // }
       }
 
       const initialClick = () => {
-        if (!hasBeenClicked.current) {
+        if (!hasBeenClicked.current && !autoplay) {
           setPlaying(true)
         } else {
           hasBeenClicked.current = true;
         }  
       }
+
+      const hardPause = () => {
+        setPlaying(false)
+        const truePlayer = player.current && player.current.player && player.current.player.player && player.current.player.player.player;
+        truePlayer && truePlayer.pauseVideo && truePlayer.pauseVideo();
+      }
+
+      // useEffect(() => {
+      //   if (inView) {
+      //     // if (autoplay) {
+      //       setPlaying(true);
+      //     // }
+      //   } else {
+      //     hardPause();
+      //   }
+      // }, [inView]);
 
         
       // return <div />
@@ -60,11 +76,12 @@ const VideoPlayer = debounceActiveRender(React.memo((
         {...rest}
         > 
         
-        <div className="Video__wrapper">
+        <div className="Video__wrapper" ref={inViewRef}>
           <div className="Video__spinner"><div></div><div></div><div></div><div></div></div>
           <ReactPlayer
-            light={thumbnail}
-            playing={playing}
+            ref={player}
+            light={!autoplay && thumbnail}
+            playing={playing && inView}
             url={'http://www.youtube.com/embed/' 
               + videoId 
               // + (endTime ? '?end=' + endTime : '')
@@ -99,14 +116,16 @@ const VideoPlayer = debounceActiveRender(React.memo((
             style={{top: 0}}
             playsinline
             onEnded={handleEnd}
-            onStart={() => setPlaying(true)}
+            onPlay={() => setPlaying(true)}
             onPause={() => setPlaying(false)}
             onClick={() => initialClick()}
+            onBufferEnd={()=>{!inView && hardPause();}
+            }
           />
         </div>
       </div>
   )
-}), 100, { leading: false });
+});
 
 export default VideoPlayer
 

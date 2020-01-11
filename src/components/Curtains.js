@@ -1,47 +1,59 @@
-import React, {useEffect, useRef, useContext} from 'react'
+import React, {useState, useEffect, useRef, useContext} from 'react'
 import PropTypes from 'prop-types'
-import FixedPortal from './FixedPortal'
 import { withPrefix } from 'gatsby'
+import { useInView } from 'react-intersection-observer'
+import {useSpring, animated} from 'react-spring'
+// import { useScrollData } from "scroll-data-hook";
 
-const Curtains = () => <div />
+/** @jsx jsx */
+import { css, jsx } from '@emotion/core'
 
 // import debounceActiveRender from './debounceActiveRender'
 
-// const Curtains = debounceActiveRender(
-// React.memo(
-//   ({registerAnimation, activeIndex, sectionIndex, foregroundPortal, midgroundPortal, persist = 0}) => {
-//     const uniqueKey = useRef('_' + Math.random().toString(36).substr(2, 9));
-//     const active = true;
+const Curtains = React.memo( () => {
 
-//     return(
-//       <React.Fragment>
-//         <FixedPortal target={midgroundPortal}> 
-//             <div className={"Curtains__scrim" + (active ? " isActive" : "")} />            
-//         </FixedPortal>
-//         <FixedPortal target={foregroundPortal}>
-//           <div className={"Curtains" + (active ? " isActive" : "")}>
-//                 <div className={"Panel Curtains__curtain-right"} style={{
-//                   left: "50%"
-//                 }}>
-//                   <img src={`${withPrefix('/')}img/curtain.png`} alt="" />  
-//                 </div>
-//                 <div className={"Panel Curtains__curtain-left"} style={{
-//                   right: "50%"
-//                 }}>
-//                   <img src={`${withPrefix('/')}img/curtain.png`} alt="" />  
-//                 </div>
-//           </div>
-//         </FixedPortal>
-//       </React.Fragment>
-// )}
-//     , (prevProps, nextProps) => {
-//     const prevActive = prevProps.activeIndex >= prevProps.sectionIndex && prevProps.activeIndex <= prevProps.sectionIndex + prevProps.persist;
-//     const nextActive = nextProps.activeIndex >= nextProps.sectionIndex && nextProps.activeIndex <= nextProps.sectionIndex + nextProps.persist;
-//     if (prevActive !== nextActive) {
-//       return false
-//     }
-//     return true
-// }
-// ), 50, { leading: false });
+    const [ref, open] = useInView({ threshold: 0.25 })
+
+    const positioning = `
+          position: absolute;
+          top:0; left:0; bottom:0; right:0;
+    `;
+
+    const curtainShared = `
+      ${positioning}
+      will-change: transform;
+      background-image: url('${withPrefix('/')}img/curtain.png');
+      background-size: auto 100%;
+      background-position: top right;
+      background-repeat: no-repeat;
+      // transition: transform 1000ms;
+    `;
+
+    const overlapWidth = '11vh'
+
+    const rightSpring = useSpring({config: { friction: 100 }, transform: open ? `translate3d(50vw,0,0) scaleX(-1)` : `translate3d(0vw,0,0) scaleX(-1)`})
+    const leftSpring = useSpring({config: { friction: 100 }, transform: open ? `translate3d(-50vw,0,0)` : `translate3d(0vw,0,0)`})
+
+    return(
+        <div ref={ref} css={css(`${positioning}
+          // mask-image: url('${withPrefix('/')}img/paper_mask.png');
+          // mask-size: 100% 100%;
+        `)}>
+              <animated.div css={css(`
+                ${curtainShared}
+                left: calc(50% - ${overlapWidth});
+                ${
+                  false ? `transform: translateX(calc((100% - ${overlapWidth}) * ${open ? 1 : 0})) scaleX(-1);`: ''
+                }
+              `)} style={rightSpring} />
+              <animated.div css={css(`
+                ${curtainShared}
+                right: calc(50% - ${overlapWidth});
+                ${
+                  false ? `transform: translateX(calc((100% - ${overlapWidth}) * ${open ? -1 : 0}));` : ''
+                }
+              `)} style={leftSpring} />
+        </div>
+)});
 
 export default Curtains

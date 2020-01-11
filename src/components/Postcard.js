@@ -3,7 +3,7 @@ import { withPrefix } from 'gatsby'
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 
-const Postcard = ({ children, card = 1, mask = 1, alt, rotate, ...rest }) => {
+const Postcard = React.memo(({ children, card = 1, mask = 1, alt, rotate, ...rest }) => {
 
   const amplitude = 1.3;
   const randomRotation = useRef(Math.random() * (2*amplitude) - amplitude);
@@ -63,6 +63,6 @@ const Postcard = ({ children, card = 1, mask = 1, alt, rotate, ...rest }) => {
       </div> 
     </div>
   )
-}
+})
 
 export default Postcard

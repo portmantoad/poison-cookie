@@ -2,6 +2,7 @@ import React, { useEffect, useContext } from 'react'
 import ReactDOM from 'react-dom'
 import VideoPlayer from '../../components/VideoPlayer'
 import CanvasBlend from '../../components/CanvasBlend'
+import Curtains from '../../components/Curtains'
 import Postcard from '../../components/Postcard'
 import { clamp } from 'lodash'
 import { withPrefix } from 'gatsby'
@@ -12,13 +13,11 @@ import { PlxContext, SectionSizeContext } from '../../components/contexts'
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 
-const Parallax = ({offset, speed = -2, children, className, ...rest}) => {
-
-  const isMobile = useMedia({maxWidth: '40em'});
-  const sectionHeight = useContext(SectionSizeContext);
-
+const Parallax = React.memo(({offset = 0, dimensions, speed = -2, children, className, ...rest}) => {
   speed = Number(speed);
-  const factor = speed === NaN ? -2 : Math.min(speed,7);
+  offset = Number(offset);
+  offset = isNaN(offset) ? 0 : offset;
+  const factor = isNaN(speed) ? -2 : Math.min(speed,7);
   const perspective = 8;
   const scalefactor = 1 + (factor * -1) / perspective;
 
@@ -26,17 +25,17 @@ const Parallax = ({offset, speed = -2, children, className, ...rest}) => {
     position: absolute;
     left: 0;
     width: 100%;
-    ${isMobile ? 'height: 100%;' : ``}
     z-index: ${Math.round(factor * 100)};
 
-    top: ${isMobile ? '0' : `calc(${sectionHeight} * ${offset})`};
+    top: ${dimensions.top}px;
+    height: ${dimensions.height}px;
 
     @media screen and (min-width: 40em) {
       @supports ((perspective: 1px) and (not (-webkit-overflow-scrolling: touch))) {
         transform: 
           translate3D(
-            ${isMobile ? '0' : (factor/2 / perspective)}%,
-            ${isMobile ? '0' : (-100/perspective * factor/2)}%,
+            ${(factor/2 / perspective)}%,
+            ${(-100/perspective * factor/2) + (offset * 100)}%,
             ${factor}px
           ) 
           scale(${scalefactor})
@@ -48,14 +47,14 @@ const Parallax = ({offset, speed = -2, children, className, ...rest}) => {
   </div>
 
   const rootEl = useContext(PlxContext);
-  if (rootEl && !isMobile) {
+  if (rootEl) {
     return ReactDOM.createPortal( output, rootEl)
   } else {
     return output
   }
-}
+})
 
-const Picture = ({
+const Picture = React.memo(({
   src = "", 
   alt = "", 
   padding = 0, 
@@ -115,7 +114,7 @@ const Picture = ({
         `)} src={src} alt={alt} />
       </div>
   )
-}
+})
 
 const Layout = React.memo(({x = 0.5, y = 0.5, children, ...rest}) => {
   x = clamp(Number(x), 0, 1);
@@ -140,23 +139,8 @@ const Layout = React.memo(({x = 0.5, y = 0.5, children, ...rest}) => {
   )
 })
 
-//-5 = 2.2
-
-
-// (x * -1) / 8 = ((pages.length - 1) - 1) * -8
-
-// 1 + (x * -1) / 8
-
-//13.5
-//-100 = 15
-//1.5
-
-//19.75
-//-150 = 20.5
-//.75
-
 const pages = [
-({sectionIndex}) => {
+({sectionIndex, dimensions}) => {
 
   // const overhang = 0.1;
   const isMobile = useMedia({maxWidth: '40em'});
@@ -164,7 +148,7 @@ const pages = [
     return (
     <React.Fragment>
     {/*
-            <Parallax speed={(pages.length - 1 - overhang) * (-8/overhang)} offset={sectionIndex}>
+            <Parallax speed={(pages.length - 1 - overhang) * (-8/overhang)} dimensions={dimensions}>
               <div className="ScrollSections__background" css={css(`
                 background-image: url( ${withPrefix('/')}img/paris.jpg);
                 height: calc((100vh - 40px) * ${1 + overhang})
@@ -172,7 +156,7 @@ const pages = [
             </Parallax>
           */}
 
-            <Parallax speed="2" offset={sectionIndex}>
+            <Parallax speed="2" dimensions={dimensions}>
               <div css={css(`margin: ${isMobile ? '10vh' : '5%'} auto auto 0;`)}>
                 <Picture 
                   src={`${withPrefix('/')}img/bienvenue-a-paris.png`}
@@ -184,7 +168,7 @@ const pages = [
               </div>
             </Parallax>
 
-            <Parallax offset={sectionIndex}>
+            <Parallax dimensions={dimensions}>
               <Layout 
                 x="0.6" 
                 y={isMobile ? 0.7 : undefined} 
@@ -193,8 +177,7 @@ const pages = [
                   <VideoPlayer
                       videoId="qdU_IKxIhAk"
                       thumbnail={`${withPrefix('/')}img/thumbnails/cat_streeter.jpg`}
-                      // active={active}
-                      // onEnd={() => scrollTo("next")}
+                      // autoplay
                     />
                 </Postcard> 
               </Layout>
@@ -207,7 +190,7 @@ const pages = [
           
     </React.Fragment>
   )}, 
-  ({sectionIndex}) => {
+  ({sectionIndex, dimensions}) => {
 
     return(
       <React.Fragment>
@@ -218,17 +201,18 @@ const pages = [
           videoId="ZS8zlMNmTEU"
           thumbnail={`${withPrefix('/')}img/thumbnails/00_intro_cat-litter_V2.jpg`}
           fullscreen
-          // active={active}
           // onEnd={() => scrollTo("next", 0)}
         />
+
+        <Curtains />
               
       </React.Fragment>
 )}
-,({sectionIndex}) => {
+,({sectionIndex, dimensions}) => {
 
     return(
       <React.Fragment>
-        <Parallax speed="-2" offset={sectionIndex + 0.2}>
+        <Parallax speed="-2" dimensions={dimensions} offset={0.2}>
           <Picture src={`${withPrefix('/')}img/paris_map.jpg`} rotate={1} 
             width="90%" 
             height="140vh"
@@ -236,7 +220,7 @@ const pages = [
         </Parallax>
       </React.Fragment>
 )}
-    // , ({sectionIndex}) => {
+    // , ({sectionIndex, dimensions}) => {
 //     const isMobile = useMedia({maxWidth: 700});
 //     // const isMobile = false;
 
@@ -265,21 +249,19 @@ const pages = [
 //               </div>
 //             </div>
 // )}
-, ({sectionIndex}) => (
+, ({sectionIndex, dimensions}) => (
   <React.Fragment>
-            <Parallax speed="3" offset={sectionIndex}>
+            <Parallax speed="3" dimensions={dimensions}>
               <Layout x="0.4" y="0.4">
                 <Postcard mask="2" card="2">                
                     <VideoPlayer
                       videoId="LkdWOkpCuTw"
                       thumbnail={`${withPrefix('/')}img/thumbnails/wig_shop.jpg`}
-                      // active={active}
-                      // onEnd={() => scrollTo("next")}
                     />
                 </Postcard> 
               </Layout> 
             </Parallax>
-            <Parallax speed="1" offset={sectionIndex + 0.3}>
+            <Parallax speed="1" dimensions={dimensions} offset={0.3}>
               <div css={css(`
                 position: absolute;
                 width: 100%;
@@ -292,11 +274,11 @@ const pages = [
             </Parallax>
             </React.Fragment>
 )
-, ({sectionIndex}) => {
+, ({sectionIndex, dimensions}) => {
 
     return(
       <React.Fragment>
-        <Parallax offset={sectionIndex} speed="-6">
+        <Parallax dimensions={dimensions} speed="-6">
           <Layout x="0.3">
             <Postcard mask="2" card="1" alt="3">
               <VideoPlayer
@@ -304,16 +286,14 @@ const pages = [
                 videoId="T6nNI2Nw9a0"
                 thumbnail={`${withPrefix('/')}img/thumbnails/00_strongman_chat_noir%20v3.jpg`}
                 // fullscreen
-                // active={active}
                 // captions={true}
-                // onEnd={() => scrollTo("next")}
               />
             </Postcard>
           </Layout>
         </Parallax>
       </React.Fragment>
 )}
-// , ({sectionIndex}) => (
+// , ({sectionIndex, dimensions}) => (
 //           <div className="Panel">
 //             <div className={"Panel Transition--fade whereAreTheyNow" + (active ? " isActive" : "")}>
 //             <div className="whereAreTheyNow__title">
@@ -322,7 +302,7 @@ const pages = [
 //             </div>
 //               <Slideshow 
 //                 registerAnimation={registerAnimation}
-//                 offset={sectionIndex}
+//                 dimensions={dimensions}
 //                 // backgroundFill
 //               >
 //                 <img src={`${withPrefix('/')}img/paris_famouspeople_toulouselautrec.jpg`} alt="" />
@@ -336,25 +316,23 @@ const pages = [
 //             </div>
 //           </div>
 // ) 
- , ({sectionIndex}) => {
+ , ({sectionIndex, dimensions}) => {
     return(
       <React.Fragment>
-        <Parallax offset={sectionIndex}>
+        <Parallax dimensions={dimensions}>
         <Layout x="0.7">
         <Postcard mask="1" card="2" alt="2">
             <VideoPlayer
               /* le mirilton */
               videoId="takA-zY-Tn8"
               thumbnail={`${withPrefix('/')}img/thumbnails/00_le_mirliton%20v2_crop.jpg`}
-              // active={active}
-              // onEnd={() => scrollTo("next")}
             />
         </Postcard>
         </Layout>
         </Parallax>
       </React.Fragment>
 )}
-, ({sectionIndex}) => (
+, ({sectionIndex, dimensions}) => (
        <React.Fragment>
        <div css={css(`
          position: absolute;
@@ -365,7 +343,7 @@ const pages = [
          mask-image: url('${withPrefix('/')}img/torn-edge_mask.png');
          mask-size: 100% 100%;
        `)}></div>
-        <Parallax speed="2" offset={sectionIndex}>
+        <Parallax speed="2" dimensions={dimensions}>
           <Picture 
             // mask={2} 
             height="90vh"
@@ -397,25 +375,23 @@ const pages = [
         </div>
        </React.Fragment>
 )
-,    ({sectionIndex}) => {
+,    ({sectionIndex, dimensions}) => {
 
     return(
       <React.Fragment>
-        <Parallax speed={-6} offset={sectionIndex}>
+        <Parallax speed={-6} dimensions={dimensions}>
           <Postcard mask="2" card="1" alt="1">
               <VideoPlayer
                 /* musee montmatre */
                 videoId="j9ieAAvYpJU"
                 thumbnail={`${withPrefix('/')}img/thumbnails/00_Musee_Montmartre%20v2.jpg`}
-                // active={active}
-                // onEnd={() => scrollTo("next")}
               />
               
           </Postcard>
         </Parallax>
       </React.Fragment>
 )}
-,    ({sectionIndex}) => {
+,    ({sectionIndex, dimensions}) => {
     return(
       <React.Fragment>
         <div className="scrim"></div>
@@ -424,11 +400,10 @@ const pages = [
           videoId="sKxtbvayB50"
           thumbnail={`${withPrefix('/')}img/thumbnails/00_julia_interview%20v7.jpg`}
           fullscreen
-          // active={active}
-          // onEnd={() => scrollTo("next")}
         />
+      <Curtains />
   
-      <Parallax speed="1" offset={sectionIndex + 0.5}>
+      <Parallax speed="1" dimensions={dimensions} offset={0.5}>
         <a href="https://museedemontmartre.fr/en/" css={css(`
           width: 230px; 
           height: 200px; 
@@ -469,39 +444,36 @@ const pages = [
       </Parallax>
       </React.Fragment>
 )}
-    , ({sectionIndex}) => {
+    , ({sectionIndex, dimensions}) => {
 
     return(
-      <Parallax offset={sectionIndex}>
+      <Parallax dimensions={dimensions}>
         <Postcard mask="2" card="2" alt="3">           
           <VideoPlayer
             /* strongman lapin agile */
             videoId="-995ptoiNjw"
             thumbnail={`${withPrefix('/')}img/thumbnails/00_strongman_Lapin%20agile_v1.jpg`}
-            // active={active}
-            // onEnd={() => scrollTo("next")}
           />
         </Postcard>
       </Parallax>
 )}
-,    ({sectionIndex}) => {
+,    ({sectionIndex, dimensions}) => {
     return(
       <React.Fragment>
-      <div className="scrim"></div> 
-      <VideoPlayer
-        /* lapin agile interview */
-        videoId="ubFSIFzFLs8"
-        thumbnail={`${withPrefix('/')}img/thumbnails/00_Lapin_agile_interview.jpg`}
-        fullscreen
-        // active={active}
-        // onEnd={() => scrollTo("next")}
-      />
+        <div className="scrim"></div> 
+        <VideoPlayer
+          /* lapin agile interview */
+          videoId="ubFSIFzFLs8"
+          thumbnail={`${withPrefix('/')}img/thumbnails/00_Lapin_agile_interview.jpg`}
+          fullscreen
+        />
+        <Curtains />
       </React.Fragment>
 )}
-, ({sectionIndex}) => {
+, ({sectionIndex, dimensions}) => {
     return(
       <React.Fragment>
-        <Parallax speed="2" offset={sectionIndex}>
+        <Parallax speed="2" dimensions={dimensions}>
           <div css={css(`
             width: 54%;
             margin-right: auto;
@@ -515,13 +487,11 @@ const pages = [
                 /* other minor cabarets */
                 videoId="bysHS5IqVdI"
                 thumbnail={`${withPrefix('/')}img/thumbnails/00_Other%20Minor%20Cabarets_v2ab.jpg`}
-                // active={active}
-                // onEnd={() => scrollTo("next")}
               />
           </Postcard>
           </div>
         </Parallax>
-        <Parallax speed="-0.5" offset={sectionIndex}>
+        <Parallax speed="-0.5" dimensions={dimensions}>
         <div css={css(`
             width: 51%;
             margin-left: auto;
@@ -535,18 +505,16 @@ const pages = [
               /* other minor cabarets 2 */
               videoId="jRouAXIvDrw"
               thumbnail={`${withPrefix('/')}img/thumbnails/00_Other%20Minor%20Cabarets_v2b.jpg`}
-              // active={active}
-              // onEnd={() => scrollTo("next")}
             />
         </Postcard>
         </div>
         </Parallax>
       </React.Fragment>
 )}
-, ({sectionIndex}) => {
+, ({sectionIndex, dimensions}) => {
     return(
       <React.Fragment>
-        <Parallax offset={sectionIndex - 0.1} speed="-4">
+        <Parallax dimensions={dimensions} offset={-0.1} speed="-4">
           <Picture 
             width="100%"
             shadow={false}
@@ -557,12 +525,12 @@ const pages = [
         </Parallax>
       </React.Fragment>
 )}
-// , ({sectionIndex}) => (
+// , ({sectionIndex, dimensions}) => (
 //           <div className="Panel">
 //             <div className={"Panel Panel--padded Transition--fade" + (active ? " isActive" : "")} style={{flexDirection: 'column'}}>
 //               <Slideshow 
 //                 registerAnimation={registerAnimation}
-//                 offset={sectionIndex}
+//                 dimensions={dimensions}
 //                 style={{minWidth: '300px'}}
 //                 // backgroundFill
 //               >
@@ -576,7 +544,7 @@ const pages = [
 //             </div>
 //           </div>
 // )
-,    ({sectionIndex}) => {
+,    ({sectionIndex, dimensions}) => {
     return(
       <React.Fragment>
         <div className="scrim"></div>
@@ -585,30 +553,29 @@ const pages = [
           videoId="lqsW1FCVi_M"
           thumbnail={`${withPrefix('/')}img/thumbnails/00_Edith_Piafs_Grave.jpg`}
           fullscreen
-          // active={active}
-          // onEnd={() => scrollTo("next")}
         />
+        <Curtains />
       </React.Fragment>
 )}
-,    ({sectionIndex}) => {
+,    ({sectionIndex, dimensions}) => {
     return(
       <React.Fragment>
-        <Parallax speed="-2.5" offset={sectionIndex}>
+        <Parallax speed="-2.5" dimensions={dimensions}>
           <Picture width="55%" padding="3%" mask={1} x={0.75} css={css(`position: absolute; left: 2.5%;`)} src={`${withPrefix('/')}img/paris_bricktop.jpg`} alt="" />
         </Parallax>
         
-        <Parallax speed="-0.5" offset={sectionIndex}>
+        <Parallax speed="-0.5" dimensions={dimensions}>
           <Picture width="50%" padding="0.5%" background="#efefef" height="102vh" x={0.25} css={css(`position: absolute; right: 2.5%;`)} rotate={1} src={`${withPrefix('/')}img/paris_josephine2.jpg`} alt=""/>
         </Parallax>
 
-        <Parallax speed="2" offset={sectionIndex}>
+        <Parallax speed="2" dimensions={dimensions}>
           <div className="Paper" css={css(`transform: rotate(-1deg); max-width: 400px`)}><p>In the 1920s and 30s, a flood of expats in Paris created both a stream of American entertainers and American ex-pats who would flock to establishments with American artists (as did the French). A huge part of the reason was jazz’s rapid advance around the world.</p> <p>In particular, African American artists who could not perform in front of integrated audiences at home and who were appalled and exhausted at their treatment in America found refuge in Paris. This cross-cultural exchange would have a lasting impact on cabaret in both Paris and America (and also in Berlin which was not immune to the influence of Josephine Baker).</p></div>
         </Parallax>
       </React.Fragment>
 )}
-, ({sectionIndex}) => (
+, ({sectionIndex, dimensions}) => (
       <React.Fragment>
-        <Parallax speed="2" offset={sectionIndex}>
+        <Parallax speed="2" dimensions={dimensions}>
           <Picture height="120vh" fit="cover" x={0.3} width="40%" src={`${withPrefix('/')}img/paris_josephine.jpg`} alt="" css={css(`margin-left: auto`)} />
         </Parallax>
 
@@ -631,7 +598,7 @@ const pages = [
         </div>
       </React.Fragment>
 )
-,  ({sectionIndex}) => {
+,  ({sectionIndex, dimensions}) => {
     return(
       <React.Fragment>
         <div className="scrim"></div>
@@ -640,13 +607,12 @@ const pages = [
           videoId="Sp0oggT2IjY"
           thumbnail={`${withPrefix('/')}img/thumbnails/00_Edith_Piaf_Chanson_Realiste_V4.jpg`}
           fullscreen
-          // active={active}
-          // onEnd={() => scrollTo("next")}
         />
+        <Curtains />
       </React.Fragment>
 )}
 // , 
-//   ({sectionIndex}) => {
+//   ({sectionIndex, dimensions}) => {
 
 //     return(
 //       <React.Fragment>
@@ -654,29 +620,27 @@ const pages = [
 //             <VideoPlayer
 //               videoId="xxx"
 //               fullscreen
-//               offset={sectionIndex}
+//               dimensions={dimensions}
 //               activeIndex={activeIndex}
 //               onEnd={() => scrollTo("next")}
 //             />
 //         </div>
 //       </React.Fragment>
 // )})
-, ({sectionIndex}) => (
+, ({sectionIndex, dimensions}) => (
       <React.Fragment>
-        <Parallax offset={sectionIndex}>
+        <Parallax dimensions={dimensions}>
           <Postcard mask="1" card="2" alt="4">
           <VideoPlayer
             /* Streeter [parc] */
             videoId="vrvVpZsKVYk"
             // thumbnail={`${withPrefix('/')}img/thumbnails/`}
-            // active={active}
-            // onEnd={() => scrollTo("next")}
           /> 
           </Postcard>
         </Parallax>
       </React.Fragment>
 )
-,    ({sectionIndex}) => {
+,    ({sectionIndex, dimensions}) => {
     return(
       <React.Fragment>
             <div className="scrim"></div>
@@ -685,28 +649,25 @@ const pages = [
               videoId="VxGeGeKUaU0"
               // thumbnail={`${withPrefix('/')}img/thumbnails/`}
               fullscreen
-              // active={active}
-              // onEnd={() => scrollTo("next")}
             />
+            <Curtains />
       </React.Fragment>
 )}
-,    ({sectionIndex}) => {
+,    ({sectionIndex, dimensions}) => {
     return(
       <React.Fragment>
-        <Parallax offset={sectionIndex}>
+        <Parallax dimensions={dimensions}>
           <Postcard mask="1" card="1" alt="3">
               <VideoPlayer
                 /* Interview with Michel from Vieux Belleville   */
                 videoId="az8ftb3NgNw"
                 thumbnail={`${withPrefix('/')}img/thumbnails/00_interview_with_michel_v4.jpg`}
-                // active={active}
-                // onEnd={() => scrollTo("next")}
               />
           </Postcard>
         </Parallax>
       </React.Fragment>
 )}
-,    ({sectionIndex}) => {
+,    ({sectionIndex, dimensions}) => {
 
     return(
       <React.Fragment>
@@ -738,11 +699,11 @@ const pages = [
         `)} />
       </React.Fragment>
 )}
-,    ({sectionIndex}) => {
+,    ({sectionIndex, dimensions}) => {
 
     return(
       <React.Fragment>
-        <Parallax speed="-4" offset={sectionIndex}>
+        <Parallax speed="-4" dimensions={dimensions}>
           <div css={css(`
             width: 51%;
             margin-right: auto;
@@ -756,13 +717,11 @@ const pages = [
                 /* Interview_Natalie_au Magique */
                 videoId="jS34OY5LCk0"
                 // thumbnail={`${withPrefix('/')}img/thumbnails/`}
-                // active={active}
-                // onEnd={() => scrollTo("next")}
               />
             </Postcard>
           </div>
         </Parallax>
-        <Parallax speed="-2" offset={sectionIndex}>
+        <Parallax speed="-2" dimensions={dimensions}>
           <div css={css(`
             width: 54%;
             margin-left: auto;
@@ -776,31 +735,27 @@ const pages = [
                 /* martine au magique */
                 videoId="5sS94fQ0zRo"
                 thumbnail={`${withPrefix('/')}img/thumbnails/00_interview%20at%20Au%20Magique.jpg`}
-                // active={active}
-                // onEnd={() => scrollTo("next")}
               />
             </Postcard>
           </div>
         </Parallax>
       </React.Fragment>
 )}
-,   ({sectionIndex}) => {
+,   ({sectionIndex, dimensions}) => {
     return(
       <React.Fragment>
-        <Parallax speed="2" offset={sectionIndex}>
+        <Parallax speed="2" dimensions={dimensions}>
           <Postcard mask="2" card="1" alt="1">
               <VideoPlayer
                 /* strongman divan japanois */
                 videoId="_7kQh0ot5Kc"
                 // thumbnail={`${withPrefix('/')}img/thumbnails/`}
-                // active={active}
-                // onEnd={() => scrollTo("next")}
               />
           </Postcard>
         </Parallax>
       </React.Fragment>
 )}
-// ,    ({sectionIndex}) => {
+// ,    ({sectionIndex, dimensions}) => {
 //     return(
 //       <React.Fragment>
 //         <Postcard mask="1" card="2" alt="3">
@@ -808,7 +763,7 @@ const pages = [
 //         </Postcard>
 //       </React.Fragment>
 // )}
-,    ({sectionIndex}) => {
+,    ({sectionIndex, dimensions}) => {
 
     return(
       <React.Fragment>
@@ -819,8 +774,6 @@ const pages = [
                 videoId="RnyJ8nwcuOE"
                 // thumbnail={`${withPrefix('/')}img/thumbnails/`}
                 // fullscreen
-                // active={active}
-                // onEnd={() => scrollTo("next")}
               />
             </Postcard>
         </div>
@@ -829,13 +782,13 @@ const pages = [
         </div>
       </React.Fragment>
 )}
-// ,    ({sectionIndex}) => {
+// ,    ({sectionIndex, dimensions}) => {
 
 //     return(
 //       <React.Fragment>
 //         <Curtains 
 //           registerAnimation={registerAnimation}
-//           offset={sectionIndex}
+//           dimensions={dimensions}
 //           activeIndex={activeIndex}
 //           foregroundPortal={foregroundPortal}
 //           midgroundPortal={midgroundPortal}
@@ -852,7 +805,7 @@ const pages = [
 //         </div>
 //       </React.Fragment>
 // )}, 
-//   ({sectionIndex}) => {
+//   ({sectionIndex, dimensions}) => {
 
 //     return(
 //       <React.Fragment>
@@ -866,7 +819,7 @@ const pages = [
 //             />
 //         </div>
 //       </React.Fragment>
-// )}, ({sectionIndex}) => (
+// )}, ({sectionIndex, dimensions}) => (
 //           <div className="Panel">
 //             <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
 //               <Postcard mask="2" alt="3">  
@@ -879,7 +832,7 @@ const pages = [
 //             </div>    
 //           </div>
 // ), 
-//   ({sectionIndex}) => {
+//   ({sectionIndex, dimensions}) => {
 
 //     return(
 //       <React.Fragment>
@@ -902,7 +855,7 @@ const pages = [
             
 //         </div>
 //       </React.Fragment>
-// )}, ({sectionIndex}) => (
+// )}, ({sectionIndex, dimensions}) => (
 //           <div className="Panel">
 //             <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
 //               <Postcard alt="2" card="2">  
@@ -915,13 +868,13 @@ const pages = [
 //             </div>    
 //           </div>
 // ), 
-//   ({sectionIndex}) => {
+//   ({sectionIndex, dimensions}) => {
 
 //     return(
 //       <React.Fragment>
 //         <Curtains 
 //           registerAnimation={registerAnimation}
-//           offset={sectionIndex}
+//           dimensions={dimensions}
 //           activeIndex={activeIndex}
 //           foregroundPortal={foregroundPortal}
 //           midgroundPortal={midgroundPortal}
@@ -938,7 +891,7 @@ const pages = [
             
 //         </div>
 //       </React.Fragment>
-// )}, ({sectionIndex}) => (
+// )}, ({sectionIndex, dimensions}) => (
 //         <div className="Panel">
 //           <div className="Panel " >
 //               <div className={"Transition--slow-fade" + (active ? " isActive" : "") }>

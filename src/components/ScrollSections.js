@@ -1,9 +1,11 @@
-import React, {useRef, useState, useLayoutEffect} from 'react'
+import React, {useRef, useState, useEffect, useCallback} from 'react'
 import ReactDOM from 'react-dom'
 import PropTypes from 'prop-types'
 import { withPrefix } from 'gatsby'
-import { PlxContext, SectionSizeContext } from '../components/contexts'
+import { PlxContext } from '../components/contexts'
 import { useWindowSize } from '@react-hook/window-size'
+// import { useInView } from 'react-intersection-observer'
+import { debounce } from 'lodash'
 
     
 
@@ -40,14 +42,13 @@ const ScrollSections = React.memo((
             }
 
             .ScrollSection{
-              height: ${sectionSize};
+              min-height: ${sectionSize};
             }
           `}
         />
             <div className="ScrollSections__background" css={css(`background-image: url( ${withPrefix('/')}img/paris.jpg);`)}></div>
 
-            <PlxContext.Provider value={plxWrapEl}>
-              <SectionSizeContext.Provider value={sectionSize}>
+            <PlxContext.Provider value={plxWrapEl}>\
 
                 <div 
                   className="ScrollSections__3D-scrollbox" 
@@ -72,14 +73,56 @@ const ScrollSections = React.memo((
                     {sections &&
                       sections.map((Sect, index) => {
 
+                          const sectionRef = useRef();
+
+                          const setRefs = useCallback(
+                            node => {
+                              sectionRef.current = node;
+                              updateDimensions();
+                            },
+                          );
+
+                          const [dimensions, setDimensions] = React.useState({ 
+                            height: 0,
+                            top: 2000
+                          });
+
+                          const updateDimensions = debounce(() => {
+                            setDimensions( prevDimensions => {
+                              const height = sectionRef.current.offsetHeight;
+                              const top = sectionRef.current.offsetTop;
+
+                              if (prevDimensions.top !== top || prevDimensions.height !== height) {
+                                return {
+                                  height: height,
+                                  top: top
+                                }
+                              } else {
+                                return prevDimensions;
+                              }
+                            });
+                          }, 10)
+
+                          useEffect(() => {
+                            window.addEventListener('resize', updateDimensions)
+                            return _ => {
+                              window.removeEventListener('resize', updateDimensions)
+                            }
+                          },[])
+
+
                           const output = (
                                 <section 
+                                  ref={setRefs}
                                   key={"ScrollSection--" + index}
                                   className={
                                     "ScrollSection ScrollSection--normalScroll ScrollSection--" + index
                                   } 
                                 >
-                                  <Sect sectionIndex={index} />
+                                  <Sect 
+                                    sectionIndex={index} 
+                                    dimensions={dimensions} 
+                                  />
                                 </section>
                             );
 
@@ -91,7 +134,6 @@ const ScrollSections = React.memo((
                       })
                     } 
                 </div>
-              </SectionSizeContext.Provider>
             </PlxContext.Provider>
        </div>
 

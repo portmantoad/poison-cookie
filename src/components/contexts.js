@@ -6,6 +6,4 @@ export const MutedContext = React.createContext({
 });
 
 export const PlxContext = React.createContext(null);
-export const SectionSizeContext = React.createContext("105vh");
-
 
