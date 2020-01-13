@@ -56,6 +56,7 @@ React.memo(
             <div className="scrim"></div>
             <VideoPlayer
               videoId="0GWlYInjOCI"
+              thumbnail={`${withPrefix('/')}img/thumbnails/beard_cave.jpg`}
               fullscreen
             />           
             <Curtains />
@@ -69,6 +70,7 @@ React.memo(
           <Postcard>
             <VideoPlayer
               videoId="xl5eTt4Qusw"
+              thumbnail={`${withPrefix('/')}img/thumbnails/dressing_room.jpg`}
             />
           </Postcard>
         </Parallax>

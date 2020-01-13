@@ -37,7 +37,7 @@ const Postcard = React.memo(({ children, card = 1, mask = 1, alt, rotate, ...res
         }
 
         .Video{
-          padding: ${randomPadding.current}vmin;
+          padding: ${randomPadding.current}%;
         }
       `)} className="Postcard">
         <div css={css(`

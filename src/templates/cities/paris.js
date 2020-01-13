@@ -35,9 +35,9 @@ const pages = [
                 background-image: url( ${withPrefix('/')}img/paris.jpg);
                 height: calc((100vh - 40px) * ${1 + overhang})
               `)}></div>
-            </Parallax>
+            </Parallax>*/}
           
-            <Clouds dimensions={dimensions} />*/}
+            <Clouds dimensions={dimensions} />
 
             <Parallax speed="2" dimensions={dimensions}>
                 <Positioner 
@@ -150,7 +150,7 @@ const pages = [
                 background-image: url('${withPrefix('/')}img/paris_poster-2.jpg');
                 background-size: cover;
                 mask-image: url('${withPrefix('/')}img/torn-edge_mask.png');
-                mask-size: 100% 100%;
+                mask-size: auto 100%;
               `)}></div>
             </Parallax>
             </React.Fragment>
@@ -222,7 +222,7 @@ const pages = [
          background-image: url('${withPrefix('/')}img/paris_poster-1.jpg');
          background-size: cover;
          mask-image: url('${withPrefix('/')}img/torn-edge_mask.png');
-         mask-size: 100% 100%;
+         mask-size: auto 100%;
        `)}></div>
         <Parallax speed="2" dimensions={dimensions}>
           <Picture 
@@ -511,9 +511,9 @@ const pages = [
         <Parallax dimensions={dimensions}>
           <Postcard mask="1" card="2" alt="4">
           <VideoPlayer
-            /* Streeter [parc] */
+            /* cafe streeter */
             videoId="vrvVpZsKVYk"
-            // thumbnail={`${withPrefix('/')}img/thumbnails/`}
+            thumbnail={`${withPrefix('/')}img/thumbnails/cafe_streeter.jpg`}
           /> 
           </Postcard>
         </Parallax>
@@ -526,7 +526,7 @@ const pages = [
             <VideoPlayer
               /* interview with gosia  */
               videoId="VxGeGeKUaU0"
-              // thumbnail={`${withPrefix('/')}img/thumbnails/`}
+              thumbnail={`${withPrefix('/')}img/thumbnails/00_interview_with_gosia-v6.jpg`}
               fullscreen
             />
             <Curtains />
@@ -560,7 +560,7 @@ const pages = [
          background-size: cover;
          background-position: top center;
          mask-image: url('${withPrefix('/')}img/torn-edge_mask.png');
-         mask-size: 100% 100%;
+         mask-size: auto 100%;
        `)}></div>
       </Parallax>
         <Parallax speed="1" dimensions={dimensions}>
@@ -572,7 +572,7 @@ const pages = [
               <VideoPlayer
                 /* Interview_Natalie_au Magique */
                 videoId="jS34OY5LCk0"
-                // thumbnail={`${withPrefix('/')}img/thumbnails/`}
+                thumbnail={`${withPrefix('/')}img/thumbnails/00_Interview_Natalie_au_Magique_v2.jpg`}
               />
             </Postcard>
           </Positioner>
@@ -601,7 +601,7 @@ const pages = [
               <VideoPlayer
                 /* strongman divan japanois */
                 videoId="_7kQh0ot5Kc"
-                // thumbnail={`${withPrefix('/')}img/thumbnails/`}
+                thumbnail={`${withPrefix('/')}img/thumbnails/00_strongman_divan-japanois.jpg`}
               />
           </Postcard>
         </Parallax>
@@ -624,7 +624,7 @@ const pages = [
               <VideoPlayer
                 /* music video partial song */
                 videoId="RnyJ8nwcuOE"
-                // thumbnail={`${withPrefix('/')}img/thumbnails/`}
+                thumbnail={`${withPrefix('/')}img/thumbnails/Yvette_Guilbert_song.jpg`}
                 // fullscreen
               />
             </Postcard>
@@ -640,6 +640,7 @@ const pages = [
             <VideoPlayer
               /* strongman limonaire */
               videoId="2UTO67pYjpU"
+              thumbnail={`${withPrefix('/')}img/thumbnails/00_strongman_limonaire_v2.jpg`}
               fullscreen
             />
       </React.Fragment>
@@ -650,6 +651,7 @@ const pages = [
             <VideoPlayer
               /* limonaire interview with closing */
               videoId="NHC-gkfr61Y"
+              thumbnail={`${withPrefix('/')}img/thumbnails/00_limonaire_interview_with_closing_v1.jpg`}
               fullscreen
             />
       </React.Fragment>
@@ -657,7 +659,9 @@ const pages = [
 , ({sectionIndex, dimensions, setContainerCss}) => (
               <Postcard mask="2" alt="3">  
                 <VideoPlayer
+                    // cooking show streeter
                     videoId="1T1T3coj6BI"
+                    thumbnail={`${withPrefix('/')}img/thumbnails/cooking_show.jpg`}
                   />
               </Postcard>  
 )
@@ -671,7 +675,8 @@ const pages = [
                 </CanvasBlend>
                 <VideoPlayer
                   /* chat noir multicam cooking  */
-                  videoId="HzUIUTatyZI"
+                  videoId="edE_LnV6Fm4"
+                  thumbnail={`${withPrefix('/')}img/thumbnails/00_Chat-Noir-Multicam-cooking-v1.jpg`}
                 />            
           </div>
         </Parallax>
@@ -681,7 +686,9 @@ const pages = [
           <Parallax speed="-2" dimensions={dimensions}>
               <Postcard alt="2" card="2">  
                 <VideoPlayer
+                    //asshole streeter
                     videoId="ZsjrIQY16aQ"
+                    thumbnail={`${withPrefix('/')}img/thumbnails/asshole_streeter.jpg`}
                   />
               </Postcard>  
           </Parallax>
@@ -693,6 +700,7 @@ const pages = [
         <VideoPlayer
               /* asshole singalong  */
               videoId="7Unp0PL2m8Q"
+              thumbnail={`${withPrefix('/')}img/thumbnails/00_asshole-singalong.jpg`}
               fullscreen
             />
         <Curtains />
