@@ -8,6 +8,9 @@ import { debounce, clamp } from 'lodash'
 import fscreen from 'fscreen'
 import { useInView } from 'react-intersection-observer'
 
+/** @jsx jsx */
+import { css, jsx } from '@emotion/core'
+
 // import debounceActiveRender from './debounceActiveRender'\
 
 

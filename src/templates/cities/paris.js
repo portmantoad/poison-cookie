@@ -1,5 +1,4 @@
-import React, { useEffect, useContext } from 'react'
-import ReactDOM from 'react-dom'
+import React from 'react'
 import VideoPlayer from '../../components/VideoPlayer'
 import CanvasBlend from '../../components/CanvasBlend'
 import Curtains from '../../components/Curtains'
@@ -38,8 +37,7 @@ const pages = [
               `)}></div>
             </Parallax>
           */}
-
-            <Clouds dimensions={dimensions} />
+            <Clouds dimensions={dimensions} color={[241,244,198]} />
 
             <Parallax speed="2" dimensions={dimensions}>
                 <Positioner 

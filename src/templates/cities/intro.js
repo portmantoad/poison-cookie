@@ -38,7 +38,7 @@ React.memo(
             margin-right: auto;
           `)} />
       </Parallax>
-      <Positioner x="0.9" y="0.9" css={css(`height: calc(100vh - 40px)`)} >
+      <Positioner x="0.9" y="0.9" css={css(`height: calc(100vh - 40px); bottom: unset;`)} >
         <img 
           src={`${withPrefix('/')}img/cookietitle.png`} 
           alt="The Poison Cookie Jar"

@@ -42,30 +42,35 @@ const Picture = React.memo(({
       ${shadow && mask && false ? `filter: drop-shadow(0px 1px 5px rgba(0, 0, 0, 0.15));` : ''}
     `)}> 
 
-        <img css={css(`
-          grid-column-start: 2;
-          grid-row-start: 2;
-          background: ${background};
-          overflow: hidden;
-          ${height ? `max-height: ${height};` : ''}
-          max-width: 100%;
-          ${fit === 'cover' ? `
-            width: 100%;
-            ${height ? `height: ${height};` : ''}
-          ` : ''}
-          ${mask ? `
-            mask-image: url("${mask}");
-            mask-size: 100% 100%;
-          ` : `
-            border-radius: 4px;
-            ${shadow ? `box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.15);` : ''}
-          `}
-          padding: ${padding};
-          display: block;
-          object-fit: ${fit};
-          object-position: ${x*100}% ${y*100}%;
-          ${rotate ? `transform: rotate(${rotate}deg);` : ''}
-        `)} src={src} alt={alt} />
+        <img 
+          css={css(`
+            grid-column-start: 2;
+            grid-row-start: 2;
+            background: ${background};
+            overflow: hidden;
+            ${height ? `max-height: ${height};` : ''}
+            max-width: 100%;
+            ${fit === 'cover' ? `
+              width: 100%;
+              ${height ? `height: ${height};` : ''}
+            ` : ''}
+            ${mask ? `
+              mask-image: url("${mask}");
+              mask-size: 100% 100%;
+            ` : `
+              border-radius: 4px;
+              ${shadow ? `box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.15);` : ''}
+            `}
+            padding: ${padding};
+            display: block;
+            object-fit: ${fit};
+            object-position: ${x*100}% ${y*100}%;
+            ${rotate ? `transform: rotate(${rotate}deg);` : ''}
+          `)} 
+          src={src} 
+          alt={alt} 
+          loading="lazy"
+        />
       </div>
   )
 })

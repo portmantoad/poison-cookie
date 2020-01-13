@@ -335,60 +335,6 @@ html, body {
   }
 }
 
-.IntroCover{
-  &__vid{
-    @include transition--fade();
-    min-width: 100%;
-    min-height: 100vh;
-    position: fixed;
-    top:50%;
-    left:50%;
-    transform: translate(-50%, -50%);
-    opacity: 1;
-    mix-blend-mode: screen;
-  }
-
-  &__img{
-    object-fit: cover;
-    object-position: right 25%;
-    width: calc(85% + 50px);
-    height: calc((100vh - 40px) * 1.2);
-    min-height: 120%;
-  }
-
-  &__logo{
-    position: fixed; 
-    right: 5%; 
-    bottom: 5%; 
-    width: 18%;
-    min-width: 215px;
-    // max-width: 65%;
-    height: auto;
-  }
-}
-
-.EatFast{
-  font-family: 'IM Fell Double Pica',serif;
-  font-weight: bold;
-  text-rendering: optimizeLegibility;
-  font-size: 1.8746rem;
-  line-height: 1.1;
-  @media screen and (max-width: 600px){
-    flex-direction: column;
-  }
-
-  video{
-    border-radius: 50%;
-    width: 200px;
-  }
-
- &__text{
-  padding: 3.5vh;
- }
-
-
-}
-
 .fullscreenQuote{
   display: flex;
   align-items: center;
@@ -396,10 +342,6 @@ html, body {
   color: #111;
   margin: 7rem;
   position: relative;
-
-  &--hollaender figcaption{
-    transform: rotate(-3deg);
-  }
 }
 
 .fullscreenQuote .quote q{
@@ -486,78 +428,5 @@ html, body {
     bottom: 8.65%;
     left: 5%;
     width: 75%;
-  }
-}
-
-.DecollageBorder{
-  width: calc(100%);
-  max-width: calc((100vh - 40px - 7vh - 10vh) / (663 / 1146));
-  position: relative;
-
-  &:after{
-    content: "";
-    display: block;
-    padding-top: calc(100% / (1146 / 663));
-  }
-
-  &__img{
-    position: absolute;
-    top: -108%;
-    left: ((1827 - 1146)/1146)/2 * -100%;
-    width: (((1827 - 1146)/1146) + 1) * 100%;
-    max-width: unset;
-    // mask-image: url('../../static/img/paris_decollage-mask.png');
-    // mask-size: 100% 100%;
-  }
-
-  .Video{
-    position: absolute;
-    top: 2%;
-    left: 3%;
-    width: 93%;
-  }
-}
-
-.whereAreTheyNow{
-  padding: 3.5vh;
-  &__title{
-    margin-left: 40px;
-    padding: 20px;
-    color: #fff;
-    text-align: center;
-
-    h2{margin:0;}
-  }
-
-  @media screen and (max-width: 1000px) {
-    flex-direction: column;
-
-    .whereAreTheyNow__title{
-      margin: 0 0 0px;
-    }
-  }
-}
-
-.BookScroll{
-  height: calc(100vh - 40px);
-  max-width: calc((100vh - 40px) / (1038 / 1778) - 30px);
-  width: 100%;
-  filter: drop-shadow(1px 1px 20px rgba(0,0,0,0.5));
-
-  &--scroll {
-    height: auto;
-    max-width: unset;
-
-    .BookScroll__img{
-      max-width: 100%;
-      width:100%;
-      height: auto;
-    }
-  }
-
-  &__img{
-    height: 100%;
-    width: auto;
-    max-width: unset;
   }
 }

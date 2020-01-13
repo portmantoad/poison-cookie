@@ -6,6 +6,8 @@ import CanvasBlend from './CanvasBlend'
 import Parallax from './Parallax'
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
+import { useInView } from 'react-intersection-observer'
+
 
 
 
@@ -18,8 +20,9 @@ const wrapperStyles=`
 
 const imgStyles=`min-width: 100vw; min-height: 100vh;`;
 
-const Clouds = React.memo(({dimensions}) => {
+const Clouds = React.memo(({dimensions, color = [241,244,198]}) => {
 
+const [inViewRef, inView] = useInView({ threshold: 0 })
   return(
     <React.Fragment>
       <Parallax speed="-12" dimensions={dimensions}>
@@ -34,18 +37,18 @@ const Clouds = React.memo(({dimensions}) => {
             }
           }
           ${wrapperStyles}
-          animation: 120s linear infinite clouds2;
+          ${inView ? 'animation: 120s linear infinite clouds2;' : ''}
         `)}>
-          <CanvasBlend use="mask" color={[237,253,220]} css={css(`${imgStyles}`)} >
+          <CanvasBlend use="mask" color={color} css={css(`${imgStyles}`)} >
             <img src={`${withPrefix('/')}img/clouds2.jpg`} alt=""/>
           </CanvasBlend>
-          <CanvasBlend use="mask" color={[237,253,220]} css={css(`${imgStyles}`)} >
+          <CanvasBlend use="mask" color={color} css={css(`${imgStyles}`)} >
             <img src={`${withPrefix('/')}img/clouds2.jpg`} alt=""/>
           </CanvasBlend>
         </div>
         </Parallax>
         <Parallax speed="-8" dimensions={dimensions}>
-        <div css={css(`
+        <div ref={inViewRef} css={css(`
           @keyframes clouds {
             from {
               transform: translateX(0%);
@@ -56,7 +59,7 @@ const Clouds = React.memo(({dimensions}) => {
             }
           }
           ${wrapperStyles}
-          animation: 60s linear infinite clouds;
+          ${inView ? 'animation: 60s linear infinite clouds;' : ''}
         `)} >
           <CanvasBlend use="screenBW" css={css(`${imgStyles}`)} >
             <img src={`${withPrefix('/')}img/clouds.jpg`} alt=""/>

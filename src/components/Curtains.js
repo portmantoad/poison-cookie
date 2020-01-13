@@ -27,15 +27,18 @@ const Curtains = React.memo( () => {
       background-position: top right;
       background-repeat: no-repeat;
       border-top-right-radius: 5px;
-      // transition: transform 1000ms;
       pointer-events: none;
     `;
 
     const overlapWidth = '7vw - 25px'
 
-    const rightSpring = useSpring({config: { friction: 100 }, transform: open ? `translate3d(50vw,0,0) scaleX(-1)` : `translate3d(0vw,0,0) scaleX(-1)`})
-    const leftSpring = useSpring({config: { friction: 100 }, transform: open ? `translate3d(-50vw,0,0)` : `translate3d(0vw,0,0)`})
+    const disableSpring = false;
 
+    const rightSpring = disableSpring ? {} : useSpring({config: { friction: 100 }, transform: open ? `translate3d(50vw,0,0) scaleX(-1)` : `translate3d(0vw,0,0) scaleX(-1)`})
+    const leftSpring = disableSpring ? {} : useSpring({config: { friction: 100 }, transform: open ? `translate3d(-50vw,0,0)` : `translate3d(0vw,0,0)`})
+
+    
+    
     return(
         <div ref={ref} css={css(`${positioning}
           // mask-image: url('${withPrefix('/')}img/paper_mask.png');
@@ -44,15 +47,19 @@ const Curtains = React.memo( () => {
               <animated.div css={css(`
                 ${curtainShared}
                 left: calc(50% - ${overlapWidth});
-                ${
-                  false ? `transform: translateX(calc((100% - ${overlapWidth}) * ${open ? 1 : 0})) scaleX(-1);`: ''
+                ${disableSpring ? `
+                    transition: transform 1000ms;
+                    transform: translateX(calc((100% - ${overlapWidth}) * ${open ? 1 : 0})) scaleX(-1);
+                  `: ''
                 }
               `)} style={rightSpring} />
               <animated.div css={css(`
                 ${curtainShared}
                 right: calc(50% - ${overlapWidth});
-                ${
-                  false ? `transform: translateX(calc((100% - ${overlapWidth}) * ${open ? -1 : 0}));` : ''
+                ${disableSpring ? `
+                    transition: transform 1000ms;
+                    transform: translateX(calc((100% - ${overlapWidth}) * ${open ? -1 : 0}));
+                  ` : ''
                 }
               `)} style={leftSpring} />
         </div>
