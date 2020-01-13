@@ -1,113 +1,104 @@
 import React, { useEffect } from 'react'
 import VideoPlayer from '../../components/VideoPlayer'
-import FixedPortal from '../../components/FixedPortal'
 import CanvasBlend from '../../components/CanvasBlend'
 import Curtains from '../../components/Curtains'
-import Slideshow from '../../components/Slideshow'
+import Postcard from '../../components/Postcard'
+import Parallax from '../../components/Parallax'
+import Picture from '../../components/Picture'
+import Positioner from '../../components/Positioner'
+import Clouds from '../../components/Clouds'
 import { clamp } from 'lodash'
 import { withPrefix, Link } from 'gatsby'
 
+/** @jsx jsx */
+import { css, jsx } from '@emotion/core'
 
 export default [
 
 React.memo(
-  ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
-
+  ({sectionIndex, dimensions, setContainerCss}) => {
+    setContainerCss(`min-height: calc((100vh - 40px) * 1.2)`);
     return (
     <React.Fragment>
-            <FixedPortal target={backgroundPortal}>
-              <div 
-               className="ScrollSections__background"
-               style={{
-                 backgroundImage: "url(" + `${withPrefix('/')}img/paris.jpg` + ")",
-                 // height: (20 + 100) + "%"
-                 height: "120vh" 
-               }}></div>
-               <video className={"IntroCover__vid" + (active ? " isActive" : "")} autoPlay muted loop src={`${withPrefix('/')}img/cover.mp4`} />
-            </FixedPortal>
-          <FixedPortal target={midgroundPortal}>
-            <div className={"Panel Transition--slow-fade" + (active ? " isActive" : "")} style={{display: "block"}}>
-              <img className="IntroCover__img Animation--titlescreen" src={`${withPrefix('/')}img/cover.png`} alt="" />
-              <img className="IntroCover__logo" src={`${withPrefix('/')}img/cookietitle.png`} alt="The Poison Cookie Jar" />
-            </div>
-          </FixedPortal>
+      <Clouds dimensions={dimensions} />
+      <Parallax speed="-2" dimensions={dimensions}>
+        <Picture 
+          src={`${withPrefix('/')}img/cover.png`} 
+          width="calc(85% + 50px)" 
+          height="calc((100vh - 40px) * 1.2)" 
+          fit="cover"
+          shadow={false}
+          x="0.6"
+          y="0.25"
+          background="transparent"
+          css={css(`
+            mask-image: url('${withPrefix('/')}img/torn-edge_mask.png');
+            mask-size: 100% 100%;
+            // max-width: 100vh;
+            margin-right: auto;
+          `)} />
+      </Parallax>
+      <Positioner x="0.9" y="0.9" css={css(`height: calc(100vh - 40px)`)} >
+        <img 
+          src={`${withPrefix('/')}img/cookietitle.png`} 
+          alt="The Poison Cookie Jar"
+          
+          css={css(`width: 18vw; min-width: 215px; display: block;`)} />
+      </Positioner>
     </React.Fragment>
   )}
 ), 
 
 React.memo(
-  ({registerAnimation, scrollTo, sectionIndex, active, activeIndex, foregroundPortal, backgroundPortal, midgroundPortal}) => {
-
+  ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
-        <Curtains 
-          registerAnimation={registerAnimation}
-          sectionIndex={sectionIndex}
-          activeIndex={activeIndex}
-          foregroundPortal={foregroundPortal}
-          midgroundPortal={backgroundPortal}
-          persist={1}
-        />
-        <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
+            <div className="scrim"></div>
             <VideoPlayer
               videoId="0GWlYInjOCI"
               fullscreen
-              active={active}
-              onEnd={() => scrollTo("next")}
             />           
-        </div>
+            <Curtains />
       </React.Fragment>
 )}), 
 React.memo(
-  ({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => {
-    
-    // registerAnimation({
-    //   key: "Animation--curtain-right-leave" + sectionIndex,
-    //   sectionIndex: sectionIndex, 
-    //   tween: () => TweenMax.from(".Animation--curtain-right", 1, {x: '100%'}), 
-    //   start: 0.5, 
-    //   end: 1
-    // });
-
-    // registerAnimation({
-    //   key: "Animation--curtain-left-leave" + sectionIndex,
-    //   sectionIndex: sectionIndex, 
-    //   tween: () => TweenMax.from(".Animation--curtain-left", 1, {x: '-100%'}), 
-    //   start: 0.5, 
-    //   end: 1
-    // });
+  ({sectionIndex, dimensions, setContainerCss}) => {
     return (
       <React.Fragment>
-        <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
+        <Parallax speed="-2" dimensions={dimensions}>
+          <Postcard>
             <VideoPlayer
-              // videoId="GQPcG4D3Zno"
               videoId="xl5eTt4Qusw"
-              // startTime={18}
-              // endTime={61}
-              fullscreen
-              active={active}
-              onEnd={() => scrollTo("next")}
             />
-      </div>
+          </Postcard>
+        </Parallax>
       </React.Fragment>
-)}), React.memo(({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
-        <FixedPortal target={midgroundPortal}>
-          <div className={"Panel Panel--centered Transition--slow-fade" + (active ? " isActive" : "")}>
-            <div className="fullscreenQuote fullscreenQuote--hollaender">
+)}), React.memo(({sectionIndex, dimensions, setContainerCss}) => (
+        <React.Fragment>
+            <div className="fullscreenQuote">
                 <figure className="quote">
                    <q>Under the cover of an evening’s relaxing entertainment, cabaret, like nothing else, suddenly dispenses a <span style={{color: '#be553d', fontStyle: 'italic'}}>poison cookie</span>. Suggestively administered and hastily swallowed, its effect reaches far beyond the harmless evening to make otherwise placid blood boil and inspire a sluggish brain to think.</q>
-                   <figcaption><img src={`${withPrefix('/')}img/friedrich.jpg`} alt="" />&ensp;&mdash;&ensp;Friedrich Hollaender, 1932</figcaption>
+                   <figcaption css={css(`transform: rotate(-3deg);`)}><img src={`${withPrefix('/')}img/friedrich.jpg`} alt="" />&ensp;&mdash;&ensp;Friedrich Hollaender, 1932</figcaption>
                 </figure>
+                <div className="bigborder"></div>
             </div>
-            <div className="bigborder"></div>
+            
+        </React.Fragment>
+)), React.memo(({sectionIndex, dimensions, setContainerCss}) => (
+        <React.Fragment>
+          <div css={css(`
+              font-family: 'IM Fell Double Pica', serif;
+              font-weight: bold;
+              text-rendering: optimizeLegibility;
+              font-size: 1.8746rem;
+              line-height: 1.1;
+              @media screen and (max-width: 600px){
+                flex-direction: column;
+              }
+          `)}  >
+                <video css={css(`border-radius: 50%; width: 200px;`)} autoPlay muted loop src={`${withPrefix('/')}img/john-eats.mp4`} />
+                <div css={css(`padding: 3.5vh;`)} className={"EatFast__text"}>Eat fast, we're off to <Link className="EatFast__link" to="/cities/paris">Paris</Link></div>
           </div>
-        </FixedPortal>
-)), React.memo(({registerAnimation, scrollTo, sectionIndex, active, foregroundPortal, backgroundPortal, midgroundPortal}) => (
-        <FixedPortal target={midgroundPortal}>
-          <div className={"EatFast Panel Transition--slow-fade" + (active ? " isActive" : "")}  >
-                <video autoPlay muted loop src={`${withPrefix('/')}img/john-eats.mp4`} />
-                <div className={"EatFast__text"}>Eat fast, we're off to <Link className="EatFast__link" to="/cities/paris">Paris</Link></div>
-          </div>
-        </FixedPortal>
+        </React.Fragment>
 ))
 ]

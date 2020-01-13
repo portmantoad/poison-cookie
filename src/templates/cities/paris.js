@@ -4,167 +4,22 @@ import VideoPlayer from '../../components/VideoPlayer'
 import CanvasBlend from '../../components/CanvasBlend'
 import Curtains from '../../components/Curtains'
 import Postcard from '../../components/Postcard'
-import { clamp } from 'lodash'
+import Parallax from '../../components/Parallax'
+import Picture from '../../components/Picture'
+import Positioner from '../../components/Positioner'
+import Clouds from '../../components/Clouds'
 import { withPrefix } from 'gatsby'
 import useMedia from 'use-media';
-import { PlxContext, SectionSizeContext } from '../../components/contexts'
 
 
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 
-const Parallax = React.memo(({offset = 0, dimensions, speed = -2, children, className, ...rest}) => {
-  speed = Number(speed);
-  offset = Number(offset);
-  offset = isNaN(offset) ? 0 : offset;
-  const factor = isNaN(speed) ? -2 : Math.min(speed,7);
-  const perspective = 8;
-  const scalefactor = 1 + (factor * -1) / perspective;
 
-  const output = <div css={css(`
-    position: absolute;
-    left: 0;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: ${Math.round(factor * 100)};
 
-    top: ${dimensions.top}px;
-    height: ${dimensions.height}px;
 
-    @media screen and (min-width: 40em) {
-      @supports ((perspective: 1px) and (not (-webkit-overflow-scrolling: touch))) {
-        transform: 
-          translate3D(
-            ${(factor/2 / perspective)}%,
-            ${(-100/perspective * factor/2) - (factor/2) + (offset * 100)}%,
-            ${factor}px
-          ) 
-          scale(${scalefactor})
-        ;
-        transform-origin: 50% 100%;
-    }
-  `)} {...rest}>
-      {children}
-  </div>
 
-  const rootEl = useContext(PlxContext);
-  if (rootEl) {
-    return ReactDOM.createPortal( output, rootEl)
-  } else {
-    return output
-  }
-})
 
-const Picture = React.memo(({
-  src = "", 
-  alt = "", 
-  padding = 0, 
-  shadow = true, 
-  mask, 
-  fit = 'contain',
-  x = 0.5,
-  y = 0.5, 
-  width,
-  height,
-  rotate,
-  background = '#eeddbc',
-  className
-}) => {
-
-  x = clamp(Number(x), 0, 1);
-  y = clamp(Number(y), 0, 1);
-
-  if (mask === 1) mask = `${withPrefix('/')}img/paper_mask.png`;
-  if (mask === 2) mask = `${withPrefix('/')}img/paper-smooth_mask.png`;
-
-  return (
-    // <div />
-    <div className={className} css={css(`
-      ${width ? `width: ${width};` : ''}
-      ${height ? `height: ${height};` : ''}
-      display: grid;
-      grid-template-columns: minmax(0, ${x}fr) auto minmax(0, ${(1 - x)}fr);
-      grid-template-rows: minmax(0, ${y}fr) auto minmax(0, ${(1 - y)}fr);
-      position: relative;
-      ${shadow && mask && false ? `filter: drop-shadow(0px 1px 5px rgba(0, 0, 0, 0.15));` : ''}
-    `)}> 
-
-        <img css={css(`
-          grid-column-start: 2;
-          grid-row-start: 2;
-          background: ${background};
-          overflow: hidden;
-          ${height ? `max-height: ${height};` : ''}
-          max-width: 100%;
-          ${fit === 'cover' ? `
-            width: 100%;
-            ${height ? `height: ${height};` : ''}
-          ` : ''}
-          ${mask ? `
-            mask-image: url("${mask}");
-            mask-size: 100% 100%;
-          ` : `
-            border-radius: 4px;
-            ${shadow ? `box-shadow: 0px 1px 5px rgba(0, 0, 0, 0.15);` : ''}
-          `}
-          padding: ${padding};
-          display: block;
-          object-fit: ${fit};
-          object-position: ${x*100}% ${y*100}%;
-          ${rotate ? `transform: rotate(${rotate}deg);` : ''}
-        `)} src={src} alt={alt} />
-      </div>
-  )
-})
-
-const Layout = React.memo(({x = 0.5, y = 0.5, children, ...rest}) => {
-  x = clamp(Number(x), 0, 1);
-  y = clamp(Number(y), 0, 1);
-
-  return(
-    <div css={css(`
-      position: absolute;
-      top:0;
-      left:0;
-      bottom:0;
-      right:0;
-      display: grid;
-      grid-template-columns: ${x}fr minmax(0, auto) ${(1 - x)}fr;
-      grid-template-rows: ${y}fr minmax(0, auto) ${(1 - y)}fr;
-
-      & > *{
-        grid-column-start: 2;
-        grid-row-start: 2;
-      }
-    `)} {...rest}>
-        {children}
-    </div>
-  )
-
-  // return(
-  //   <div css={css(`
-  //     position: absolute;
-  //     top:0;
-  //     left:0;
-  //     width: 100vw;
-  //     height: 100%;
-  //     display: flex;
-  //     flex-direction: column;
-  //   `)} {...rest}>
-  //     <div css={css(`height:0; flex-grow:${y}`)} />
-  //     <div css={css(`display: flex;`)}>
-  //       <div css={css(`height:0; flex-grow:${x}`)} />
-  //       <div>
-  //         {children}
-  //       </div>
-  //       <div css={css(`height:0; flex-grow:${1 - x}`)} />
-  //     </div>
-  //     <div css={css(`height:0; flex-grow:${1 - y}`)} />
-  //   </div>
-  // )
-})
 
 const pages = [
 ({sectionIndex, dimensions, setContainerCss}) => {
@@ -184,8 +39,10 @@ const pages = [
             </Parallax>
           */}
 
+            <Clouds dimensions={dimensions} />
+
             <Parallax speed="2" dimensions={dimensions}>
-                <Layout 
+                <Positioner 
                   x="0.1" 
                   y="0.1" 
                 >
@@ -196,11 +53,11 @@ const pages = [
                     shadow={false}
                     background="transparent"
                   />
-                </Layout>
+                </Positioner>
             </Parallax>
 
             <Parallax dimensions={dimensions}>
-              <Layout 
+              <Positioner 
                 x="0.6" 
                 y="0.6" 
               >
@@ -211,12 +68,12 @@ const pages = [
                       // autoplay
                     />
                 </Postcard>
-              </Layout>
+              </Positioner>
             </Parallax>
           
     </React.Fragment>
   )}, 
-  ({sectionIndex, dimensions}) => {
+  ({sectionIndex, dimensions, setContainerCss}) => {
 
     return(
       <React.Fragment>
@@ -234,7 +91,7 @@ const pages = [
               
       </React.Fragment>
 )}
-,({sectionIndex, dimensions}) => {
+,({sectionIndex, dimensions, setContainerCss}) => {
 
     return(
       <React.Fragment>
@@ -246,7 +103,7 @@ const pages = [
         </Parallax>
       </React.Fragment>
 )}
-    // , ({sectionIndex, dimensions}) => {
+    // , ({sectionIndex, dimensions, setContainerCss}) => {
 //     const isMobile = useMedia({maxWidth: 700});
 //     // const isMobile = false;
 
@@ -275,17 +132,17 @@ const pages = [
 //               </div>
 //             </div>
 // )}
-, ({sectionIndex, dimensions}) => (
+, ({sectionIndex, dimensions, setContainerCss}) => (
   <React.Fragment>
             <Parallax speed="3" dimensions={dimensions}>
-              <Layout x="0.4" y="0.4">
+              <Positioner x="0.4" y="0.4">
                 <Postcard mask="2" card="2">                
                     <VideoPlayer
                       videoId="LkdWOkpCuTw"
                       thumbnail={`${withPrefix('/')}img/thumbnails/wig_shop.jpg`}
                     />
                 </Postcard> 
-              </Layout> 
+              </Positioner> 
             </Parallax>
             <Parallax speed="1" dimensions={dimensions} offset={0.3}>
               <div css={css(`
@@ -300,12 +157,12 @@ const pages = [
             </Parallax>
             </React.Fragment>
 )
-, ({sectionIndex, dimensions}) => {
+, ({sectionIndex, dimensions, setContainerCss}) => {
 
     return(
       <React.Fragment>
         <Parallax dimensions={dimensions} speed="-6">
-          <Layout x="0.3">
+          <Positioner x="0.3">
             <Postcard mask="2" card="1" alt="3">
               <VideoPlayer
                 /* Strongman chat noir */
@@ -315,11 +172,11 @@ const pages = [
                 // captions={true}
               />
             </Postcard>
-          </Layout>
+          </Positioner>
         </Parallax>
       </React.Fragment>
 )}
-// , ({sectionIndex, dimensions}) => (
+// , ({sectionIndex, dimensions, setContainerCss}) => (
 //           <div className="Panel">
 //             <div className={"Panel Transition--fade whereAreTheyNow" + (active ? " isActive" : "")}>
 //             <div className="whereAreTheyNow__title">
@@ -342,11 +199,11 @@ const pages = [
 //             </div>
 //           </div>
 // ) 
- , ({sectionIndex, dimensions}) => {
+ , ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
         <Parallax dimensions={dimensions}>
-        <Layout x="0.7">
+        <Positioner x="0.7">
         <Postcard mask="1" card="2" alt="2">
             <VideoPlayer
               /* le mirilton */
@@ -354,11 +211,11 @@ const pages = [
               thumbnail={`${withPrefix('/')}img/thumbnails/00_le_mirliton%20v2_crop.jpg`}
             />
         </Postcard>
-        </Layout>
+        </Positioner>
         </Parallax>
       </React.Fragment>
 )}
-, ({sectionIndex, dimensions}) => (
+, ({sectionIndex, dimensions, setContainerCss}) => (
        <React.Fragment>
        <div css={css(`
          position: absolute;
@@ -401,7 +258,7 @@ const pages = [
         </div>
        </React.Fragment>
 )
-,    ({sectionIndex, dimensions}) => {
+,    ({sectionIndex, dimensions, setContainerCss}) => {
 
     return(
       <React.Fragment>
@@ -417,7 +274,7 @@ const pages = [
         </Parallax>
       </React.Fragment>
 )}
-,    ({sectionIndex, dimensions}) => {
+,    ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
         <div className="scrim"></div>
@@ -470,7 +327,7 @@ const pages = [
       </Parallax>
       </React.Fragment>
 )}
-    , ({sectionIndex, dimensions}) => {
+    , ({sectionIndex, dimensions, setContainerCss}) => {
 
     return(
       <Parallax dimensions={dimensions}>
@@ -483,7 +340,7 @@ const pages = [
         </Postcard>
       </Parallax>
 )}
-,    ({sectionIndex, dimensions}) => {
+,    ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
         <div className="scrim"></div> 
@@ -496,7 +353,7 @@ const pages = [
         <Curtains />
       </React.Fragment>
 )}
-, ({sectionIndex, dimensions}) => {
+, ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
         <Parallax speed="2" dimensions={dimensions}>
@@ -537,7 +394,7 @@ const pages = [
         </Parallax>
       </React.Fragment>
 )}
-, ({sectionIndex, dimensions}) => {
+, ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
         <Parallax dimensions={dimensions} offset={-0.1} speed="-4">
@@ -551,7 +408,7 @@ const pages = [
         </Parallax>
       </React.Fragment>
 )}
-// , ({sectionIndex, dimensions}) => (
+// , ({sectionIndex, dimensions, setContainerCss}) => (
 //           <div className="Panel">
 //             <div className={"Panel Panel--padded Transition--fade" + (active ? " isActive" : "")} style={{flexDirection: 'column'}}>
 //               <Slideshow 
@@ -570,7 +427,7 @@ const pages = [
 //             </div>
 //           </div>
 // )
-,    ({sectionIndex, dimensions}) => {
+,    ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
         <div className="scrim"></div>
@@ -583,23 +440,21 @@ const pages = [
         <Curtains />
       </React.Fragment>
 )}
-,    ({sectionIndex, dimensions}) => {
+,    ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
-        <Parallax speed="-2.5" dimensions={dimensions}>
+        <Parallax speed="-4" dimensions={dimensions}>
           <Picture width="55%" padding="3%" mask={1} x={0.75} css={css(`position: absolute; left: 2.5%;`)} src={`${withPrefix('/')}img/paris_bricktop.jpg`} alt="" />
         </Parallax>
         
-        <Parallax speed="-0.5" dimensions={dimensions}>
+        <Parallax speed="-2" dimensions={dimensions}>
           <Picture width="50%" padding="0.5%" background="#efefef" height="102vh" x={0.25} css={css(`position: absolute; right: 2.5%;`)} rotate={1} src={`${withPrefix('/')}img/paris_josephine2.jpg`} alt=""/>
         </Parallax>
 
-        <Parallax speed="2" dimensions={dimensions}>
           <div className="Paper" css={css(`transform: rotate(-1deg); max-width: 400px`)}><p>In the 1920s and 30s, a flood of expats in Paris created both a stream of American entertainers and American ex-pats who would flock to establishments with American artists (as did the French). A huge part of the reason was jazz’s rapid advance around the world.</p> <p>In particular, African American artists who could not perform in front of integrated audiences at home and who were appalled and exhausted at their treatment in America found refuge in Paris. This cross-cultural exchange would have a lasting impact on cabaret in both Paris and America (and also in Berlin which was not immune to the influence of Josephine Baker).</p></div>
-        </Parallax>
       </React.Fragment>
 )}
-, ({sectionIndex, dimensions}) => (
+, ({sectionIndex, dimensions, setContainerCss}) => (
       <React.Fragment>
         <Parallax speed="2" dimensions={dimensions}>
           <Picture height="120vh" fit="cover" x={0.3} width="40%" src={`${withPrefix('/')}img/paris_josephine.jpg`} alt="" css={css(`margin-left: auto`)} />
@@ -624,7 +479,7 @@ const pages = [
         </div>
       </React.Fragment>
 )
-,  ({sectionIndex, dimensions}) => {
+,  ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
         <div className="scrim"></div>
@@ -638,7 +493,7 @@ const pages = [
       </React.Fragment>
 )}
 // , 
-//   ({sectionIndex, dimensions}) => {
+//   ({sectionIndex, dimensions, setContainerCss}) => {
 
 //     return(
 //       <React.Fragment>
@@ -653,7 +508,7 @@ const pages = [
 //         </div>
 //       </React.Fragment>
 // )})
-, ({sectionIndex, dimensions}) => (
+, ({sectionIndex, dimensions, setContainerCss}) => (
       <React.Fragment>
         <Parallax dimensions={dimensions}>
           <Postcard mask="1" card="2" alt="4">
@@ -666,7 +521,7 @@ const pages = [
         </Parallax>
       </React.Fragment>
 )
-,    ({sectionIndex, dimensions}) => {
+,    ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
             <div className="scrim"></div>
@@ -679,10 +534,10 @@ const pages = [
             <Curtains />
       </React.Fragment>
 )}
-,    ({sectionIndex, dimensions}) => {
+,    ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
-        <Parallax dimensions={dimensions}>
+        <Parallax speed="-4" dimensions={dimensions}>
           <Postcard mask="1" card="1" alt="3">
               <VideoPlayer
                 /* Interview with Michel from Vieux Belleville   */
@@ -693,50 +548,27 @@ const pages = [
         </Parallax>
       </React.Fragment>
 )}
-,    ({sectionIndex, dimensions}) => {
+,    ({sectionIndex, dimensions, setContainerCss}) => {
 
     return(
       <React.Fragment>
-        <div className="scrim"></div>
-        <img src={`${withPrefix('/')}img/paris_aumagique.png`} alt="" css={css(`
-          @keyframes jitter {
-            0%, 9.99999% {    transform: translate3d(-0.3px, 0   , 0); }
-            10%, 19.99999% {    transform: translate3d(-0.3px, -0.3px, 0); }
-            20%, 29.99999% {    transform: translate3d(0   , 0   , 0); }
-            30%, 39.99999% {    transform: translate3d(-0.3px, 0.3px , 0); }
-            40%, 49.99999% {    transform: translate3d(0.3px , 0, 0); }
-            50%, 59.99999% {    transform: translate3d(0.3px , 0.3px, 0); }
-            60%, 69.99999% {    transform: translate3d(0   , 0.3px, 0); }
-            70%, 79.99999% {    transform: translate3d(0   , -0.3px, 0); }
-            80%, 89.99999% {    transform: translate3d(0.3px , -0.3px , 0); }
-            90%, 100% {    transform: translate3d(0.3px , 0, 0); }
-          }
-
-            animation: jitter 300ms infinite;
-            position: absolute;
-            top:0;
-            left:3.5vh;
-            bottom:0;
-            right:3.5vh;
-            width: calc(100% - 7vh);
-            height: 100%;
-            object-fit: contain;
-            object-position: center center;
-        `)} />
-      </React.Fragment>
-)}
-,    ({sectionIndex, dimensions}) => {
-
-    return(
-      <React.Fragment>
-        <Parallax speed="-4" dimensions={dimensions}>
-          <div css={css(`
+      <Parallax speed="-1" dimensions={dimensions}>
+        <div css={css(`
+         position: absolute;
+         top:0;
+         width: 100%;
+         height: 115%;
+         background-image: url('${withPrefix('/')}img/paris_aumagique.jpg');
+         background-size: cover;
+         background-position: top center;
+         mask-image: url('${withPrefix('/')}img/torn-edge_mask.png');
+         mask-size: 100% 100%;
+       `)}></div>
+      </Parallax>
+        <Parallax speed="1" dimensions={dimensions}>
+          <Positioner y="1" x="1" css={css(`
             width: 51%;
             margin-right: auto;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
           `)}>
             <Postcard mask="1" card="1" alt="1" css={css(`margin-left: auto;`)}>
               <VideoPlayer
@@ -745,16 +577,12 @@ const pages = [
                 // thumbnail={`${withPrefix('/')}img/thumbnails/`}
               />
             </Postcard>
-          </div>
+          </Positioner>
         </Parallax>
-        <Parallax speed="-2" dimensions={dimensions}>
-          <div css={css(`
+        <Parallax speed="2" dimensions={dimensions}>
+          <Positioner y="1" x="0" css={css(`
             width: 54%;
             margin-left: auto;
-            height: 100%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
           `)}>
             <Postcard mask="2" card="2" css={css(`margin-right: auto;`)}>
               <VideoPlayer
@@ -763,14 +591,14 @@ const pages = [
                 thumbnail={`${withPrefix('/')}img/thumbnails/00_interview%20at%20Au%20Magique.jpg`}
               />
             </Postcard>
-          </div>
+          </Positioner>
         </Parallax>
       </React.Fragment>
 )}
-,   ({sectionIndex, dimensions}) => {
+,   ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
-        <Parallax speed="2" dimensions={dimensions}>
+        <Parallax speed="-4" dimensions={dimensions}>
           <Postcard mask="2" card="1" alt="1">
               <VideoPlayer
                 /* strongman divan japanois */
@@ -781,7 +609,7 @@ const pages = [
         </Parallax>
       </React.Fragment>
 )}
-// ,    ({sectionIndex, dimensions}) => {
+// ,    ({sectionIndex, dimensions, setContainerCss}) => {
 //     return(
 //       <React.Fragment>
 //         <Postcard mask="1" card="2" alt="3">
@@ -789,7 +617,7 @@ const pages = [
 //         </Postcard>
 //       </React.Fragment>
 // )}
-,    ({sectionIndex, dimensions}) => {
+,    ({sectionIndex, dimensions, setContainerCss}) => {
 
     return(
       <React.Fragment>
@@ -808,124 +636,77 @@ const pages = [
         </div>
       </React.Fragment>
 )}
-// ,    ({sectionIndex, dimensions}) => {
-
-//     return(
-//       <React.Fragment>
-//         <Curtains 
-//           registerAnimation={registerAnimation}
-//           dimensions={dimensions}
-//           activeIndex={activeIndex}
-//           foregroundPortal={foregroundPortal}
-//           midgroundPortal={midgroundPortal}
-//           persist={1}
-//         />
-//         <div className={"Panel Transition--curtain-delay Transition--fade" + (active ? " isActive" : "")}>
-//             <VideoPlayer
-//               /* strongman limonaire */
-//               videoId="2UTO67pYjpU"
-//               fullscreen
-//               active={active}
-//               onEnd={() => scrollTo("next")}
-//             />
-//         </div>
-//       </React.Fragment>
-// )}, 
-//   ({sectionIndex, dimensions}) => {
-
-//     return(
-//       <React.Fragment>
-//         <div className={"Panel Transition--curtain-delay Transition--fade" + (active ? " isActive" : "")}>
-//             <VideoPlayer
-//               /* limonaire interview with closing */
-//               videoId="NHC-gkfr61Y"
-//               fullscreen
-//               active={active}
-//               onEnd={() => scrollTo("next")}
-//             />
-//         </div>
-//       </React.Fragment>
-// )}, ({sectionIndex, dimensions}) => (
-//           <div className="Panel">
-//             <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
-//               <Postcard mask="2" alt="3">  
-//                 <VideoPlayer
-//                     videoId="1T1T3coj6BI"
-//                     active={active}
-//                     onEnd={() => scrollTo("next")}
-//                   />
-//               </Postcard>  
-//             </div>    
-//           </div>
-// ), 
-//   ({sectionIndex, dimensions}) => {
-
-//     return(
-//       <React.Fragment>
-//         <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
-//           <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
-//             <div className="TVborder">
-//               <CanvasBlend use="maskInverse" color={[122,95,70]} className="TVborder__img">
-//                 <img src={`${withPrefix('/')}img/tv.jpg`} alt=""/>
-//               </CanvasBlend>
-//               <VideoPlayer
-//                 /* chat noir multicam cooking  */
-//                 videoId="HzUIUTatyZI"
-//                 active={active}
-//                 onEnd={() => scrollTo("next")}
-//               />
-//             </div>
-//           </div>
-
-
-            
-//         </div>
-//       </React.Fragment>
-// )}, ({sectionIndex, dimensions}) => (
-//           <div className="Panel">
-//             <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
-//               <Postcard alt="2" card="2">  
-//                 <VideoPlayer
-//                     videoId="ZsjrIQY16aQ"
-//                     active={active}
-//                     onEnd={() => scrollTo("next")}
-//                   />
-//               </Postcard>  
-//             </div>    
-//           </div>
-// ), 
-//   ({sectionIndex, dimensions}) => {
-
-//     return(
-//       <React.Fragment>
-//         <Curtains 
-//           registerAnimation={registerAnimation}
-//           dimensions={dimensions}
-//           activeIndex={activeIndex}
-//           foregroundPortal={foregroundPortal}
-//           midgroundPortal={midgroundPortal}
-//           persist={0}
-//         />
-//         <div className={"Panel Transition--curtain-delay Transition--fade" + (active ? " isActive" : "")}>
-//             <VideoPlayer
-//               /* asshole singalong  */
-//               videoId="7Unp0PL2m8Q"
-//               fullscreen
-//               active={active}
-//               onEnd={() => scrollTo("next")}
-//             />
-            
-//         </div>
-//       </React.Fragment>
-// )}, ({sectionIndex, dimensions}) => (
-//         <div className="Panel">
-//           <div className="Panel " >
-//               <div className={"Transition--slow-fade" + (active ? " isActive" : "") }>
-//                 See you in Berlin!
-//               </div>
-//           </div>
-//         </div>
-// )
+,    ({sectionIndex, dimensions, setContainerCss}) => {
+    return(
+      <React.Fragment>
+            <VideoPlayer
+              /* strongman limonaire */
+              videoId="2UTO67pYjpU"
+              fullscreen
+            />
+      </React.Fragment>
+)}
+,    ({sectionIndex, dimensions, setContainerCss}) => {
+    return(
+      <React.Fragment>
+            <VideoPlayer
+              /* limonaire interview with closing */
+              videoId="NHC-gkfr61Y"
+              fullscreen
+            />
+      </React.Fragment>
+)}
+, ({sectionIndex, dimensions, setContainerCss}) => (
+              <Postcard mask="2" alt="3">  
+                <VideoPlayer
+                    videoId="1T1T3coj6BI"
+                  />
+              </Postcard>  
+)
+,    ({sectionIndex, dimensions, setContainerCss}) => {
+    return(
+      <React.Fragment>
+        <Parallax speed="-4" dimensions={dimensions}>
+              <div className="TVborder">
+                <CanvasBlend use="maskInverse" color={[33,73,43]} className="TVborder__img">
+                  <img src={`${withPrefix('/')}img/tv.jpg`} alt=""/>
+                </CanvasBlend>
+                <VideoPlayer
+                  /* chat noir multicam cooking  */
+                  videoId="HzUIUTatyZI"
+                />            
+          </div>
+        </Parallax>
+      </React.Fragment>
+)}
+, ({sectionIndex, dimensions, setContainerCss}) => (
+          <Parallax speed="-2" dimensions={dimensions}>
+              <Postcard alt="2" card="2">  
+                <VideoPlayer
+                    videoId="ZsjrIQY16aQ"
+                  />
+              </Postcard>  
+          </Parallax>
+)
+,    ({sectionIndex, dimensions, setContainerCss}) => {
+    return(
+      <React.Fragment>
+        <div className="scrim"></div>
+        <VideoPlayer
+              /* asshole singalong  */
+              videoId="7Unp0PL2m8Q"
+              fullscreen
+            />
+        <Curtains />
+      </React.Fragment>
+)}
+, ({sectionIndex, dimensions, setContainerCss}) => {
+  setContainerCss(`min-height: calc(100vh - 40px);`)
+    return(
+  <React.Fragment>
+                See you in Berlin!
+  </React.Fragment>
+)}
 ]
 
 // const updateFunction = (prevProps, nextProps) => {

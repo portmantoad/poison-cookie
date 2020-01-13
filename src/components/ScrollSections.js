@@ -27,7 +27,7 @@ const ScrollSections = React.memo((
       windowWidth 
       && windowHeight 
       && ((windowWidth/100*70) < (windowHeight/100*105)) 
-      ? "70vw" : "115vh";
+      ? "120vw" : "115vh";
 
     return (
       <div className="ScrollSections" css={css(`
@@ -107,7 +107,7 @@ const ScrollSections = React.memo((
                                 return prevDimensions;
                               }
                             });
-                          }, 10)
+                          }, 15)
 
                           useEffect(() => {
                             window.addEventListener('resize', updateDimensions)

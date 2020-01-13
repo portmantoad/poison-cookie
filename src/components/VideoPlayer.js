@@ -5,7 +5,7 @@ import { MutedContext } from './contexts'
 import { withPrefix } from 'gatsby'
 // import { Slider, FormattedTime, PlayerIcon } from 'react-player-controls'
 import { debounce, clamp } from 'lodash'
-// import fscreen from 'fscreen'
+import fscreen from 'fscreen'
 import { useInView } from 'react-intersection-observer'
 
 // import debounceActiveRender from './debounceActiveRender'\
@@ -51,7 +51,7 @@ const VideoPlayer = React.memo((
       }
 
       useEffect(() => {
-        if (!inView) {
+        if (!inView && fscreen.fullscreenElement === null) {
           setPlaying(false);
           hardPause();
         }

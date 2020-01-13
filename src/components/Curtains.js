@@ -28,9 +28,10 @@ const Curtains = React.memo( () => {
       background-repeat: no-repeat;
       border-top-right-radius: 5px;
       // transition: transform 1000ms;
+      pointer-events: none;
     `;
 
-    const overlapWidth = '11vh'
+    const overlapWidth = '7vw - 25px'
 
     const rightSpring = useSpring({config: { friction: 100 }, transform: open ? `translate3d(50vw,0,0) scaleX(-1)` : `translate3d(0vw,0,0) scaleX(-1)`})
     const leftSpring = useSpring({config: { friction: 100 }, transform: open ? `translate3d(-50vw,0,0)` : `translate3d(0vw,0,0)`})
