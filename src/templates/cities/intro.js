@@ -97,7 +97,7 @@ React.memo(
               }
           `)}  >
                 <video css={css(`border-radius: 50%; width: 200px;`)} autoPlay muted loop src={`${withPrefix('/')}img/john-eats.mp4`} />
-                <div css={css(`padding: 3.5vh;`)} className={"EatFast__text"}>Eat fast, we're off to <Link className="EatFast__link" to="/cities/paris">Paris</Link></div>
+                <div css={css(`padding: 3.5vh;`)} className={"EatFast__text"}>Bite me to get to <Link className="EatFast__link" to="/cities/paris">Paris</Link></div>
           </div>
         </React.Fragment>
 ))

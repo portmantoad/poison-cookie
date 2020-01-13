@@ -69,7 +69,6 @@ const Picture = React.memo(({
           `)} 
           src={src} 
           alt={alt} 
-          loading="lazy"
         />
       </div>
   )

@@ -44,6 +44,9 @@ const Postcard = React.memo(({ children, card = 1, mask = 1, alt, rotate, ...res
           // filter: drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.25));
           // mask-image: url("${withPrefix('/')}img/card_mask.png");
           // mask-size: 100% 100%;
+
+          // ${("" + mask) === "2" ? `mask-image: url("${withPrefix('/')}img/card2_mask.png");` : ''}
+
           // background: #ffeed3;
           position:absolute;
           top:0;

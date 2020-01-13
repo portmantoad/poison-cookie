@@ -18,6 +18,7 @@ const Positioner = React.memo(({x = 0.5, y = 0.5, children, ...rest}) => {
       left:0;
       bottom:0;
       right:0;
+      height: 100%;
       display: grid;
       grid-template-columns: ${x}fr minmax(0, auto) ${(1 - x)}fr;
       grid-template-rows: ${y}fr minmax(0, auto) ${(1 - y)}fr;

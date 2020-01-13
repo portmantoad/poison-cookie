@@ -36,8 +36,8 @@ const pages = [
                 height: calc((100vh - 40px) * ${1 + overhang})
               `)}></div>
             </Parallax>
-          */}
-            <Clouds dimensions={dimensions} color={[241,244,198]} />
+          
+            <Clouds dimensions={dimensions} />*/}
 
             <Parallax speed="2" dimensions={dimensions}>
                 <Positioner 
@@ -455,7 +455,7 @@ const pages = [
 , ({sectionIndex, dimensions, setContainerCss}) => (
       <React.Fragment>
         <Parallax speed="2" dimensions={dimensions}>
-          <Picture height="120vh" fit="cover" x={0.3} width="40%" src={`${withPrefix('/')}img/paris_josephine.jpg`} alt="" css={css(`margin-left: auto`)} />
+          <Picture height="120vh" x={0.3} width="37.5%" fit="cover" src={`${withPrefix('/')}img/paris_josephine.jpg`} alt="" css={css(`margin-left: auto; margin-right 2.5%`)} />
         </Parallax>
 
         <div css={css(`
