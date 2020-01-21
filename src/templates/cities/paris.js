@@ -619,41 +619,61 @@ const pages = [
 
     return(
       <React.Fragment>
-        <div css={css(`flex-grow: 1; padding-right: 3.5vw`)}>
-            <Postcard mask="1" card="1" alt="2">
-              <VideoPlayer
-                /* music video partial song */
-                videoId="RnyJ8nwcuOE"
-                thumbnail={`${withPrefix('/')}img/thumbnails/Yvette_Guilbert_song.jpg`}
-                // fullscreen
-              />
-            </Postcard>
-        </div>
+        <Parallax speed="-2" dimensions={dimensions}>
+              <div css={css(`
+                position: absolute;
+                width: 100%;
+                height: 100%;
+                background-image: url('${withPrefix('/')}img/paris_poster-5.jpg');
+                background-size: cover;
+                mask-image: url('${withPrefix('/')}img/torn-edge_mask.png');
+                mask-size: auto 100%;
+              `)}></div>
+            </Parallax>
+        <Parallax speed="2" dimensions={dimensions}>
+            <Positioner x="1" css={css(`width:65%; right: unset;`)}>
+              <Postcard mask="1" card="1" alt="2">
+                <VideoPlayer
+                  /* music video partial song */
+                  videoId="RnyJ8nwcuOE"
+                  thumbnail={`${withPrefix('/')}img/thumbnails/Yvette_Guilbert_song.jpg`}
+                  // fullscreen
+                />
+              </Postcard>
+            </Positioner>
+         </Parallax>
+         <Parallax speed="0" dimensions={dimensions}>
+         <Positioner x="0" css={css(`width:35%; left: unset;`)}>
         <div className="Paper" css={css(`max-width: 300px; transform: rotate(1deg)`)}>
           Madame Arthur is named after a song by one of fin-de-siecle’s most famous chanteuses: Yvette Guilbert. Guilbert Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
         </div>
+        </Positioner>
+        </Parallax>
       </React.Fragment>
 )}
 ,    ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
+          <Postcard>
             <VideoPlayer
               /* strongman limonaire */
               videoId="2UTO67pYjpU"
               thumbnail={`${withPrefix('/')}img/thumbnails/00_strongman_limonaire_v2.jpg`}
-              fullscreen
             />
+          </Postcard>
       </React.Fragment>
 )}
 ,    ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
-            <VideoPlayer
+        <div className="scrim"></div>
+         <VideoPlayer
               /* limonaire interview with closing */
               videoId="NHC-gkfr61Y"
               thumbnail={`${withPrefix('/')}img/thumbnails/00_limonaire_interview_with_closing_v1.jpg`}
               fullscreen
             />
+        <Curtains />
       </React.Fragment>
 )}
 , ({sectionIndex, dimensions, setContainerCss}) => (

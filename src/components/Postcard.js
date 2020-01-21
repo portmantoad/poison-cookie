@@ -67,9 +67,9 @@ const Postcard = React.memo(({ children, card = 1, mask = 1, alt, rotate, ...res
               mask-size: 100% 100%;
               margin: 0;
 
-              ${("" + alt) === "1" ? `transform: scale(-1,1)` : ''}
-              ${("" + alt) === "2" ? `transform: scale(1,-1)` : ''}
-              ${("" + alt) === "3" ? `transform: scale(-1,-1)` : ''}
+              ${("" + alt) === "1" ? `transform: scale(-1,1);` : ''}
+              ${("" + alt) === "2" ? `transform: scale(1,-1);` : ''}
+              ${("" + alt) === "3" ? `transform: scale(-1,-1);` : ''}
 
               ${("" + mask) === "2" ? `mask-image: url("${withPrefix('/')}img/card2_mask.png");` : ''}
             `)}
