@@ -6,6 +6,7 @@ import Postcard from '../../components/Postcard'
 import Parallax from '../../components/Parallax'
 import Picture from '../../components/Picture'
 import Positioner from '../../components/Positioner'
+import Scrim from '../../components/Scrim'
 import Clouds from '../../components/Clouds'
 import { clamp } from 'lodash'
 import { withPrefix, Link } from 'gatsby'
@@ -53,7 +54,7 @@ React.memo(
   ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
-            <div className="scrim"></div>
+            <Scrim />
             <VideoPlayer
               videoId="0GWlYInjOCI"
               thumbnail={`${withPrefix('/')}img/thumbnails/intro/beard_cave.jpg`}
@@ -61,22 +62,10 @@ React.memo(
             />           
             <Curtains />
       </React.Fragment>
-)}), 
-React.memo(
-  ({sectionIndex, dimensions, setContainerCss}) => {
-    return (
-      <React.Fragment>
-        <Parallax speed="-2" dimensions={dimensions}>
-          <Postcard>
-            <VideoPlayer
-              videoId="xl5eTt4Qusw"
-              thumbnail={`${withPrefix('/')}img/thumbnails/intro/dressing_room.jpg`}
-            />
-          </Postcard>
-        </Parallax>
-      </React.Fragment>
-)}), React.memo(({sectionIndex, dimensions, setContainerCss}) => (
+)})
+, React.memo(({sectionIndex, dimensions, setContainerCss}) => (
         <React.Fragment>
+        <Parallax speed="-4" dimensions={dimensions}>
             <div className="fullscreenQuote">
                 <figure className="quote">
                    <q>Under the cover of an evening’s relaxing entertainment, cabaret, like nothing else, suddenly dispenses a <span style={{color: '#be553d', fontStyle: 'italic'}}>poison cookie</span>. Suggestively administered and hastily swallowed, its effect reaches far beyond the harmless evening to make otherwise placid blood boil and inspire a sluggish brain to think.</q>
@@ -84,9 +73,28 @@ React.memo(
                 </figure>
                 <div className="bigborder"></div>
             </div>
+        </Parallax>
             
         </React.Fragment>
-)), React.memo(({sectionIndex, dimensions, setContainerCss}) => (
+))
+, React.memo(
+  ({sectionIndex, dimensions, setContainerCss}) => {
+    setContainerCss(`min-height: calc((100vh - 40px) * 0.6)`)
+    return (
+      <React.Fragment>
+        <Parallax speed="0" dimensions={dimensions}>
+          <Positioner x="0.35">
+            <Postcard>
+              <VideoPlayer
+                videoId="xl5eTt4Qusw"
+                thumbnail={`${withPrefix('/')}img/thumbnails/intro/dressing_room.jpg`}
+              />
+            </Postcard>
+          </Positioner>
+        </Parallax>
+      </React.Fragment>
+)})
+, React.memo(({sectionIndex, dimensions, setContainerCss}) => (
         <React.Fragment>
           <div css={css(`
               font-family: 'IM Fell Double Pica', serif;
@@ -99,7 +107,7 @@ React.memo(
               }
           `)}  >
                 <video css={css(`border-radius: 50%; width: 200px;`)} autoPlay muted loop src={`${withPrefix('/')}img/john-eats.mp4`} />
-                <div css={css(`padding: 3.5vh;`)} className={"EatFast__text"}>Bite me to get to <Link className="EatFast__link" to="/cities/paris">Paris</Link></div>
+                <div css={css(`padding: 3.5vh;`)}><Link to="/cities/paris">Bite me</Link> to get to Paris</div>
           </div>
         </React.Fragment>
 ))

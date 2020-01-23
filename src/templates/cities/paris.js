@@ -5,6 +5,7 @@ import Curtains from '../../components/Curtains'
 import Postcard from '../../components/Postcard'
 import Parallax from '../../components/Parallax'
 import Picture from '../../components/Picture'
+import Scrim from '../../components/Scrim'
 import Positioner from '../../components/Positioner'
 import Clouds from '../../components/Clouds'
 import { withPrefix } from 'gatsby'
@@ -75,7 +76,7 @@ const pages = [
 
     return(
       <React.Fragment>
-        <div className="scrim"></div>
+        <Scrim />
 
         <VideoPlayer
           /* kitty litter */
@@ -93,7 +94,7 @@ const pages = [
 
     return(
       <React.Fragment>
-        <Parallax speed="-2" dimensions={dimensions} offset={0.2}>
+        <Parallax speed="-2" dimensions={dimensions} offset={0}>
           <Picture src={`${withPrefix('/')}img/paris_map.jpg`} rotate={1} 
             width="90%" 
             height="140vh"
@@ -131,8 +132,11 @@ const pages = [
 //             </div>
 // )}
 , ({sectionIndex, dimensions, setContainerCss}) => (
-  <React.Fragment>
-            <Parallax speed="3" dimensions={dimensions}>
+          <React.Fragment>
+            <Parallax speed="1" dimensions={dimensions} offset={0}>
+              <Scrim image={`${withPrefix('/')}img/paris_poster-2.jpg`} />
+            </Parallax>
+            <Parallax speed="2" dimensions={dimensions}>
               <Positioner x="0.4" y="0.4">
                 <Postcard mask="2" card="2">                
                     <VideoPlayer
@@ -142,18 +146,7 @@ const pages = [
                 </Postcard> 
               </Positioner> 
             </Parallax>
-            <Parallax speed="1" dimensions={dimensions} offset={0.3}>
-              <div css={css(`
-                position: absolute;
-                width: 100%;
-                height: 100%;
-                background-image: url('${withPrefix('/')}img/paris_poster-2.jpg');
-                background-size: cover;
-                mask-image: url('${withPrefix('/')}img/torn-edge_mask.png');
-                mask-size: auto 100%;
-              `)}></div>
-            </Parallax>
-            </React.Fragment>
+          </React.Fragment>
 )
 , ({sectionIndex, dimensions, setContainerCss}) => {
 
@@ -215,15 +208,7 @@ const pages = [
 )}
 , ({sectionIndex, dimensions, setContainerCss}) => (
        <React.Fragment>
-       <div css={css(`
-         position: absolute;
-         width: 100%;
-         height: 100%;
-         background-image: url('${withPrefix('/')}img/paris_poster-1.jpg');
-         background-size: cover;
-         mask-image: url('${withPrefix('/')}img/torn-edge_mask.png');
-         mask-size: auto 100%;
-       `)}></div>
+       <Scrim image={`${withPrefix('/')}img/paris_poster-1.jpg`} />
         <Parallax speed="2" dimensions={dimensions}>
           <Picture 
             // mask={2} 
@@ -275,7 +260,7 @@ const pages = [
 ,    ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
-        <div className="scrim"></div>
+        <Scrim />
         <VideoPlayer
           /* interview with julia */
           videoId="sKxtbvayB50"
@@ -341,7 +326,7 @@ const pages = [
 ,    ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
-        <div className="scrim"></div> 
+        <Scrim /> 
         <VideoPlayer
           /* lapin agile interview */
           videoId="ubFSIFzFLs8"
@@ -428,7 +413,7 @@ const pages = [
 ,    ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
-        <div className="scrim"></div>
+        <Scrim />
         <VideoPlayer
           /* Edith Piaf’s grave site */
           videoId="lqsW1FCVi_M"
@@ -480,7 +465,7 @@ const pages = [
 ,  ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
-        <div className="scrim"></div>
+        <Scrim />
         <VideoPlayer
           /*Edith piaf chanson realiste*/
           videoId="Sp0oggT2IjY"
@@ -522,7 +507,7 @@ const pages = [
 ,    ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
-            <div className="scrim"></div>
+            <Scrim />
             <VideoPlayer
               /* interview with gosia  */
               videoId="VxGeGeKUaU0"
@@ -551,20 +536,12 @@ const pages = [
     return(
       <React.Fragment>
       <Parallax speed="-1" dimensions={dimensions}>
-        <div css={css(`
-         position: absolute;
-         top:0;
-         width: 100%;
-         height: 115%;
-         background-image: url('${withPrefix('/')}img/paris_aumagique.jpg');
-         background-size: cover;
+        <Scrim image={`${withPrefix('/')}img/paris_aumagique.jpg`} css={css(`
          background-position: top center;
-         mask-image: url('${withPrefix('/')}img/torn-edge_mask.png');
-         mask-size: auto 100%;
-       `)}></div>
+       `)}/>
       </Parallax>
         <Parallax speed="1" dimensions={dimensions}>
-          <Positioner y="1" x="1" css={css(`
+          <Positioner y="0.9" x="1" css={css(`
             width: 51%;
             margin-right: auto;
           `)}>
@@ -578,7 +555,7 @@ const pages = [
           </Positioner>
         </Parallax>
         <Parallax speed="2" dimensions={dimensions}>
-          <Positioner y="1" x="0" css={css(`
+          <Positioner y="0.9" x="0" css={css(`
             width: 54%;
             margin-left: auto;
           `)}>
@@ -620,15 +597,7 @@ const pages = [
     return(
       <React.Fragment>
         <Parallax speed="-2" dimensions={dimensions}>
-              <div css={css(`
-                position: absolute;
-                width: 100%;
-                height: 100%;
-                background-image: url('${withPrefix('/')}img/paris_poster-5.jpg');
-                background-size: cover;
-                mask-image: url('${withPrefix('/')}img/torn-edge_mask.png');
-                mask-size: auto 100%;
-              `)}></div>
+              <Scrim image={`${withPrefix('/')}img/paris_poster-5.jpg`} />
             </Parallax>
         <Parallax speed="2" dimensions={dimensions}>
             <Positioner x="1" css={css(`width:65%; right: unset;`)}>
@@ -666,7 +635,7 @@ const pages = [
 ,    ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
-        <div className="scrim"></div>
+        <Scrim />
          <VideoPlayer
               /* limonaire interview with closing */
               videoId="NHC-gkfr61Y"
@@ -689,14 +658,37 @@ const pages = [
     return(
       <React.Fragment>
         <Parallax speed="-4" dimensions={dimensions}>
-              <div className="TVborder">
-                <CanvasBlend use="maskInverse" color={[33,73,43]} className="TVborder__img">
+              <div css={css(`
+                width: calc(100% - 3.5vh);
+                max-width: calc((100vh - 40px - 7vh) / (802 / 1549));
+                position: relative;
+                background: #265231;
+                border-radius: 2.1vw;
+
+                &:after{
+                  content: "";
+                  display: block;
+                  padding-top: calc(100% / (1549 / 802));
+                }
+              `)}>
+                <CanvasBlend use="maskInverse" color={[20,20,20]} css={css(`
+                  position: absolute;
+                  bottom:.2vw;
+                  left:.2vw;
+                  width: 119.121447028%;
+                `)}>
                   <img src={`${withPrefix('/')}img/tv.jpg`} alt=""/>
                 </CanvasBlend>
                 <VideoPlayer
                   /* chat noir multicam cooking  */
                   videoId="edE_LnV6Fm4"
                   thumbnail={`${withPrefix('/')}img/thumbnails/00_Chat-Noir-Multicam-cooking-v1.jpg`}
+                  css={css(`
+                    position: absolute;
+                    bottom: 9.25%;
+                    left: 5.25%;
+                    width: 75%;
+                  `)}
                 />            
           </div>
         </Parallax>
@@ -716,7 +708,7 @@ const pages = [
 ,    ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
-        <div className="scrim"></div>
+        <Scrim />
         <VideoPlayer
               /* asshole singalong  */
               videoId="7Unp0PL2m8Q"

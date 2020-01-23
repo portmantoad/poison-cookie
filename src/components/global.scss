@@ -60,21 +60,6 @@ $drop-shadow:
       ;
 
 
-.scrim{
-  position: absolute;
-  bottom: 0px;
-  right: 0;
-  top: 0px;
-  left: 0;
-  // background: #130009;
-  background-image: url('../../static/img/scrim.png');
-  background-size: 100% 100%;
-  // @include whiteNoise(0.05);
-  // mask-image: url('../../static/img/paper_mask.png');
-  // mask-size: 100% 100%;
-  // filter: drop-shadow($dropShadow);
-}
-
 .visuallyhidden { 
   position: absolute; 
   overflow: hidden; 
