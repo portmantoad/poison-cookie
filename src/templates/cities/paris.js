@@ -134,7 +134,7 @@ const pages = [
 , ({sectionIndex, dimensions, setContainerCss}) => (
           <React.Fragment>
             <Parallax speed="1" dimensions={dimensions} offset={0}>
-              <Scrim image={`${withPrefix('/')}img/paris_poster-2.jpg`} />
+              <Scrim image={`${withPrefix('/')}img/paris_poster-2.jpg`} css={css(`background-position: right center;`)} />
             </Parallax>
             <Parallax speed="2" dimensions={dimensions}>
               <Positioner x="0.4" y="0.4">
@@ -213,10 +213,10 @@ const pages = [
           <Picture 
             // mask={2} 
             height="90vh"
-            width="40%"
+            width="37.5%"
             rotate={.25}
             x="1"
-            css={css`margin-right: auto;`} 
+            css={css`margin-right: auto; margin-left:2.5%`} 
             src={`${withPrefix('/')}img/paris_bruant.jpg`} 
             alt="" 
           />

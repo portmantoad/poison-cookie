@@ -94,7 +94,9 @@ React.memo(
         </Parallax>
       </React.Fragment>
 )})
-, React.memo(({sectionIndex, dimensions, setContainerCss}) => (
+, React.memo(({sectionIndex, dimensions, setContainerCss}) => {
+  setContainerCss(`min-height: calc(100vh - 40px)`)
+  return(
         <React.Fragment>
           <Link to="/cities/paris" css={css(`
               display: flex;
@@ -118,5 +120,5 @@ React.memo(
                 <div css={css(`padding: 3.5vh;`)}>Bite me to get to Paris</div>
           </Link>
         </React.Fragment>
-))
+)})
 ]
