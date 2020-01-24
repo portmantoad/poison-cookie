@@ -117,7 +117,11 @@ React.memo(
                   mask-image: url('${withPrefix('/')}img/cookie_mask.png');
                   mask-size: 100% 100%;
                 `)} autoPlay muted loop src={`${withPrefix('/')}img/john-eats.mp4`} />
-                <div css={css(`padding: 3.5vh;`)}>Bite me to get to Paris</div>
+                <img 
+                src={`${withPrefix('/')}img/intro_bite-me.png`} 
+                alt="Bite Me to get to Paris"
+                
+                css={css(`width: 425px; max-width: 90%; display: block;`)} />
           </Link>
         </React.Fragment>
 )})

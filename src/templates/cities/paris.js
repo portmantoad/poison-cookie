@@ -8,7 +8,7 @@ import Picture from '../../components/Picture'
 import Scrim from '../../components/Scrim'
 import Positioner from '../../components/Positioner'
 import Clouds from '../../components/Clouds'
-import { withPrefix } from 'gatsby'
+import { withPrefix, Link } from 'gatsby'
 import useMedia from 'use-media';
 
 
@@ -722,7 +722,31 @@ const pages = [
   setContainerCss(`min-height: calc(100vh - 40px);`)
     return(
   <React.Fragment>
-                See you in Berlin!
+            <Link to="/cities/paris" css={css(`
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              font-family: 'IM Fell Double Pica', serif;
+              font-weight: bold;
+              text-rendering: optimizeLegibility;
+              font-size: 1.8746rem;
+              line-height: 1.1;
+              @media screen and (max-width: 600px){
+                flex-direction: column;
+              }
+          `)}  >
+                <video css={css(`
+                  border-radius: 50%; 
+                  width: 200px;
+                  mask-image: url('${withPrefix('/')}img/cookie_mask.png');
+                  mask-size: 100% 100%;
+                `)} autoPlay muted loop src={`${withPrefix('/')}img/john-runs.mp4`} />
+                <img 
+                src={`${withPrefix('/')}img/paris_see-you.png`} 
+                alt="See you in Berlin"
+                
+                css={css(`width: 365px; max-width: 90%; display: block;`)} />
+          </Link>
   </React.Fragment>
 )}
 ]

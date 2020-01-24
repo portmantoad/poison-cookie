@@ -27,7 +27,7 @@ const ScrollSections = React.memo((
       windowWidth 
       && windowHeight 
       && ((windowWidth/100*120) < (windowHeight/100*115)) 
-      ? "120vw" : "115vh";
+      ? "120vw" : "115vh"; // don't change these without changing the logic above
 
     return (
       <div className="ScrollSections" css={css(`
