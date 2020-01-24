@@ -26,7 +26,7 @@ const ScrollSections = React.memo((
     const sectionSize = 
       windowWidth 
       && windowHeight 
-      && ((windowWidth/100*70) < (windowHeight/100*105)) 
+      && ((windowWidth/100*120) < (windowHeight/100*115)) 
       ? "120vw" : "115vh";
 
     return (

@@ -1,5 +1,5 @@
 a{
-  color: #be553d;
+  color: #963324;
   pointer-events: all;
 }
 
@@ -390,28 +390,4 @@ html, body {
   }
 }
 
-.TVborder{
-  width: calc(100% - 5vh);
-  max-width: calc((100vh - 40px - 7vh - 10vh) / (802 / 1549));
-  position: relative;
 
-  &:after{
-    content: "";
-    display: block;
-    padding-top: calc(100% / (1549 / 802));
-  }
-
-  &__img{
-    position: absolute;
-    bottom:0;
-    left:0;
-    width: 119.121447028%;
-  }
-
-  .Video{
-    position: absolute;
-    bottom: 8.65%;
-    left: 5%;
-    width: 75%;
-  }
-}

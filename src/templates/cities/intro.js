@@ -24,7 +24,7 @@ React.memo(
       <Clouds dimensions={dimensions} />
       <Parallax speed="-2" dimensions={dimensions}>
         <Picture 
-          src={`${withPrefix('/')}img/cover.png`} 
+          src={`${withPrefix('/')}img/cover-optim.png`} 
           width="calc(85% + 50px)" 
           height="calc((100vh - 40px) * 1.2)" 
           fit="cover"
@@ -82,7 +82,7 @@ React.memo(
     setContainerCss(`min-height: calc((100vh - 40px) * 0.6)`)
     return (
       <React.Fragment>
-        <Parallax speed="0" dimensions={dimensions}>
+        <Parallax speed="2" dimensions={dimensions}>
           <Positioner x="0.35">
             <Postcard>
               <VideoPlayer
@@ -96,7 +96,10 @@ React.memo(
 )})
 , React.memo(({sectionIndex, dimensions, setContainerCss}) => (
         <React.Fragment>
-          <div css={css(`
+          <Link to="/cities/paris" css={css(`
+              display: flex;
+              justify-content: center;
+              align-items: center;
               font-family: 'IM Fell Double Pica', serif;
               font-weight: bold;
               text-rendering: optimizeLegibility;
@@ -106,9 +109,14 @@ React.memo(
                 flex-direction: column;
               }
           `)}  >
-                <video css={css(`border-radius: 50%; width: 200px;`)} autoPlay muted loop src={`${withPrefix('/')}img/john-eats.mp4`} />
-                <div css={css(`padding: 3.5vh;`)}><Link to="/cities/paris">Bite me</Link> to get to Paris</div>
-          </div>
+                <video css={css(`
+                  border-radius: 50%; 
+                  width: 200px;
+                  mask-image: url('${withPrefix('/')}img/cookie_mask.png');
+                  mask-size: 100% 100%;
+                `)} autoPlay muted loop src={`${withPrefix('/')}img/john-eats.mp4`} />
+                <div css={css(`padding: 3.5vh;`)}>Bite me to get to Paris</div>
+          </Link>
         </React.Fragment>
 ))
 ]
