@@ -1,3 +1,4 @@
+
 a{
   color: #963324;
   pointer-events: all;
@@ -199,6 +200,14 @@ html, body {
     @include whiteNoise(0.4);
     background-size: auto 100%;
     z-index: -10000;
+  }
+
+  &__progress{
+    background: #fff; 
+    position: absolute; 
+    top: 0; 
+    height:5px; 
+    left:0; 
   }
 }
 

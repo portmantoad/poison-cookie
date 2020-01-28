@@ -4,11 +4,9 @@ import PropTypes from 'prop-types'
 import { withPrefix } from 'gatsby'
 import { PlxContext } from '../components/contexts'
 import { useWindowSize } from '@react-hook/window-size'
+import {useSpring, animated} from 'react-spring'
 // import { useInView } from 'react-intersection-observer'
 import { debounce } from 'lodash'
-
-    
-
 
 /** @jsx jsx */
 import { Global, css, jsx } from '@emotion/core'
@@ -22,6 +20,7 @@ const ScrollSections = React.memo((
     const [ windowWidth, windowHeight ] = useWindowSize();
 
     const [plxWrapEl, setPlxWrapEl] = useState();
+    const [progress, setProgress] = useSpring(() => ({width: '0%'}));
 
     const sectionSize = 
       windowWidth 
@@ -54,10 +53,14 @@ const ScrollSections = React.memo((
           `}
         />
             <div className="ScrollSections__background" css={css(`background-image: url( ${withPrefix('/')}img/paris.jpg);`)}></div>
+            
 
             <PlxContext.Provider value={plxWrapEl}>
                 <div 
                   className="ScrollSections__3D-scrollbox" 
+                  onScroll={e => {
+                    setProgress({width: (e.target.scrollTop/(e.target.scrollHeight - e.target.offsetHeight) * 100) + '%'})
+                  }}
                   ref={ref => setPlxWrapEl(ref)}
                   css={css(`
                     @media screen and (min-width: 40em) {
@@ -144,6 +147,8 @@ const ScrollSections = React.memo((
                     } 
                 </div>
             </PlxContext.Provider>
+
+            <animated.div className="ScrollSections__progress" style={progress} />
        </div>
 
     );
