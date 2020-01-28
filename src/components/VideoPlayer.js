@@ -99,8 +99,8 @@ const VideoPlayer = React.memo((
                 playerVars: {
                   ...(startTime ? {start: startTime} : {}), 
                   ...(endTime ? {end: endTime} : {}),
-                  // cc_lang_pref: 'en',
-                  // cc_load_policy: 1,
+                  cc_lang_pref: 'en',
+                  cc_load_policy: 1,
                   // modestbranding: 1
                 }
 
