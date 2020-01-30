@@ -7,17 +7,17 @@ import { clamp } from 'lodash'
 import { css, jsx } from '@emotion/core'
 
 
-const Positioner = React.memo(({x = 0.5, y = 0.5, children, ...rest}) => {
+const Positioner = React.memo(({x = 0.5, y = 0.5, padding = 0, children, ...rest}) => {
   x = clamp(Number(x), 0, 1);
   y = clamp(Number(y), 0, 1);
 
   return(
     <div css={css(`
       position: absolute;
-      top:0;
-      left:0;
-      bottom:0;
-      right:0;
+      top:${padding};
+      left:${padding};
+      bottom:${padding};
+      right:${padding};
       height: 100%;
       display: grid;
       grid-template-columns: ${x}fr minmax(0, auto) ${(1 - x)}fr;

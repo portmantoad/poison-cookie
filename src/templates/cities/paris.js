@@ -90,54 +90,24 @@ const pages = [
               
       </React.Fragment>
 )}
-,({sectionIndex, dimensions, setContainerCss}) => {
-
+, ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
-        <Parallax speed="-2" dimensions={dimensions} offset={0}>
-          <Picture src={`${withPrefix('/')}img/paris_map.jpg`} rotate={1} 
-            width="90%" 
-            height="140vh"
+        <Parallax dimensions={dimensions} speed="-4">
+          <Picture 
+            width="100%"
+            shadow={false}
+            height="calc((100vh - 40px) * 1.2)"
+            mask={`${withPrefix('/')}img/paris_book-1_mask.png`} 
+            src={`${withPrefix('/')}img/paris_book-1.jpg`} 
           />
         </Parallax>
       </React.Fragment>
 )}
-    // , ({sectionIndex, dimensions, setContainerCss}) => {
-//     const isMobile = useMedia({maxWidth: 700});
-//     // const isMobile = false;
-
-//     useEffect(() => {
-//       registerAnimation({
-//         key: ".Animation__BookScroll1--outer",
-//         sectionIndex: sectionIndex, 
-//         tween: () => TweenMax.to(".Animation__BookScroll1--outer", 1, {x: '100%', ease: "Quad.easeInOut"}),
-//       });
-
-//       registerAnimation({
-//         key: ".Animation__BookScroll1--inner",
-//         sectionIndex: sectionIndex, 
-//         tween: () => TweenMax.to(".Animation__BookScroll1--inner", 1, {x: '-100%', ease: "Quad.easeInOut"}),
-//       });
-//     }, []);
-//       return(
-//             <div className={(isMobile ? "Panel Transition--fade" : "") + (active ? " isActive" : "")}>
-//               <div className={"BookScroll" + (isMobile ? " Animation__BookScroll1--outer" : " BookScroll--scroll")}>
-//                 <img className={"BookScroll__img" + (isMobile ? " Animation__BookScroll1--inner" : "")} src={`${withPrefix('/')}img/paris_book-1.jpg`} alt=""
-//                   style={{
-//                     WebkitMaskImage: `url('${withPrefix('/')}img/paris_book-1_mask.png')`,
-//                     WebkitMaskSize: '100% 100%'
-//                   }} 
-//                 />
-//               </div>
-//             </div>
-// )}
 , ({sectionIndex, dimensions, setContainerCss}) => (
           <React.Fragment>
-            <Parallax speed="1" dimensions={dimensions} offset={0}>
-              <Scrim image={`${withPrefix('/')}img/paris_poster-2.jpg`} css={css(`background-position: right center;`)} />
-            </Parallax>
-            <Parallax speed="2" dimensions={dimensions}>
-              <Positioner x="0.4" y="0.4">
+            <Parallax speed="-2" dimensions={dimensions}>
+              <Positioner x="0.6" y="0.5">
                 <Postcard mask="2" card="2">                
                     <VideoPlayer
                       videoId="LkdWOkpCuTw"
@@ -148,12 +118,30 @@ const pages = [
             </Parallax>
           </React.Fragment>
 )
+, ({sectionIndex, dimensions, setContainerCss}) => (
+          <React.Fragment>
+            <Parallax speed="1" dimensions={dimensions} offset={0}>
+              <Scrim image={`${withPrefix('/')}img/paris_poster-2.jpg`} css={css(`background-position: right center;`)} />
+            </Parallax>
+            <Parallax speed="2" dimensions={dimensions}>
+              <Positioner x="0.4" y="0.4">
+                <Postcard mask="2" card="2">                
+                    <VideoPlayer
+                      // Intro strongman cemetary
+                      videoId="9IJph4x7ySg"
+                      // thumbnail={`${withPrefix('/')}img/thumbnails/wig_shop.jpg`}
+                    />
+                </Postcard> 
+              </Positioner> 
+            </Parallax>
+          </React.Fragment>
+)
 , ({sectionIndex, dimensions, setContainerCss}) => {
 
     return(
       <React.Fragment>
-        <Parallax dimensions={dimensions} speed="-6">
-          <Positioner x="0.3">
+        <Parallax dimensions={dimensions} speed="-5">
+          <Positioner x="0.7" y="0.4">
             <Postcard mask="2" card="1" alt="3">
               <VideoPlayer
                 /* Strongman chat noir */
@@ -167,33 +155,27 @@ const pages = [
         </Parallax>
       </React.Fragment>
 )}
-// , ({sectionIndex, dimensions, setContainerCss}) => (
-//           <div className="Panel">
-//             <div className={"Panel Transition--fade whereAreTheyNow" + (active ? " isActive" : "")}>
-//             <div className="whereAreTheyNow__title">
-//               <h2>Où sont-ils maintenant?</h2>
-//               <span>(Where are they now?)</span>
-//             </div>
-//               <Slideshow 
-//                 registerAnimation={registerAnimation}
-//                 dimensions={dimensions}
-//                 // backgroundFill
-//               >
-//                 <img src={`${withPrefix('/')}img/paris_famouspeople_toulouselautrec.jpg`} alt="" />
-//                 <img src={`${withPrefix('/')}img/paris_famouspeople_willette.jpg`} alt="" />
-//                 <img src={`${withPrefix('/')}img/paris_famouspeople_andregill.jpg`} alt="" />
-//                 <img src={`${withPrefix('/')}img/paris_famouspeople_bruant.jpg`} alt="" />
-//                 <img src={`${withPrefix('/')}img/paris_famouspeople_claudedebussy.jpg`} alt="" />
-//                 <img src={`${withPrefix('/')}img/paris_famouspeople_ericsatie.jpg`} alt="" />
-//                 <img src={`${withPrefix('/')}img/paris_famouspeople_janeavril.jpg`} alt="" />
-//               </Slideshow>
-//             </div>
-//           </div>
-// ) 
+, ({sectionIndex, dimensions, setContainerCss}) => {
+setContainerCss(`max-height: calc(100vh - 40px)`)
+  return(
+          <React.Fragment>
+          <Parallax dimensions={dimensions} speed="-4">
+            <Positioner x="1" y="0.15" padding="3.5vh">
+                <img src={`${withPrefix('/')}img/paris_wherearetheynow.png`} alt="Where are they now?" css={css(`width: calc(25vw + 100px); max-width: 100%;`)}/>
+            </Positioner>
+          </Parallax>
+
+            
+            <Parallax dimensions={dimensions} speed="0"><Positioner padding="3.5vh" x="0"><Picture padding="2%" background="#f9f9f9" height="110vh" width="25vw" y="0.3" rotate="-1" src={`${withPrefix('/')}img/paris_famouspeople_eric-satie.jpg`} /></Positioner></Parallax>
+            <Parallax dimensions={dimensions} speed="-2.5"><Positioner padding="3.5vh" x="1"><Picture padding="1%" background="#efefef" height="90vh" width="45vw" y="0.8" rotate="2" src={`${withPrefix('/')}img/paris_famouspeople_toulouse-lautrec.jpg`} /></Positioner></Parallax>
+            <Parallax dimensions={dimensions} speed="-4"><Positioner padding="3.5vh" x="0.4"><Picture height="90vh" width="40vw" y="0.5" rotate="-2" src={`${withPrefix('/')}img/paris_famouspeople_andre-gill.jpg`} /></Positioner></Parallax>
+
+          </React.Fragment>
+)}
  , ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
-        <Parallax dimensions={dimensions}>
+        <Parallax dimensions={dimensions} speed="-2">
         <Positioner x="0.7">
         <Postcard mask="1" card="2" alt="2">
             <VideoPlayer
@@ -216,7 +198,7 @@ const pages = [
             width="37.5%"
             rotate={.25}
             x="1"
-            css={css`margin-right: auto; margin-left:2.5%`} 
+            css={css`margin-right: auto; margin-left:3.5vh`} 
             src={`${withPrefix('/')}img/paris_bruant.jpg`} 
             alt="" 
           />
@@ -263,7 +245,7 @@ const pages = [
         <Scrim />
         <VideoPlayer
           /* interview with julia */
-          videoId="sKxtbvayB50"
+          videoId="p3GpNMbGbEs"
           thumbnail={`${withPrefix('/')}img/thumbnails/00_julia_interview%20v7.jpg`}
           fullscreen
         />
@@ -296,7 +278,7 @@ const pages = [
             bottom: 5px;
             right: 5px;
             border-radius: 100%;
-            background-image: url("${withPrefix('/')}img/paris_map.jpg");
+            // background-image: url("${withPrefix('/')}img/paris_map.jpg");
             background-size: 700% auto;
             background-position: center center;
             opacity: 0.25;
@@ -323,6 +305,20 @@ const pages = [
         </Postcard>
       </Parallax>
 )}
+, ({sectionIndex, dimensions, setContainerCss}) => {
+    return(
+      <React.Fragment>
+        <Parallax dimensions={dimensions} speed="-4">
+          <Picture 
+            width="100%"
+            shadow={false}
+            height="calc((100vh - 40px) * 1.2)"
+            mask={`${withPrefix('/')}img/paris_book-2_mask.png`} 
+            src={`${withPrefix('/')}img/paris_book-2.jpg`} 
+          />
+        </Parallax>
+      </React.Fragment>
+)}
 ,    ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
@@ -334,6 +330,49 @@ const pages = [
           fullscreen
         />
         <Curtains />
+      </React.Fragment>
+)}
+, ({sectionIndex, dimensions, setContainerCss}) => {
+// setContainerCss(`max-height: calc(100vh - 40px)`)
+  return(
+          <React.Fragment>
+          <Parallax dimensions={dimensions} speed="-2">
+            <Positioner x="0.9" y="0.15" padding="3.5vh">
+              <img src={`${withPrefix('/')}img/paris_wherearetheynow.png`} alt="Where are they now?" css={css(`width: calc(25vw + 100px); max-width: 100%;`)}/>
+            </Positioner>
+          </Parallax>
+
+            <Parallax dimensions={dimensions} speed="2"><Positioner padding="3.5vh" x="0.1"><Picture height="90vh" width="35vw" y="0.8" rotate="2" src={`${withPrefix('/')}img/paris_famouspeople_claude-debussy.jpg`} /></Positioner></Parallax>
+            <Parallax dimensions={dimensions} speed="0"><Positioner padding="3.5vh" x="0.8"><Picture height="90vh" width="50vw" y="0.8" rotate="2" src={`${withPrefix('/')}img/paris_famouspeople_paul-verlaine.jpg`} /></Positioner></Parallax>
+
+          </React.Fragment>
+)}
+,    ({sectionIndex, dimensions, setContainerCss}) => {
+
+    return(
+      <React.Fragment>
+        <Parallax speed="-2" dimensions={dimensions}>
+              <Scrim image={`${withPrefix('/')}img/paris_poster-5.jpg`} />
+            </Parallax>
+        <Parallax speed="2" dimensions={dimensions}>
+            <Positioner x="1" css={css(`width:60%; right: unset;`)}>
+              <Postcard mask="1" card="1" alt="2">
+                <VideoPlayer
+                  /* music video partial song */
+                  videoId="RnyJ8nwcuOE"
+                  thumbnail={`${withPrefix('/')}img/thumbnails/Yvette_Guilbert_song.jpg`}
+                  // fullscreen
+                />
+              </Postcard>
+            </Positioner>
+         </Parallax>
+         <Parallax speed="0" dimensions={dimensions}>
+         <Positioner x="0" padding="3.5vh" css={css(`width:calc(40% - 3.5vh); left: unset;`)}>
+          <div className="Paper" css={css(`max-width: 500px; transform: rotate(1deg)`)}>
+            Early cabaret was dominated by men. The women and queer artists who would come to dominate the stages in the 20th century were not yet . Except for one. Yvette Guilbert. She dressed in yellow and wore long black gloves, dyed her hair red and painted her face white. In a city used to seeing female entertainers as decorative (and silent) objects, Guilbert refused to be easily categorized. The first in a long line of cabaret women who would stand still while they performed, the most movement she allowed was a gesture of her arms. She sang more frequently in music halls (the Moulin Rouge, the Divan Japonois) than cabarets, but frequently took a turn on cabaret stages, and the intimate, word-driven method of her delivery fits perfectly into the cabaret vernacular. Guilbert wrote her own songs and sang the songs of others, raunchy ballads, and patter songs. Her poison was of the under-the-sink variety: songs about domestic disputes and the working class people she grew up with, songs about love, especially when it went wrong. And more than anything, her poison lay in the fact that men were conflicted about how to receive her. She was sometimes referred to as the Queen of Paris and sometimes as the Lean Witch. In cabaret, she was the first, but she wouldn't be the only.   
+          </div>
+        </Positioner>
+        </Parallax>
       </React.Fragment>
 )}
 , ({sectionIndex, dimensions, setContainerCss}) => {
@@ -385,42 +424,37 @@ const pages = [
             width="100%"
             shadow={false}
             height="calc((100vh - 40px) * 1.2)"
-            mask={`${withPrefix('/')}img/paris_book-1_mask.png`} 
-            src={`${withPrefix('/')}img/paris_book-1.jpg`} 
+            mask={`${withPrefix('/')}img/paris_book-3_mask.png`} 
+            src={`${withPrefix('/')}img/paris_book-3.jpg`} 
           />
         </Parallax>
       </React.Fragment>
 )}
-// , ({sectionIndex, dimensions, setContainerCss}) => (
-//           <div className="Panel">
-//             <div className={"Panel Panel--padded Transition--fade" + (active ? " isActive" : "")} style={{flexDirection: 'column'}}>
-//               <Slideshow 
-//                 registerAnimation={registerAnimation}
-//                 dimensions={dimensions}
-//                 style={{minWidth: '300px'}}
-//                 // backgroundFill
-//               >
-//                 <CanvasBlend use="multiplyBW"><img src={`${withPrefix('/')}img/cabaret_1.jpg`} alt="" /></CanvasBlend>
-//                 <CanvasBlend use="multiplyBW"><img src={`${withPrefix('/')}img/cabaret_2.jpg`} alt="" /></CanvasBlend>
-//                 <CanvasBlend use="multiplyBW"><img src={`${withPrefix('/')}img/cabaret_3.jpg`} alt="" /></CanvasBlend>
-//                 <CanvasBlend use="multiplyBW"><img src={`${withPrefix('/')}img/cabaret_4.jpg`} alt="" /></CanvasBlend>
-//                 <CanvasBlend use="multiplyBW"><img src={`${withPrefix('/')}img/cabaret_5.jpg`} alt="" /></CanvasBlend>
-//               </Slideshow>
-//               <div style={{marginTop: "10px"}}>The faces of cabaret in old Paris</div>
-//             </div>
-//           </div>
-// )
+// ,    ({sectionIndex, dimensions, setContainerCss}) => {
+//     return(
+//       <React.Fragment>
+//         <Scrim />
+//         <VideoPlayer
+//           /* Edith Piaf’s grave site */
+//           videoId="lqsW1FCVi_M"
+//           thumbnail={`${withPrefix('/')}img/thumbnails/00_Edith_Piafs_Grave.jpg`}
+//           fullscreen
+//         />
+//         <Curtains />
+//       </React.Fragment>
+// )}
+
 ,    ({sectionIndex, dimensions, setContainerCss}) => {
+
     return(
       <React.Fragment>
-        <Scrim />
-        <VideoPlayer
-          /* Edith Piaf’s grave site */
-          videoId="lqsW1FCVi_M"
-          thumbnail={`${withPrefix('/')}img/thumbnails/00_Edith_Piafs_Grave.jpg`}
-          fullscreen
-        />
-        <Curtains />
+        <Parallax speed="-2" dimensions={dimensions}>
+              <Scrim image={`${withPrefix('/')}img/paris_poster-4.jpg`} />
+            </Parallax>
+         <Positioner x="0" css={css(`width:35%; left: unset;`)}>
+        <div className="Paper" css={css(`max-width: 300px; transform: rotate(1deg)`)}>
+          Marie Dubas... Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum        </div>
+        </Positioner>
       </React.Fragment>
 )}
 ,    ({sectionIndex, dimensions, setContainerCss}) => {
@@ -434,7 +468,8 @@ const pages = [
           <Picture width="50%" padding="0.5%" background="#efefef" height="102vh" x={0.25} css={css(`position: absolute; right: 2.5%;`)} rotate={1} src={`${withPrefix('/')}img/paris_josephine2.jpg`} alt=""/>
         </Parallax>
 
-          <div className="Paper" css={css(`transform: rotate(-1deg); max-width: 400px`)}><p>In the 1920s and 30s, a flood of expats in Paris created both a stream of American entertainers and American ex-pats who would flock to establishments with American artists (as did the French). A huge part of the reason was jazz’s rapid advance around the world.</p> <p>In particular, African American artists who could not perform in front of integrated audiences at home and who were appalled and exhausted at their treatment in America found refuge in Paris. This cross-cultural exchange would have a lasting impact on cabaret in both Paris and America (and also in Berlin which was not immune to the influence of Josephine Baker).</p></div>
+          <div className="Paper" css={css(`transform: rotate(-1deg); max-width: 400px`)}>
+          <p>After WWI, African American soldiers weighed their options between staying in Europe or returning home. A number of them stayed, and settled in Paris. Jazz fever swept France, bringing with it a new appreciation for Americans generally and African Americans specifically. Musicians, writers, and visual artists all made their way across the ocean for opportunities denied them at home. All of them remarked on how welcome they seemed in France: “ They had a freedom you didn’t get [in America]. Over there you didn’t have to hide away,” remembered jazz musician Elliot Carpenter. These expats included dancer Josephine Baker, who became a European sensation, poet Langston Hughes, who washed dishes in Montmartre cabarets while honing his writer’s voice, and cabaret owner Ada Bricktop Smith whose nightclub Bricktop’s was the gathering place for American expats. This cross-cultural exchange would have a lasting impact on cabaret in Paris, Berlin, and America.</p></div>
       </React.Fragment>
 )}
 , ({sectionIndex, dimensions, setContainerCss}) => (
@@ -462,35 +497,59 @@ const pages = [
         </div>
       </React.Fragment>
 )
+,    ({sectionIndex, dimensions, setContainerCss}) => {
+
+    return(
+      <React.Fragment>
+        <Parallax speed="2" dimensions={dimensions}>
+            <Positioner x="1" css={css(`width:65%; right: unset;`)}>
+              <Postcard mask="1" card="1" alt="2">
+                <VideoPlayer
+                  /* Bricktop */
+                  videoId="mco73mfFUgo"
+                  // thumbnail={`${withPrefix('/')}img/thumbnails/Yvette_Guilbert_song.jpg`}
+                  // fullscreen
+                />
+              </Postcard>
+            </Positioner>
+         </Parallax>
+         <Parallax speed="0" dimensions={dimensions}>
+         <Positioner x="0" css={css(`width:35%; left: unset;`)}>
+        <div className="Paper" css={css(`max-width: 300px; transform: rotate(1deg)`)}>
+        Bricktop’s was a combination mail-drop, bank, rehearsal hall, club house—even a neighborhood bar. But it was always chic.” Bricktop on her cabaret. People who frequented Bricktop’s: F. Scott & Zelda Fitzgerald, Ernest Hemingway, Gertrude Stein, the Duke and Duchess of Windsor, Evelyn Waugh, and T. S. Eliot. People who performed there: Django Reinhardt, Fred and Adele Astair, Jasha Heifitz, Duke Ellington, and Josephine Baker (whose son alleges that Baker told him she and Bricktop had an affair). Mabel Mercer was her assistant and Cole Porter her patron.        
+        </div>
+        </Positioner>
+        </Parallax>
+      </React.Fragment>
+)}
+
+, ({sectionIndex, dimensions, setContainerCss}) => {
+    return(
+      <React.Fragment>
+        <Parallax dimensions={dimensions} speed="-4">
+          <Picture 
+            width="100%"
+            shadow={false}
+            height="calc((100vh - 40px) * 1.2)"
+            mask={`${withPrefix('/')}img/paris_book-1_mask.png`} 
+            src={`${withPrefix('/')}img/paris_book-1.jpg`} 
+          />
+        </Parallax>
+      </React.Fragment>
+)}
 ,  ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
         <Scrim />
         <VideoPlayer
           /*Edith piaf chanson realiste*/
-          videoId="Sp0oggT2IjY"
+          videoId="nqgnmYe-o-8"
           thumbnail={`${withPrefix('/')}img/thumbnails/00_Edith_Piaf_Chanson_Realiste_V4.jpg`}
           fullscreen
         />
         <Curtains />
       </React.Fragment>
 )}
-// , 
-//   ({sectionIndex, dimensions, setContainerCss}) => {
-
-//     return(
-//       <React.Fragment>
-//         <div className={"Panel Transition--fade" + (active ? " isActive" : "")}>
-//             <VideoPlayer
-//               videoId="xxx"
-//               fullscreen
-//               dimensions={dimensions}
-//               activeIndex={activeIndex}
-//               onEnd={() => scrollTo("next")}
-//             />
-//         </div>
-//       </React.Fragment>
-// )})
 , ({sectionIndex, dimensions, setContainerCss}) => (
       <React.Fragment>
         <Parallax dimensions={dimensions}>
@@ -510,7 +569,7 @@ const pages = [
             <Scrim />
             <VideoPlayer
               /* interview with gosia  */
-              videoId="VxGeGeKUaU0"
+              videoId="yufGrVm2sMc"
               thumbnail={`${withPrefix('/')}img/thumbnails/00_interview_with_gosia-v6.jpg`}
               fullscreen
             />
@@ -548,7 +607,7 @@ const pages = [
             <Postcard mask="1" card="1" alt="1" css={css(`margin-left: auto;`)}>
               <VideoPlayer
                 /* Interview_Natalie_au Magique */
-                videoId="jS34OY5LCk0"
+                videoId="ZoqKiCB40Dk"
                 thumbnail={`${withPrefix('/')}img/thumbnails/00_Interview_Natalie_au_Magique_v2.jpg`}
               />
             </Postcard>
@@ -584,49 +643,26 @@ const pages = [
         </Parallax>
       </React.Fragment>
 )}
-// ,    ({sectionIndex, dimensions, setContainerCss}) => {
-//     return(
-//       <React.Fragment>
-//         <Postcard mask="1" card="2" alt="3">
-//             interview with Monsieur K
-//         </Postcard>
-//       </React.Fragment>
-// )}
 ,    ({sectionIndex, dimensions, setContainerCss}) => {
-
     return(
       <React.Fragment>
-        <Parallax speed="-2" dimensions={dimensions}>
-              <Scrim image={`${withPrefix('/')}img/paris_poster-5.jpg`} />
-            </Parallax>
-        <Parallax speed="2" dimensions={dimensions}>
-            <Positioner x="1" css={css(`width:65%; right: unset;`)}>
-              <Postcard mask="1" card="1" alt="2">
-                <VideoPlayer
-                  /* music video partial song */
-                  videoId="RnyJ8nwcuOE"
-                  thumbnail={`${withPrefix('/')}img/thumbnails/Yvette_Guilbert_song.jpg`}
-                  // fullscreen
-                />
-              </Postcard>
-            </Positioner>
-         </Parallax>
-         <Parallax speed="0" dimensions={dimensions}>
-         <Positioner x="0" css={css(`width:35%; left: unset;`)}>
-        <div className="Paper" css={css(`max-width: 300px; transform: rotate(1deg)`)}>
-          Madame Arthur is named after a song by one of fin-de-siecle’s most famous chanteuses: Yvette Guilbert. Guilbert Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et 
-        </div>
-        </Positioner>
-        </Parallax>
+          <Postcard>
+            <VideoPlayer
+              /* interview with Monsieur K */
+              videoId="IJDUmNxoHco"
+              // thumbnail={`${withPrefix('/')}img/thumbnails/00_strongman_limonaire_v2.jpg`}
+            />
+          </Postcard>
       </React.Fragment>
 )}
+
 ,    ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
           <Postcard>
             <VideoPlayer
               /* strongman limonaire */
-              videoId="2UTO67pYjpU"
+              videoId="mO8tjnfsgqE"
               thumbnail={`${withPrefix('/')}img/thumbnails/00_strongman_limonaire_v2.jpg`}
             />
           </Postcard>
@@ -643,6 +679,18 @@ const pages = [
               fullscreen
             />
         <Curtains />
+      </React.Fragment>
+)}
+,    ({sectionIndex, dimensions, setContainerCss}) => {
+    return(
+      <React.Fragment>
+          <Postcard>
+            <VideoPlayer
+              /* John missing strongman */
+              videoId="dqLS2IFEL18"
+              // thumbnail={`${withPrefix('/')}img/thumbnails/00_strongman_limonaire_v2.jpg`}
+            />
+          </Postcard>
       </React.Fragment>
 )}
 , ({sectionIndex, dimensions, setContainerCss}) => (
@@ -681,7 +729,7 @@ const pages = [
                 </CanvasBlend>
                 <VideoPlayer
                   /* chat noir multicam cooking  */
-                  videoId="edE_LnV6Fm4"
+                  videoId="y-CQeCRA0mU"
                   thumbnail={`${withPrefix('/')}img/thumbnails/00_Chat-Noir-Multicam-cooking-v1.jpg`}
                   css={css(`
                     position: absolute;
