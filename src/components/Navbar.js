@@ -4,6 +4,7 @@ import { MutedContext } from './contexts'
 import Icon from './Icon'
 import { withPrefix } from 'gatsby'
 import useMedia from 'use-media';
+
 // import Headroom from 'react-headroom'
 
 const Navbar = () => {
