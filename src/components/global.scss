@@ -8,8 +8,6 @@ img{
   margin: 0;
 }
 
-
-
 @mixin transition--none(){
   &:not(.isActive) { 
     opacity: 0 !important; 
@@ -379,6 +377,8 @@ html, body {
   // max-width: 16rem;
   padding:2.5rem;
   position: relative;
+  font-family: 'Caveat', cursive;
+  font-size: 19px;
 
   &:before{
     content: "";

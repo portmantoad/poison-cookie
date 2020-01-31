@@ -141,7 +141,7 @@ const pages = [
                     <VideoPlayer
                       // Intro strongman cemetary
                       videoId="9IJph4x7ySg"
-                      // thumbnail={`${withPrefix('/')}img/thumbnails/wig_shop.jpg`}
+                      thumbnail={`${withPrefix('/')}img/thumbnails/00_CemetaryV3.jpg`}
                     />
                 </Postcard> 
               </Positioner> 
@@ -311,7 +311,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
         <Postcard mask="2" card="2" alt="3">           
           <VideoPlayer
             /* strongman lapin agile */
-            videoId="-995ptoiNjw"
+            videoId="-995ptoiNjw" 
             thumbnail={`${withPrefix('/')}img/thumbnails/00_strongman_Lapin%20agile_v1.jpg`}
           />
         </Postcard>
@@ -337,7 +337,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
         <Scrim /> 
         <VideoPlayer
           /* lapin agile interview */
-          videoId="ubFSIFzFLs8"
+          videoId="Lv5TdkvVx6s"
           thumbnail={`${withPrefix('/')}img/thumbnails/00_Lapin_agile_interview.jpg`}
           fullscreen
         />
@@ -372,7 +372,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
                 <VideoPlayer
                   /* music video partial song */
                   videoId="RnyJ8nwcuOE"
-                  thumbnail={`${withPrefix('/')}img/thumbnails/Yvette_Guilbert_song.jpg`}
+                  thumbnail={`${withPrefix('/')}img/thumbnails/guilbert.jpg`}
                   // fullscreen
                 />
               </Postcard>
@@ -532,7 +532,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
                   /* Bricktop */
                   videoId="mco73mfFUgo"
                   aspectRatio={4/3}
-                  // thumbnail={`${withPrefix('/')}img/thumbnails/Yvette_Guilbert_song.jpg`}
+                  thumbnail={`${withPrefix('/')}img/thumbnails/bricktop.jpg`}
                   // fullscreen
                 />
               </Postcard>

@@ -5,21 +5,27 @@ const typography = new Typography({
   baseLineHeight: 1.54,
   scaleRatio: 3,
   googleFonts: [
-  {
-    name: 'IM Fell Double Pica',
-    styles: [
-      '400',
-    ],
-  },
-  {
-    name: 'Averia Serif Libre',
-    styles: [
-      '300',
-      '300i',
-      '700'
-    ],
-  },
-],
+    {
+      name: 'IM Fell Double Pica',
+      styles: [
+        '400',
+      ],
+    },
+    {
+      name: 'Caveat',
+      styles: [
+        '400',
+      ],
+    },
+    {
+      name: 'Averia Serif Libre',
+      styles: [
+        '300',
+        '300i',
+        '700'
+      ],
+    },
+  ],
   headerFontFamily: ['IM Fell Double Pica', 'serif'],
   bodyFontFamily: ['Averia Serif Libre', 'serif'],
   // See below for the full list of options.
