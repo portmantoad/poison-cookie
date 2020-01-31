@@ -25,7 +25,7 @@ React.memo(
       <Parallax speed="-2" dimensions={dimensions}>
         <Picture 
           src={`${withPrefix('/')}img/cover-optim.png`} 
-          width="calc(85% + 50px)" 
+          width="100%" 
           height="calc((100vh - 40px) * 1.2)" 
           fit="cover"
           shadow={false}

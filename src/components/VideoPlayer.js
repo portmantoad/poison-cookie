@@ -24,6 +24,7 @@ const VideoPlayer = React.memo((
       onEnd,
       autoplay = false,
       thumbnail = true, //pass in image here
+      aspectRatio = (1280/720),
       ...rest
     }) => {
 
@@ -71,10 +72,14 @@ const VideoPlayer = React.memo((
           + (inView ? " isActive" : "") 
           + (className ? ` ${className}` : "")
         }
+        css={css(`max-width: calc((100vh - 40px - 7vh) / ${1/aspectRatio});`)}
         {...rest}
         > 
         
-        <div className="Video__wrapper" ref={inViewRef}>
+        <div className="Video__wrapper" ref={inViewRef} css={css(`
+          padding-top: calc(100% / ${aspectRatio});
+          border-radius: 1% / calc(1% * ${aspectRatio});
+        `)}>
           <div className="Video__spinner"><div></div><div></div><div></div><div></div></div>
           <ReactPlayer
             ref={player}

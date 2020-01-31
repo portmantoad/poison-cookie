@@ -236,7 +236,6 @@ html, body {
   align-items: center;
   justify-content: center;
   position: relative;
-  max-width: calc((100vh - 40px - 7vh) / (720 / 1280));
 
   // &.isActive{
     pointer-events: auto;
@@ -275,11 +274,9 @@ html, body {
 
    &__wrapper{
     position:relative;
-    padding-top: calc(100% / (1280 / 720));
     width: 100%;
     overflow: hidden;
     // background: #000;
-    border-radius: 1% / calc(1% * (1280 / 720));
 
     &__ytEmbed{
       position: absolute;
@@ -380,7 +377,7 @@ html, body {
 .Paper{
   filter: $drop-shadow;
   // max-width: 16rem;
-  padding:1rem 2rem .5rem;
+  padding:2.5rem;
   position: relative;
 
   &:before{

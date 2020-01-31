@@ -104,6 +104,18 @@ const pages = [
         </Parallax>
       </React.Fragment>
 )}
+, ({sectionIndex, dimensions, setContainerCss}) => {
+  setContainerCss(`min-height: unset`)
+    return(
+      <React.Fragment>
+        <Positioner x="0.3" css={css(`position:relative;`)}>
+          <img 
+            css={css(`width: calc(30% + 150px); max-width:100%; filter: drop-shadow(0px 1px 5px rgba(0, 0, 0, 0.15)); transform: rotate(-1deg); border-radius:3px;`)}
+            src={`${withPrefix('/')}img/paris_recipe_alexandre.jpg`} 
+          />
+        </Positioner>
+      </React.Fragment>
+)}
 , ({sectionIndex, dimensions, setContainerCss}) => (
           <React.Fragment>
             <Parallax speed="-2" dimensions={dimensions}>
@@ -166,8 +178,8 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
           </Parallax>
 
             
-            <Parallax dimensions={dimensions} speed="0"><Positioner padding="3.5vh" x="0"><Picture padding="2%" background="#f9f9f9" height="110vh" width="25vw" y="0.3" rotate="-1" src={`${withPrefix('/')}img/paris_famouspeople_eric-satie.jpg`} /></Positioner></Parallax>
-            <Parallax dimensions={dimensions} speed="-2.5"><Positioner padding="3.5vh" x="1"><Picture padding="1%" background="#efefef" height="90vh" width="45vw" y="0.8" rotate="2" src={`${withPrefix('/')}img/paris_famouspeople_toulouse-lautrec.jpg`} /></Positioner></Parallax>
+            <Parallax dimensions={dimensions} speed="0"><Positioner padding="3.5vh" x="0"><Picture height="110vh" width="25vw" y="0.3" rotate="-1" src={`${withPrefix('/')}img/paris_famouspeople_eric-satie.jpg`} /></Positioner></Parallax>
+            <Parallax dimensions={dimensions} speed="-2.5"><Positioner padding="3.5vh" x="1"><Picture height="90vh" width="45vw" y="0.8" rotate="2" src={`${withPrefix('/')}img/paris_famouspeople_toulouse-lautrec.jpg`} /></Positioner></Parallax>
             <Parallax dimensions={dimensions} speed="-4"><Positioner padding="3.5vh" x="0.4"><Picture height="90vh" width="40vw" y="0.5" rotate="-2" src={`${withPrefix('/')}img/paris_famouspeople_andre-gill.jpg`} /></Positioner></Parallax>
 
           </React.Fragment>
@@ -430,6 +442,18 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
         </Parallax>
       </React.Fragment>
 )}
+, ({sectionIndex, dimensions, setContainerCss}) => {
+  setContainerCss(`min-height: unset`)
+    return(
+      <React.Fragment>
+        <Positioner x="0.7" css={css(`position:relative;`)}>
+          <img 
+            css={css(`width: calc(30% + 150px); max-width:100%; filter: drop-shadow(0px 1px 5px rgba(0, 0, 0, 0.15)); transform: rotate(-1deg); border-radius:3px;`)}
+            src={`${withPrefix('/')}img/paris_recipe_neant.jpg`} 
+          />
+        </Positioner>
+      </React.Fragment>
+)}
 // ,    ({sectionIndex, dimensions, setContainerCss}) => {
 //     return(
 //       <React.Fragment>
@@ -507,6 +531,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
                 <VideoPlayer
                   /* Bricktop */
                   videoId="mco73mfFUgo"
+                  aspectRatio={4/3}
                   // thumbnail={`${withPrefix('/')}img/thumbnails/Yvette_Guilbert_song.jpg`}
                   // fullscreen
                 />
