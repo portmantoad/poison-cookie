@@ -252,7 +252,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
 ,    ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
-        <Scrim />
+        <Scrim offset="0" />
         <VideoPlayer
           /* interview with julia */
           videoIds={["p3GpNMbGbEs"]}
@@ -288,8 +288,8 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
             bottom: 5px;
             right: 5px;
             border-radius: 100%;
-            // background-image: url("${withPrefix('/')}img/paris_map.jpg");
-            background-size: 700% auto;
+            background-image: url("${withPrefix('/')}img/paris_montmartre.jpg");
+            background-size: cover;
             background-position: center center;
             opacity: 0.25;
             // background-clip: content-box;

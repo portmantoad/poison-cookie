@@ -7,7 +7,7 @@ import { withPrefix } from 'gatsby'
 import { css, jsx } from '@emotion/core'
 
 
-const Scrim = React.memo(({image, children, ...rest}) => {
+const Scrim = React.memo(({image, children, offset, ...rest}) => {
 
 const randomOffset = useRef(Math.random());
 
@@ -22,7 +22,7 @@ const randomOffset = useRef(Math.random());
       background-size: cover;
       mask-image: url('${withPrefix('/')}img/torn-edge_mask.png');
       mask-size: auto 100.1%;
-      mask-position: calc( 115vh * 1920/1080 * ${randomOffset.current}) 0;
+      mask-position: calc( 115vh * 1920/1080 * ${offset !== undefined ? offset : randomOffset.current}) 0;
     `)} {...rest}>
         {children}
     </div>

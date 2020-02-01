@@ -17,7 +17,8 @@ const Navbar = () => {
     return (
       <nav className="Navbar">
         <img className="Navbar__paper" src={`${withPrefix('/')}img/headerpaper.png`} alt="" />
-        <a href="https://www.beardedladiescabaret.com/" className="Navbar__logo"><img src={`${withPrefix('/')}img/nav_logo.png`} alt=""/></a>
+        <a href="https://www.beardedladiescabaret.com/" className="Navbar__logo" style={{marginRight: "15px"}}><img src={`${withPrefix('/')}img/nav_logo.png`} alt=""/></a>
+        <Link className="Navbar__logo" onClick={() => setActive(false)} to="/cities/intro"><img src={`${withPrefix('/')}img/nav_logo2.png`} alt=""/></Link>
         {isMobile 
           ? (
             <div className="Navbar__endLinks">
