@@ -22,12 +22,26 @@ const Curtains = React.memo( () => {
     const curtainShared = `
       ${positioning}
       will-change: transform;
-      background-image: url('${withPrefix('/')}img/curtain.png');
-      background-size: auto 100%;
-      background-position: top right;
-      background-repeat: no-repeat;
       border-top-right-radius: 5px;
       pointer-events: none;
+      display: flex;
+      align-items: stretch;
+      justify-content: stretch;
+
+      img{
+        height: 100%;
+        width: auto;
+        flex-grow:0
+      }
+
+      &:before{
+        content: "";
+        height: 100%;
+        flex-grow: 1;
+        background-image: url('${withPrefix('/')}img/curtain-inner.png');
+        background-size: auto 100%;
+        background-position: top right;
+      }
     `;
 
     const overlapWidth = '7vw - 25px'
@@ -52,7 +66,7 @@ const Curtains = React.memo( () => {
                     transform: translateX(calc((100% - ${overlapWidth}) * ${open ? 1 : 0})) scaleX(-1);
                   `: ''
                 }
-              `)} style={rightSpring} />
+              `)} style={rightSpring}><img src={`${withPrefix('/')}img/curtain-outer.png`} alt=""/></animated.div>
               <animated.div css={css(`
                 ${curtainShared}
                 right: calc(50% - ${overlapWidth});
@@ -61,7 +75,7 @@ const Curtains = React.memo( () => {
                     transform: translateX(calc((100% - ${overlapWidth}) * ${open ? -1 : 0}));
                   ` : ''
                 }
-              `)} style={leftSpring} />
+              `)} style={leftSpring}><img src={`${withPrefix('/')}img/curtain-outer.png`} alt=""/></animated.div>
         </div>
 )});
 

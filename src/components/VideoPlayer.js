@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import ReactPlayer from 'react-player'
 import { MutedContext } from './contexts'
 import { withPrefix } from 'gatsby'
+import Icon from './Icon'
 // import { Slider, FormattedTime, PlayerIcon } from 'react-player-controls'
 import { debounce, clamp } from 'lodash'
 import fscreen from 'fscreen'
@@ -18,7 +19,7 @@ import { css, jsx } from '@emotion/core'
 const VideoPlayer = React.memo((
     { className, 
       fullscreen, 
-      videoId, 
+      videoIds, 
       startTime = 0, 
       endTime, 
       onEnd,
@@ -35,18 +36,27 @@ const VideoPlayer = React.memo((
       const muted = useContext(MutedContext);
       const [ volume, setVolume ] = useState(1);
       const [ playing, setPlaying ] = useState(autoplay);
-      const hasBeenClicked = useRef(false);
+      const [ currentVid, setCurrentVid ] = useState(0);
+      const [ hasBeenClicked, setHasBeenClicked] = useState(false);
+
+      const setCurrentVidClamped = (index) => {
+        setCurrentVid(clamp(index, 0, (videoIds.length - 1)));
+        setPlaying(true);
+      }
 
       const handleEnd = () => {
-        onEnd && onEnd();
+        if (currentVid < (videoIds.length - 1)) {
+          setCurrentVidClamped(currentVid + 1);
+        } else {
+          onEnd && onEnd();
+        }
       }
 
       const initialClick = () => {
-        if (!hasBeenClicked.current && !autoplay) {
-          setPlaying(true)
-        } else {
-          hasBeenClicked.current = true;
-        }  
+        if (!hasBeenClicked && !autoplay) {
+          setPlaying(true);
+        } 
+        setHasBeenClicked(true);
       }
 
       const hardPause = () => {
@@ -85,16 +95,7 @@ const VideoPlayer = React.memo((
             ref={player}
             light={!autoplay && thumbnail}
             playing={playing}
-            url={'http://www.youtube.com/embed/' 
-              + videoId 
-              // + (endTime ? '?end=' + endTime : '')
-              // + '&start=' + startTime 
-              // + '&autoplay=1'
-              // + '&cc_lang_pref=en'
-              // + '&cc_load_policy=1'
-              // + '&modestbranding=1'
-
-            }
+            url={'http://www.youtube.com/embed/' + videoIds[currentVid]}
             controls
             muted={muted.muted}
             config={{
@@ -124,6 +125,18 @@ const VideoPlayer = React.memo((
             onClick={() => initialClick()}
           />
         </div>
+
+        {(videoIds.length > 1 && hasBeenClicked) ? <div className="Video__multiple-controls">
+          <div 
+            className={"Video__multiple-controls__left" + (currentVid === 0 ? " isDisabled" : "")}
+            onClick={(event) => {event.preventDefault(); setCurrentVidClamped(currentVid - 1)}}
+          ><Icon use="arrowLeft" /></div> 
+          {currentVid + 1}/{videoIds.length}
+          <div 
+            className={"Video__multiple-controls__right" + (currentVid === videoIds.length - 1 ? " isDisabled" : "")}
+            onClick={(event) => {event.preventDefault(); setCurrentVidClamped(currentVid + 1)}}
+          ><Icon use="arrowRight" /></div>
+        </div> : null }
       </div>
   )
 });

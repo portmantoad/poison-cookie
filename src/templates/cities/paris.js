@@ -62,7 +62,7 @@ const pages = [
               >
                 <Postcard>
                   <VideoPlayer
-                      videoId="qdU_IKxIhAk"
+                      videoIds={["qdU_IKxIhAk"]}
                       thumbnail={`${withPrefix('/')}img/thumbnails/cat_streeter.jpg`}
                       // autoplay
                     />
@@ -80,7 +80,7 @@ const pages = [
 
         <VideoPlayer
           /* kitty litter */
-          videoId="ZS8zlMNmTEU"
+          videoIds={["ZS8zlMNmTEU"]}
           thumbnail={`${withPrefix('/')}img/thumbnails/00_intro_cat-litter_V2.jpg`}
           fullscreen
           // onEnd={() => scrollTo("next", 0)}
@@ -102,18 +102,16 @@ const pages = [
             src={`${withPrefix('/')}img/paris_book-1.jpg`} 
           />
         </Parallax>
-      </React.Fragment>
-)}
-, ({sectionIndex, dimensions, setContainerCss}) => {
-  setContainerCss(`min-height: unset`)
-    return(
-      <React.Fragment>
-        <Positioner x="0.3" css={css(`position:relative;`)}>
-          <img 
-            css={css(`width: calc(30% + 150px); max-width:100%; filter: drop-shadow(0px 1px 5px rgba(0, 0, 0, 0.15)); transform: rotate(-1deg); border-radius:3px;`)}
-            src={`${withPrefix('/')}img/paris_recipe_alexandre.jpg`} 
-          />
-        </Positioner>
+        <Parallax dimensions={dimensions} speed="2">
+          <Positioner x="0.3" y="1">
+            <Picture
+              width="calc(30% + 150px);" 
+              shadow
+              rotate={-1}
+              src={`${withPrefix('/')}img/paris_recipe_alexandre.jpg`} 
+            />
+          </Positioner>
+        </Parallax>
       </React.Fragment>
 )}
 , ({sectionIndex, dimensions, setContainerCss}) => (
@@ -122,7 +120,7 @@ const pages = [
               <Positioner x="0.6" y="0.5">
                 <Postcard mask="2" card="2">                
                     <VideoPlayer
-                      videoId="LkdWOkpCuTw"
+                      videoIds={["LkdWOkpCuTw"]}
                       thumbnail={`${withPrefix('/')}img/thumbnails/wig_shop.jpg`}
                     />
                 </Postcard> 
@@ -140,7 +138,7 @@ const pages = [
                 <Postcard mask="2" card="2">                
                     <VideoPlayer
                       // Intro strongman cemetary
-                      videoId="9IJph4x7ySg"
+                      videoIds={["9IJph4x7ySg"]}
                       thumbnail={`${withPrefix('/')}img/thumbnails/00_CemetaryV3.jpg`}
                     />
                 </Postcard> 
@@ -157,7 +155,7 @@ const pages = [
             <Postcard mask="2" card="1" alt="3">
               <VideoPlayer
                 /* Strongman chat noir */
-                videoId="T6nNI2Nw9a0"
+                videoIds={["T6nNI2Nw9a0"]}
                 thumbnail={`${withPrefix('/')}img/thumbnails/00_strongman_chat_noir%20v3.jpg`}
                 // fullscreen
                 // captions={true}
@@ -192,7 +190,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
         <Postcard mask="1" card="2" alt="2">
             <VideoPlayer
               /* le mirilton */
-              videoId="takA-zY-Tn8"
+              videoIds={["takA-zY-Tn8"]}
               thumbnail={`${withPrefix('/')}img/thumbnails/00_le_mirliton%20v2_crop.jpg`}
             />
         </Postcard>
@@ -243,7 +241,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
           <Postcard mask="2" card="1" alt="1">
               <VideoPlayer
                 /* musee montmatre */
-                videoId="j9ieAAvYpJU"
+                videoIds={["j9ieAAvYpJU"]}
                 thumbnail={`${withPrefix('/')}img/thumbnails/00_Musee_Montmartre%20v2.jpg`}
               />
               
@@ -257,7 +255,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
         <Scrim />
         <VideoPlayer
           /* interview with julia */
-          videoId="p3GpNMbGbEs"
+          videoIds={["p3GpNMbGbEs"]}
           thumbnail={`${withPrefix('/')}img/thumbnails/00_julia_interview%20v7.jpg`}
           fullscreen
         />
@@ -311,7 +309,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
         <Postcard mask="2" card="2" alt="3">           
           <VideoPlayer
             /* strongman lapin agile */
-            videoId="-995ptoiNjw" 
+            videoIds={["-995ptoiNjw" ]}
             thumbnail={`${withPrefix('/')}img/thumbnails/00_strongman_Lapin%20agile_v1.jpg`}
           />
         </Postcard>
@@ -337,7 +335,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
         <Scrim /> 
         <VideoPlayer
           /* lapin agile interview */
-          videoId="Lv5TdkvVx6s"
+          videoIds={["Lv5TdkvVx6s"]}
           thumbnail={`${withPrefix('/')}img/thumbnails/00_Lapin_agile_interview.jpg`}
           fullscreen
         />
@@ -364,14 +362,14 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
     return(
       <React.Fragment>
         <Parallax speed="-2" dimensions={dimensions}>
-              <Scrim image={`${withPrefix('/')}img/paris_poster-5.jpg`} />
+              <Scrim image={`${withPrefix('/')}img/paris_poster-guilbert.jpg`} css={css(`background-position: center top;`)} />
             </Parallax>
         <Parallax speed="2" dimensions={dimensions}>
             <Positioner x="1" css={css(`width:60%; right: unset;`)}>
               <Postcard mask="1" card="1" alt="2">
                 <VideoPlayer
                   /* music video partial song */
-                  videoId="RnyJ8nwcuOE"
+                  videoIds={["RnyJ8nwcuOE"]}
                   thumbnail={`${withPrefix('/')}img/thumbnails/guilbert.jpg`}
                   // fullscreen
                 />
@@ -402,7 +400,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
           <Postcard mask="1" card="2" alt="4" css={css(`margin-left: auto;`)}>
               <VideoPlayer
                 /* other minor cabarets */
-                videoId="bysHS5IqVdI"
+                videoIds={["bysHS5IqVdI"]}
                 thumbnail={`${withPrefix('/')}img/thumbnails/00_Other%20Minor%20Cabarets_v2ab.jpg`}
               />
           </Postcard>
@@ -420,7 +418,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
         <Postcard mask="2" card="2" css={css(`margin-right: auto;`)}>
             <VideoPlayer
               /* other minor cabarets 2 */
-              videoId="jRouAXIvDrw"
+              videoIds={["jRouAXIvDrw"]}
               thumbnail={`${withPrefix('/')}img/thumbnails/00_Other%20Minor%20Cabarets_v2b.jpg`}
             />
         </Postcard>
@@ -440,18 +438,16 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
             src={`${withPrefix('/')}img/paris_book-3.jpg`} 
           />
         </Parallax>
-      </React.Fragment>
-)}
-, ({sectionIndex, dimensions, setContainerCss}) => {
-  setContainerCss(`min-height: unset`)
-    return(
-      <React.Fragment>
-        <Positioner x="0.7" css={css(`position:relative;`)}>
-          <img 
-            css={css(`width: calc(30% + 150px); max-width:100%; filter: drop-shadow(0px 1px 5px rgba(0, 0, 0, 0.15)); transform: rotate(-1deg); border-radius:3px;`)}
-            src={`${withPrefix('/')}img/paris_recipe_neant.jpg`} 
-          />
-        </Positioner>
+        <Parallax dimensions={dimensions} offset={-0.1} speed="2">
+          <Positioner x="0.7" y="1">
+            <Picture
+              width="calc(30% + 150px);" 
+              shadow
+              rotate={-1}
+              src={`${withPrefix('/')}img/paris_recipe_neant.jpg`} 
+            />
+          </Positioner>
+        </Parallax>
       </React.Fragment>
 )}
 // ,    ({sectionIndex, dimensions, setContainerCss}) => {
@@ -460,7 +456,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
 //         <Scrim />
 //         <VideoPlayer
 //           /* Edith Piaf’s grave site */
-//           videoId="lqsW1FCVi_M"
+//           videoIds={["lqsW1FCVi_M"]}
 //           thumbnail={`${withPrefix('/')}img/thumbnails/00_Edith_Piafs_Grave.jpg`}
 //           fullscreen
 //         />
@@ -473,27 +469,46 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
     return(
       <React.Fragment>
         <Parallax speed="-2" dimensions={dimensions}>
-              <Scrim image={`${withPrefix('/')}img/paris_poster-4.jpg`} />
-            </Parallax>
-         <Positioner x="0" css={css(`width:35%; left: unset;`)}>
-        <div className="Paper" css={css(`max-width: 300px; transform: rotate(1deg)`)}>
-          Marie Dubas... Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum        </div>
+          <Scrim image={`${withPrefix('/')}img/paris_poster-5.jpg`} />
+        </Parallax>
+        <Positioner x="0" padding="3.5vh" css={css(`width:calc(35% - 3.5vh); right: unset;`)}>
+          <div className="Paper" css={css(`width: 500px; max-width: 100%; transform: rotate(1deg)`)}>
+            Marie Dubas... Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum        
+          </div>
         </Positioner>
+        
+        <Parallax speed="2" dimensions={dimensions}>
+          <Positioner x="0.5" y="0.3" padding="3.5vh" css={css(`width:40%; left: unset;`)}>
+            <Picture width="100%" height="90vh" y="0.3" src={`${withPrefix('/')}img/paris_mary-dubas.jpg`}></Picture>
+          </Positioner>
+        </Parallax>
+        <Parallax speed="4" dimensions={dimensions}>
+          <Positioner x="0.25" y="0.6" padding="3.5vh" css={css(`width:25%; left: 40%; right: unset;`)}>
+            <Picture 
+              width="100%" 
+              height="90vh"
+              y="0.6"
+              src={`${withPrefix('/')}img/paris_mary-dubas2.jpg`}
+              mask={`${withPrefix('/')}img/paris_mary-dubas2_mask.png`}
+            ></Picture>
+          </Positioner>
+        </Parallax>
       </React.Fragment>
 )}
 ,    ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
         <Parallax speed="-4" dimensions={dimensions}>
-          <Picture width="55%" padding="3%" mask={1} x={0.75} css={css(`position: absolute; left: 2.5%;`)} src={`${withPrefix('/')}img/paris_bricktop.jpg`} alt="" />
+          <Picture width="40%" padding="3%" mask={1} x={0.75} css={css(`position: absolute; left: 2.5%;`)} src={`${withPrefix('/')}img/paris_bricktop.jpg`} alt="" />
         </Parallax>
         
         <Parallax speed="-2" dimensions={dimensions}>
-          <Picture width="50%" padding="0.5%" background="#efefef" height="102vh" x={0.25} css={css(`position: absolute; right: 2.5%;`)} rotate={1} src={`${withPrefix('/')}img/paris_josephine2.jpg`} alt=""/>
+          <Picture width="40%" padding="0.5%" background="#efefef" height="102vh" x={0.25} css={css(`position: absolute; right: 2.5%;`)} rotate={1} src={`${withPrefix('/')}img/paris_josephine2.jpg`} alt=""/>
         </Parallax>
 
-          <div className="Paper" css={css(`transform: rotate(-1deg); max-width: 400px`)}>
-          After WWI, African American soldiers weighed their options between staying in Europe or returning home. A number of them stayed, and settled in Paris. Jazz fever swept France, bringing with it a new appreciation for Americans generally and African Americans specifically. Musicians, writers, and visual artists all made their way across the ocean for opportunities denied them at home. All of them remarked on how welcome they seemed in France: “ They had a freedom you didn’t get [in America]. Over there you didn’t have to hide away,” remembered jazz musician Elliot Carpenter. These expats included dancer Josephine Baker, who became a European sensation, poet Langston Hughes, who washed dishes in Montmartre cabarets while honing his writer’s voice, and cabaret owner Ada Bricktop Smith whose nightclub Bricktop’s was the gathering place for American expats. This cross-cultural exchange would have a lasting impact on cabaret in Paris, Berlin, and America.</div>
+          <div className="Paper" css={css(`width: 400px; max-width: 100%; transform: rotate(-1deg);`)}>
+            After WWI, African American soldiers weighed their options between staying in Europe or returning home. A number of them stayed, and settled in Paris. Jazz fever swept France, bringing with it a new appreciation for Americans generally and African Americans specifically. Musicians, writers, and visual artists all made their way across the ocean for opportunities denied them at home. All of them remarked on how welcome they seemed in France: “ They had a freedom you didn’t get [in America]. Over there you didn’t have to hide away,” remembered jazz musician Elliot Carpenter. These expats included dancer Josephine Baker, who became a European sensation, poet Langston Hughes, who washed dishes in Montmartre cabarets while honing his writer’s voice, and cabaret owner Ada Bricktop Smith whose nightclub Bricktop’s was the gathering place for American expats. This cross-cultural exchange would have a lasting impact on cabaret in Paris, Berlin, and America.
+          </div>
       </React.Fragment>
 )}
 , ({sectionIndex, dimensions, setContainerCss}) => (
@@ -522,15 +537,18 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
       </React.Fragment>
 )
 ,    ({sectionIndex, dimensions, setContainerCss}) => {
-
+    setContainerCss(`max-height: calc(100vh - 40px)`);
     return(
       <React.Fragment>
+        <Parallax speed="-1" dimensions={dimensions}>
+          <Scrim image={`${withPrefix('/')}img/paris_poster-4.jpg`} />
+        </Parallax>
         <Parallax speed="2" dimensions={dimensions}>
-            <Positioner x="1" css={css(`width:65%; right: unset;`)}>
+            <Positioner x="1" css={css(`width:60%; right: unset;`)}>
               <Postcard mask="1" card="1" alt="2">
                 <VideoPlayer
                   /* Bricktop */
-                  videoId="mco73mfFUgo"
+                  videoIds={["mco73mfFUgo"]}
                   aspectRatio={4/3}
                   thumbnail={`${withPrefix('/')}img/thumbnails/bricktop.jpg`}
                   // fullscreen
@@ -539,8 +557,8 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
             </Positioner>
          </Parallax>
          <Parallax speed="0" dimensions={dimensions}>
-         <Positioner x="0" css={css(`width:35%; left: unset;`)}>
-        <div className="Paper" css={css(`max-width: 300px; transform: rotate(1deg)`)}>
+         <Positioner x="0" padding="3.5vh" css={css(`width:calc(40% - 3.5vh); left: unset;`)}>
+        <div className="Paper" css={css(`width: 500px; max-width: 100%; transform: rotate(1deg);`)}>
         Bricktop’s was a combination mail-drop, bank, rehearsal hall, club house—even a neighborhood bar. But it was always chic.” Bricktop on her cabaret. People who frequented Bricktop’s: F. Scott & Zelda Fitzgerald, Ernest Hemingway, Gertrude Stein, the Duke and Duchess of Windsor, Evelyn Waugh, and T. S. Eliot. People who performed there: Django Reinhardt, Fred and Adele Astair, Jasha Heifitz, Duke Ellington, and Josephine Baker (whose son alleges that Baker told him she and Bricktop had an affair). Mabel Mercer was her assistant and Cole Porter her patron.        
         </div>
         </Positioner>
@@ -551,7 +569,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
 , ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
-        <Parallax dimensions={dimensions} speed="-4">
+        <Parallax dimensions={dimensions} speed="1">
           <Picture 
             width="100%"
             shadow={false}
@@ -568,7 +586,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
         <Scrim />
         <VideoPlayer
           /*Edith piaf chanson realiste*/
-          videoId="nqgnmYe-o-8"
+          videoIds={["nqgnmYe-o-8"]}
           thumbnail={`${withPrefix('/')}img/thumbnails/00_Edith_Piaf_Chanson_Realiste_V4.jpg`}
           fullscreen
         />
@@ -581,7 +599,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
           <Postcard mask="1" card="2" alt="4">
           <VideoPlayer
             /* cafe streeter */
-            videoId="vrvVpZsKVYk"
+            videoIds={["vrvVpZsKVYk"]}
             thumbnail={`${withPrefix('/')}img/thumbnails/cafe_streeter.jpg`}
           /> 
           </Postcard>
@@ -594,7 +612,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
             <Scrim />
             <VideoPlayer
               /* interview with gosia  */
-              videoId="yufGrVm2sMc"
+              videoIds={["yufGrVm2sMc", "0KzUzFwpp2U"]}
               thumbnail={`${withPrefix('/')}img/thumbnails/00_interview_with_gosia-v6.jpg`}
               fullscreen
             />
@@ -608,7 +626,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
           <Postcard mask="1" card="1" alt="3">
               <VideoPlayer
                 /* Interview with Michel from Vieux Belleville   */
-                videoId="az8ftb3NgNw"
+                videoIds={["az8ftb3NgNw"]}
                 thumbnail={`${withPrefix('/')}img/thumbnails/00_interview_with_michel_v4.jpg`}
               />
           </Postcard>
@@ -620,7 +638,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
     return(
       <React.Fragment>
       <Parallax speed="-1" dimensions={dimensions}>
-        <Scrim image={`${withPrefix('/')}img/paris_aumagique.jpg`} css={css(`
+        <Scrim image={`${withPrefix('/')}img/paris_aumagique2.jpg`} css={css(`
          background-position: top center;
        `)}/>
       </Parallax>
@@ -632,7 +650,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
             <Postcard mask="1" card="1" alt="1" css={css(`margin-left: auto;`)}>
               <VideoPlayer
                 /* Interview_Natalie_au Magique */
-                videoId="ZoqKiCB40Dk"
+                videoIds={["ZoqKiCB40Dk"]}
                 thumbnail={`${withPrefix('/')}img/thumbnails/00_Interview_Natalie_au_Magique_v2.jpg`}
               />
             </Postcard>
@@ -646,7 +664,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
             <Postcard mask="2" card="2" css={css(`margin-right: auto;`)}>
               <VideoPlayer
                 /* martine au magique */
-                videoId="5sS94fQ0zRo"
+                videoIds={["5sS94fQ0zRo"]}
                 thumbnail={`${withPrefix('/')}img/thumbnails/00_interview%20at%20Au%20Magique.jpg`}
               />
             </Postcard>
@@ -661,7 +679,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
           <Postcard mask="2" card="1" alt="1">
               <VideoPlayer
                 /* strongman divan japanois */
-                videoId="_7kQh0ot5Kc"
+                videoIds={["_7kQh0ot5Kc"]}
                 thumbnail={`${withPrefix('/')}img/thumbnails/00_strongman_divan-japanois.jpg`}
               />
           </Postcard>
@@ -671,23 +689,23 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
 ,    ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
-          <Postcard>
+          <Scrim />
             <VideoPlayer
               /* interview with Monsieur K */
-              videoId="IJDUmNxoHco"
+              videoIds={["IJDUmNxoHco"]}
               // thumbnail={`${withPrefix('/')}img/thumbnails/00_strongman_limonaire_v2.jpg`}
+              fullscreen
             />
-          </Postcard>
+          <Curtains />
       </React.Fragment>
 )}
-
 ,    ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
           <Postcard>
             <VideoPlayer
               /* strongman limonaire */
-              videoId="mO8tjnfsgqE"
+              videoIds={["mO8tjnfsgqE"]}
               thumbnail={`${withPrefix('/')}img/thumbnails/00_strongman_limonaire_v2.jpg`}
             />
           </Postcard>
@@ -699,7 +717,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
         <Scrim />
          <VideoPlayer
               /* limonaire interview with closing */
-              videoId="NHC-gkfr61Y"
+              videoIds={["NHC-gkfr61Y"]}
               thumbnail={`${withPrefix('/')}img/thumbnails/00_limonaire_interview_with_closing_v1.jpg`}
               fullscreen
             />
@@ -709,23 +727,29 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
 ,    ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
-          <Postcard>
-            <VideoPlayer
-              /* John missing strongman */
-              videoId="dqLS2IFEL18"
-              // thumbnail={`${withPrefix('/')}img/thumbnails/00_strongman_limonaire_v2.jpg`}
-            />
-          </Postcard>
+        <Parallax speed="-4" dimensions={dimensions}>
+          <Positioner x="0.3">
+            <Postcard>
+              <VideoPlayer
+                /* John missing strongman */
+                videoIds={["dqLS2IFEL18"]}
+                thumbnail={`${withPrefix('/')}img/thumbnails/00_Edith_Piafs_Grave.jpg`}
+              />
+            </Postcard>
+          </Positioner>
+        </Parallax>
       </React.Fragment>
 )}
 , ({sectionIndex, dimensions, setContainerCss}) => (
+            <Positioner x="0.7">
               <Postcard mask="2" alt="3">  
                 <VideoPlayer
                     // cooking show streeter
-                    videoId="1T1T3coj6BI"
+                    videoIds={["1T1T3coj6BI"]}
                     thumbnail={`${withPrefix('/')}img/thumbnails/cooking_show.jpg`}
                   />
-              </Postcard>  
+              </Postcard> 
+            </Positioner> 
 )
 ,    ({sectionIndex, dimensions, setContainerCss}) => {
     return(
@@ -754,7 +778,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
                 </CanvasBlend>
                 <VideoPlayer
                   /* chat noir multicam cooking  */
-                  videoId="y-CQeCRA0mU"
+                  videoIds={["y-CQeCRA0mU", "p0Oi-M1ltlI"]}
                   thumbnail={`${withPrefix('/')}img/thumbnails/00_Chat-Noir-Multicam-cooking-v1.jpg`}
                   css={css(`
                     position: absolute;
@@ -772,7 +796,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
               <Postcard alt="2" card="2">  
                 <VideoPlayer
                     //asshole streeter
-                    videoId="ZsjrIQY16aQ"
+                    videoIds={["ZsjrIQY16aQ"]}
                     thumbnail={`${withPrefix('/')}img/thumbnails/asshole_streeter.jpg`}
                   />
               </Postcard>  
@@ -784,7 +808,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
         <Scrim />
         <VideoPlayer
               /* asshole singalong  */
-              videoId="7Unp0PL2m8Q"
+              videoIds={["7Unp0PL2m8Q"]}
               thumbnail={`${withPrefix('/')}img/thumbnails/00_asshole-singalong.jpg`}
               fullscreen
             />
@@ -823,27 +847,6 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
   </React.Fragment>
 )}
 ]
-
-// const updateFunction = (prevProps, nextProps) => {
-//     if (prevProps.active !== nextProps.active) {
-//       return false
-//     }
-
-//     if (
-//         prevProps.foregroundPortal !== nextProps.foregroundPortal ||
-//         prevProps.backgroundPortal !== nextProps.backgroundPortal ||
-//         prevProps.registerAnimation !== nextProps.registerAnimation
-//     ) {
-//       return false 
-//     }
-
-//     return true
-// }
-
-
-// const namedPages = pages.map((page, i) => {
-//   return debounceActiveRender(React.memo(page, updateFunction), 200, { leading: false })
-// })
 
 
 export default pages;
