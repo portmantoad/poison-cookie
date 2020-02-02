@@ -1,192 +1,193 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { Link, graphql } from 'gatsby'
-
+import Helmet from 'react-helmet'
 import Layout from '../components/Layout'
-import Features from '../components/Features'
-import BlogRoll from '../components/BlogRoll'
+import ScrollSections from '../components/ScrollSections'
+import VideoPlayer from '../components/VideoPlayer'
+import CanvasBlend from '../components/CanvasBlend'
+import Curtains from '../components/Curtains'
+import Postcard from '../components/Postcard'
+import Parallax from '../components/Parallax'
+import Picture from '../components/Picture'
+import Scrim from '../components/Scrim'
+import Positioner from '../components/Positioner'
+import Clouds from '../components/Clouds'
+import { withPrefix, Link } from 'gatsby'
+import useMedia from 'use-media';
 
-export const IndexPageTemplate = ({
-  image,
-  title,
-  heading,
-  subheading,
-  mainpitch,
-  description,
-  intro,
-}) => (
-  <div>
-    <div
-      className="full-width-image margin-top-0"
-      style={{
-        backgroundImage: `url(${
-          !!image.childImageSharp ? image.childImageSharp.fluid.src : image
-        })`,
-        backgroundPosition: `top left`,
-        backgroundAttachment: `fixed`,
-      }}
-    >
-      <div
-        style={{
-          display: 'flex',
-          height: '150px',
-          lineHeight: '1',
-          justifyContent: 'space-around',
-          alignItems: 'left',
-          flexDirection: 'column',
-        }}
-      >
-        <h1
-          className="has-text-weight-bold is-size-3-mobile is-size-2-tablet is-size-1-widescreen"
-          style={{
-            boxShadow:
-              'rgb(255, 68, 0) 0.5rem 0px 0px, rgb(255, 68, 0) -0.5rem 0px 0px',
-            backgroundColor: 'rgb(255, 68, 0)',
-            color: 'white',
-            lineHeight: '1',
-            padding: '0.25em',
-          }}
-        >
-          {title}
-        </h1>
-        <h3
-          className="has-text-weight-bold is-size-5-mobile is-size-5-tablet is-size-4-widescreen"
-          style={{
-            boxShadow:
-              'rgb(255, 68, 0) 0.5rem 0px 0px, rgb(255, 68, 0) -0.5rem 0px 0px',
-            backgroundColor: 'rgb(255, 68, 0)',
-            color: 'white',
-            lineHeight: '1',
-            padding: '0.25em',
-          }}
-        >
-          {subheading}
-        </h3>
-      </div>
-    </div>
-    <section className="section section--gradient">
-      <div className="container">
-        <div className="section">
-          <div className="columns">
-            <div className="column is-10 is-offset-1">
-              <div className="content">
-                <div className="content">
-                  <div className="tile">
-                    <h1 className="title">{mainpitch.title}</h1>
-                  </div>
-                  <div className="tile">
-                    <h3 className="subtitle">{mainpitch.description}</h3>
-                  </div>
-                </div>
-                <div className="columns">
-                  <div className="column is-12">
-                    <h3 className="has-text-weight-semibold is-size-2">
-                      {heading}
-                    </h3>
-                    <p>{description}</p>
-                  </div>
-                </div>
-                <Features gridItems={intro.blurbs} />
-                <div className="columns">
-                  <div className="column is-12 has-text-centered">
-                    <Link className="btn" to="/products">
-                      See all products
-                    </Link>
-                  </div>
-                </div>
-                <div className="column is-12">
-                  <h3 className="has-text-weight-semibold is-size-2">
-                    Latest stories
-                  </h3>
-                  <BlogRoll />
-                  <div className="column is-12 has-text-centered">
-                    <Link className="btn" to="/blog">
-                      Read more
-                    </Link>
-                  </div>
-                </div>
-              </div>
+
+/** @jsx jsx */
+import { css, jsx } from '@emotion/core'
+
+
+const pages = [React.memo(
+  ({sectionIndex, dimensions, setContainerCss}) => {
+    setContainerCss(`min-height: calc((100vh - 40px) * 1.2)`);
+    return (
+    <React.Fragment>
+      <Clouds dimensions={dimensions} />
+      <Parallax speed="-2" dimensions={dimensions}>
+        <Picture 
+          src={`${withPrefix('/')}img/cover-optim.png`} 
+          width="100%" 
+          height="calc((100vh - 40px) * 1.2)" 
+          fit="cover"
+          shadow={false}
+          x="0.6"
+          y="0.25"
+          background="transparent"
+          css={css(`
+            mask-image: url('${withPrefix('/')}img/torn-edge_mask.png');
+            mask-size: 100% 100%;
+            // max-width: 100vh;
+            margin-right: auto;
+          `)} />
+      </Parallax>
+      <Positioner x="0.9" y="0.9" css={css(`height: calc(100vh - 40px); bottom: unset;`)} >
+        <img 
+          src={`${withPrefix('/')}img/cookietitle.png`} 
+          alt="The Poison Cookie Jar"
+          
+          css={css(`width: 18vw; min-width: 215px; display: block;`)} />
+      </Positioner>
+    </React.Fragment>
+  )}
+), 
+
+React.memo(
+  ({sectionIndex, dimensions, setContainerCss}) => {
+    return(
+      <React.Fragment>
+            <Scrim />
+            <VideoPlayer
+              videoId={["0GWlYInjOCI"]}
+              thumbnail={`${withPrefix('/')}img/thumbnails/intro/beard_cave.jpg`}
+              fullscreen
+            />           
+            <Curtains />
+      </React.Fragment>
+)})
+, React.memo(({sectionIndex, dimensions, setContainerCss}) => (
+        <React.Fragment>
+        <Parallax speed="-4" dimensions={dimensions}>
+            <div className="fullscreenQuote">
+                <figure className="quote">
+                   <q>Under the cover of an evening’s relaxing entertainment, cabaret, like nothing else, suddenly dispenses a <span style={{color: '#be553d', fontStyle: 'italic'}}>poison cookie</span>. Suggestively administered and hastily swallowed, its effect reaches far beyond the harmless evening to make otherwise placid blood boil and inspire a sluggish brain to think.</q>
+                   <figcaption css={css(`transform: rotate(-3deg);`)}><img src={`${withPrefix('/')}img/friedrich.jpg`} alt="" />&ensp;&mdash;&ensp;Friedrich Hollaender, 1932</figcaption>
+                </figure>
+                <div className="bigborder"></div>
             </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
-)
+        </Parallax>
+            
+        </React.Fragment>
+))
+, React.memo(
+  ({sectionIndex, dimensions, setContainerCss}) => {
+    setContainerCss(`min-height: calc((100vh - 40px) * 0.6)`)
+    return (
+      <React.Fragment>
+        <Parallax speed="2" dimensions={dimensions}>
+          <Positioner x="0.35">
+            <Postcard>
+              <VideoPlayer
+                videoId={["xl5eTt4Qusw"]}
+                thumbnail={`${withPrefix('/')}img/thumbnails/intro/dressing_room.jpg`}
+              />
+            </Postcard>
+          </Positioner>
+        </Parallax>
+      </React.Fragment>
+)})
+, React.memo(({sectionIndex, dimensions, setContainerCss}) => {
+  setContainerCss(`min-height: calc(100vh - 40px)`)
+  return(
+        <React.Fragment>
+          <Link to="/cities/paris" css={css(`
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              font-family: 'IM Fell Double Pica', serif;
+              font-weight: bold;
+              text-rendering: optimizeLegibility;
+              font-size: 1.8746rem;
+              line-height: 1.1;
+              @media screen and (max-width: 600px){
+                flex-direction: column;
+              }
+          `)}  >
+                <video css={css(`
+                  border-radius: 50%; 
+                  width: 200px;
+                  mask-image: url('${withPrefix('/')}img/cookie_mask.png');
+                  mask-size: 100% 100%;
+                `)} autoPlay muted loop src={`${withPrefix('/')}img/john-eats.mp4`} />
+                <img 
+                src={`${withPrefix('/')}img/intro_bite-me.png`} 
+                alt="Bite Me to get to Paris"
+                
+                css={css(`width: 425px; max-width: 90%; display: block;`)} />
+          </Link>
+        </React.Fragment>
+)})
+]
 
-IndexPageTemplate.propTypes = {
-  image: PropTypes.oneOfType([PropTypes.object, PropTypes.string]),
-  title: PropTypes.string,
-  heading: PropTypes.string,
-  subheading: PropTypes.string,
-  mainpitch: PropTypes.object,
-  description: PropTypes.string,
-  intro: PropTypes.shape({
-    blurbs: PropTypes.array,
-  }),
+export const IndexTemplate = ({
+  description,
+  title,
+  helmet
+}) => {
+  return (
+    <div className={"Index"}>
+      {helmet || ''}
+      <ScrollSections sections={pages} />
+    </div>
+  )
 }
 
-const IndexPage = ({ data }) => {
-  const { frontmatter } = data.markdownRemark
+IndexTemplate.propTypes = {
+  description: PropTypes.string,
+  title: PropTypes.string,
+  helmet: PropTypes.object,
+}
+
+const Index = ({ data }) => {
+  const { markdownRemark: post } = data
 
   return (
     <Layout>
-      <IndexPageTemplate
-        image={frontmatter.image}
-        title={frontmatter.title}
-        heading={frontmatter.heading}
-        subheading={frontmatter.subheading}
-        mainpitch={frontmatter.mainpitch}
-        description={frontmatter.description}
-        intro={frontmatter.intro}
+      <IndexTemplate
+        description={post.frontmatter.description}
+        helmet={
+          <Helmet titleTemplate="%s | Blog">
+            <title>{`${post.frontmatter.title}`}</title>
+            <meta
+              name="description"
+              content={`${post.frontmatter.description}`}
+            />
+          </Helmet>
+        }
+        title={post.frontmatter.title}
       />
     </Layout>
   )
 }
 
-IndexPage.propTypes = {
+Index.propTypes = {
   data: PropTypes.shape({
-    markdownRemark: PropTypes.shape({
-      frontmatter: PropTypes.object,
-    }),
+    markdownRemark: PropTypes.object,
   }),
 }
 
-export default IndexPage
+export default Index
 
 export const pageQuery = graphql`
-  query IndexPageTemplate {
-    markdownRemark(frontmatter: { templateKey: { eq: "index-page" } }) {
+  query IndexPage($id: String!) {
+    markdownRemark(id: { eq: $id }) {
+      id
+      html
       frontmatter {
         title
-        image {
-          childImageSharp {
-            fluid(maxWidth: 2048, quality: 100) {
-              ...GatsbyImageSharpFluid
-            }
-          }
-        }
-        heading
-        subheading
-        mainpitch {
-          title
-          description
-        }
         description
-        intro {
-          blurbs {
-            image {
-              childImageSharp {
-                fluid(maxWidth: 240, quality: 64) {
-                  ...GatsbyImageSharpFluid
-                }
-              }
-            }
-            text
-          }
-          heading
-          description
-        }
       }
     }
   }
