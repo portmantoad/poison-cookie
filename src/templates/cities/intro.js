@@ -56,7 +56,7 @@ React.memo(
       <React.Fragment>
             <Scrim />
             <VideoPlayer
-              videoId="0GWlYInjOCI"
+              videoId={["0GWlYInjOCI"]}
               thumbnail={`${withPrefix('/')}img/thumbnails/intro/beard_cave.jpg`}
               fullscreen
             />           
@@ -86,7 +86,7 @@ React.memo(
           <Positioner x="0.35">
             <Postcard>
               <VideoPlayer
-                videoId="xl5eTt4Qusw"
+                videoId={["xl5eTt4Qusw"]}
                 thumbnail={`${withPrefix('/')}img/thumbnails/intro/dressing_room.jpg`}
               />
             </Postcard>

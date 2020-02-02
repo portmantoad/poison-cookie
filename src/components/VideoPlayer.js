@@ -19,7 +19,7 @@ import { css, jsx } from '@emotion/core'
 const VideoPlayer = React.memo((
     { className, 
       fullscreen, 
-      videoIds, 
+      videoIds = [], 
       startTime = 0, 
       endTime, 
       onEnd,
