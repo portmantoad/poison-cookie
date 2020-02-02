@@ -40,7 +40,7 @@ const Navbar = () => {
                   <Link className="Navbar__link" onClick={() => setActive(false)} to="/blog">Now</Link>
                   <Link className="Navbar__link" onClick={() => setActive(false)} to="/about">About</Link>
                   <hr />
-                  <a className="Navbar__link" onClick={() => setActive(false)} href=""><Icon use="youtube" />&ensp;YouTube</a>
+                  <a className="Navbar__link" onClick={() => setActive(false)} href="https://www.youtube.com/channel/UCocplzddcJFWoOACLkMaG-Q"><Icon use="youtube" />&ensp;YouTube</a>
                   <a className="Navbar__link" onClick={() => setActive(false)} href=""><Icon use="facebook" />&ensp;Facebook</a>
                   <a className="Navbar__link" onClick={() => setActive(false)} href=""><Icon use="twitter" />&ensp;Twitter</a>
                   <a className="Navbar__link" onClick={() => setActive(false)} href=""><Icon use="instagram" />&ensp;Instagram</a>
@@ -53,7 +53,7 @@ const Navbar = () => {
               <div className="Navbar__endLinks">
                 <Icon onClick={muted.toggleMuted} use={muted.muted ? "volumeOff" : "volumeHigh"} />
                 &emsp;<Link className="Navbar__link" to="/blog">Now</Link>&ensp;|&ensp;<Link className="Navbar__link" to="/about">About</Link>&emsp;
-                <a className="Navbar__link" href=""><Icon use="youtube" /></a>
+                <a className="Navbar__link" href="https://www.youtube.com/channel/UCocplzddcJFWoOACLkMaG-Q"><Icon use="youtube" /></a>
                 <a className="Navbar__link" href=""><Icon use="facebook" /></a>
                 <a className="Navbar__link" href=""><Icon use="twitter" /></a>
                 <a className="Navbar__link" href=""><Icon use="instagram" /></a>
