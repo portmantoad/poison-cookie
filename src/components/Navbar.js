@@ -13,7 +13,7 @@ import {useSpring, animated} from 'react-spring'
 const Navbar = () => {
 
     const [active, setActive] = useState(false);
-    const isMobile = useMedia({maxWidth: 1000});
+    const isMobile = useMedia({maxWidth: 850});
     const muted = useContext(MutedContext);
     // console.log(MutedContext)
     const menuSpring = useSpring({transform: active ? `translateX(0%)` : `translateX(100%)`})
@@ -41,7 +41,7 @@ const Navbar = () => {
                   style={menuBgSpring}
                 />
                 <animated.div 
-                  className={"Navbar__menu" + (active ? " isActive" : "")} 
+                  className={"Navbar__menu"} 
                   onClick={event => event.stopPropagation()}
                   style={menuSpring}
                 >

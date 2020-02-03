@@ -3,7 +3,7 @@ import { withPrefix } from 'gatsby'
 /** @jsx jsx */
 import { css, jsx } from '@emotion/core'
 
-const Postcard = React.memo(({ children, card = 1, mask = 1, alt, rotate, ...rest }) => {
+const Postcard = React.memo(({ children, card = 1, mask = 1, alt, rotate, caption, ...rest }) => {
 
   const rotationAmplitude = 1.3;
   const randomRotation = useRef(Math.random() * (2*rotationAmplitude) - rotationAmplitude);
@@ -23,6 +23,7 @@ const Postcard = React.memo(({ children, card = 1, mask = 1, alt, rotate, ...res
         max-width: calc(100% - 50px);
         pointer-events: none;
         width: 110vh;
+        padding: ${randomPadding.current}%;
 
         &:before{
           content: "";
@@ -34,10 +35,6 @@ const Postcard = React.memo(({ children, card = 1, mask = 1, alt, rotate, ...res
           bottom: 1.3%;
           border-radius: 5px;
           box-shadow: 0px 2px 15px rgba(0, 0, 0, 0.38);
-        }
-
-        .Video{
-          padding: ${randomPadding.current}%;
         }
       `)} className="Postcard">
         <div css={css(`
@@ -77,6 +74,12 @@ const Postcard = React.memo(({ children, card = 1, mask = 1, alt, rotate, ...res
           
         </div>
         {children}
+        {caption ? <figcaption css={css(`
+          position: relative;
+          margin-top: 1em;
+          font-family: 'Caveat', cursive;
+          font-size: 22px;
+        `)}>{caption}</figcaption> : null}
       </div> 
     </div>
   )

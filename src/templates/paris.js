@@ -351,7 +351,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
             </Parallax>
         <Parallax speed="2" dimensions={dimensions}>
             <Positioner x="1" css={css(`width:60%; right: unset;`)}>
-              <Postcard mask="1" card="1" alt="2">
+              <Postcard mask="1" card="1" alt="2" caption="Madame Arthur is named after a song by one of fin-de-siecle’s most famous chanteuses: Yvette Guilbert">
                 <VideoPlayer
                   /* music video partial song */
                   videoIds={["RnyJ8nwcuOE"]}
