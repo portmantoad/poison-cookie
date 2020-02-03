@@ -97,8 +97,8 @@ const pages = [
             width="100%"
             shadow={false}
             height="calc((100vh - 40px) * 1.2)"
-            mask={`${withPrefix('/')}img/paris_book-1_mask.png`} 
-            src={`${withPrefix('/')}img/paris_book-1.jpg`} 
+            mask={`${withPrefix('/')}img/paris_book-3_mask.png`} 
+            src={`${withPrefix('/')}img/paris_book-3.jpg`} 
           />
         </Parallax>
         <Parallax dimensions={dimensions} speed="2">
@@ -314,20 +314,6 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
         </Postcard>
       </Parallax>
 )}
-, ({sectionIndex, dimensions, setContainerCss}) => {
-    return(
-      <React.Fragment>
-        <Parallax dimensions={dimensions} speed="-4">
-          <Picture 
-            width="100%"
-            shadow={false}
-            height="calc((100vh - 40px) * 1.2)"
-            mask={`${withPrefix('/')}img/paris_book-2_mask.png`} 
-            src={`${withPrefix('/')}img/paris_book-2.jpg`} 
-          />
-        </Parallax>
-      </React.Fragment>
-)}
 ,    ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
@@ -378,6 +364,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
          <Parallax speed="0" dimensions={dimensions}>
          <Positioner x="0" padding="3.5vh" css={css(`width:calc(40% - 3.5vh); left: unset;`)}>
           <div className="Paper" css={css(`max-width: 500px; transform: rotate(1deg)`)}>
+            <h2>Yvette Guilbert</h2>
             Early cabaret was dominated by men. The women and queer artists who would come to dominate the stages in the 20th century were not yet . Except for one. Yvette Guilbert. She dressed in yellow and wore long black gloves, dyed her hair red and painted her face white. In a city used to seeing female entertainers as decorative (and silent) objects, Guilbert refused to be easily categorized. The first in a long line of cabaret women who would stand still while they performed, the most movement she allowed was a gesture of her arms. She sang more frequently in music halls (the Moulin Rouge, the Divan Japonois) than cabarets, but frequently took a turn on cabaret stages, and the intimate, word-driven method of her delivery fits perfectly into the cabaret vernacular. Guilbert wrote her own songs and sang the songs of others, raunchy ballads, and patter songs. Her poison was of the under-the-sink variety: songs about domestic disputes and the working class people she grew up with, songs about love, especially when it went wrong. And more than anything, her poison lay in the fact that men were conflicted about how to receive her. She was sometimes referred to as the Queen of Paris and sometimes as the Lean Witch. In cabaret, she was the first, but she wouldn't be the only.   
           </div>
         </Positioner>
@@ -433,8 +420,8 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
             width="100%"
             shadow={false}
             height="calc((100vh - 40px) * 1.2)"
-            mask={`${withPrefix('/')}img/paris_book-3_mask.png`} 
-            src={`${withPrefix('/')}img/paris_book-3.jpg`} 
+            mask={`${withPrefix('/')}img/paris_book-1_mask.png`} 
+            src={`${withPrefix('/')}img/paris_book-1.jpg`} 
           />
         </Parallax>
         <Parallax dimensions={dimensions} offset={-0.1} speed="2">
@@ -467,12 +454,13 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
 
     return(
       <React.Fragment>
-        <Parallax speed="-2" dimensions={dimensions}>
+        <Parallax speed="-1.5" dimensions={dimensions}>
           <Scrim image={`${withPrefix('/')}img/paris_poster-5.jpg`} />
         </Parallax>
         <Positioner x="0" padding="3.5vh" css={css(`width:calc(35% - 3.5vh); right: unset;`)}>
           <div className="Paper" css={css(`width: 500px; max-width: 100%; transform: rotate(1deg)`)}>
-            Marie Dubas... Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum        
+          <h2>Marie Dubas</h2>
+           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum        
           </div>
         </Positioner>
         
@@ -558,6 +546,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
          <Parallax speed="0" dimensions={dimensions}>
          <Positioner x="0" padding="3.5vh" css={css(`width:calc(40% - 3.5vh); left: unset;`)}>
         <div className="Paper" css={css(`width: 500px; max-width: 100%; transform: rotate(1deg);`)}>
+        <h2>Ada Bricktop Smith</h2>
         Bricktop’s was a combination mail-drop, bank, rehearsal hall, club house—even a neighborhood bar. But it was always chic.” Bricktop on her cabaret. People who frequented Bricktop’s: F. Scott & Zelda Fitzgerald, Ernest Hemingway, Gertrude Stein, the Duke and Duchess of Windsor, Evelyn Waugh, and T. S. Eliot. People who performed there: Django Reinhardt, Fred and Adele Astair, Jasha Heifitz, Duke Ellington, and Josephine Baker (whose son alleges that Baker told him she and Bricktop had an affair). Mabel Mercer was her assistant and Cole Porter her patron.        
         </div>
         </Positioner>
@@ -691,8 +680,8 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
           <Scrim />
             <VideoPlayer
               /* interview with Monsieur K */
-              videoIds={["IJDUmNxoHco"]}
-              // thumbnail={`${withPrefix('/')}img/thumbnails/00_strongman_limonaire_v2.jpg`}
+              videoIds={["stTQeQuWA_Y"]}
+              thumbnail={`${withPrefix('/')}img/thumbnails/00_monsieur_K.jpg`}
               fullscreen
             />
           <Curtains />
