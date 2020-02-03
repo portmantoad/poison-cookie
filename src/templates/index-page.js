@@ -12,7 +12,7 @@ import Picture from '../components/Picture'
 import Scrim from '../components/Scrim'
 import Positioner from '../components/Positioner'
 import Clouds from '../components/Clouds'
-import { withPrefix, Link } from 'gatsby'
+import { withPrefix, Link, graphql } from 'gatsby'
 import useMedia from 'use-media';
 
 
@@ -102,7 +102,7 @@ React.memo(
   setContainerCss(`min-height: calc(100vh - 40px)`)
   return(
         <React.Fragment>
-          <Link to="/cities/paris" css={css(`
+          <Link to="/paris" css={css(`
               display: flex;
               justify-content: center;
               align-items: center;

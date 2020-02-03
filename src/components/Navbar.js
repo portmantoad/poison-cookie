@@ -4,6 +4,9 @@ import { MutedContext } from './contexts'
 import Icon from './Icon'
 import { withPrefix } from 'gatsby'
 import useMedia from 'use-media';
+import {useSpring, animated} from 'react-spring'
+    
+
 
 // import Headroom from 'react-headroom'
 
@@ -13,6 +16,9 @@ const Navbar = () => {
     const isMobile = useMedia({maxWidth: 1000});
     const muted = useContext(MutedContext);
     // console.log(MutedContext)
+    const menuSpring = useSpring({transform: active ? `translateX(0%)` : `translateX(100%)`})
+    const menuBgSpring = useSpring({opacity: active ? `1` : `0`})
+
     
     return (
       <nav className="Navbar">
@@ -30,9 +36,14 @@ const Navbar = () => {
                 className={"Navbar__menuWrapper" + (active ? " isActive" : "")}
                 onClick={() => setActive(false)}
               >
-                <div 
+                <animated.div 
+                  className="Navbar__menuWrapper__bg" 
+                  style={menuBgSpring}
+                />
+                <animated.div 
                   className={"Navbar__menu" + (active ? " isActive" : "")} 
                   onClick={event => event.stopPropagation()}
+                  style={menuSpring}
                 >
                   <Link className="Navbar__link" onClick={() => setActive(false)} to="/">Intro</Link>
                   <Link className="Navbar__link" onClick={() => setActive(false)} to="/paris">Paris</Link>
@@ -41,10 +52,10 @@ const Navbar = () => {
                   <Link className="Navbar__link" onClick={() => setActive(false)} to="/about">About</Link>
                   <hr />
                   <a className="Navbar__link" onClick={() => setActive(false)} href="https://www.youtube.com/channel/UCocplzddcJFWoOACLkMaG-Q"><Icon use="youtube" />&ensp;YouTube</a>
-                  <a className="Navbar__link" onClick={() => setActive(false)} href=""><Icon use="facebook" />&ensp;Facebook</a>
-                  <a className="Navbar__link" onClick={() => setActive(false)} href=""><Icon use="twitter" />&ensp;Twitter</a>
-                  <a className="Navbar__link" onClick={() => setActive(false)} href=""><Icon use="instagram" />&ensp;Instagram</a>
-                </div>
+                  <a className="Navbar__link" onClick={() => setActive(false)} href="https://www.facebook.com/beardedladiescabaret"><Icon use="facebook" />&ensp;Facebook</a>
+                  <a className="Navbar__link" onClick={() => setActive(false)} href="https://twitter.com/knowyourbeards"><Icon use="twitter" />&ensp;Twitter</a>
+                  <a className="Navbar__link" onClick={() => setActive(false)} href="https://www.instagram.com/beardedladiescabaret/"><Icon use="instagram" />&ensp;Instagram</a>
+                </animated.div>
               </div>
             </div>
           ) : (
@@ -54,9 +65,9 @@ const Navbar = () => {
                 <Icon onClick={muted.toggleMuted} use={muted.muted ? "volumeOff" : "volumeHigh"} />
                 &emsp;<Link className="Navbar__link" to="/blog">Now</Link>&ensp;|&ensp;<Link className="Navbar__link" to="/about">About</Link>&emsp;
                 <a className="Navbar__link" href="https://www.youtube.com/channel/UCocplzddcJFWoOACLkMaG-Q"><Icon use="youtube" /></a>
-                <a className="Navbar__link" href=""><Icon use="facebook" /></a>
-                <a className="Navbar__link" href=""><Icon use="twitter" /></a>
-                <a className="Navbar__link" href=""><Icon use="instagram" /></a>
+                <a className="Navbar__link" href="https://www.facebook.com/beardedladiescabaret"><Icon use="facebook" /></a>
+                <a className="Navbar__link" href="https://twitter.com/knowyourbeards"><Icon use="twitter" /></a>
+                <a className="Navbar__link" href="https://www.instagram.com/beardedladiescabaret/"><Icon use="instagram" /></a>
               </div>
             </React.Fragment>
           )}

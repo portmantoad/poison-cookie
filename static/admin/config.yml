@@ -38,7 +38,7 @@ collections:
           - {label: "Template Key", name: "templateKey", widget: "hidden", default: "about-page"}
           - {label: "Title", name: "title", widget: "string"}
           - {label: "Body", name: "body", widget: "markdown"}
-      - file: "src/pages/cities/paris.md"
+      - file: "src/pages/paris/index.md"
         label: "Paris"
         name: "paris"
         fields:
