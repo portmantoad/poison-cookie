@@ -46,7 +46,7 @@ const pages = [
                 >
                   <Picture 
                     src={`${withPrefix('/')}img/bienvenue-a-paris.png`}
-                    width="calc(200px + 25%)" 
+                    width="calc(200px + 20vw)" 
                     rotate="-25"
                     shadow={false}
                     background="transparent"
@@ -92,19 +92,19 @@ const pages = [
 , ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
-        <Parallax dimensions={dimensions} speed="-4">
+        <Parallax dimensions={dimensions} speed="-6">
           <Picture 
-            width="100%"
+            width="100vw"
             shadow={false}
             height="calc((100vh - 40px) * 1.2)"
-            mask={`${withPrefix('/')}img/paris_book-3_mask.png`} 
-            src={`${withPrefix('/')}img/paris_book-3.jpg`} 
+            mask={`${withPrefix('/')}img/paris_book-1_mask.png`} 
+            src={`${withPrefix('/')}img/paris_book-1.jpg`} 
           />
         </Parallax>
-        <Parallax dimensions={dimensions} speed="2">
-          <Positioner x="0.3" y="1">
+        <Parallax dimensions={dimensions} speed="4">
+          <Positioner x="0.3" y="0.5">
             <Picture
-              width="calc(30% + 150px);" 
+              width="calc(30vw + 150px);" 
               shadow
               rotate={-1}
               src={`${withPrefix('/')}img/paris_recipe_alexandre.jpg`} 
@@ -204,7 +204,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
           <Picture 
             // mask={2} 
             height="90vh"
-            width="37.5%"
+            width="37.5vw"
             rotate={.25}
             x="1"
             css={css`margin-right: auto; margin-left:3.5vh`} 
@@ -415,19 +415,21 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
 , ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
-        <Parallax dimensions={dimensions} offset={-0.1} speed="-4">
+        <Parallax dimensions={dimensions} offset={-0.2} speed="-6">
           <Picture 
-            width="100%"
+            width="100vw"
             shadow={false}
             height="calc((100vh - 40px) * 1.2)"
-            mask={`${withPrefix('/')}img/paris_book-1_mask.png`} 
-            src={`${withPrefix('/')}img/paris_book-1.jpg`} 
+            mask={`${withPrefix('/')}img/paris_book-2_mask.png`} 
+            src={`${withPrefix('/')}img/paris_book-2.jpg`} 
           />
         </Parallax>
-        <Parallax dimensions={dimensions} offset={-0.1} speed="2">
-          <Positioner x="0.7" y="1">
+        <Parallax dimensions={dimensions} offset={-0.2} speed="4">
+          <Positioner x="0.7" y="0.5">
             <Picture
-              width="calc(30% + 150px);" 
+              width="calc(30vw + 150px);" 
+              height="90vh"
+              y="0.5"
               shadow
               rotate={-1}
               src={`${withPrefix('/')}img/paris_recipe_neant.jpg`} 
@@ -466,13 +468,13 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
         
         <Parallax speed="2" dimensions={dimensions}>
           <Positioner x="0.5" y="0.3" padding="3.5vh" css={css(`width:40%; left: unset;`)}>
-            <Picture width="100%" height="90vh" y="0.3" src={`${withPrefix('/')}img/paris_mary-dubas.jpg`}></Picture>
+            <Picture width="100vw" height="90vh" y="0.3" src={`${withPrefix('/')}img/paris_mary-dubas.jpg`}></Picture>
           </Positioner>
         </Parallax>
         <Parallax speed="4" dimensions={dimensions}>
           <Positioner x="0.25" y="0.6" padding="3.5vh" css={css(`width:25%; left: 40%; right: unset;`)}>
             <Picture 
-              width="100%" 
+              width="100vw" 
               height="90vh"
               y="0.6"
               src={`${withPrefix('/')}img/paris_mary-dubas2.jpg`}
@@ -486,14 +488,15 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
     return(
       <React.Fragment>
         <Parallax speed="-4" dimensions={dimensions}>
-          <Picture width="40%" padding="3%" mask={1} x={0.75} css={css(`position: absolute; left: 2.5%;`)} src={`${withPrefix('/')}img/paris_bricktop.jpg`} alt="" />
+          <Picture width="40vw" padding="3%" mask={1} x={0.75} css={css(`position: absolute; left: 2.5%;`)} src={`${withPrefix('/')}img/paris_bricktop.jpg`} alt="" />
         </Parallax>
         
         <Parallax speed="-2" dimensions={dimensions}>
-          <Picture width="40%" padding="0.5%" background="#efefef" height="102vh" x={0.25} css={css(`position: absolute; right: 2.5%;`)} rotate={1} src={`${withPrefix('/')}img/paris_josephine2.jpg`} alt=""/>
+          <Picture width="40vw" padding="0.5%" background="#efefef" height="102vh" x={0.25} css={css(`position: absolute; right: 2.5%;`)} rotate={1} src={`${withPrefix('/')}img/paris_josephine2.jpg`} alt=""/>
         </Parallax>
 
           <div className="Paper" css={css(`width: 400px; max-width: 100%; transform: rotate(-1deg);`)}>
+          <h2>Jazz in Paris</h2>
             After WWI, African American soldiers weighed their options between staying in Europe or returning home. A number of them stayed, and settled in Paris. Jazz fever swept France, bringing with it a new appreciation for Americans generally and African Americans specifically. Musicians, writers, and visual artists all made their way across the ocean for opportunities denied them at home. All of them remarked on how welcome they seemed in France: “ They had a freedom you didn’t get [in America]. Over there you didn’t have to hide away,” remembered jazz musician Elliot Carpenter. These expats included dancer Josephine Baker, who became a European sensation, poet Langston Hughes, who washed dishes in Montmartre cabarets while honing his writer’s voice, and cabaret owner Ada Bricktop Smith whose nightclub Bricktop’s was the gathering place for American expats. This cross-cultural exchange would have a lasting impact on cabaret in Paris, Berlin, and America.
           </div>
       </React.Fragment>
@@ -501,7 +504,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
 , ({sectionIndex, dimensions, setContainerCss}) => (
       <React.Fragment>
         <Parallax speed="2" dimensions={dimensions}>
-          <Picture height="120vh" x={0.3} width="37.5%" fit="cover" src={`${withPrefix('/')}img/paris_josephine.jpg`} alt="" css={css(`margin-left: auto; margin-right 2.5%`)} />
+          <Picture height="120vh" x={0.3} width="37.5vw" fit="cover" src={`${withPrefix('/')}img/paris_josephine.jpg`} alt="" css={css(`margin-left: auto; margin-right 2.5%`)} />
         </Parallax>
 
         <div css={css(`
@@ -559,11 +562,11 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
       <React.Fragment>
         <Parallax dimensions={dimensions} speed="1">
           <Picture 
-            width="100%"
+            width="100vw"
             shadow={false}
             height="calc((100vh - 40px) * 1.2)"
-            mask={`${withPrefix('/')}img/paris_book-1_mask.png`} 
-            src={`${withPrefix('/')}img/paris_book-1.jpg`} 
+            mask={`${withPrefix('/')}img/paris_book-3_mask.png`} 
+            src={`${withPrefix('/')}img/paris_book-3.jpg`} 
           />
         </Parallax>
       </React.Fragment>
