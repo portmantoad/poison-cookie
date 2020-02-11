@@ -568,31 +568,6 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
           </div>
       </React.Fragment>
 )}
-, ({sectionIndex, dimensions, setContainerCss}) => (
-      <React.Fragment>
-        <Parallax speed="2" dimensions={dimensions}>
-          <Picture height="120vh" x={0.3} width="37.5vw" fit="cover" src={`${withPrefix('/')}img/paris_josephine.jpg`} alt="" css={css(`margin-left: auto; margin-right 2.5%`)} />
-        </Parallax>
-
-        <div css={css(`
-          width: 60%; 
-          height: 100%; 
-          display: flex; 
-          align-items: center;
-          justify-content: center;
-          margin-right: auto; 
-          position: relative;
-        `)}>
-          <div className="fullscreenQuote">
-              <figure className="quote">
-                 <q>One day I realized I was living in a country where I was afraid to be black. It was only a country for white people. Not black. So I left. I had been suffocating in the United States… A lot of us left, not because we wanted to leave, but because we couldn’t stand it anymore… I felt liberated in Paris.</q>
-                 <figcaption>&mdash;&ensp;Josephine Baker</figcaption>
-              </figure>
-              <div className="bigborder"></div>
-          </div>
-        </div>
-      </React.Fragment>
-)
 ,    ({sectionIndex, dimensions, setContainerCss}) => {
     setContainerCss(`max-height: calc(100vh - 40px)`);
     return(
@@ -623,7 +598,57 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
         </Parallax>
       </React.Fragment>
 )}
+, ({sectionIndex, dimensions, setContainerCss}) => (
+      <React.Fragment>
+        <Parallax speed="2" dimensions={dimensions}>
+          <Picture height="120vh" x={0.3} width="37.5vw" fit="cover" src={`${withPrefix('/')}img/paris_josephine.jpg`} alt="" css={css(`margin-left: auto; margin-right 2.5%`)} />
+        </Parallax>
 
+        <div css={css(`
+          width: 60%; 
+          height: 100%; 
+          display: flex; 
+          align-items: center;
+          justify-content: center;
+          margin-right: auto; 
+          position: relative;
+        `)}>
+          <div className="fullscreenQuote">
+              <figure className="quote">
+                 <q>One day I realized I was living in a country where I was afraid to be black. It was only a country for white people. Not black. So I left. I had been suffocating in the United States… A lot of us left, not because we wanted to leave, but because we couldn’t stand it anymore… I felt liberated in Paris.</q>
+                 <figcaption>&mdash;&ensp;Josephine Baker</figcaption>
+              </figure>
+              <div className="bigborder"></div>
+          </div>
+        </div>
+      </React.Fragment>
+)
+
+
+, ({sectionIndex, dimensions, setContainerCss}) => {
+    return(
+      <React.Fragment>
+        <Parallax dimensions={dimensions} speed="-6">
+          <Picture 
+            width="100vw"
+            shadow={false}
+            height="calc((100vh - 40px) * 1.2)"
+            mask={`${withPrefix('/')}img/paris_book-3_mask.png`} 
+            src={`${withPrefix('/')}img/paris_book-3.jpg`} 
+          />
+        </Parallax>
+        <Parallax dimensions={dimensions} speed="4">
+          <Positioner x="0.3" y="0.5">
+            <Picture
+              width="calc(30vw + 150px);" 
+              shadow
+              rotate={-1}
+              src={`${withPrefix('/')}img/paris_recipe_alexandre.jpg`} 
+            />
+          </Positioner>
+        </Parallax>
+      </React.Fragment>
+)}
 
 ,  ({sectionIndex, dimensions, setContainerCss}) => {
     return(
@@ -810,7 +835,6 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
         </Parallax>
       </React.Fragment>
 )}
-    
 , ({sectionIndex, dimensions, setContainerCss}) => {
   setContainerCss(`min-height: calc((30vw + 150px) * (286/935) )`)
   return (
@@ -893,14 +917,13 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
 ,    ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
-        <Scrim />
+        <Postcard alt="1" card="1" mask="2">  
         <VideoPlayer
               /* asshole singalong  */
               videoIds={["7Unp0PL2m8Q"]}
               thumbnail={`${withPrefix('/')}img/thumbnails/00_asshole-singalong.jpg`}
-              fullscreen
             />
-        <Curtains />
+        </Postcard> 
       </React.Fragment>
 )}
 , ({sectionIndex, dimensions, setContainerCss}) => {
