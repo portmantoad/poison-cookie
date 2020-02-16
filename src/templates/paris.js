@@ -92,7 +92,7 @@ const pages = [
       </React.Fragment>
 )}
 , ({sectionIndex, dimensions, setContainerCss}) => {
-  setContainerCss(`min-height: calc((30vw + 150px) * (286/935) )`)
+  setContainerCss(`min-height: calc(100vh - 40px)`)
   return (
           <React.Fragment>
             <Parallax speed="-4" dimensions={dimensions}>
@@ -172,14 +172,22 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
             
             <Parallax dimensions={dimensions} speed="0"><Positioner padding="3.5vh" x="0"><Picture height="110vh" width="25vw" y="0.3" rotate="-1" src={`${withPrefix('/')}img/paris_famouspeople_eric-satie.jpg`} /></Positioner></Parallax>
             <Parallax dimensions={dimensions} speed="-2.5"><Positioner padding="3.5vh" x="1"><Picture height="90vh" width="45vw" y="0.8" rotate="2" src={`${withPrefix('/')}img/paris_famouspeople_toulouse-lautrec.jpg`} /></Positioner></Parallax>
-            <Parallax dimensions={dimensions} speed="-4"><Positioner padding="3.5vh" x="0.4"><Picture height="90vh" width="40vw" y="0.5" rotate="-2" src={`${withPrefix('/')}img/paris_famouspeople_andre-gill.jpg`} /></Positioner></Parallax>
+            <Parallax dimensions={dimensions} speed="-6"><Positioner padding="3.5vh" x="0.4"><Picture height="90vh" width="40vw" y="0.5" rotate="-2" src={`${withPrefix('/')}img/paris_famouspeople_andre-gill.jpg`} /></Positioner></Parallax>
 
+          </React.Fragment>
+)}
+, ({sectionIndex, dimensions, setContainerCss}) => {
+setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
+  return(
+          <React.Fragment>
+            <Parallax dimensions={dimensions} speed="1"><Positioner padding="3.5vh" x="0.1"><Picture height="90vh" width="35vw" y="0.3" rotate="2" src={`${withPrefix('/')}img/paris_famouspeople_claude-debussy.jpg`} /></Positioner></Parallax>
+            <Parallax dimensions={dimensions} speed="-1"><Positioner padding="3.5vh" x="0.8"><Picture height="90vh" width="50vw" y="0.0" rotate="2" src={`${withPrefix('/')}img/paris_famouspeople_paul-verlaine.jpg`} /></Positioner></Parallax>
           </React.Fragment>
 )}
  , ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
-        <Parallax dimensions={dimensions} speed="-2">
+        <Parallax dimensions={dimensions} speed="-6">
         <Positioner x="0.7">
         <Postcard mask="1" card="2" alt="2">
             <VideoPlayer
@@ -228,15 +236,15 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
        </React.Fragment>
 )
 , ({sectionIndex, dimensions, setContainerCss}) => {
-  setContainerCss(`min-height: calc((100vw) * (286/1683) )`)
+  setContainerCss(`min-height: calc((100vh - 40px) * 1)`)
   return (
           <React.Fragment>
-            <Parallax speed="-4" dimensions={dimensions}>
-              <Positioner x="0.5" y="0.5">
+            <Parallax speed="-6" dimensions={dimensions}>
+              <Positioner x="0.5" y="0.45">
                 <Picture
                   background="transparent"
                   shadow={false}
-                  width="calc(30vw + 150px);" 
+                  width="calc(40vw + 200px);" 
                   src={`${withPrefix('/')}img/paris_titles_masteringartoffrenchcabaret.png`} 
                  />
               </Positioner> 
@@ -247,7 +255,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
 , ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
-        <Parallax dimensions={dimensions} speed="-6">
+        <Parallax dimensions={dimensions} speed="-4">
           <Picture 
             width="100vw"
             shadow={false}
@@ -256,8 +264,8 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
             src={`${withPrefix('/')}img/paris_book-1.jpg`} 
           />
         </Parallax>
-        <Parallax dimensions={dimensions} speed="4">
-          <Positioner x="0.3" y="0.5">
+        <Parallax dimensions={dimensions} speed="2">
+          <Positioner x="0.85" y="0.5">
             <Picture
               width="calc(30vw + 150px);" 
               shadow
@@ -272,7 +280,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
 
     return(
       <React.Fragment>
-        <Parallax speed={-6} dimensions={dimensions}>
+        <Parallax speed={-2} dimensions={dimensions}>
           <Postcard mask="2" card="1" alt="1">
               <VideoPlayer
                 /* musee montmatre */
@@ -296,7 +304,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
         />
       <Curtains />
   
-      <Parallax speed="1" dimensions={dimensions} offset={0.5}>
+      <Parallax speed="2" dimensions={dimensions} offset={0.5}>
         <a href="https://museedemontmartre.fr/en/" css={css(`
           width: 230px; 
           height: 200px; 
@@ -340,7 +348,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
 , ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
-        <Parallax dimensions={dimensions} offset={-0.2} speed="-6">
+        <Parallax dimensions={dimensions} speed="-5">
           <Picture 
             width="100vw"
             shadow={false}
@@ -349,8 +357,8 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
             src={`${withPrefix('/')}img/paris_book-2.jpg`} 
           />
         </Parallax>
-        <Parallax dimensions={dimensions} offset={-0.2} speed="4">
-          <Positioner x="0.7" y="0.5">
+        <Parallax dimensions={dimensions} speed="2">
+          <Positioner x="0.85" y="0.7">
             <Picture
               width="calc(30vw + 150px);" 
               height="90vh"
@@ -366,7 +374,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
     , ({sectionIndex, dimensions, setContainerCss}) => {
 
     return(
-      <Parallax dimensions={dimensions}>
+      <Parallax speed="-2" dimensions={dimensions}>
         <Postcard mask="2" card="2" alt="3">           
           <VideoPlayer
             /* strongman lapin agile */
@@ -389,26 +397,12 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
         <Curtains />
       </React.Fragment>
 )}
-// , ({sectionIndex, dimensions, setContainerCss}) => {
-// // setContainerCss(`max-height: calc(100vh - 40px)`)
-//   return(
-//           <React.Fragment>
-//           <Parallax dimensions={dimensions} speed="-2">
-//             <Positioner x="0.9" y="0.15" padding="3.5vh">
-//               <img src={`${withPrefix('/')}img/paris_wherearetheynow.png`} alt="Where are they now?" css={css(`width: calc(25vw + 100px); max-width: 100%;`)}/>
-//             </Positioner>
-//           </Parallax>
 
-//             <Parallax dimensions={dimensions} speed="2"><Positioner padding="3.5vh" x="0.1"><Picture height="90vh" width="35vw" y="0.8" rotate="2" src={`${withPrefix('/')}img/paris_famouspeople_claude-debussy.jpg`} /></Positioner></Parallax>
-//             <Parallax dimensions={dimensions} speed="0"><Positioner padding="3.5vh" x="0.8"><Picture height="90vh" width="50vw" y="0.8" rotate="2" src={`${withPrefix('/')}img/paris_famouspeople_paul-verlaine.jpg`} /></Positioner></Parallax>
-
-//           </React.Fragment>
-// )}
 ,    ({sectionIndex, dimensions, setContainerCss}) => {
 
     return(
       <React.Fragment>
-        <Parallax speed="-2" dimensions={dimensions}>
+        <Parallax speed="-4" dimensions={dimensions}>
               <Scrim image={`${withPrefix('/')}img/paris_poster-guilbert.jpg`} css={css(`background-position: center top;`)} />
             </Parallax>
         <Parallax speed="2" dimensions={dimensions}>
@@ -477,7 +471,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
 , ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
-        <Parallax dimensions={dimensions} speed="-6">
+        <Parallax dimensions={dimensions} speed="-6" offset={-0.2}>
           <Picture 
             width="100vw"
             shadow={false}
@@ -503,7 +497,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
 // )}
 
 , ({sectionIndex, dimensions, setContainerCss}) => {
-  setContainerCss(`min-height: calc((30vw + 150px) * (286/935) )`)
+  setContainerCss(`min-height: calc((100vh - 40px) * 1.5) `)
   return (
           <React.Fragment>
             <Parallax speed="-4" dimensions={dimensions}>
@@ -535,13 +529,13 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
         
         <Parallax speed="2" dimensions={dimensions}>
           <Positioner x="0.5" y="0.3" padding="3.5vh" css={css(`width:40%; left: unset;`)}>
-            <Picture width="100vw" height="90vh" y="0.3" src={`${withPrefix('/')}img/paris_mary-dubas.jpg`}></Picture>
+            <Picture width="40vw" height="90vh" y="0.3" src={`${withPrefix('/')}img/paris_mary-dubas.jpg`}></Picture>
           </Positioner>
         </Parallax>
         <Parallax speed="4" dimensions={dimensions}>
           <Positioner x="0.25" y="0.6" padding="3.5vh" css={css(`width:25%; left: 40%; right: unset;`)}>
             <Picture 
-              width="100vw" 
+              width="25vw" 
               height="90vh"
               y="0.6"
               src={`${withPrefix('/')}img/paris_mary-dubas2.jpg`}
@@ -573,7 +567,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
     return(
       <React.Fragment>
         <Parallax speed="-1" dimensions={dimensions}>
-          <Scrim image={`${withPrefix('/')}img/paris_poster-4.jpg`} />
+          <Scrim image={`${withPrefix('/')}img/paris_poster-3.jpg`} />
         </Parallax>
         <Parallax speed="2" dimensions={dimensions}>
             <Positioner x="1" css={css(`width:60%; right: unset;`)}>
@@ -625,26 +619,29 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
 )
 
 
-, ({sectionIndex, dimensions, setContainerCss}) => {
+,    ({sectionIndex, dimensions, setContainerCss}) => {
+
     return(
       <React.Fragment>
-        <Parallax dimensions={dimensions} speed="-6">
-          <Picture 
-            width="100vw"
-            shadow={false}
-            height="calc((100vh - 40px) * 1.2)"
-            mask={`${withPrefix('/')}img/paris_book-3_mask.png`} 
-            src={`${withPrefix('/')}img/paris_book-3.jpg`} 
-          />
+        <Parallax speed="-1.5" dimensions={dimensions}>
+          <Scrim image={`${withPrefix('/')}img/paris_poster-4.jpg`} />
         </Parallax>
-        <Parallax dimensions={dimensions} speed="4">
-          <Positioner x="0.3" y="0.5">
-            <Picture
-              width="calc(30vw + 150px);" 
-              shadow
-              rotate={-1}
-              src={`${withPrefix('/')}img/paris_recipe_alexandre.jpg`} 
-            />
+        <Positioner x="1" padding="3.5vh" css={css(`width:calc(40% - 3.5vh); right: unset;`)}>
+          <div className="Paper" css={css(`width: 500px; max-width: 100%; transform: rotate(1deg)`)}>
+          <h2>Edith Piaf</h2>
+           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum        
+          </div>
+        </Positioner>
+
+        <Parallax speed="4" dimensions={dimensions}>
+          <Positioner x="0" y="0.5" padding="3.5vh" css={css(`width:calc(60% - 3.5vh); left: unset;`)}>
+            <Picture 
+              width="60vw" 
+              height="90vh"
+              y="0.6"
+              src={`${withPrefix('/')}img/paris_edith-piaf.jpg`}
+              mask={`${withPrefix('/')}img/paris_edith-piaf_mask.png`}
+            ></Picture>
           </Positioner>
         </Parallax>
       </React.Fragment>
@@ -653,7 +650,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
 ,  ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
-        <Parallax speed="-2" dimensions={dimensions}>
+        <Parallax speed="2" dimensions={dimensions}>
         <Positioner x="0.6">
           <Postcard mask="2" card="2" >
           <VideoPlayer
@@ -669,10 +666,10 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
 )}
 
 , ({sectionIndex, dimensions, setContainerCss}) => {
-  setContainerCss(`min-height: calc((30vw + 150px) * (286/935) )`)
+  setContainerCss(`min-height: calc(100vh - 40px)`)
   return (
           <React.Fragment>
-            <Parallax speed="-4" dimensions={dimensions}>
+            <Parallax speed="-4" offset="-0.2" dimensions={dimensions}>
               <Positioner x="0.5" y="0.5">
                 <Picture
                   background="transparent"
@@ -686,9 +683,12 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
   )
 }
 
-, ({sectionIndex, dimensions, setContainerCss}) => (
+, ({sectionIndex, dimensions, setContainerCss}) => {
+  // setContainerCss(`min-height: calc(100vh - 40px)`)
+  return(
       <React.Fragment>
-        <Parallax dimensions={dimensions}>
+        <Parallax speed={-5} dimensions={dimensions}>
+        <Positioner x="0.35">
           <Postcard mask="1" card="2" alt="4">
           <VideoPlayer
             /* cafe streeter */
@@ -696,12 +696,16 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
             thumbnail={`${withPrefix('/')}img/thumbnails/cafe_streeter.jpg`}
           /> 
           </Postcard>
+        </Positioner>
         </Parallax>
       </React.Fragment>
-)
+)}
 ,    ({sectionIndex, dimensions, setContainerCss}) => {
+  setContainerCss(`min-height: calc(100vh - 40px)`)
     return(
       <React.Fragment>
+      <Parallax speed={-3} dimensions={dimensions}>
+        <Positioner x="0.65">
           <Postcard>
             <VideoPlayer
               /* strongman limonaire */
@@ -709,6 +713,8 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
               thumbnail={`${withPrefix('/')}img/thumbnails/00_strongman_limonaire_v2.jpg`}
             />
           </Postcard>
+        </Positioner>
+        </Parallax>
       </React.Fragment>
 )}
 ,    ({sectionIndex, dimensions, setContainerCss}) => {
@@ -727,12 +733,29 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
 
 ,    ({sectionIndex, dimensions, setContainerCss}) => {
 
+    setContainerCss(`min-height: calc((100vh - 40px) * 1.4)`);
+
     return(
       <React.Fragment>
-      <Parallax speed="-1" dimensions={dimensions}>
-        <Scrim image={`${withPrefix('/')}img/paris_aumagique2.jpg`} css={css(`
-         background-position: top center;
+      <Parallax speed="-10" dimensions={dimensions}>
+        <Scrim image={`${withPrefix('/')}img/paris_aumagique.png`} css={css(`
+         background-position: center center;
+         top: 50%;
+         height: calc(100vh - 40px);
+         transform: translateY(-50%);
+         background-size: contain;
        `)}/>
+      </Parallax>
+      <Parallax speed="-6" offset={0.2} dimensions={dimensions}>
+      <Picture
+        shadow={false}
+        background="transparent"
+        src={`${withPrefix('/')}img/paris_aumagiquetitle.png`}
+        width="100%"
+        height="calc(15vh + 100px)"
+        x="0.575"
+        css={css(`align-self: start;`)}
+      />
       </Parallax>
         <Parallax speed="1" dimensions={dimensions}>
           <Positioner y="0.9" x="1" css={css(`
@@ -778,30 +801,36 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
       </React.Fragment>
 )}
 ,    ({sectionIndex, dimensions, setContainerCss}) => {
+    setContainerCss(`min-height: calc(100vh - 40px)`)
     return(
       <React.Fragment>
-        <Parallax speed="-4" dimensions={dimensions}>
-          <Postcard mask="1" card="1" alt="3">
-              <VideoPlayer
-                // Interview with Michel from Vieux Belleville   
-                videoIds={["az8ftb3NgNw"]}
-                thumbnail={`${withPrefix('/')}img/thumbnails/00_interview_with_michel_v4.jpg`}
-              />
-          </Postcard>
+        <Parallax speed="-5" dimensions={dimensions}>
+          <Positioner x="0.65">
+            <Postcard mask="1" card="1" alt="3">
+                <VideoPlayer
+                  // Interview with Michel from Vieux Belleville   
+                  videoIds={["az8ftb3NgNw"]}
+                  thumbnail={`${withPrefix('/')}img/thumbnails/00_interview_with_michel_v4.jpg`}
+                />
+            </Postcard>
+          </Positioner>
         </Parallax>
       </React.Fragment>
 )}
 ,   ({sectionIndex, dimensions, setContainerCss}) => {
+  setContainerCss(`min-height: calc(100vh - 40px)`)
     return(
       <React.Fragment>
-        <Parallax speed="-4" dimensions={dimensions}>
-          <Postcard mask="2" card="1" alt="1">
-              <VideoPlayer
-                /* strongman divan japanois */
-                videoIds={["_7kQh0ot5Kc"]}
-                thumbnail={`${withPrefix('/')}img/thumbnails/00_strongman_divan-japanois.jpg`}
-              />
-          </Postcard>
+        <Parallax speed="-3" dimensions={dimensions}>
+          <Positioner x="0.35">
+            <Postcard mask="2" card="1" alt="1">
+                <VideoPlayer
+                  /* strongman divan japanois */
+                  videoIds={["_7kQh0ot5Kc"]}
+                  thumbnail={`${withPrefix('/')}img/thumbnails/00_strongman_divan-japanois.jpg`}
+                />
+            </Postcard>
+          </Positioner>
         </Parallax>
       </React.Fragment>
 )}
@@ -822,7 +851,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
 ,    ({sectionIndex, dimensions, setContainerCss}) => {
     return(
       <React.Fragment>
-        <Parallax speed="-4" dimensions={dimensions}>
+        <Parallax speed="-4" offset="-.1" dimensions={dimensions}>
           <Positioner x="0.3">
             <Postcard>
               <VideoPlayer
@@ -836,7 +865,7 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
       </React.Fragment>
 )}
 , ({sectionIndex, dimensions, setContainerCss}) => {
-  setContainerCss(`min-height: calc((30vw + 150px) * (286/935) )`)
+  setContainerCss(`min-height: calc(100vh - 40px)`)
   return (
           <React.Fragment>
             <Parallax speed="-4" dimensions={dimensions}>
@@ -903,8 +932,11 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
         </Parallax>
       </React.Fragment>
 )}
-, ({sectionIndex, dimensions, setContainerCss}) => (
-          <Parallax speed="-2" dimensions={dimensions}>
+, ({sectionIndex, dimensions, setContainerCss}) => {
+  // setContainerCss(`min-height: calc(100vh - 40px)`)
+  return(
+          <Parallax speed="0" dimensions={dimensions}>
+          <Positioner x="0.35">
               <Postcard alt="2" card="2">  
                 <VideoPlayer
                     //asshole streeter
@@ -912,18 +944,24 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
                     thumbnail={`${withPrefix('/')}img/thumbnails/asshole_streeter.jpg`}
                   />
               </Postcard>  
+            </Positioner>
           </Parallax>
-)
+)}
 ,    ({sectionIndex, dimensions, setContainerCss}) => {
+  setContainerCss(`min-height: calc(100vh - 40px)`)
     return(
       <React.Fragment>
-        <Postcard alt="1" card="1" mask="2">  
-        <VideoPlayer
-              /* asshole singalong  */
-              videoIds={["7Unp0PL2m8Q"]}
-              thumbnail={`${withPrefix('/')}img/thumbnails/00_asshole-singalong.jpg`}
-            />
-        </Postcard> 
+        <Parallax speed="-3" offset="-.15" dimensions={dimensions}>
+          <Positioner x="0.65">
+            <Postcard alt="1" card="1" mask="2">  
+              <VideoPlayer
+                    /* asshole singalong  */
+                    videoIds={["7Unp0PL2m8Q"]}
+                    thumbnail={`${withPrefix('/')}img/thumbnails/00_asshole-singalong.jpg`}
+                  />
+            </Postcard> 
+          </Positioner>
+        </Parallax>
       </React.Fragment>
 )}
 , ({sectionIndex, dimensions, setContainerCss}) => {
