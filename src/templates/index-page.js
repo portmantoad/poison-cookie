@@ -28,7 +28,7 @@ const pages = [React.memo(
       <Clouds dimensions={dimensions} />
       <Parallax speed="-2" dimensions={dimensions}>
         <Picture 
-          src={`${withPrefix('/')}img/cover-optim.png`} 
+          src={`${withPrefix('/')}img/intro/cover-optim.png`} 
           width="100%" 
           height="calc((100vh - 40px) * 1.2)" 
           fit="cover"
@@ -45,7 +45,7 @@ const pages = [React.memo(
       </Parallax>
       <Positioner x="0.9" y="0.9" css={css(`height: calc(100vh - 40px); bottom: unset;`)} >
         <img 
-          src={`${withPrefix('/')}img/cookietitle.png`} 
+          src={`${withPrefix('/')}img/intro/cookietitle.png`} 
           alt="The Poison Cookie Jar"
           
           css={css(`width: 18vw; min-width: 215px; display: block;`)} />
@@ -73,7 +73,7 @@ React.memo(
             <div className="fullscreenQuote">
                 <figure className="quote">
                    <q>Under the cover of an evening’s relaxing entertainment, cabaret, like nothing else, suddenly dispenses a <span style={{color: '#be553d', fontStyle: 'italic'}}>poison cookie</span>. Suggestively administered and hastily swallowed, its effect reaches far beyond the harmless evening to make otherwise placid blood boil and inspire a sluggish brain to think.</q>
-                   <figcaption css={css(`transform: rotate(-3deg);`)}><img src={`${withPrefix('/')}img/friedrich.jpg`} alt="" />&ensp;&mdash;&ensp;Friedrich Hollaender, 1932</figcaption>
+                   <figcaption css={css(`transform: rotate(-3deg);`)}><img src={`${withPrefix('/')}img/intro/friedrich.jpg`} alt="" />&ensp;&mdash;&ensp;Friedrich Hollaender, 1932</figcaption>
                 </figure>
                 <div className="bigborder"></div>
             </div>
@@ -120,9 +120,9 @@ React.memo(
                   width: 200px;
                   mask-image: url('${withPrefix('/')}img/cookie_mask.png');
                   mask-size: 100% 100%;
-                `)} autoPlay muted loop src={`${withPrefix('/')}img/john-eats.mp4`} />
+                `)} autoPlay muted loop src={`${withPrefix('/')}img/intro/john-eats.mp4`} />
                 <img 
-                src={`${withPrefix('/')}img/intro_bite-me.png`} 
+                src={`${withPrefix('/')}img/intro/bite-me.png`} 
                 alt="Bite Me to get to Paris"
                 
                 css={css(`width: 425px; max-width: 90%; display: block;`)} />

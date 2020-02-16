@@ -45,7 +45,7 @@ const pages = [
                   y="0.1" 
                 >
                   <Picture 
-                    src={`${withPrefix('/')}img/bienvenue-a-paris.png`}
+                    src={`${withPrefix('/')}img/paris/bienvenue-a-paris.png`}
                     width="calc(200px + 20vw)" 
                     rotate="-25"
                     shadow={false}
@@ -62,7 +62,7 @@ const pages = [
                 <Postcard>
                   <VideoPlayer
                       videoIds={["qdU_IKxIhAk"]}
-                      thumbnail={`${withPrefix('/')}img/thumbnails/cat_streeter.jpg`}
+                      thumbnail={`${withPrefix('/')}img/thumbnails/paris/cat_streeter.jpg`}
                       // autoplay
                     />
                 </Postcard>
@@ -76,7 +76,7 @@ const pages = [
     return(
       <React.Fragment>
         
-          <Scrim image={`${withPrefix('/')}img/paris_kitties.jpg`} css={css(`background-position: center bottom;`)} />
+          <Scrim image={`${withPrefix('/')}img/paris/poster-kitties.jpg`} css={css(`background-position: center bottom;`)} />
         
 
         <Parallax speed="2" dimensions={dimensions} offset={0}>
@@ -84,7 +84,7 @@ const pages = [
             <VideoPlayer
               /* kitty litter */
               videoIds={["ZS8zlMNmTEU"]}
-              thumbnail={`${withPrefix('/')}img/thumbnails/00_intro_cat-litter_V2.jpg`}
+              thumbnail={`${withPrefix('/')}img/thumbnails/paris/00_intro_cat-litter_V2.jpg`}
             />
           </Postcard>
         </Parallax>
@@ -101,7 +101,7 @@ const pages = [
                   background="transparent"
                   shadow={false}
                   width="calc(30vw + 150px);" 
-                  src={`${withPrefix('/')}img/paris_titles_firstcabaret.png`} 
+                  src={`${withPrefix('/')}img/paris/titles_firstcabaret.png`} 
                  />
               </Positioner> 
             </Parallax>
@@ -115,7 +115,7 @@ const pages = [
                 <Postcard mask="2" card="2">                
                     <VideoPlayer
                       videoIds={["LkdWOkpCuTw"]}
-                      thumbnail={`${withPrefix('/')}img/thumbnails/wig_shop.jpg`}
+                      thumbnail={`${withPrefix('/')}img/thumbnails/paris/wig_shop.jpg`}
                     />
                 </Postcard> 
               </Positioner> 
@@ -125,7 +125,7 @@ const pages = [
 , ({sectionIndex, dimensions, setContainerCss}) => (
           <React.Fragment>
             <Parallax speed="1" dimensions={dimensions} offset={0}>
-              <Scrim image={`${withPrefix('/')}img/paris_poster-2.jpg`} css={css(`background-position: right center;`)} />
+              <Scrim image={`${withPrefix('/')}img/paris/poster-2.jpg`} css={css(`background-position: right center;`)} />
             </Parallax>
             <Parallax speed="2" dimensions={dimensions}>
               <Positioner x="0.4" y="0.4">
@@ -133,7 +133,7 @@ const pages = [
                     <VideoPlayer
                       // Intro strongman cemetary
                       videoIds={["9IJph4x7ySg"]}
-                      thumbnail={`${withPrefix('/')}img/thumbnails/00_CemetaryV3.jpg`}
+                      thumbnail={`${withPrefix('/')}img/thumbnails/paris/00_CemetaryV3.jpg`}
                     />
                 </Postcard> 
               </Positioner> 
@@ -150,7 +150,7 @@ const pages = [
               <VideoPlayer
                 /* Strongman chat noir */
                 videoIds={["T6nNI2Nw9a0"]}
-                thumbnail={`${withPrefix('/')}img/thumbnails/00_strongman_chat_noir%20v3.jpg`}
+                thumbnail={`${withPrefix('/')}img/thumbnails/paris/00_strongman_chat_noir%20v3.jpg`}
                 // fullscreen
                 // captions={true}
               />
@@ -165,14 +165,14 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
           <React.Fragment>
           <Parallax dimensions={dimensions} speed="-4">
             <Positioner x="1" y="0.15" padding="3.5vh">
-                <img src={`${withPrefix('/')}img/paris_wherearetheynow.png`} alt="Where are they now?" css={css(`width: calc(25vw + 100px); max-width: 100%;`)}/>
+                <img src={`${withPrefix('/')}img/paris/wherearetheynow.png`} alt="Where are they now?" css={css(`width: calc(25vw + 100px); max-width: 100%;`)}/>
             </Positioner>
           </Parallax>
 
             
-            <Parallax dimensions={dimensions} speed="0"><Positioner padding="3.5vh" x="0"><Picture height="110vh" width="25vw" y="0.3" rotate="-1" src={`${withPrefix('/')}img/paris_famouspeople_eric-satie.jpg`} /></Positioner></Parallax>
-            <Parallax dimensions={dimensions} speed="-2.5"><Positioner padding="3.5vh" x="1"><Picture height="90vh" width="45vw" y="0.8" rotate="2" src={`${withPrefix('/')}img/paris_famouspeople_toulouse-lautrec.jpg`} /></Positioner></Parallax>
-            <Parallax dimensions={dimensions} speed="-6"><Positioner padding="3.5vh" x="0.4"><Picture height="90vh" width="40vw" y="0.5" rotate="-2" src={`${withPrefix('/')}img/paris_famouspeople_andre-gill.jpg`} /></Positioner></Parallax>
+            <Parallax dimensions={dimensions} speed="0"><Positioner padding="3.5vh" x="0"><Picture height="110vh" width="25vw" y="0.3" rotate="-1" src={`${withPrefix('/')}img/paris/famouspeople_eric-satie.jpg`} /></Positioner></Parallax>
+            <Parallax dimensions={dimensions} speed="-2.5"><Positioner padding="3.5vh" x="1"><Picture height="90vh" width="45vw" y="0.8" rotate="2" src={`${withPrefix('/')}img/paris/famouspeople_toulouse-lautrec.jpg`} /></Positioner></Parallax>
+            <Parallax dimensions={dimensions} speed="-6"><Positioner padding="3.5vh" x="0.4"><Picture height="90vh" width="40vw" y="0.5" rotate="-2" src={`${withPrefix('/')}img/paris/famouspeople_andre-gill.jpg`} /></Positioner></Parallax>
 
           </React.Fragment>
 )}
@@ -180,8 +180,8 @@ setContainerCss(`max-height: calc(100vh - 40px)`)
 setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
   return(
           <React.Fragment>
-            <Parallax dimensions={dimensions} speed="1"><Positioner padding="3.5vh" x="0.1"><Picture height="90vh" width="35vw" y="0.3" rotate="2" src={`${withPrefix('/')}img/paris_famouspeople_claude-debussy.jpg`} /></Positioner></Parallax>
-            <Parallax dimensions={dimensions} speed="-1"><Positioner padding="3.5vh" x="0.8"><Picture height="90vh" width="50vw" y="0.0" rotate="2" src={`${withPrefix('/')}img/paris_famouspeople_paul-verlaine.jpg`} /></Positioner></Parallax>
+            <Parallax dimensions={dimensions} speed="1"><Positioner padding="3.5vh" x="0.1"><Picture height="90vh" width="35vw" y="0.3" rotate="2" src={`${withPrefix('/')}img/paris/famouspeople_claude-debussy.jpg`} /></Positioner></Parallax>
+            <Parallax dimensions={dimensions} speed="-1"><Positioner padding="3.5vh" x="0.8"><Picture height="90vh" width="50vw" y="0.0" rotate="2" src={`${withPrefix('/')}img/paris/famouspeople_paul-verlaine.jpg`} /></Positioner></Parallax>
           </React.Fragment>
 )}
  , ({sectionIndex, dimensions, setContainerCss}) => {
@@ -193,7 +193,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
             <VideoPlayer
               /* le mirilton */
               videoIds={["takA-zY-Tn8"]}
-              thumbnail={`${withPrefix('/')}img/thumbnails/00_le_mirliton%20v2_crop.jpg`}
+              thumbnail={`${withPrefix('/')}img/thumbnails/paris/00_le_mirliton%20v2_crop.jpg`}
             />
         </Postcard>
         </Positioner>
@@ -202,7 +202,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
 )}
 , ({sectionIndex, dimensions, setContainerCss}) => (
        <React.Fragment>
-       <Scrim image={`${withPrefix('/')}img/paris_poster-1.jpg`} />
+       <Scrim image={`${withPrefix('/')}img/paris/poster-1.jpg`} />
         <Parallax speed="2" dimensions={dimensions}>
           <Picture 
             // mask={2} 
@@ -211,7 +211,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
             rotate={.25}
             x="1"
             css={css`margin-right: auto; margin-left:3.5vh`} 
-            src={`${withPrefix('/')}img/paris_bruant.jpg`} 
+            src={`${withPrefix('/')}img/paris/bruant.jpg`} 
             alt="" 
           />
         </Parallax>
@@ -245,7 +245,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
                   background="transparent"
                   shadow={false}
                   width="calc(40vw + 200px);" 
-                  src={`${withPrefix('/')}img/paris_titles_masteringartoffrenchcabaret.png`} 
+                  src={`${withPrefix('/')}img/paris/titles_masteringartoffrenchcabaret.png`} 
                  />
               </Positioner> 
             </Parallax>
@@ -260,8 +260,8 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
             width="100vw"
             shadow={false}
             height="calc((100vh - 40px) * 1.2)"
-            mask={`${withPrefix('/')}img/paris_book-1_mask.png`} 
-            src={`${withPrefix('/')}img/paris_book-1.jpg`} 
+            mask={`${withPrefix('/')}img/paris/book-1_mask.png`} 
+            src={`${withPrefix('/')}img/paris/book-1.jpg`} 
           />
         </Parallax>
         <Parallax dimensions={dimensions} speed="2">
@@ -270,7 +270,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
               width="calc(30vw + 150px);" 
               shadow
               rotate={-1}
-              src={`${withPrefix('/')}img/paris_recipe_alexandre.jpg`} 
+              src={`${withPrefix('/')}img/paris/recipe_alexandre.jpg`} 
             />
           </Positioner>
         </Parallax>
@@ -285,7 +285,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
               <VideoPlayer
                 /* musee montmatre */
                 videoIds={["j9ieAAvYpJU"]}
-                thumbnail={`${withPrefix('/')}img/thumbnails/00_Musee_Montmartre%20v2.jpg`}
+                thumbnail={`${withPrefix('/')}img/thumbnails/paris/00_Musee_Montmartre%20v2.jpg`}
               />
               
           </Postcard>
@@ -299,7 +299,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
         <VideoPlayer
           /* interview with julia */
           videoIds={["p3GpNMbGbEs"]}
-          thumbnail={`${withPrefix('/')}img/thumbnails/00_julia_interview%20v7.jpg`}
+          thumbnail={`${withPrefix('/')}img/thumbnails/paris/00_julia_interview%20v7.jpg`}
           fullscreen
         />
       <Curtains />
@@ -331,7 +331,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
             bottom: 5px;
             right: 5px;
             border-radius: 100%;
-            background-image: url("${withPrefix('/')}img/paris_montmartre.jpg");
+            background-image: url("${withPrefix('/')}img/paris/montmartre.jpg");
             background-size: cover;
             background-position: center center;
             opacity: 0.25;
@@ -353,8 +353,8 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
             width="100vw"
             shadow={false}
             height="calc((100vh - 40px) * 1.2)"
-            mask={`${withPrefix('/')}img/paris_book-2_mask.png`} 
-            src={`${withPrefix('/')}img/paris_book-2.jpg`} 
+            mask={`${withPrefix('/')}img/paris/book-2_mask.png`} 
+            src={`${withPrefix('/')}img/paris/book-2.jpg`} 
           />
         </Parallax>
         <Parallax dimensions={dimensions} speed="2">
@@ -365,7 +365,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
               y="0.5"
               shadow
               rotate={-1}
-              src={`${withPrefix('/')}img/paris_recipe_neant.jpg`} 
+              src={`${withPrefix('/')}img/paris/recipe_neant.jpg`} 
             />
           </Positioner>
         </Parallax>
@@ -379,7 +379,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
           <VideoPlayer
             /* strongman lapin agile */
             videoIds={["-995ptoiNjw" ]}
-            thumbnail={`${withPrefix('/')}img/thumbnails/00_strongman_Lapin%20agile_v1.jpg`}
+            thumbnail={`${withPrefix('/')}img/thumbnails/paris/00_strongman_Lapin%20agile_v1.jpg`}
           />
         </Postcard>
       </Parallax>
@@ -391,7 +391,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
         <VideoPlayer
           /* lapin agile interview */
           videoIds={["Lv5TdkvVx6s"]}
-          thumbnail={`${withPrefix('/')}img/thumbnails/00_Lapin_agile_interview.jpg`}
+          thumbnail={`${withPrefix('/')}img/thumbnails/paris/00_Lapin_agile_interview.jpg`}
           fullscreen
         />
         <Curtains />
@@ -403,7 +403,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
     return(
       <React.Fragment>
         <Parallax speed="-4" dimensions={dimensions}>
-              <Scrim image={`${withPrefix('/')}img/paris_poster-guilbert.jpg`} css={css(`background-position: center top;`)} />
+              <Scrim image={`${withPrefix('/')}img/paris/poster-guilbert.jpg`} css={css(`background-position: center top;`)} />
             </Parallax>
         <Parallax speed="2" dimensions={dimensions}>
             <Positioner x="1" css={css(`width:60%; right: unset;`)}>
@@ -411,7 +411,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
                 <VideoPlayer
                   /* music video partial song */
                   videoIds={["RnyJ8nwcuOE"]}
-                  thumbnail={`${withPrefix('/')}img/thumbnails/guilbert.jpg`}
+                  thumbnail={`${withPrefix('/')}img/thumbnails/paris/guilbert.jpg`}
                   // fullscreen
                 />
               </Postcard>
@@ -443,7 +443,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
               <VideoPlayer
                 /* other minor cabarets */
                 videoIds={["bysHS5IqVdI"]}
-                thumbnail={`${withPrefix('/')}img/thumbnails/00_Other%20Minor%20Cabarets_v2ab.jpg`}
+                thumbnail={`${withPrefix('/')}img/thumbnails/paris/00_Other%20Minor%20Cabarets_v2ab.jpg`}
               />
           </Postcard>
           </div>
@@ -461,7 +461,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
             <VideoPlayer
               /* other minor cabarets 2 */
               videoIds={["jRouAXIvDrw"]}
-              thumbnail={`${withPrefix('/')}img/thumbnails/00_Other%20Minor%20Cabarets_v2b.jpg`}
+              thumbnail={`${withPrefix('/')}img/thumbnails/paris/00_Other%20Minor%20Cabarets_v2b.jpg`}
             />
         </Postcard>
         </div>
@@ -476,8 +476,8 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
             width="100vw"
             shadow={false}
             height="calc((100vh - 40px) * 1.2)"
-            mask={`${withPrefix('/')}img/paris_book-3_mask.png`} 
-            src={`${withPrefix('/')}img/paris_book-3.jpg`} 
+            mask={`${withPrefix('/')}img/paris/book-3_mask.png`} 
+            src={`${withPrefix('/')}img/paris/book-3.jpg`} 
           />
         </Parallax>
       </React.Fragment>
@@ -489,7 +489,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
 //         <VideoPlayer
 //           /* Edith Piaf’s grave site */
 //           videoIds={["lqsW1FCVi_M"]}
-//           thumbnail={`${withPrefix('/')}img/thumbnails/00_Edith_Piafs_Grave.jpg`}
+//           thumbnail={`${withPrefix('/')}img/thumbnails/paris/00_Edith_Piafs_Grave.jpg`}
 //           fullscreen
 //         />
 //         <Curtains />
@@ -506,7 +506,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
                   background="transparent"
                   shadow={false}
                   width="calc(30vw + 150px);" 
-                  src={`${withPrefix('/')}img/paris_titles_betweenthewars.png`} 
+                  src={`${withPrefix('/')}img/paris/titles_betweenthewars.png`} 
                  />
               </Positioner> 
             </Parallax>
@@ -518,7 +518,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
     return(
       <React.Fragment>
         <Parallax speed="-1.5" dimensions={dimensions}>
-          <Scrim image={`${withPrefix('/')}img/paris_poster-5.jpg`} />
+          <Scrim image={`${withPrefix('/')}img/paris/poster-5.jpg`} />
         </Parallax>
         <Positioner x="0" padding="3.5vh" css={css(`width:calc(35% - 3.5vh); right: unset;`)}>
           <div className="Paper" css={css(`width: 500px; max-width: 100%; transform: rotate(1deg)`)}>
@@ -529,7 +529,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
         
         <Parallax speed="2" dimensions={dimensions}>
           <Positioner x="0.5" y="0.3" padding="3.5vh" css={css(`width:40%; left: unset;`)}>
-            <Picture width="40vw" height="90vh" y="0.3" src={`${withPrefix('/')}img/paris_mary-dubas.jpg`}></Picture>
+            <Picture width="40vw" height="90vh" y="0.3" src={`${withPrefix('/')}img/paris/mary-dubas.jpg`}></Picture>
           </Positioner>
         </Parallax>
         <Parallax speed="4" dimensions={dimensions}>
@@ -538,8 +538,8 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
               width="25vw" 
               height="90vh"
               y="0.6"
-              src={`${withPrefix('/')}img/paris_mary-dubas2.jpg`}
-              mask={`${withPrefix('/')}img/paris_mary-dubas2_mask.png`}
+              src={`${withPrefix('/')}img/paris/mary-dubas2.jpg`}
+              mask={`${withPrefix('/')}img/paris/mary-dubas2_mask.png`}
             ></Picture>
           </Positioner>
         </Parallax>
@@ -549,11 +549,11 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
     return(
       <React.Fragment>
         <Parallax speed="-4" dimensions={dimensions}>
-          <Picture width="40vw" padding="3%" mask={1} x={0.75} css={css(`position: absolute; left: 2.5%;`)} src={`${withPrefix('/')}img/paris_bricktop.jpg`} alt="" />
+          <Picture width="40vw" padding="3%" mask={1} x={0.75} css={css(`position: absolute; left: 2.5%;`)} src={`${withPrefix('/')}img/paris/bricktop.jpg`} alt="" />
         </Parallax>
         
         <Parallax speed="-2" dimensions={dimensions}>
-          <Picture width="40vw" padding="0.5%" background="#efefef" height="102vh" x={0.25} css={css(`position: absolute; right: 2.5%;`)} rotate={1} src={`${withPrefix('/')}img/paris_josephine2.jpg`} alt=""/>
+          <Picture width="40vw" padding="0.5%" background="#efefef" height="102vh" x={0.25} css={css(`position: absolute; right: 2.5%;`)} rotate={1} src={`${withPrefix('/')}img/paris/josephine2.jpg`} alt=""/>
         </Parallax>
 
           <div className="Paper" css={css(`width: 400px; max-width: 100%; transform: rotate(-1deg);`)}>
@@ -567,7 +567,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
     return(
       <React.Fragment>
         <Parallax speed="-1" dimensions={dimensions}>
-          <Scrim image={`${withPrefix('/')}img/paris_poster-3.jpg`} />
+          <Scrim image={`${withPrefix('/')}img/paris/poster-3.jpg`} />
         </Parallax>
         <Parallax speed="2" dimensions={dimensions}>
             <Positioner x="1" css={css(`width:60%; right: unset;`)}>
@@ -576,7 +576,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
                   /* Bricktop */
                   videoIds={["mco73mfFUgo"]}
                   aspectRatio={4/3}
-                  thumbnail={`${withPrefix('/')}img/thumbnails/bricktop.jpg`}
+                  thumbnail={`${withPrefix('/')}img/thumbnails/paris/bricktop.jpg`}
                   // fullscreen
                 />
               </Postcard>
@@ -595,7 +595,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
 , ({sectionIndex, dimensions, setContainerCss}) => (
       <React.Fragment>
         <Parallax speed="2" dimensions={dimensions}>
-          <Picture height="120vh" x={0.3} width="37.5vw" fit="cover" src={`${withPrefix('/')}img/paris_josephine.jpg`} alt="" css={css(`margin-left: auto; margin-right 2.5%`)} />
+          <Picture height="120vh" x={0.3} width="37.5vw" fit="cover" src={`${withPrefix('/')}img/paris/josephine.jpg`} alt="" css={css(`margin-left: auto; margin-right 2.5%`)} />
         </Parallax>
 
         <div css={css(`
@@ -624,7 +624,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
     return(
       <React.Fragment>
         <Parallax speed="-1.5" dimensions={dimensions}>
-          <Scrim image={`${withPrefix('/')}img/paris_poster-4.jpg`} />
+          <Scrim image={`${withPrefix('/')}img/paris/poster-4.jpg`} />
         </Parallax>
         <Positioner x="1" padding="3.5vh" css={css(`width:calc(40% - 3.5vh); right: unset;`)}>
           <div className="Paper" css={css(`width: 500px; max-width: 100%; transform: rotate(1deg)`)}>
@@ -639,8 +639,8 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
               width="60vw" 
               height="90vh"
               y="0.6"
-              src={`${withPrefix('/')}img/paris_edith-piaf.jpg`}
-              mask={`${withPrefix('/')}img/paris_edith-piaf_mask.png`}
+              src={`${withPrefix('/')}img/paris/edith-piaf.jpg`}
+              mask={`${withPrefix('/')}img/paris/edith-piaf_mask.png`}
             ></Picture>
           </Positioner>
         </Parallax>
@@ -656,7 +656,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
           <VideoPlayer
             /*Edith piaf chanson realiste*/
             videoIds={["nqgnmYe-o-8"]}
-            thumbnail={`${withPrefix('/')}img/thumbnails/00_Edith_Piaf_Chanson_Realiste_V4.jpg`}
+            thumbnail={`${withPrefix('/')}img/thumbnails/paris/00_Edith_Piaf_Chanson_Realiste_V4.jpg`}
             fullscreen
           />
           </Postcard>
@@ -675,7 +675,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
                   background="transparent"
                   shadow={false}
                   width="calc(30vw + 150px);" 
-                  src={`${withPrefix('/')}img/paris_titles_contemporaryparis.png`} 
+                  src={`${withPrefix('/')}img/paris/titles_contemporaryparis.png`} 
                  />
               </Positioner> 
             </Parallax>
@@ -693,7 +693,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
           <VideoPlayer
             /* cafe streeter */
             videoIds={["vrvVpZsKVYk"]}
-            thumbnail={`${withPrefix('/')}img/thumbnails/cafe_streeter.jpg`}
+            thumbnail={`${withPrefix('/')}img/thumbnails/paris/cafe_streeter.jpg`}
           /> 
           </Postcard>
         </Positioner>
@@ -710,7 +710,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
             <VideoPlayer
               /* strongman limonaire */
               videoIds={["mO8tjnfsgqE"]}
-              thumbnail={`${withPrefix('/')}img/thumbnails/00_strongman_limonaire_v2.jpg`}
+              thumbnail={`${withPrefix('/')}img/thumbnails/paris/00_strongman_limonaire_v2.jpg`}
             />
           </Postcard>
         </Positioner>
@@ -724,7 +724,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
          <VideoPlayer
               /* limonaire interview with closing */
               videoIds={["NHC-gkfr61Y"]}
-              thumbnail={`${withPrefix('/')}img/thumbnails/00_limonaire_interview_with_closing_v1.jpg`}
+              thumbnail={`${withPrefix('/')}img/thumbnails/paris/00_limonaire_interview_with_closing_v1.jpg`}
               fullscreen
             />
         <Curtains />
@@ -738,7 +738,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
     return(
       <React.Fragment>
       <Parallax speed="-10" dimensions={dimensions}>
-        <Scrim image={`${withPrefix('/')}img/paris_aumagique.png`} css={css(`
+        <Scrim image={`${withPrefix('/')}img/paris/aumagique.png`} css={css(`
          background-position: center center;
          top: 50%;
          height: calc(100vh - 40px);
@@ -750,7 +750,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
       <Picture
         shadow={false}
         background="transparent"
-        src={`${withPrefix('/')}img/paris_aumagiquetitle.png`}
+        src={`${withPrefix('/')}img/paris/aumagiquetitle.png`}
         width="100%"
         height="calc(15vh + 100px)"
         x="0.575"
@@ -766,7 +766,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
               <VideoPlayer
                 /* Interview_Natalie_au Magique */
                 videoIds={["ZoqKiCB40Dk"]}
-                thumbnail={`${withPrefix('/')}img/thumbnails/00_Interview_Natalie_au_Magique_v2.jpg`}
+                thumbnail={`${withPrefix('/')}img/thumbnails/paris/00_Interview_Natalie_au_Magique_v2.jpg`}
               />
             </Postcard>
           </Positioner>
@@ -780,7 +780,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
               <VideoPlayer
                 /* martine au magique */
                 videoIds={["5sS94fQ0zRo"]}
-                thumbnail={`${withPrefix('/')}img/thumbnails/00_interview%20at%20Au%20Magique.jpg`}
+                thumbnail={`${withPrefix('/')}img/thumbnails/paris/00_interview%20at%20Au%20Magique.jpg`}
               />
             </Postcard>
           </Positioner>
@@ -794,7 +794,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
             <VideoPlayer
               /* interview with gosia  */
               videoIds={["yufGrVm2sMc", "0KzUzFwpp2U"]}
-              thumbnail={`${withPrefix('/')}img/thumbnails/00_interview_with_gosia-v6.jpg`}
+              thumbnail={`${withPrefix('/')}img/thumbnails/paris/00_interview_with_gosia-v6.jpg`}
               fullscreen
             />
             <Curtains />
@@ -810,7 +810,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
                 <VideoPlayer
                   // Interview with Michel from Vieux Belleville   
                   videoIds={["az8ftb3NgNw"]}
-                  thumbnail={`${withPrefix('/')}img/thumbnails/00_interview_with_michel_v4.jpg`}
+                  thumbnail={`${withPrefix('/')}img/thumbnails/paris/00_interview_with_michel_v4.jpg`}
                 />
             </Postcard>
           </Positioner>
@@ -827,7 +827,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
                 <VideoPlayer
                   /* strongman divan japanois */
                   videoIds={["_7kQh0ot5Kc"]}
-                  thumbnail={`${withPrefix('/')}img/thumbnails/00_strongman_divan-japanois.jpg`}
+                  thumbnail={`${withPrefix('/')}img/thumbnails/paris/00_strongman_divan-japanois.jpg`}
                 />
             </Postcard>
           </Positioner>
@@ -841,7 +841,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
             <VideoPlayer
               /* interview with Monsieur K */
               videoIds={["stTQeQuWA_Y"]}
-              thumbnail={`${withPrefix('/')}img/thumbnails/00_monsieur_K.jpg`}
+              thumbnail={`${withPrefix('/')}img/thumbnails/paris/00_monsieur_K.jpg`}
               fullscreen
             />
           <Curtains />
@@ -857,7 +857,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
               <VideoPlayer
                 /* John missing strongman */
                 videoIds={["dqLS2IFEL18"]}
-                thumbnail={`${withPrefix('/')}img/thumbnails/00_Edith_Piafs_Grave.jpg`}
+                thumbnail={`${withPrefix('/')}img/thumbnails/paris/00_Edith_Piafs_Grave.jpg`}
               />
             </Postcard>
           </Positioner>
@@ -874,7 +874,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
                   background="transparent"
                   shadow={false}
                   width="calc(30vw + 150px);" 
-                  src={`${withPrefix('/')}img/paris_titles_makingcookies.png`} 
+                  src={`${withPrefix('/')}img/paris/titles_makingcookies.png`} 
                  />
               </Positioner> 
             </Parallax>
@@ -887,7 +887,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
                 <VideoPlayer
                     // cooking show streeter
                     videoIds={["1T1T3coj6BI"]}
-                    thumbnail={`${withPrefix('/')}img/thumbnails/cooking_show.jpg`}
+                    thumbnail={`${withPrefix('/')}img/thumbnails/paris/cooking_show.jpg`}
                   />
               </Postcard> 
             </Positioner> 
@@ -915,12 +915,12 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
                   left:.2vw;
                   width: 119.121447028%;
                 `)}>
-                  <img src={`${withPrefix('/')}img/tv.jpg`} alt=""/>
+                  <img src={`${withPrefix('/')}img/paris/tv.jpg`} alt=""/>
                 </CanvasBlend>
                 <VideoPlayer
                   /* chat noir multicam cooking  */
                   videoIds={["y-CQeCRA0mU", "p0Oi-M1ltlI"]}
-                  thumbnail={`${withPrefix('/')}img/thumbnails/00_Chat-Noir-Multicam-cooking-v1.jpg`}
+                  thumbnail={`${withPrefix('/')}img/thumbnails/paris/00_Chat-Noir-Multicam-cooking-v1.jpg`}
                   css={css(`
                     position: absolute;
                     bottom: 9.25%;
@@ -941,7 +941,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
                 <VideoPlayer
                     //asshole streeter
                     videoIds={["ZsjrIQY16aQ"]}
-                    thumbnail={`${withPrefix('/')}img/thumbnails/asshole_streeter.jpg`}
+                    thumbnail={`${withPrefix('/')}img/thumbnails/paris/asshole_streeter.jpg`}
                   />
               </Postcard>  
             </Positioner>
@@ -957,7 +957,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
               <VideoPlayer
                     /* asshole singalong  */
                     videoIds={["7Unp0PL2m8Q"]}
-                    thumbnail={`${withPrefix('/')}img/thumbnails/00_asshole-singalong.jpg`}
+                    thumbnail={`${withPrefix('/')}img/thumbnails/paris/00_asshole-singalong.jpg`}
                   />
             </Postcard> 
           </Positioner>
@@ -986,9 +986,9 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
                   width: 200px;
                   mask-image: url('${withPrefix('/')}img/cookie_mask.png');
                   mask-size: 100% 100%;
-                `)} autoPlay muted loop src={`${withPrefix('/')}img/john-runs.mp4`} />
+                `)} autoPlay muted loop src={`${withPrefix('/')}img/paris/john-runs.mp4`} />
                 <img 
-                src={`${withPrefix('/')}img/paris_see-you.png`} 
+                src={`${withPrefix('/')}img/paris/see-you.png`} 
                 alt="See you in Berlin"
                 
                 css={css(`width: 365px; max-width: 90%; display: block;`)} />
