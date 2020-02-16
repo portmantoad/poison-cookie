@@ -265,9 +265,9 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
           />
         </Parallax>
         <Parallax dimensions={dimensions} speed="2">
-          <Positioner x="0.85" y="0.5">
+          <Positioner x="0.8" y="0.5">
             <Picture
-              width="calc(30vw + 150px);" 
+              width="calc(27vw + 100px);" 
               shadow
               rotate={-1}
               src={`${withPrefix('/')}img/paris/recipe_alexandre.jpg`} 
@@ -358,9 +358,9 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
           />
         </Parallax>
         <Parallax dimensions={dimensions} speed="2">
-          <Positioner x="0.85" y="0.7">
+          <Positioner x="0.8" y="0.7">
             <Picture
-              width="calc(30vw + 150px);" 
+              width="calc(27vw + 100px);" 
               height="90vh"
               y="0.5"
               shadow
@@ -473,7 +473,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
       <React.Fragment>
         <Parallax dimensions={dimensions} speed="-6" offset={-0.2}>
           <Picture 
-            width="100vw"
+            width="98vw"
             shadow={false}
             height="calc((100vh - 40px) * 1.2)"
             mask={`${withPrefix('/')}img/paris/book-3_mask.png`} 
@@ -520,7 +520,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
         <Parallax speed="-1.5" dimensions={dimensions}>
           <Scrim image={`${withPrefix('/')}img/paris/poster-5.jpg`} />
         </Parallax>
-        <Positioner x="0" padding="3.5vh" css={css(`width:calc(35% - 3.5vh); right: unset;`)}>
+        <Positioner x="1" padding="3.5vh" css={css(`width:calc(35% - 3.5vh); right: unset;`)}>
           <div className="Paper" css={css(`width: 500px; max-width: 100%; transform: rotate(1deg)`)}>
           <h2>Marie Dubas</h2>
            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum        
