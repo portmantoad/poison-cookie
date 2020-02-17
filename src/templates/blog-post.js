@@ -4,9 +4,11 @@ import { kebabCase } from 'lodash'
 import Helmet from 'react-helmet'
 import { graphql, Link } from 'gatsby'
 import Layout from '../components/Layout'
+import PreviewCompatibleImage from '../components/PreviewCompatibleImage'
 import Content, { HTMLContent } from '../components/Content'
 
 export const BlogPostTemplate = ({
+  image,
   content,
   contentComponent,
   description,
@@ -25,7 +27,12 @@ export const BlogPostTemplate = ({
             <h1 className="title is-size-2 has-text-weight-bold is-bold-light">
               {title}
             </h1>
-            <p>{description}</p>
+            <PreviewCompatibleImage
+              imageInfo={{
+                image: image,
+                alt: `featured image for post ${title}`,
+              }}
+            />
             <PostContent content={content} />
             {tags && tags.length ? (
               <div style={{ marginTop: `4rem` }}>
@@ -60,6 +67,7 @@ const BlogPost = ({ data }) => {
   return (
     <Layout>
       <BlogPostTemplate
+        image={post.frontmatter.featuredimage}
         content={post.html}
         contentComponent={HTMLContent}
         description={post.frontmatter.description}
@@ -97,6 +105,13 @@ export const pageQuery = graphql`
         title
         description
         tags
+        featuredimage {
+          childImageSharp {
+            fluid(maxWidth: 1800, quality: 100) {
+              ...GatsbyImageSharpFluid
+            }
+          }
+        }
       }
     }
   }

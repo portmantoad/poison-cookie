@@ -6,9 +6,12 @@ import './global.scss'
 import useSiteMetadata from './SiteMetadata'
 import { withPrefix } from 'gatsby'
 
+/** @jsx jsx */
+import { css, jsx } from '@emotion/core'
 
-const TemplateWrapper = ({ children }) => {
-  const { title, description } = useSiteMetadata()
+
+const TemplateWrapper = ({ background = `${withPrefix('/')}img/paris.jpg`, children }) => {
+  const { title, description } = useSiteMetadata();
 
   const [ muted, setMuted ] = useState(false);
 
@@ -52,6 +55,7 @@ const TemplateWrapper = ({ children }) => {
           content={`${withPrefix('/')}img/og-image.jpg`}
         />
       </Helmet>
+      <div className="Background" css={css(`background-image: url( ${background});`)}></div>
       <Navbar />
       <div>{children}</div>
     </MutedContext.Provider>

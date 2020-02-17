@@ -52,7 +52,7 @@ const ScrollSections = React.memo((
             }
           `}
         />
-            <div className="ScrollSections__background" css={css(`background-image: url( ${withPrefix('/')}img/paris.jpg);`)}></div>
+            
             
 
             <PlxContext.Provider value={plxWrapEl}>
