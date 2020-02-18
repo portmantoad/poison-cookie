@@ -657,7 +657,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
             /*Edith piaf chanson realiste*/
             videoIds={["nqgnmYe-o-8"]}
             thumbnail={`${withPrefix('/')}img/thumbnails/paris/00_Edith_Piaf_Chanson_Realiste_V4.jpg`}
-            fullscreen
+            // fullscreen
           />
           </Postcard>
         </Positioner>
@@ -744,6 +744,7 @@ setContainerCss(`max-height: calc((100vh - 40px) * 1)`)
          height: calc(100vh - 40px);
          transform: translateY(-50%);
          background-size: contain;
+         background-repeat: repeat-x;
        `)}/>
       </Parallax>
       <Parallax speed="-6" offset={0.2} dimensions={dimensions}>
