@@ -9,6 +9,7 @@ const typography = new Typography({
       name: 'IM Fell Double Pica',
       styles: [
         '400',
+        '400i',
       ],
     },
     {

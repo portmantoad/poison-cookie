@@ -5,14 +5,13 @@ import PreviewCompatibleImage from './PreviewCompatibleImage'
 
 class BlogRoll extends React.Component {
   render() {
-    const { data } = this.props
-    const { edges: posts } = data.allMarkdownRemark
-
+    const { data, posts = data.allMarkdownRemark.edges } = this.props;
+    
     return (
       <div className={`BlogRoll`}>
         {posts &&
           posts.map(({ node: post }) => (
-            <article className={`BlogRoll__post ${post.frontmatter.featuredpost ? 'BlogRoll__post--is-featured' : ''} ${!post.frontmatter.featuredimage ? 'BlogRoll__post--no-image' : ''}`} key={post.id}>
+            <article className={`BlogRoll__post ${!post.frontmatter.featuredimage ? 'BlogRoll__post--no-image' : ''}`} key={post.id}>
 
                   {post.frontmatter.featuredimage ? (
                     <div className="BlogRoll__post__featured-thumbnail">
@@ -51,9 +50,10 @@ BlogRoll.propTypes = {
       edges: PropTypes.array,
     }),
   }),
+  posts: PropTypes.array
 }
 
-export default () => (
+export default (props) => (
   <StaticQuery
     query={graphql`
       query BlogRollQuery {
@@ -72,7 +72,6 @@ export default () => (
                 title
                 templateKey
                 date(formatString: "MMMM DD, YYYY")
-                featuredpost
                 featuredimage {
                   childImageSharp {
                     fluid(maxWidth: 600, quality: 65) {
@@ -86,6 +85,6 @@ export default () => (
         }
       }
     `}
-    render={(data, count) => <BlogRoll data={data} count={count} />}
+    render={(data, count) => <BlogRoll data={data} count={count} {...props} />}
   />
 )

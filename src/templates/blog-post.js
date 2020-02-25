@@ -17,6 +17,7 @@ export const BlogPostTemplate = ({
   description,
   tags,
   title,
+  date,
   helmet,
 }) => {
   const PostContent = contentComponent || Content
@@ -53,7 +54,10 @@ export const BlogPostTemplate = ({
             />
       </div>
       <div className="Content BlogPost__content">
-            <PostContent className="Content__inner" content={content} />
+        <div className="Content__inner">
+          <p className="BlogPost__date">{date}</p>
+          <PostContent content={content} />
+        </div>
       </div>
       
       {tags && tags.length ? (
@@ -93,6 +97,7 @@ const BlogPost = ({ data }) => {
         content={post.html}
         contentComponent={HTMLContent}
         description={post.frontmatter.description}
+        date={post.frontmatter.date}
         helmet={
           <Helmet titleTemplate="%s | Blog">
             <title>{`${post.frontmatter.title}`}</title>
