@@ -7,6 +7,9 @@ import Layout from '../components/Layout'
 import PreviewCompatibleImage from '../components/PreviewCompatibleImage'
 import Content, { HTMLContent } from '../components/Content'
 
+/** @jsx jsx */
+import { Global, css, jsx } from '@emotion/core'
+
 export const BlogPostTemplate = ({
   image,
   content,
@@ -19,36 +22,55 @@ export const BlogPostTemplate = ({
   const PostContent = contentComponent || Content
 
   return (
-    <section className="section">
+    <section className="BlogPost section">
       {helmet || ''}
-      <div className="container content">
-        <div className="columns">
-          <div className="column is-10 is-offset-1">
-            <h1 className="title is-size-2 has-text-weight-bold is-bold-light">
-              {title}
+
+      <Global
+          styles={css`
+            @media screen and (min-width: 40em) {
+              @supports ((perspective: 1px) and (not (-webkit-overflow-scrolling: touch))) {
+                html,body {
+                  overflow: hidden;
+                }
+              }
+            }
+          `}
+        />
+
+      <div className="Content">
+            <h1 className="BlogPost__title">
+              <span className="BlogPost__title__highlight">
+               {title}
+              </span>
             </h1>
+      </div>
+      <div className="BlogPost__hero">
             <PreviewCompatibleImage
               imageInfo={{
                 image: image,
                 alt: `featured image for post ${title}`,
               }}
             />
-            <PostContent content={content} />
-            {tags && tags.length ? (
-              <div style={{ marginTop: `4rem` }}>
-                <h4>Tags</h4>
-                <ul className="taglist">
-                  {tags.map(tag => (
-                    <li key={tag + `tag`}>
-                      <Link to={`/tags/${kebabCase(tag)}/`}>{tag}</Link>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            ) : null}
+      </div>
+      <div className="Content BlogPost__content">
+            <PostContent className="Content__inner" content={content} />
+      </div>
+      
+      {tags && tags.length ? (
+        <div className="Content">
+          <div className="BlogPost__tags Content__tags">
+            <h3>Tags</h3>
+            <ul className="Content__taglist">
+              {tags.map(tag => (
+                <li className="Content__taglist__tag" key={tag + `tag`}>
+                  <Link to={`/tags/${kebabCase(tag)}/`}>{tag}</Link>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
-      </div>
+      ) : null}
+      
     </section>
   )
 }

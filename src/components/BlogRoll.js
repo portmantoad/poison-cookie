@@ -9,18 +9,13 @@ class BlogRoll extends React.Component {
     const { edges: posts } = data.allMarkdownRemark
 
     return (
-      <div className="columns is-multiline">
+      <div className={`BlogRoll`}>
         {posts &&
           posts.map(({ node: post }) => (
-            <div className="is-parent column is-6" key={post.id}>
-              <article
-                className={`blog-list-item tile is-child box notification ${
-                  post.frontmatter.featuredpost ? 'is-featured' : ''
-                }`}
-              >
-                <header>
+            <article className={`BlogRoll__post ${post.frontmatter.featuredpost ? 'BlogRoll__post--is-featured' : ''} ${!post.frontmatter.featuredimage ? 'BlogRoll__post--no-image' : ''}`} key={post.id}>
+
                   {post.frontmatter.featuredimage ? (
-                    <div className="featured-thumbnail">
+                    <div className="BlogRoll__post__featured-thumbnail">
                       <PreviewCompatibleImage
                         imageInfo={{
                           image: post.frontmatter.featuredimage,
@@ -29,29 +24,21 @@ class BlogRoll extends React.Component {
                       />
                     </div>
                   ) : null}
-                  <p className="post-meta">
-                    <Link
-                      className="title has-text-primary is-size-4"
-                      to={post.fields.slug}
-                    >
-                      {post.frontmatter.title}
+                  <div className="BlogRoll__post__description">
+                    <Link className="BlogRoll__post__title" to={post.fields.slug}>
+                      <h2>{post.frontmatter.title}</h2>
                     </Link>
-                    <span> &bull; </span>
-                    <span className="subtitle is-size-5 is-block">
+                    <p className="BlogRoll__post__subtitle">
                       {post.frontmatter.date}
-                    </span>
-                  </p>
-                </header>
-                <p>
-                  {post.excerpt}
-                  <br />
-                  <br />
-                  <Link className="button" to={post.fields.slug}>
+                    </p>
+                  
+                <p className="BlogRoll__post__excerpt">{post.excerpt}</p>
+                  <Link className="BlogRoll__post__button" to={post.fields.slug}>
                     Keep Reading →
                   </Link>
-                </p>
-              </article>
-            </div>
+                
+                </div>
+            </article>
           ))}
       </div>
     )
@@ -88,7 +75,7 @@ export default () => (
                 featuredpost
                 featuredimage {
                   childImageSharp {
-                    fluid(maxWidth: 120, quality: 100) {
+                    fluid(maxWidth: 600, quality: 65) {
                       ...GatsbyImageSharpFluid
                     }
                   }

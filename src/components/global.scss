@@ -50,6 +50,10 @@ html, body {
   // overflow: hidden;
 }
 
+body {
+  padding-top: 40px;
+}
+
 
 .Navbar{
   height: 40px;
@@ -429,3 +433,227 @@ html, body {
   margin:0;
 }
 
+.Content{
+
+  width: 100%;
+    
+  position: relative;
+  max-width: 48rem;
+  margin: 2rem auto;
+  padding: 0 1rem;
+
+  &:first-of-type{
+    margin-top: calc(48px + 2rem) auto 2rem;
+  }
+
+
+
+  &__title{
+    font-size: 5rem;
+  }
+
+  &__taglist{
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0;
+    padding: 0;
+
+    &__tag{
+      display: inline-flex;
+      margin:0 0.5rem 0.5rem 0;
+      padding: 0.25rem 0.75rem;
+      background: #963324;
+      color: #fff;
+      mask-image: url('../../static/img/paper_mask.png');
+      mask-size: 100% 100%;
+
+      a{
+        color: inherit !important;
+        text-decoration: none;
+      }
+    }
+  }
+
+
+  &__inner{
+   position: relative;
+   padding: calc(1rem + 1vw);   
+  
+    @include whiteNoise(1);
+    &:after{
+      top:-1%; bottom:-1%; left:-1%; right:-1%;
+      background-color: rgba(255,255,255, 0.75); 
+      mask-image: url('../../static/img/paper_mask.png');
+      mask-size: 100% 100%;
+      z-index: -1;
+    }
+  }
+}
+
+.BlogRoll{
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin: 0 auto;
+  padding: 1rem 0rem 1rem 1rem;
+  max-width: 72rem;
+  filter: drop-shadow(0px 1px 5px rgba(0, 0, 0, 0.15));
+
+  &__post{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    margin-right: 1rem;
+    margin-bottom: 1rem; 
+    flex-basis: 22rem;
+    flex-grow: 1;
+    flex-shrink: 1;
+    max-width: 100%;
+    position: relative;
+    @include whiteNoise(1);
+    &:after{
+      background-color: rgba(255,255,255, 0.75); 
+      z-index: -1;
+    }
+    mask-image: url('../../static/img/paper_mask.png');
+    mask-size: 100% 100%;
+
+    @media screen and (min-width: 72rem) {
+
+      &:nth-child(1):not(&--no-image){ min-width: 71rem; }
+
+      &:nth-child(5n - 3):not(&--no-image){ min-width: 35rem; }
+
+    }
+
+    &:nth-child(2n){
+        flex-direction: row-reverse
+      }
+
+    &--is-featured{
+
+    }
+
+    &__featured-thumbnail{
+      margin: 0;
+      width: 100%;
+      max-width: 48rem;
+      float: left;
+
+      img{
+        // height: 200px !important;
+        object-fit: cover;
+      }
+
+      .gatsby-image-wrapper {
+        min-height: 100%;
+        & > div:first-of-type{
+          padding-bottom: 60% !important;
+        }
+      }
+    }
+    &__description{
+      padding: 1.5rem;
+      flex-basis: 0;
+      flex-grow: 1;
+
+    }
+      &__title{
+      // font-family: 'IM Fell Double Pica',serif;
+      // font-weight: bold;
+      // text-rendering: optimizeLegibility;
+      // font-size: 1.50482rem;
+      // line-height: 1.1;
+      }
+      &__subtitle{
+        font-weight: bold;
+        margin-top: -1rem;
+      }
+
+      &__excerpt{
+
+      }
+      &__button{
+
+      }
+  }
+}
+
+
+@media screen and (min-width: 40em) {
+  @supports ((perspective: 1px) and (not (-webkit-overflow-scrolling: touch))) {
+    .BlogPost{
+      position: absolute;
+      top: 40px;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      overflow-y: auto;
+      overflow-x: hidden;
+      transform: translateZ(0);
+      perspective: 8px;
+      transform-origin: 50% 0%;
+      transform-style: preserve-3d;
+
+      $factor: -8;
+
+      &__hero{
+        transform: translate3D(
+            -0.75%,
+            -370px,
+            $factor * 1px
+          ) 
+          scale(1 + ($factor * -1) / 8)
+        ;
+        transform-origin: 50% 0%;
+      }
+    }
+  }
+}
+
+
+.BlogPost{
+
+  &__title{
+    &__highlight{
+      // background: #fff;
+    }
+    min-height: 50vh; 
+    font-size: calc(3rem + 2vw);
+    text-shadow: 1px 1px 0 #fff, 0px 0px 60px rgba(255,255,255,0.5);
+    color: rgba(0, 0, 0, 0.870588);
+  }
+
+  &__content{
+    filter: drop-shadow(0px 1px 5px rgba(0, 0, 0, 0.15));
+  }
+
+  &__hero{
+    position: absolute;
+    top: 40px;
+    width: 100%;
+    z-index: -2;
+    mask-image: url('../../static/img/torn-edge_mask.png');
+    mask-size: auto 100.1%;
+    mask-position: center top;
+    .gatsby-image-wrapper {
+        min-height: 65vh;
+        opacity:0.95;
+        & > div:first-of-type{
+          padding-bottom: 55% !important;
+        }
+      }
+    margin-bottom: -55vh; 
+    @include whiteNoise(0.1);
+    &:before{
+      content: "";
+      position: absolute;
+      top:0; left:0; bottom: 0; right:0;
+      background-color: #fff;
+    }
+  }
+
+  // &__tags{
+  //   margin-top: -48px; 
+  // }
+}
